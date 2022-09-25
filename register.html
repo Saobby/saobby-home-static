@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+
+<title>注册</title>
+
+</head>
+<body>
+
+<div class="wux-typo">
+<h2>注册</h2>
+<input class="wux-form-input wux-form-input-md" placeholder="用户名" type="text" id="username">
+<input class="wux-form-input wux-form-input-md" placeholder="密码" type="password" id="password">
+<input class="wux-form-input wux-form-input-md" placeholder="重复密码" type="password" id="password2">
+<div id="saobby-captcha"></div>
+<script src="/static/js/captcha.js" async></script>
+<button class="wux-btn wux-btn-primary" type="button" onclick="reg()" id="reg-btn">注册</button>
+<a href="/login">已有账号?登录!</a>
+<br>
+<span id="result" style="color:#aa0000"></span>
+<script src="/static/js/reg.js" async></script>
+</div>
+
+</body>
+</html>
