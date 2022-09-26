@@ -45,7 +45,10 @@ xhr.onreadystatechange = function() {
         }
         get_all_comment();
         }else{
-            document.getElementById("result0").innerHTML=ret_json.message;
+	    if (args.reply_to == -1){
+            document.getElementById("result0").innerHTML=ret_json.message;}else{
+	    document.getElementById(`reply-result-${args.reply_to}`).innerHTML=ret_json.message;
+	}
         }
         if (args.reply_to == -1){
         document.getElementById("rel-btn").disabled=false;
