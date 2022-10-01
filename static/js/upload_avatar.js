@@ -68,6 +68,6 @@ function complete_captcha(){
     xhr.send(fd);
 };
 
-if (localStorage.getItem("access-token")===undefined){
+if (localStorage.getItem("access-token")==undefined){
     window.location="/";
 }
