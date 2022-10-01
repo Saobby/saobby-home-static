@@ -49,8 +49,8 @@ function complete_captcha(){
         if(this.readyState==4){
             ret_json = JSON.parse(this.responseText);
             if (ret_json.success){
-                document.getElementById("avatar_url").value = ret_json.image_url;
-                document.getElementById("avatar_img").src = ret_json.image_url;
+                document.getElementById("avatar_url").value = ret_json.data.image_url;
+                document.getElementById("avatar_img").src = ret_json.data.image_url;
             }
             document.getElementById("upload_result").innerHTML = ret_json.message;
             document.getElementById("upload-btn").innerHTML = "上传";
