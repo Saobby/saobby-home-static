@@ -69,5 +69,5 @@ function complete_captcha(){
 };
 
 if (localStorage.getItem("access-token")==undefined){
-    window.location="/";
+    window.location="/login";
 }
