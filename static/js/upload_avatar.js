@@ -60,7 +60,7 @@ function complete_captcha(){
     xhr.upload.onprogress=function (ev){
         if(ev.lengthComputable){
             var precent=100 * ev.loaded/ev.total;
-        document.getElementById("upload_result").innerHTML=Math.floor(precent)+"%";
+        document.getElementById("upload_result").innerHTML="上传中("Math.floor(precent)+"%)";
         }
     }
     fd.append("image", avatar_file);
