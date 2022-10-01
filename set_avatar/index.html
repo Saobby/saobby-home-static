@@ -12,16 +12,15 @@
 
 <div class="wux-typo">
 <h2>设置头像</h2>
-    <p>上传头像或者设置头像图片链接</p>
+    <p>上传头像或者设置头像图片链接，图片最大512KB</p>
     <input class="wux-form-upload" type="file" id="avatar_img_file" accept="image/*"><br>
-    <button class="wux-btn wux-btn-primary" type="button" onclick="upload_avatar()" id="upload-btn">上传</button><br>
+    <button class="wux-btn wux-btn-primary" type="button" onclick="upload_avatar()" id="upload-btn">上传</button>
     <span id="upload_result" style="color:#aa0000"></span><br>
     <img src="" id="avatar_img" width="32px" height="32px">
     <input class="wux-form-input wux-form-input-md" placeholder="头像链接" type="text" id="avatar_url">
     <div id="saobby-captcha"></div>
     <script src="/static/js/captcha.js" async></script>
     <button class="wux-btn wux-btn-primary" type="button" onclick="set_avatar()" id="save-btn">保存</button>
-    <br>
     <span id="set_result" style="color:#aa0000"></span>
     <script src="/static/js/upload_avatar.js" async></script>
 </div>
