@@ -67,3 +67,7 @@ function complete_captcha(){
     fd.append("captcha_token", captcha_token);
     xhr.send(fd);
 };
+
+if (localStorage.getItem("access-token")===undefined){
+    window.location="/";
+}
