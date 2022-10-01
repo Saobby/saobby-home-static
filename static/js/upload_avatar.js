@@ -14,7 +14,7 @@ document.getElementById("save-btn").innerHTML="请稍候";
 var avatar_url = document.getElementById("avatar_url").value;
 var captcha_token = document.getElementById("captcha-token").value;
 var xhr = new XMLHttpRequest();
-xhr.open("POST", "https://comment.saobby.com/api/set_avatar", true);
+xhr.open("POST", "https://comment.saobby.com/api/set_avatar_url", true);
 xhr.setRequestHeader("Content-Type", "application/json");
 var sendData = {"avatar_url": avatar_url, "captcha_token": captcha_token, "access_token": localStorage.getItem("access-token")};
 xhr.send(JSON.stringify(sendData));
