@@ -1,4 +1,9 @@
 function upload_avatar(){
+var avatar_img = document.getElementById("avatar_img_file").files[0];
+if (avatar_img === undefined){
+document.getElementById("upload_result").innerHTML = "你未选择任何文件";
+return;
+}
 get_captcha_img();
 document.getElementById("captcha-window").hidden=false;
 }
