@@ -44,7 +44,7 @@ function complete_captcha(){
     var captcha_token = document.getElementById("captcha-token").value;
     var fd = new FormData();
     var xhr = new XMLHttpRequest();
-    xhr.open('post','https://xt.saobby.com/api/upload_image/',true);
+    xhr.open('post','https://xt.saobby.com/api/upload_image/index.php',true);
     xhr.onreadystatechange=function (){
         if(this.readyState==4){
             ret_json = JSON.parse(this.responseText);
