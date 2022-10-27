@@ -26,7 +26,7 @@ document.getElementById(`rel-btn-${args.reply_to}`).disabled=true;
 document.getElementById(`rel-btn-${args.reply_to}`).innerHTML="请稍候";
 }
 var xhr = new XMLHttpRequest();
-xhr.open("POST", "https://comment.saobby.com/api/post_comment", true);
+xhr.open("POST", "https://fast-comment.saobby.com/api/post_comment", true);
 xhr.setRequestHeader("Content-Type", "application/json");
 args["captcha_token"] = document.getElementById("captcha-token").value;
 xhr.send(JSON.stringify(args));
@@ -64,7 +64,7 @@ xhr.onreadystatechange = function() {
 comment_page_index = 0;
 function get_all_comment(){
 var xhr = new XMLHttpRequest();
-xhr.open("POST", "https://comment.saobby.com/api/get_comment", true);
+xhr.open("POST", "https://fast-comment.saobby.com/api/get_comment", true);
 xhr.setRequestHeader("Content-Type", "application/json");
 req_data = {"place_id": 114514, "amount_per_page": 8, "page_index": comment_page_index};
 xhr.send(JSON.stringify(req_data));
