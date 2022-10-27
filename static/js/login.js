@@ -16,7 +16,7 @@ username = document.getElementById("username").value;
 password = document.getElementById("password").value;
 captcha_token = document.getElementById("captcha-token").value;
 var xhr = new XMLHttpRequest();
-xhr.open("POST", "https://comment.saobby.com/api/login", true);
+xhr.open("POST", "https://fast-comment.saobby.com/api/login", true);
 xhr.setRequestHeader("Content-Type", "application/json");
 var sendData = {"username": username, "password": password, "captcha_token": captcha_token};
 xhr.send(JSON.stringify(sendData));
