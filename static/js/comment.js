@@ -1,6 +1,7 @@
 var nurl = window.location.href.split("?");
 if (nurl.length == 1){
-    localStorage["comment_place_id"] = 114514;
+	if (localStorage["comment_place_id"] === undefined){
+        localStorage["comment_place_id"] = 114514;}
 }
 else{
 	localStorage["comment_place_id"] = nurl[1];
