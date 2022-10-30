@@ -1,3 +1,9 @@
+var nurl = window.location.href.split("?");
+if (nurl.length == 1){
+	place_id = 114514;}
+else{
+	place_id = nurl[1];}
+
 function show_comment_window(){
 if (localStorage["access-token"] == undefined){
 window.location = "/login";
@@ -14,7 +20,7 @@ return;
 }
 get_captcha_img();
 document.getElementById("captcha-window").hidden=false;
-args = {"place_id": 114514, "access_token": localStorage["access-token"], "content": content, "reply_to": -1};
+args = {"place_id": place_id, "access_token": localStorage["access-token"], "content": content, "reply_to": -1};
 }
 
 function complete_captcha(){
@@ -66,7 +72,7 @@ function get_all_comment(){
 var xhr = new XMLHttpRequest();
 xhr.open("POST", "https://fast-comment.saobby.com/api/get_comment", true);
 xhr.setRequestHeader("Content-Type", "application/json");
-req_data = {"place_id": 114514, "amount_per_page": 8, "page_index": comment_page_index};
+req_data = {"place_id": place_id, "amount_per_page": 8, "page_index": comment_page_index};
 xhr.send(JSON.stringify(req_data));
 xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
