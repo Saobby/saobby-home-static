@@ -1,8 +1,11 @@
 var nurl = window.location.href.split("?");
 if (nurl.length == 1){
-	place_id = 114514;}
+    localStorage["comment_place_id"] = 114514;
+}
 else{
-	place_id = nurl[1];}
+	localStorage["comment_place_id"] = nurl[1];
+    window.location.href = "/";}
+place_id = localStorage["comment_place_id"];
 
 function show_comment_window(){
 if (localStorage["access-token"] == undefined){
