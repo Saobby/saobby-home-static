@@ -20,7 +20,9 @@ function complete_captcha(){
         if(this.readyState==4){
             ret_json = JSON.parse(this.responseText);
             if (ret_json.success){
-                document.getElementById("upload_result").innerHTML = ret_json.data.url;
+                document.getElementById("upload_result").innerHTML = "上传成功";
+                document.getElementById("file_url").value = ret_json.data.url;
+                document.getElementById("markdown").value = "![]("+ret_json.data.url+")";
             }else{
             document.getElementById("upload_result").innerHTML = ret_json.message;}
             document.getElementById("upload-btn").innerHTML = "上传";
