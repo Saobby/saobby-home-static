@@ -12,12 +12,12 @@
 
 <div class="wux-typo">
 <h2>文件上传</h2>
-    <p>文件最大 25 MB, 上传后要等大约1分钟的时间后才能看到图片</p>
+    <p>文件最大 25 MB, 上传后要等大约1分钟的时间后才能通过链接下载到文件</p>
     <input class="wux-form-upload" type="file" id="file"><br>
     <button class="wux-btn wux-btn-primary" type="button" onclick="upload_file()" id="upload-btn">上传</button>
     <span id="upload_result" style="color:#aa0000"></span><br>
-    <input class="wux-form-input wux-form-input-md" placeholder="图片链接会显示在这里" type="text" id="img_url"><br>
-    <input class="wux-form-input wux-form-input-md" placeholder="markdown会显示在这里" type="text" id="markdown">
+    <input class="wux-form-input wux-form-input-md" placeholder="文件链接会显示在这里" type="text" id="file_url"><br>
+    <input class="wux-form-input wux-form-input-md" placeholder="图片markdown会显示在这里" type="text" id="markdown">
     <div id="saobby-captcha"></div>
     <script src="/static/js/captcha.js" async></script>
     <script src="/static/js/upload_file.js" async></script>
