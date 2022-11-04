@@ -11,7 +11,7 @@ document.getElementById("captcha-window").hidden=false;
 function complete_captcha(){
     document.getElementById("upload-btn").innerHTML = "上传中";
     document.getElementById("upload-btn").disabled = true;
-    var avatar_file = document.getElementById("file").files[0];
+    var file = document.getElementById("file").files[0];
     var captcha_token = document.getElementById("captcha-token").value;
     var fd = new FormData();
     var xhr = new XMLHttpRequest();
@@ -37,11 +37,7 @@ function complete_captcha(){
             }
         }
     }
-    fd.append("file", avatar_file);
+    fd.append("file", file);
     fd.append("captcha_token", captcha_token);
     xhr.send(fd);
 };
-
-if (localStorage.getItem("access-token")==undefined){
-    window.location="/login";
-}
