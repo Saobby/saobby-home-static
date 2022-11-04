@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+
+<title>文件上传</title>
+
+</head>
+<body>
+
+<div class="wux-typo">
+<h2>文件上传</h2>
+    <p>文件最大 25 MB</p>
+    <input class="wux-form-upload" type="file" id="file"><br>
+    <button class="wux-btn wux-btn-primary" type="button" onclick="upload_file()" id="upload-btn">上传</button>
+    <span id="upload_result" style="color:#aa0000"></span><br>
+    <div id="saobby-captcha"></div>
+    <script src="/static/js/captcha.js" async></script>
+    <script src="/static/js/upload_avatar.js" async></script>
+</div>
+
+</body>
+</html>
