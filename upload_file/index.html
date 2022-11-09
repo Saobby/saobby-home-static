@@ -16,9 +16,9 @@
     <input class="wux-form-upload" type="file" id="file"><br>
     <button class="wux-btn wux-btn-primary" type="button" onclick="upload_file()" id="upload-btn">上传</button>
     <span id="upload_result" style="color:#aa0000"></span><br>
-    <input class="wux-form-input wux-form-input-md" placeholder="文件链接会显示在这里" type="text" id="file_url">
+    <input class="wux-form-input wux-form-input-md" placeholder="文件链接会显示在这里" type="text" id="file_url" style="width: calc( 100vw - 70px );display: inline-block;">
     <button onclick="navigator.clipboard.writeText(document.getElementById('file_url').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
-    <input class="wux-form-input wux-form-input-md" placeholder="图片markdown会显示在这里" type="text" id="markdown">
+    <input class="wux-form-input wux-form-input-md" placeholder="图片markdown会显示在这里" type="text" id="markdown" style="width: calc( 100vw - 70px );display: inline-block;">
     <button onclick="navigator.clipboard.writeText(document.getElementById('markdown').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
     <div id="saobby-captcha"></div>
     <script src="/static/js/captcha.js" async></script>
