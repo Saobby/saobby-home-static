@@ -1,6 +1,7 @@
-Array.prototype.in_array = function(e) {
-    for(i=0; i<this.length && this[i]!=e; i++);
-    return !(i==this.length);
+function is_in_array(arr, obj){
+    for (var i=0;i<arr.length;i++){
+        if (arr[i]===obj){return true;}
+    }return false;
 }
 
 var nurl = window.location.href.split("?");
@@ -11,9 +12,9 @@ if (nurl.length == 1){
 else{
     var args=nurl[1].split("&");
     localStorage["comment_place_id"] = args[0];
-    if (!args.in_array("no-redirect")){
+    if (!is_in_array(args,"no-redirect")){
         window.location.href = "/";}
-    if (args.in_array("comments-only")){
+    if (is_in_array(args,"comments-only")){
         document.getElementById("contact").hidden=true;
         document.getElementById("tools").hidden=true;
         }
