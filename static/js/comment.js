@@ -23,6 +23,7 @@ place_id = localStorage["comment_place_id"];
 
 function show_comment_window(){
 if (localStorage["access-token"] == undefined){
+localStorage["login_redirect"]=window.location.href;
 window.location = "/login";
 return;
 }
@@ -148,6 +149,7 @@ return result;}
 
 function show_reply_window(cid){
 if (localStorage["access-token"] == undefined){
+localStorage["login_redirect"]=window.location.href;
 window.location = "/login";
 return;
 }

@@ -25,7 +25,10 @@ xhr.onreadystatechange = function() {
         ret_json = JSON.parse(xhr.responseText);
         if (ret_json.success){
             localStorage.setItem("access-token", ret_json.data.access_token);
-            window.location="/";
+            if (localStorage["login_redirect"]===undefined){
+            window.location="/";}else{window.location=localStorage["login_redirect"];
+            localStorage["login_redirect"]=undefined;
+            }
         }else{
             document.getElementById("login-btn").disabled=false;
             document.getElementById("login-btn").innerHTML="登录";

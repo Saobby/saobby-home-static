@@ -72,5 +72,6 @@ function complete_captcha(){
 };
 
 if (localStorage.getItem("access-token")==undefined){
+localStorage["login_redirect"]=window.location.href;
     window.location="/login";
 }
