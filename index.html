@@ -37,7 +37,10 @@
         <li><a href="/upload_file" target="_blank">图床/网盘</a></li>
         <li><a href="https://b.saobby.com/" target="_blank">b站视频直链解析</a></li>
     </ul></div>
-    <div class="wux-alert wux-alert-primary">评论区 <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="show_comment_window()" type="button">发表评论</button><button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="window.location='/set_avatar';" type="button">更换头像</button></div>
+    <div class="wux-alert wux-alert-primary">评论区 <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="show_comment_window()" type="button">发表评论</button>
+        <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="window.location='/set_avatar';" type="button">更换头像</button>
+    <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="window.location='/?114514';" type="button">主评论区</button>
+    </div>
         <div id="comment-window" hidden>
             <textarea class="wux-form-input wux-form-input-md" placeholder="说出你此刻的想法...(支持Markdown语法)" rows="5" id="content"></textarea>
             <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window').hidden=true;" type="button">取消</button><button class="wux-btn wux-btn-primary" type="button" onclick="add_root_comment()" id="rel-btn">发表</button>
