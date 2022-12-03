@@ -47,3 +47,4 @@ function complete_captcha(){
         }
     }
 }
+get_aerfaying_verification_code();
