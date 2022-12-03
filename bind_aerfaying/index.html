@@ -18,12 +18,12 @@
     <button class="wux-btn wux-btn-primary" type="button" id="check-btn" onclick="check_comment();">我已评论</button>
     <span style="color:#aa0000" id="result"></span>
     <p>绑定阿尔法营账户后，有人回复你的评论时，你将会在阿尔法营收到提醒消息。如果想要解除绑定，请点击<code>解除绑定</code>按钮。</p>
-    <button class="wux-btn wux-btn-primary" type="button" id="unbind-btn" onclick="">解除绑定</button>
+    <button class="wux-btn wux-btn-primary" type="button" id="unbind-btn" onclick="unbind();">解除绑定</button>
     <span style="color:#aa0000" id="result2"></span>
     <div id="saobby-captcha"></div>
     <script src="/static/js/captcha.js" async></script>
     <script src="/static/js/bind_aerfaying.js" async></script>
-    <input id="timestamp"><input id="signature">
+    <input id="timestamp" hidden><input id="signature" hidden>
 </div>
 
 </body>

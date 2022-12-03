@@ -51,4 +51,30 @@ function complete_captcha(){
         }
     }
 }
+
+function unbind(){
+    document.getElementById("unbind-btn").disabled = true;
+    document.getElementById("unbind-btn").innerHTML = "请稍候";
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://fast-comment.saobby.com/api/unbind_aerfaying", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    var sendData = {"access_token": localStorage["access-token"]}
+    xhr.send(JSON.stringify(sendData));
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            document.getElementById("unbind-btn").disabled = false;
+            document.getElementById("unbind-btn").innerHTML = "解除绑定";
+            if (xhr.status == 504){
+                document.getElementById("result2").innerHTML = "请求超时!请刷新页面";
+                return;
+            }
+            var ret_json = JSON.parse(xhr.responseText);
+            if (ret_json.success){
+                document.getElementById("result2").innerHTML = "解绑成功!";
+            }else{
+                document.getElementById("result2").innerHTML = ret_json.message;
+            }
+        }
+    }
+}
 get_verification_code();
