@@ -32,7 +32,8 @@ function complete_captcha(){
     var sendData = {"access_token": localStorage["access-token"],
     "captcha_token": document.getElementById("captcha-token").value,
     "timestamp": document.getElementById("timestamp").value,
-    "signature": document.getElementById("signature").value};
+    "signature": document.getElementById("signature").value,
+    "auth_key": document.getElementById("comment-content").innerHTML};
     xhr.send(JSON.stringify(sendData));
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
