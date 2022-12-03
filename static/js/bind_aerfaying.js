@@ -1,6 +1,6 @@
 function get_verification_code(){
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://fast-comment.saobby.com/api/get_aerfaying_verification_code", true);
+    xhr.open("POST", "https://comment-hongkong.saobby.com/api/get_aerfaying_verification_code", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     var sendData = {};
     xhr.send(JSON.stringify(sendData));
@@ -27,7 +27,7 @@ function complete_captcha(){
     document.getElementById("check-btn").disabled = true;
     document.getElementById("check-btn").innerHTML = "请稍候";
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://fast-comment.saobby.com/api/set_aerfaying_uid", true);
+    xhr.open("POST", "https://comment-hongkong.saobby.com/api/set_aerfaying_uid", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     var sendData = {"access_token": localStorage["access-token"],
     "captcha_token": document.getElementById("captcha-token").value,
@@ -57,7 +57,7 @@ function unbind(){
     document.getElementById("unbind-btn").disabled = true;
     document.getElementById("unbind-btn").innerHTML = "请稍候";
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://fast-comment.saobby.com/api/unbind_aerfaying", true);
+    xhr.open("POST", "https://comment-hongkong.saobby.com/api/unbind_aerfaying", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     var sendData = {"access_token": localStorage["access-token"]}
     xhr.send(JSON.stringify(sendData));
