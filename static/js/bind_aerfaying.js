@@ -11,7 +11,9 @@ function get_verification_code(){
                 return;
             }
             var ret_json = JSON.parse(xhr.responseText);
-            document.getElementById("comment-content").innerHTML = ret_json.data;
+            document.getElementById("comment-content").innerHTML = ret_json.data.auth_key;
+            document.getElementById("timestamp").value = ret_json.data.timestamp;
+            document.getElementById("signature").value = ret_json.data.signature;
         }
     }
 }
@@ -28,7 +30,9 @@ function complete_captcha(){
     xhr.open("POST", "https://fast-comment.saobby.com/api/set_aerfaying_uid", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     var sendData = {"access_token": localStorage["access-token"],
-    "captcha_token": document.getElementById("captcha-token").value};
+    "captcha_token": document.getElementById("captcha-token").value,
+    "timestamp": document.getElementById("timestamp").value,
+    "signature": document.getElementById("signature").value};
     xhr.send(JSON.stringify(sendData));
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
