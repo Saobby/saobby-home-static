@@ -1,4 +1,7 @@
 {
   "routes": [
-    { "src": "/undefined", "status": 301, "headers": { "Location": "/" } }]}
+    { "src": "/undefined", "status": 301, "headers": { "Location": "/" }}, 
+    { "src": "/(.*)", "status": 404, "dest": "/404.html" }
+  ]
+}
     
