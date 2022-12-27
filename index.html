@@ -50,12 +50,13 @@
             <span id="result0" style="color:#aa0000"></span>
         </div>
     <div id="comment-area" style="width:100%;overflow:auto;">评论加载中...若长时间未响应请刷新页面</div>
-    <button class="wux-btn wux-btn-primary" id="prev-page" onclick="change_page(-1);" disabled>上一页</button>
-    <button class="wux-btn wux-btn-primary" id="next-page" onclick="change_page(1);">下一页</button><span>第<span id="page_index">1</span>/<span id="page_amount">-</span>页</span><br><a target="_blank" href="https://github.com/wux-ui/wux-ui">Wux-UI</a>
+    <div id="change-page-btn" class="wux-btn-group"></div>
+    <span>第<span id="page_index">1</span>/<span id="page_amount">-</span>页</span>
+    <br><a target="_blank" href="https://github.com/wux-ui/wux-ui">Wux-UI</a>
     <div id="saobby-captcha"></div>
     <script src="/static/js/captcha.js" async></script>
     <script src="/static/js/marked.min.js"></script>
-    <script src="/static/js/comment.js?v2" async></script>
+    <script src="/static/js/comment.js?v3" async></script>
     <div style="font-size:12px"><center>
 <a href="https://icp.gov.moe/?keyword=20225339" target="_blank" hidden>萌ICP备20225339号</a> 
         </center>
