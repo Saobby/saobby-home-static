@@ -33,6 +33,8 @@ function submit_vote(){
 }
 
 function complete_captcha(){
+    document.getElementById("submit-btn").disabled = true;
+    document.getElementById("submit-btn").innerHTML = "请稍候";
     var o = new XMLHttpRequest;
     o.open("POST", "https://vote-api.saobby.com/api/vote", !0);
     o.setRequestHeader("Content-Type", "application/json");
@@ -44,12 +46,14 @@ function complete_captcha(){
     o.send(JSON.stringify(a));
     o.onreadystatechange = function() {
         if (4 == o.readyState){
+            document.getElementById("submit-btn").disabled = false;
+            document.getElementById("submit-btn").innerHTML = "确认投票";
             var ret = JSON.parse(o.responseText);
             if (ret.success){
-                alert("你的投票已提交！");
-                window.location="";
+                document.getElementById("result").innerHTML = "你的投票已提交";
+                get_vote_count();
             }else{
-                alert("投票失败，原因:"+ret.message);
+                document.getElementById("result").innerHTML = ret.message;
             }
         }
     }
@@ -73,7 +77,7 @@ var o = new XMLHttpRequest;
                     document.getElementById(`vote-count-${index}`).innerHTML = ret.data[index];
                 }
             }else{
-                alert("无法获取得票数据");
+                document.getElementById("result").innerHTML="无法获取得票数据";
             }
         }
     }
