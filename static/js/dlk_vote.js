@@ -1,5 +1,5 @@
 
-var names = "你的黑橄榄*野猪老钱*shaozy*Okami*雪儿超乖*Erica*史努比*秀芳今天*是CBD酱呀*开朗大军*守护煮*谰语*单某人*土贼彭翔宇*OLL*Alchemy-菜问*星辰大海Always*EveFranic*Clabomi*我需要管理员的帮助*鸡仔MG3*假Arkos*Decadence*美西螈*Deletc丶*Shawn*怪哉-GuaiZai*北冥有鱼*码码乐君莫笑*谷雨*阿神kouki哈哈";
+var names = "你的黑橄榄*野猪老钱*shaozy*Okami*雪儿超乖*Erica*史努比*秀芳今天*是CBD酱呀*开朗大军*守护煮*谰语*单某人*土贼彭翔宇*OLL*Alchemy-菜问*星辰大海Always*EveFranic*Clabomi*我需要管理员的帮助*鸡仔MG3*假Arkos*Decadence*美西螈*Deletc丶*Shawn*怪哉-GuaiZai*北冥有鱼*码码乐君莫笑*谷雨*阿神kouki哈哈*杰弟";
 names = names.split("*");
 var users_choices = [];
 var vote_count = 0;
