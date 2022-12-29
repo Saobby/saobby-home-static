@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="static/css/wux.css">
+
+<title>年度答辩人物投票</title>
+
+</head>
+<body>
+
+<div class="wux-container wux-typo">
+    <p>投出你心目中的年度答辩人物！每个人可以投5票！点击你要投的人的名字即可投票！可以多次点击！如果投错了刷新一下页面就重置了。</p>
+    <button class="wux-btn wux-btn-primary" type="button" onclick="submit_vote();" id="submit-btn" disabled>确认投票</button>
+    <div id="name-area">
+    </div>
+    <div id="saobby-captcha"></div>
+    <script src="static/js/captcha.js" async></script>
+    <script src="static/js/dlk_vote.js" async></script>
+</div>
+
+</body>
+</html>
