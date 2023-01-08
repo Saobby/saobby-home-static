@@ -132,6 +132,10 @@ function hide_edit_window(cid){
 }
 function save_edition(cid){
   var content = document.getElementById(`edit-content-${cid}`).value;
+    if (content===""){
+            document.getElementById(`edit-result-${cid}`).innerHTML="编辑内容不能为空!";
+            return;
+    }
     if (content===document.getElementById(`origin-content-${cid}`).value){
             document.getElementById(`edit-result-${cid}`).innerHTML="你没有修改任何东西!";
             return;
