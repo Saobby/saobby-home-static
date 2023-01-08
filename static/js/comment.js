@@ -102,7 +102,7 @@ function read_comment(e, t) {
         c = o.replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;");
-    for (var r in n += `<div style="position:relative;left:${40*t}px;" id="comment-area-${e.cid}"><div style="border-bottom: 2px solid #ddd;padding:12px 16px;"><img src="${e.avatar_url}" width="32px" height="32px"><b style="position:relative;top:-17px;left:5px;">${l}</b><span style="color:#777777;position:relative;top:-17px;left:5px;"> ${e.modify_time?"编辑于":"发表于"} ${e.modify_time?ts2str(e.modify_time):ts2str(e.timestamp)} #${e.cid}</span><br>`, -1 != d && (n += `<span style="color:#777777" onclick="window.scrollTo(get_element_abs_pos2(document.getElementById('comment-area-${e.reply_to}')))">回复 #${e.reply_to}</span><br>`), n += `<pre id="comment-md-${e.cid}" hidden>${c}</pre><div class="comment-content" id="comment-html-${e.cid}">${a}</div><button onclick="show_reply_window(${e.cid})" class="wux-btn wux-btn-primary wux-btn-sm" id="reply-btn-${e.cid}">回复</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="view-md-${e.cid}" onclick="document.getElementById('comment-md-${e.cid}').hidden=!1;document.getElementById('comment-html-${e.cid}').hidden=!0;document.getElementById('view-html-${e.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px">查看M↓</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="view-html-${e.cid}" onclick="document.getElementById('comment-md-${e.cid}').hidden=!0;document.getElementById('comment-html-${e.cid}').hidden=!1;document.getElementById('view-md-${e.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" hidden>查看M↓</button></div><div id="comment-window-${e.cid}" hidden><textarea class="wux-form-input wux-form-input-md" placeholder="回复 #${e.cid} (支持Markdown语法)" rows="5" id="reply-content-${e.cid}"></textarea><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window-${e.cid}').hidden=!0;document.getElementById('reply-btn-${e.cid}').disabled=!1;" type="button">取消</button><button class="wux-btn wux-btn-primary" type="button" onclick="add_reply_comment(${e.cid},document.getElementById('reply-content-${e.cid}').value)" id="rel-btn-${e.cid}" style="margin-left:3px">发表</button><span id="reply-result-${e.cid}" style="color:#aa0000;margin-left:3px"></span></div></div>`, e.replies) n += read_comment(e.replies[r], t + 1);
+    for (var r in n += `<div style="position:relative;left:${40*t}px;" id="comment-area-${e.cid}"><div style="border-bottom: 2px solid #ddd;padding:12px 16px;"><img src="${e.avatar_url}" width="32px" height="32px"><b style="position:relative;top:-17px;left:5px;">${l}</b><span style="color:#777777;position:relative;top:-17px;left:5px;"> ${e.modify_time?"编辑于":"发表于"} ${e.modify_time?ts2str(e.modify_time):ts2str(e.timestamp)} #${e.cid}</span><br>`, -1 != d && (n += `<span style="color:#777777" onclick="window.scrollTo(get_element_abs_pos2(document.getElementById('comment-area-${e.reply_to}')))">回复 #${e.reply_to}</span><br>`), n += `<pre id="comment-md-${e.cid}" hidden>${c}</pre><textarea class="wux-form-input wux-form-input-md" placeholder="编辑 #${e.cid} (支持Markdown语法)" rows="5" id="edit-content-${e.cid}">${c}</textarea hidden><div class="comment-content" id="comment-html-${e.cid}">${a}</div><button onclick="show_reply_window(${e.cid})" class="wux-btn wux-btn-primary wux-btn-sm" id="reply-btn-${e.cid}">回复</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="view-md-${e.cid}" onclick="document.getElementById('comment-md-${e.cid}').hidden=!1;document.getElementById('comment-html-${e.cid}').hidden=!0;document.getElementById('view-html-${e.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" ${e.can_edit?"hidden":""}>查看M↓</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="view-html-${e.cid}" onclick="document.getElementById('comment-md-${e.cid}').hidden=!0;document.getElementById('comment-html-${e.cid}').hidden=!1;document.getElementById('view-md-${e.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" hidden>查看M↓</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="edit-btn-${e.cid}" onclick="show_edit_window(${e.cid})" style="margin-left:3px" ${e.can_edit?"":"hidden"}>编辑</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="cancel-edit-btn-${e.cid}" onclick="hide_edit_window(${e.cid})" style="margin-left:3px" hidden>取消</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="save-edit-btn-${e.cid}" onclick="save_edition(${e.cid})" style="margin-left:3px" hidden>保存</button><span id="edit-result-${e.cid}" style="color:#aa0000;margin-left:3px"></span></div><div id="comment-window-${e.cid}" hidden><textarea class="wux-form-input wux-form-input-md" placeholder="回复 #${e.cid} (支持Markdown语法)" rows="5" id="reply-content-${e.cid}"></textarea><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window-${e.cid}').hidden=!0;document.getElementById('reply-btn-${e.cid}').disabled=!1;" type="button">取消</button><button class="wux-btn wux-btn-primary" type="button" onclick="add_reply_comment(${e.cid},document.getElementById('reply-content-${e.cid}').value)" id="rel-btn-${e.cid}" style="margin-left:3px">发表</button><span id="reply-result-${e.cid}" style="color:#aa0000;margin-left:3px"></span></div></div>`, e.replies) n += read_comment(e.replies[r], t + 1);
     return n
 }
 
@@ -114,6 +114,46 @@ function ts2str(e) {
         .slice(-2) + ":" + ("0" + t.getMinutes())
         .slice(-2) + ":" + ("0" + t.getSeconds())
         .slice(-2)
+}
+
+function show_edit_window(cid){
+    document.getElementById(`edit-content-${cid}`).hidden=false;
+    document.getElementById(`comment-html-${cid}`).hidden=true;
+    document.getElementById(`save-edit-btn-${cid}`).hidden=false;
+    document.getElementById(`cancel-edit-btn-${cid}`).hidden=false;
+    document.getElementById(`edit-btn-${cid}`).hidden=true;
+}
+function hide_edit_window(cid){
+    document.getElementById(`edit-content-${cid}`).hidden=true;
+    document.getElementById(`comment-html-${cid}`).hidden=false;
+    document.getElementById(`save-edit-btn-${cid}`).hidden=true;
+    document.getElementById(`cancel-edit-btn-${cid}`).hidden=true;
+    document.getElementById(`edit-btn-${cid}`).hidden=false;
+}
+function save_editon(cid){
+    document.getElementById(`save-edit-btn-${cid}`).disabled=true;
+    document.getElementById(`cancel-edit-btn-${cid}`).disabled=true;
+    document.getElementById(`save-edit-btn-${cid}`).innerHTML="请稍候";
+    var content = document.getElementById(`edit-content-${cid}`).value;
+    var e = new XMLHttpRequest;
+    e.open("POST", "https://fast-comment.saobby.com/api/edit_comment", !0);
+    e.setRequestHeader("Content-Type", "application/json");
+    e.send(JSON.stringify({access_token: localStorage["access-token"], 
+    cid: cid, content: content}));
+    e.onreadystatechange = function() {
+            if (4 == e.readyState) {
+                document.getElementById(`save-edit-btn-${cid}`).disabled=false;
+    document.getElementById(`cancel-edit-btn-${cid}`).disabled=false;
+    document.getElementById(`save-edit-btn-${cid}`).innerHTML="保存";
+                var t = JSON.parse(e.responseText);
+                if (t.success){
+                    document.getElementById(`edit-result-${cid}`).innerHTML="保存成功!";
+                    get_all_comment();
+                }else{
+                    document.getElementById(`edit-result-${cid}`).innerHTML=t.message;
+                }
+            }
+        }
 }
 
 function show_reply_window(e) {
