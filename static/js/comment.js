@@ -131,14 +131,14 @@ function hide_edit_window(cid){
     document.getElementById(`edit-btn-${cid}`).hidden=false;
 }
 function save_edition(cid){
-    document.getElementById(`save-edit-btn-${cid}`).disabled=true;
-    document.getElementById(`cancel-edit-btn-${cid}`).disabled=true;
-    document.getElementById(`save-edit-btn-${cid}`).innerHTML="请稍候";
-    var content = document.getElementById(`edit-content-${cid}`).value;
+  var content = document.getElementById(`edit-content-${cid}`).value;
     if (content===document.getElementById(`origin-content-${cid}`).value){
             document.getElementById(`edit-result-${cid}`).innerHTML="你没有修改任何东西!";
             return;
     }
+    document.getElementById(`save-edit-btn-${cid}`).disabled=true;
+    document.getElementById(`cancel-edit-btn-${cid}`).disabled=true;
+    document.getElementById(`save-edit-btn-${cid}`).innerHTML="请稍候";
     var e = new XMLHttpRequest;
     e.open("POST", "https://fast-comment.saobby.com/api/edit_comment", !0);
     e.setRequestHeader("Content-Type", "application/json");
