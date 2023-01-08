@@ -130,7 +130,7 @@ function hide_edit_window(cid){
     document.getElementById(`cancel-edit-btn-${cid}`).hidden=true;
     document.getElementById(`edit-btn-${cid}`).hidden=false;
 }
-function save_editon(cid){
+function save_edition(cid){
     document.getElementById(`save-edit-btn-${cid}`).disabled=true;
     document.getElementById(`cancel-edit-btn-${cid}`).disabled=true;
     document.getElementById(`save-edit-btn-${cid}`).innerHTML="请稍候";
