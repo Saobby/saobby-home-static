@@ -1,28 +1,47 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
-
-<title>注册</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+  <title>注册 - Saobby 的主页</title>
 </head>
+
 <body>
+  <div class="saobby-container">
+    <div class="saobby-jumbotron">
+      <h1>Saobby 的主页</h1>
+    </div>
+    <div class="saobby-card">
+      <a href="/">&lt; Back</a>
+      <h2>注册</h2>
+      <div>
+        <input class="wux-form-input wux-form-input-md" placeholder="用户名" type="text" id="username">
+      </div>
+      <div>
+        <input class="wux-form-input wux-form-input-md" placeholder="密码" type="password" id="password">
+      </div>
+      <div>
+        <input class="wux-form-input wux-form-input-md" placeholder="重复密码" type="password" id="password2">
+      </div>
+      <div id="saobby-captcha"></div>
+      <script src="/static/js/captcha.js?v3" async></script>
+      <div>
+        <button class="wux-btn wux-btn-primary" type="button" onclick="reg()" id="reg-btn">注册</button>
+        <a href="/login">已有账号?登录!</a>
+      </div>
 
-<div class="wux-container wux-typo">
-<h2>注册</h2>
-<input class="wux-form-input wux-form-input-md" placeholder="用户名" type="text" id="username">
-<input class="wux-form-input wux-form-input-md" placeholder="密码" type="password" id="password">
-<input class="wux-form-input wux-form-input-md" placeholder="重复密码" type="password" id="password2">
-<div id="saobby-captcha"></div>
-<script src="/static/js/captcha.js?v3" async></script>
-<button class="wux-btn wux-btn-primary" type="button" onclick="reg()" id="reg-btn">注册</button>
-<a href="/login">已有账号?登录!</a>
-<br>
-<span id="result" style="color:#aa0000"></span>
-<script src="/static/js/reg.js?v2" async></script>
-</div>
+      <div id="result" style="color:#aa0000"></div>
+      <script src="/static/js/reg.js?v2" async></script>
+    </div>
+  </div>
 
+  <footer>
+    Saobby 的个人主页 ·
+    <del>前端由 <a href="https://github.com/wuxian425">BobYang</a> 随便乱糊</del> ·
+    <a href="https://icp.gov.moe/?keyword=20225339" target="_blank">萌ICP备20225339号</a>
+  </footer>
 </body>
+
 </html>

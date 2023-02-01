@@ -1,73 +1,122 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="keywords" content="Saobby,Saobby主页">
-    <meta name="description" content="Saobby的主页">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
-
-<title>Saobby 的主页</title>
-
+  <meta charset="UTF-8">
+  <meta name="keywords" content="Saobby, Saobby主页">
+  <meta name="description" content="Saobby的主页">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+  <title>Saobby 的主页</title>
 </head>
-<body>
 
-<input id="access-token" type="hidden">
-<div class="wux-typo wux-container">
-    <div id="contact">
-    <div class="wux-alert wux-alert-primary">联系方式</div>
-    <ul>
-        <li>邮箱:<b>s@saobby.com</b></li>
-        <li>QQ:<b>3569602435</b></li>
-        <li>微信:<b>chen2008chen0808</b><span text-color="#FF8686" style="--attr-custom-text-color:#FF8686;">(很少上微信)</span></li>
-        <li>B站:<b><a href="https://space.bilibili.com/1896864189" target="_blank" class="wux-btn-text">Saobby</a></b></li>
-        <li>GitHub:<b><a href="https://github.com/Saobby" target="_blank">Saobby</a></b></li>
-        <li>MCBBS:<b><a href="https://www.mcbbs.net/?4161055" target="_blank">Guable_</a></b></li>
-        <li>别针社区:<b><a href="https://codingclip.com/user/79" target="_blank">Saobby</a></b></li>
-    </ul></div>
-    <div id="tools">
-    <div class="wux-alert wux-alert-primary">工具集</div>
-    <ul>
-        <li><a href="https://saobby.pythonanywhere.com/webcounter" target="_blank">网站访问量统计工具</a></li>
-        <li><a href="https://saobby.pythonanywhere.com/midi_in_scratch" target="_blank">在Scratch中演奏Midi</a></li>
-        <li><a href="https://saobby.pythonanywhere.com/image_cutter" target="_blank">宫格图制作</a></li>
-        <li><a href="https://gc.saobby.cf/" target="_blank">原神用户信息查询工具</a></li>
-        <li><a href="https://github.com/Saobby/SaobbyCAPTCHAdoc" target="_blank">Saobby人机验证</a></li>
-        <li><a href="https://40code.com/#page=work&id=2604" target="_blank">Scratch云变量服务</a>(目前暂不可用)</li>
-        <li><a href="https://i0.saobby.com/" target="_blank">Github加速访问</a>(感谢<a href="https://incloudify.com/" target="_blank">玲行云端</a>提供主机)</li>
-        <li><a href="/upload_file" target="_blank">图床/网盘</a></li>
-        <li><a href="https://b.saobby.com/" target="_blank">b站视频直链解析</a></li>
-        <li><a href="https://e.saobby.com/" target="_blank">图床2号</a>(感谢<a href="https://incloudify.com/" target="_blank">玲行云端</a>提供主机)</li>
-    </ul></div>
-    <div class="wux-alert wux-alert-light" id="birthdaystar">Loading...</div>
-    <div class="wux-alert wux-alert-primary">评论区 <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="show_comment_window()" type="button">发表评论</button>
-        <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="window.location='/set_avatar';" type="button">更换头像</button>
-        <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="window.location='/?114514';" type="button">主评论区</button>
-        <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="window.location='/bind_aerfaying';" type="button">绑定阿尔法营账号</button>
+<body>
+  <input id="access-token" type="hidden">
+  <div class="saobby-container">
+    <div class="saobby-jumbotron">
+      <h1>Saobby 的主页</h1>
+      <div>
+        <div class="saobby-account">
+          <a href="mailto://s@saobby.com/" title="s@saobby.com">邮箱</a>
+        </div>
+        <div class="saobby-account">
+          <a href="#3569602435" title="3569602435">QQ</a>
+        </div>
+        <div class="saobby-account">
+          <a href="#chen2008chen0808" title="chen2008chen0808（很少上微信）">微信</a>
+        </div>
+        <div class="saobby-account">
+          <a href="https://space.bilibili.com/1896864189" target="_blank" title="Saobby">BiliBili</a>
+        </div>
+        <div class="saobby-account">
+          <a href="https://github.com/Saobby" target="_blank" title="Saobby">GitHub</a>
+        </div>
+        <div class="saobby-account">
+          <a href="https://www.mcbbs.net/?4161055" target="_blank" title="Guable_">MCBBS</a>
+        </div>
+        <div class="saobby-account">
+          <a href="https://codingclip.com/user/79" target="_blank" title="Saobby">别针社区</a>
+        </div>
+      </div>
     </div>
-    <span>绑定阿尔法营账号，有回复时在阿尔法营提醒你 <a href="/bind_aerfaying">立即绑定</a></span><br>
-    <!--
+
+    <div class="saobby-row-2">
+      <div class="saobby-col">
+        <!-- 保持高度相同，在此行内Style设高度，否则删除 -->
+        <div class="saobby-card" style="height: 340px;">
+          <h2 align="center">生日</h2>
+          <div class="saobby-birthday" id="birthdaystar">
+            Loading...
+          </div>
+        </div>
+      </div>
+
+      <div class="saobby-col">
+        <!-- 保持高度相同，在此行内Style设高度，否则删除 -->
+        <div class="saobby-card" id="tools" style="height: 340px;">
+          <h2 align="center">工具集</h2>
+          <ul>
+            <li><a href="https://saobby.pythonanywhere.com/webcounter" target="_blank">网站访问量统计工具</a></li>
+            <li><a href="https://saobby.pythonanywhere.com/midi_in_scratch" target="_blank">在 Scratch 中演奏 MIDI</a></li>
+            <li><a href="https://saobby.pythonanywhere.com/image_cutter" target="_blank">宫格图制作</a></li>
+            <li><a href="https://gc.saobby.cf/" target="_blank">原神用户信息查询工具</a></li>
+            <li><a href="https://github.com/Saobby/SaobbyCAPTCHAdoc" target="_blank">Saobby 人机验证</a></li>
+            <li><a href="https://40code.com/#page=work&id=2604" target="_blank">Scratch 云变量服务</a>(目前暂不可用)</li>
+            <li><a href="https://i0.saobby.com/" target="_blank">GitHub 加速访问</a>（感谢<a href="https://incloudify.com/" target="_blank">玲行云端</a>提供主机）</li>
+            <li><a href="/upload_file" target="_blank">图床/网盘</a></li>
+            <li><a href="https://b.saobby.com/" target="_blank">bilibili 视频直链解析</a></li>
+            <li><a href="https://e.saobby.com/" target="_blank">图床2号</a>（感谢<a href="https://incloudify.com/" target="_blank">玲行云端</a>提供主机）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="saobby-card">
+      <h2>评论区 </h2>
+      <div>
+        <button onclick="show_comment_window()" type="button">发表评论</button>
+        <button onclick="window.location='/set_avatar';" type="button">更换头像</button>
+        <button onclick="window.location='/?114514';" type="button">主评论区</button>
+        <button onclick="window.location='/bind_aerfaying';" type="button">绑定阿儿法营账号</button>
+      </div>
+
+      <div class="saobby-tips">
+        绑定阿儿法营账号，有回复时在阿儿法营提醒你 <a href="/bind_aerfaying">立即绑定</a>
+      </div>
+      <!--
     <code>由于接口被恶意频繁大量请求，我的vercel账户被锁定，所有api无法提供服务(部分api已经恢复)，恢复时间待定。由于开学要期末考，saobby忙着备考，这几天暂时没有时间修复，抱歉。</code>
     -->
-        <div id="comment-window" hidden>
-            <textarea class="wux-form-input wux-form-input-md" placeholder="说出你此刻的想法...(支持Markdown语法)" rows="5" id="content"></textarea>
-            <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window').hidden=true;" type="button">取消</button>
-            <button class="wux-btn wux-btn-primary" type="button" onclick="add_root_comment()" id="rel-btn" style="margin-left:3px">发表</button>
-            <span id="result0" style="color:#aa0000"></span>
-        </div>
-    <div id="comment-area" style="width:100%;overflow:auto;">评论加载中...若长时间未响应请刷新页面</div>
-    <div id="change-page-btn" class="wux-btn-group"></div>
-    <span>第<span id="page_index">1</span>/<span id="page_amount">-</span>页</span>
-    <br><a target="_blank" href="https://github.com/wux-ui/wux-ui">Wux-UI</a>
-    <div id="saobby-captcha"></div>
-    <script src="/static/js/captcha.js?v3" async></script>
-    <script src="/static/js/marked.min.js?saobby_edited"></script>
-    <script src="/static/js/comment.js?v11" async></script>
-    <script src="/static/js/birthday.js?v2" async></script>
-    <div style="font-size:12px"><center>
-<a href="https://icp.gov.moe/?keyword=20225339" target="_blank" hidden>萌ICP备20225339号</a> 
-        </center>
-</div>
-</div>
+      <div id="comment-window" hidden>
+        <textarea class="wux-form-input wux-form-input-md" placeholder="说出你此刻的想法...(支持Markdown语法)" rows="5" id="content"></textarea>
+        <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window').hidden=true;" type="button">取消</button>
+        <button class="wux-btn wux-btn-primary" type="button" onclick="add_root_comment()" id="rel-btn" style="margin-left:3px">发表</button>
+        <span id="result0" style="color:#aa0000"></span>
+      </div>
+
+      <div class="saobby-comment" id="comment-area">
+        评论加载中...若长时间未响应请刷新页面
+      </div>
+
+      <div id="change-page-btn"></div>
+
+      <div>
+        第<span id="page_index">1</span>/<span id="page_amount">-</span>页
+      </div>
+
+      <div id="saobby-captcha"></div>
+    </div>
+  </div>
+
+  <footer>
+    Saobby 的个人主页 ·
+    <del>前端由 <a href="https://github.com/wuxian425">BobYang</a> 随便乱糊</del> ·
+    <a href="https://icp.gov.moe/?keyword=20225339" target="_blank">萌ICP备20225339号</a>
+  </footer>
+
+  <script src="/static/js/captcha.js?v3" async></script>
+  <script src="/static/js/marked.min.js?saobby_edited"></script>
+  <script src="/static/js/comment.js?v11" async></script>
+  <script src="/static/js/birthday.js?v2" async></script>
 </body>
+
 </html>

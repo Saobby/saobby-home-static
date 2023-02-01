@@ -1,0 +1,262 @@
+
+/*
+  PLEASE DON'T USE FORMATTER !!! 
+*/
+
+/*
+ * Styles for Saobby's Homepage
+ * Author: BobYang, Saobby
+ * 
+ * You cannot delete this comment.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=Inconsolata:wght@400;700&display=swap');
+
+/* Variables */
+:root {
+  --saobby-theme-color: #8888CC;
+
+  --saobby-background-color: #F8F8FF;
+  --saobby-text-color: #242424;
+  --saobby-link-color: #666666;
+
+  --saobby-button-background-color: #BBBBEC;
+  --saobby-button-background-color-hover: #AAAAEE;
+
+  --saobby-box-background-color: #FEFEFE;
+  --saobby-box-shadow-color: #DDDDDD;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --saobby-theme-color: #8888CC;
+
+    --saobby-background-color: #121224;
+    --saobby-text-color: #F8F8F8;
+    --saobby-link-color: #BBBBBB;
+
+    --saobby-button-background-color: #AAAAEE;
+    --saobby-button-background-color-hover: #9999DD;
+
+    --saobby-box-background-color: #242424;
+    --saobby-box-shadow-color: #242424;
+  }
+
+  img {
+    opacity: 0.8;
+  }
+}
+
+* {
+  scrollbar-width: thin;
+  transition: 0.25s;
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+html {
+  margin: 0;
+}
+
+body {
+  background-color: var(--saobby-background-color);
+  color: var(--saobby-text-color);
+  font-family: 'Inconsolata', 'Noto Sans SC', monospace, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0.5em 0;
+}
+
+a {
+  color: var(--saobby-link-color);
+  text-decoration: underline;
+}
+
+button,
+.saobby-button {
+  background-color: var(--saobby-button-background-color);
+  border: 0;
+  border-radius: 4px;
+  box-shadow: none;
+  color: inherit;
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 2px;
+  padding: 4px 2ch;
+  text-decoration: none;
+}
+
+  button:hover {
+    background-color: var(--saobby-button-background-color-hover);
+  }
+
+img {
+  border-radius: 8px;
+  box-shadow: 0 2px 2px var(--saobby-box-shadow-color);
+  opacity: 1;
+  outline: 0;
+}
+
+input {
+  border: 1px solid var(--saobby-theme-color);
+  border-radius: 4px;
+  margin-bottom: 0.5em;
+  padding: 0.5em 2ch;
+}
+
+  input:focus {
+    border-width: 2px;
+    box-shadow: 0;
+    outline: 0;
+  }
+
+  input[type=file] {
+    display: block;
+  }
+
+textarea {
+  border: 1px solid var(--saobby-theme-color);
+  border-radius: 4px;
+  display: block;
+  margin-bottom: 0.5em;
+  padding: 0.5em 2ch;
+}
+
+  textarea:focus {
+    border-width: 2px;
+    box-shadow: 0;
+    outline: 0;
+  }
+
+code {
+  font-family: 'inconsolata', 'Noto Sans SC', monospace, sans-serif;
+  margin: 0 2px;
+  padding: 2px 4px;
+}
+
+pre {
+  border: 1px solid var(--saobby-theme-color);
+  border-radius: 12px;
+  font-family: 'inconsolata', 'Noto Sans SC', monospace, sans-serif;
+  padding: 1em;
+}
+
+footer {
+  display: block;
+  font-size: 0.75em;
+  text-align: center;
+}
+
+/* Responsive */
+.saobby-container {
+  margin: auto;
+  margin-top: 2em;
+  max-width: 1024px;
+}
+
+[class*="saobby-row-"] {
+  margin-right: -0.5em;
+  margin-left: -0.5em;
+}
+
+  [class*="saobby-row-"]::after {
+    display: table;
+    clear: both;
+    content: '';
+  }
+
+  [class*="saobby-row-"] > .saobby-col {
+    position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    float: left;
+    min-height: 1px;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+  }
+
+    @media (min-width: 768px) {
+      .saobby-row-1 > .saobby-col {
+        width: 100%;
+      }
+
+      .saobby-row-2 > .saobby-col {
+        width: 50%;
+      }
+
+      .saobby-row-3 > .saobby-col {
+        width: 33.33%;
+      }
+
+      .saobby-row-4 > .saobby-col {
+        width: 25%;
+      }
+    }
+
+/* Components */
+.saobby-jumbotron {
+  background-color: var(--saobby-box-background-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 2px var(--saobby-box-shadow-color);
+  display: block;
+  margin-bottom: 1em;
+  padding: 2em 0;
+  text-align: center;
+}
+
+  .saobby-jumbotron h1 {
+    color: var(--saobby-theme-color);
+    font-size: 2.5em;
+    line-height: 1.5;
+    margin: 0.5em 0;
+  }
+
+.saobby-account {
+  background-color: var(--saobby-button-background-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 2px var(--saobby-box-shadow-color);
+  display: inline-block;
+  padding: 8px 12px;
+  position: relative;
+  text-decoration: none;
+}
+
+  .saobby-account a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+.saobby-card {
+  background-color: var(--saobby-box-background-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 2px var(--saobby-box-shadow-color);
+  margin-bottom: 1em;
+  overflow-y: auto;
+  padding: 1.5em;
+}
+
+.saobby-birthday {
+  padding: 1.5em;
+  text-align: center;
+}
+
+.saobby-tips {
+  margin-bottom: 1em;
+  overflow-y: auto;
+  padding: 1.5em;
+}
+
+.saobby-tips::before {
+  content: 'ℹ️ ';
+}
+
+.saobby-comment {
+  margin: 0.5em 0;
+}

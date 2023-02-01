@@ -1,29 +1,50 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
-
-<title>文件上传</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+  <title>文件上传 - Saobby 的主页</title>
 </head>
+
 <body>
+  <div class="saobby-container">
+    <div class="saobby-jumbotron">
+      <h1>Saobby 的主页</h1>
+    </div>
 
-<div class="wux-container wux-typo">
-<h2>文件上传</h2>
-    <p>文件最大 25 MB, <b>上传后要等大约1分钟才能通过链接下载到文件</b></p>
-    <input class="wux-form-upload" type="file" id="file"><br>
-    <button class="wux-btn wux-btn-primary" type="button" onclick="upload_file()" id="upload-btn">上传</button>
-    <span id="upload_result" style="color:#aa0000"></span><br>
-    <input class="wux-form-input wux-form-input-md" placeholder="文件链接会显示在这里" type="text" id="file_url" style="width: calc( 100vw - 90px );display: inline-block;">
-    <button onclick="navigator.clipboard.writeText(document.getElementById('file_url').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
-    <input class="wux-form-input wux-form-input-md" placeholder="图片markdown会显示在这里" type="text" id="markdown" style="width: calc( 100vw - 90px );display: inline-block;">
-    <button onclick="navigator.clipboard.writeText(document.getElementById('markdown').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
-    <div id="saobby-captcha"></div>
-    <script src="/static/js/captcha.js?v3" async></script>
-    <script src="/static/js/upload_file.js" async></script>
-</div>
+    <div class="saobby-card">
+      <a href="/">&lt; Back</a>
 
+      <h2>文件上传</h2>
+      <p>文件最大 25 MB, <b>上传后要等大约1分钟才能通过链接下载到文件</b>。</p>
+
+      <input class="wux-form-upload" type="file" id="file">
+      <button class="wux-btn wux-btn-primary" type="button" onclick="upload_file()" id="upload-btn">上传</button>
+      <div id="upload_result" style="color:#aa0000"></div><br>
+
+      <div>
+        <input placeholder="文件链接会显示在这里" type="text" id="file_url">
+        <button onclick="navigator.clipboard.writeText(document.getElementById('file_url').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
+      </div>
+
+      <div>
+        <input class="wux-form-input wux-form-input-md" placeholder="图片markdown会显示在这里" type="text" id="markdown">
+        <button onclick="navigator.clipboard.writeText(document.getElementById('markdown').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
+      </div>
+
+      <div id="saobby-captcha"></div>
+      <script src="/static/js/captcha.js?v3" async></script>
+      <script src="/static/js/upload_file.js" async></script>
+    </div>
+  </div>
+
+  <footer>
+    Saobby 的个人主页 ·
+    <del>前端由 <a href="https://github.com/wuxian425">BobYang</a> 随便乱糊</del> ·
+    <a href="https://icp.gov.moe/?keyword=20225339" target="_blank">萌ICP备20225339号</a>
+  </footer>
 </body>
+
 </html>
