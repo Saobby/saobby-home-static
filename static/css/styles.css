@@ -158,6 +158,7 @@ pre {
   border: 1px solid var(--saobby-theme-color);
   border-radius: 12px;
   font-family: 'inconsolata', 'Noto Sans SC', monospace, sans-serif;
+  overflow: auto;
   padding: 1em;
 }
 
