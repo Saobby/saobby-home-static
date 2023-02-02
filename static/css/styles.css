@@ -61,6 +61,10 @@
   height: 4px;
 }
 
+*:disabled {
+  filter: greyscale(1);
+}
+
 html {
   margin: 0;
 }
@@ -83,7 +87,8 @@ a {
 }
 
 button,
-.saobby-button {
+.saobby-button,
+input::file-selector-button {
   background-color: var(--saobby-button-background-color);
   border: 0;
   border-radius: 4px;
@@ -96,7 +101,9 @@ button,
   text-decoration: none;
 }
 
-  button:hover {
+  button:hover,
+  .saobby-button:hover,
+  input::file-selector-button:hover {
     background-color: var(--saobby-button-background-color-hover);
   }
 
@@ -124,11 +131,15 @@ input {
   }
 
 textarea {
+  box-sizing: border-box;
+    -webkit-box-sizing: border-box;
   border: 1px solid var(--saobby-theme-color);
   border-radius: 4px;
   display: block;
   margin-bottom: 0.5em;
   padding: 0.5em 2ch;
+  overflow-x: auto;
+  width: 100%;
 }
 
   textarea:focus {
@@ -163,6 +174,8 @@ footer {
 
 /* Responsive */
 .saobby-container {
+  box-sizing: border-box;
+    -webkit-box-sizing: border-box;
   margin: auto;
   margin-top: 2em;
   max-width: 1024px;
@@ -181,8 +194,8 @@ footer {
 
   [class*="saobby-row-"] > .saobby-col {
     position: relative;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
+      -webkit-box-sizing: border-box;
     display: block;
     float: left;
     min-height: 1px;
@@ -266,5 +279,7 @@ footer {
 }
 
 .saobby-comment {
+  box-sizing: border-box;
+    -webkit-box-sizing: border-box;
   margin: 0.5em 0;
 }
