@@ -1,4 +1,4 @@
-var domain = "https://commenttest.saobby.cf";
+var domain = "https://comment.saobby.tk";
 
 function is_in_array(e, t) {
   for (var n = 0; n < e.length; n++)
@@ -110,3 +110,4 @@ if (2 === nurl.length) {
 get_all_comment();
 var mdr = new marked.Renderer;
 mdr.image = function(e, t, n) { var d = Math.random(); return `<img src_="${e}" alt="${n}" title="${t||""}" class="marked-img" id="marked-img-${d}" hidden><a onclick="show_image(document.getElementById('marked-img-${d}'));this.hidden=true;" href="javascript:;">点击加载外部图片</a>` }, mdr.table = function(e, t) { return '<table class="wux-table">\n<thead>\n' + e + "</thead>\n" + (t = t && "<tbody>" + t + "</tbody>") + "</table>\n" }, mdr.codespan = function(e) { if (e.match(/^网易云音乐:\d+$/)) { var t = Math.random(); return `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src_="//music.163.com/outchain/player?type=2&id=${e.match(/\d+$/)[0]}&auto=0&height=66" id="music-player-${t}" hidden></iframe><a onclick="show_image(document.getElementById('music-player-${t}'));this.hidden=true;" href="javascript:;">点击加载网易云音乐</a>` } return "<code>" + e + "</code>" }, marked.setOptions({ tables: !0, sanitize: !0, smartLists: !0, silent: !0, renderer: mdr });
+marked.use(markedKatex({throwOnError:!1}));

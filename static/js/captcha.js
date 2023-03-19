@@ -1,4 +1,4 @@
-var captcha_domain = "https://captcha-cf.saobby.cf";
+var captcha_domain = "https://captcha.saobby.tk";
 
 function getElementAbsPos(t) {
   for (var e = t.offsetTop, n = t.offsetLeft; t = t.offsetParent;) e += t.offsetTop, n += t.offsetLeft;

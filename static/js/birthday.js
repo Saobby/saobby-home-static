@@ -1,5 +1,5 @@
 var e = new XMLHttpRequest;
-e.open("GET", "https://birthdaystar-api.saobby.cf/api/get_birthdaystar", true);
+e.open("GET", "https://birthdaystar-api.saobby.tk/api/get_birthdaystar", true);
 e.send();
 e.onload = function() {
   if (4 == e.readyState) {
@@ -16,3 +16,4 @@ e.onload = function() {
     };
   };
 };
+
