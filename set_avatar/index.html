@@ -1,29 +1,47 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
-
-<title>设置头像</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+  <title>设置头像 - Saobby 的主页</title>
 </head>
+
 <body>
+  <div class="saobby-container">
+    <div class="saobby-jumbotron">
+      <h1>Saobby 的主页</h1>
+    </div>
+    <div class="saobby-card">
+      <a href="/">&lt; Back</a>
+      
+      <h2>设置头像</h2>
+      <p>上传头像或者设置头像图片链接，图片最大512KB</p>
 
-<div class="wux-container wux-typo">
-<h2>设置头像</h2>
-    <p>上传头像或者设置头像图片链接，图片最大512KB</p>
-    <input class="wux-form-upload" type="file" id="avatar_img_file" accept="image/*"><br>
-    <button class="wux-btn wux-btn-primary" type="button" onclick="upload_avatar()" id="upload-btn">上传</button>
-    <span id="upload_result" style="color:#aa0000"></span><br>
-    <img src="" id="avatar_img" width="32px" height="32px">
-    <input class="wux-form-input wux-form-input-md" placeholder="头像链接" type="text" id="avatar_url">
-    <div id="saobby-captcha"></div>
-    <script src="/static/js/captcha.js?v3" async></script>
-    <button class="wux-btn wux-btn-primary" type="button" onclick="set_avatar()" id="save-btn">保存</button>
-    <span id="set_result" style="color:#aa0000"></span>
-    <script src="/static/js/upload_avatar.js" async></script>
-</div>
+      <input type="file" id="avatar_img_file" accept="image/*">
+      <button type="button" onclick="upload_avatar()" id="upload-btn">上传</button>
+      <div id="upload_result" style="color:#aa0000"></div><br>
 
+      <div>
+        <img src="" id="avatar_img" width="32px" height="32px"><br>
+        <input placeholder="头像链接" type="text" id="avatar_url">
+      </div>
+
+      <div id="saobby-captcha"></div>
+      <script src="/static/js/captcha.js?v3" async></script>
+
+      <button type="button" onclick="set_avatar()" id="save-btn">保存</button>
+      <div id="set_result" style="color:#aa0000"></div>
+      <script src="/static/js/upload_avatar.js" async></script>
+    </div>
+  </div>
+
+  <footer>
+    Saobby 的个人主页 ·
+    <del>前端由 <a href="https://github.com/wuxian425">BobYang</a> 随便乱糊</del> ·
+    <a href="https://icp.gov.moe/?keyword=20225339" target="_blank">萌ICP备20225339号</a>
+  </footer>
 </body>
+
 </html>

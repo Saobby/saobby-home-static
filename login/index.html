@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
-
-<title>登录</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+  <title>登录 - Saobby 的主页</title>
 </head>
+
 <body>
+  <div class="saobby-container">
+    <div class="saobby-jumbotron">
+      <h1>Saobby 的主页</h1>
+    </div>
+    <div class="saobby-card">
+      <a href="/">&lt; Back</a>
+      <h2>登录</h2>
+      <div>
+        <input placeholder="用户名" type="text" id="username">
+      </div>
+      <div>
+        <input placeholder="密码" type="password" id="password">
+      </div>
+      <div id="saobby-captcha"></div>
+      <script src="/static/js/captcha.js?v3" async></script>
+      <div>
+        <button type="button" onclick="login()" id="login-btn">登录</button>
+        <a href="/register">没有账号?点击注册!</a>
+      </div>
 
-<div class="wux-container wux-typo">
-<h2>登录</h2>
-<input class="wux-form-input wux-form-input-md" placeholder="用户名" type="text" id="username">
-<input class="wux-form-input wux-form-input-md" placeholder="密码" type="password" id="password">
-<div id="saobby-captcha"></div>
-<script src="/static/js/captcha.js?v3" async></script>
-<button class="wux-btn wux-btn-primary" type="button" onclick="login()" id="login-btn">登录</button>
-<a href="/register">没有账号?点击注册!</a>
-<br>
-<span id="result" style="color:#aa0000"></span>
-<script src="/static/js/login.js?v2" async></script>
-</div>
+      <div id="result" style="color:#aa0000"></div>
+      <script src="/static/js/login.js?v2" async></script>
+    </div>
+  </div>
 
+  <footer>
+    Saobby 的个人主页 ·
+    <del>前端由 <a href="https://github.com/wuxian425">BobYang</a> 随便乱糊</del> ·
+    <a href="https://icp.gov.moe/?keyword=20225339" target="_blank">萌ICP备20225339号</a>
+  </footer>
 </body>
+
 </html>

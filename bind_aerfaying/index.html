@@ -1,33 +1,51 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
-
-<title>绑定阿尔法营账号</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+  <title>绑定阿儿法营账号 - Saobby 的主页</title>
 </head>
+
 <body>
+  <div class="saobby-container">
+    <div class="saobby-jumbotron">
+      <h1>Saobby 的主页</h1>
+    </div>
+    <div class="saobby-card">
+      <a href="/">&lt; Back</a>
 
-<div class="wux-container wux-typo">
-<h2>绑定阿尔法营账号</h2>
-    <p>操作说明:1.请打开<a href="https://gitblock.cn/Projects/1092667" target="_blank">这个作品</a>，并点击作者名字旁边的<code>关注</code>按钮(如果没有这个按钮说明你已经关注我了)(这么做是为了让我们成为好友关系，这样我才能给你发私信提醒)。</p>
-    <img src="https://gp0.saobby.com/i/hLf9luEmCrH52LAp.PNG">
-    <p>2.请登录你要绑定的阿尔法营/稽木世界账户，并在<a href="https://gitblock.cn/Studios/67717/Forum/PostView?postId=33774" target="_blank">此帖子</a>下评论以下内容:</p>
-    <pre id="comment-content">加载中...若长时间未响应请刷新页面</pre>
-    <button onclick="navigator.clipboard.writeText(document.getElementById('comment-content').innerHTML)" type="button" class="wux-btn wux-btn-primary">复制代码</button>
-    <p>评论完后，请点击<code>我已评论</code>按钮</p>
-    <button class="wux-btn wux-btn-primary" type="button" id="check-btn" onclick="check_comment();">我已评论</button>
-    <span style="color:#aa0000" id="result"></span>
-    <p>绑定阿尔法营账户后，有人回复你的评论时，你将会在阿尔法营收到提醒消息。如果想要解除绑定，请点击<code>解除绑定</code>按钮。</p>
-    <button class="wux-btn wux-btn-primary" type="button" id="unbind-btn" onclick="unbind();">解除绑定</button>
-    <span style="color:#aa0000" id="result2"></span>
-    <div id="saobby-captcha"></div>
-    <script src="/static/js/captcha.js?v3" async></script>
-    <script src="/static/js/bind_aerfaying.js" async></script>
-    <input id="timestamp" hidden><input id="signature" hidden>
-</div>
+      <h2>绑定阿尔法营账号</h2>
+      <p>操作说明:1.请打开<a href="https://gitblock.cn/Projects/1092667" target="_blank">这个作品</a>，并点击作者名字旁边的<code>关注</code>按钮(如果没有这个按钮说明你已经关注我了)(这么做是为了让我们成为好友关系，这样我才能给你发私信提醒)。</p>
 
+      <img src="https://gp0.saobby.com/i/hLf9luEmCrH52LAp.PNG">
+
+      <p>2.请登录你要绑定的阿尔法营/稽木世界账户，并在<a href="https://gitblock.cn/Studios/67717/Forum/PostView?postId=33774" target="_blank">此帖子</a>下评论以下内容:</p>
+
+      <pre id="comment-content">加载中...若长时间未响应请刷新页面</pre>
+      <button onclick="navigator.clipboard.writeText(document.getElementById('comment-content').innerHTML)" type="button" class="wux-btn wux-btn-primary">复制代码</button>
+
+      <p>评论完后，请点击<code>我已评论</code>按钮</p>
+      <button class="wux-btn wux-btn-primary" type="button" id="check-btn" onclick="check_comment();">我已评论</button>
+      <div style="color:#aa0000" id="result"></div>
+
+      <p>绑定阿尔法营账户后，有人回复你的评论时，你将会在阿尔法营收到提醒消息。如果想要解除绑定，请点击<code>解除绑定</code>按钮。</p>
+      <button class="wux-btn wux-btn-primary" type="button" id="unbind-btn" onclick="unbind();">解除绑定</button>
+      <div style="color:#aa0000" id="result2"></div>
+
+      <div id="saobby-captcha"></div>
+      <script src="/static/js/captcha.js?v3" async></script>
+      <script src="/static/js/bind_aerfaying.js" async></script>
+      <input id="timestamp" hidden><input id="signature" hidden>
+    </div>
+  </div>
+
+  <footer>
+    Saobby 的个人主页 ·
+    <del>前端由 <a href="https://github.com/wuxian425">BobYang</a> 随便乱糊</del> ·
+    <a href="https://icp.gov.moe/?keyword=20225339" target="_blank">萌ICP备20225339号</a>
+  </footer>
 </body>
+
 </html>
