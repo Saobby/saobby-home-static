@@ -286,7 +286,7 @@ footer {
 }
 button:disabled,
 .saobby-button:disabled {
-  filter: grayscale(0.5);
+  filter: grayscale(1);
 }
 .saobby-button-outline {
   background: inherit;
