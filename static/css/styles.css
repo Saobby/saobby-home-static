@@ -284,3 +284,27 @@ footer {
     -webkit-box-sizing: border-box;
   margin: 0.5em 0;
 }
+button:disabled,
+.saobby-button:disabled {
+  filter: greyscale(0.5);
+}
+.saobby-button-outline {
+  background: inherit;
+  border: 1px solid var(--saobby-button-background-color);
+}
+.saobby-button-group {
+  border: 1px solid var(--saobby-button-background-color);
+  border-radius: var(--saobby-button-border-radius);
+  display: inline-block;
+  overflow: hidden;
+}
+.saobby-button-group .saobby-button,
+.saobby-button-group button {
+  background: inherit;
+  border-radius: 0;
+}
+.saobby-button-group .saobby-button + .saobby-button,
+.saobby-button-group button + button {
+  border-left: 1px solid var(--saobby-button-background);
+}
+
