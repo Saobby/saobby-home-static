@@ -145,7 +145,9 @@ var comment_page_index = 0,
 if (2 === nurl.length) {
 	var args = nurl[1].split("&");
 	place_id = args[0], is_in_array(args, "comments-only") && (
-		true);
+		!function(){for (var p = document.getElementsByClassName("hco"), q = 0; q < p.length; q++) {
+			p[q].hidden = !0
+		}}());
 	for (var scroll_to = void 0, i = 0; i < args.length; i++) {
 		var t = args[i].split("=");
 		2 === t.length && "scroll_to" === t[0] && (scroll_to = t[1])
