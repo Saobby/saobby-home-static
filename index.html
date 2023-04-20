@@ -15,7 +15,7 @@
 
 <input id="access-token" type="hidden">
 <div class="wux-typo wux-container">
-    <div id="hco">
+    <div id="hco" class="hco">
     <div id="contact">
     <div class="wux-alert wux-alert-primary">联系方式</div>
     <ul>
@@ -51,10 +51,10 @@
     <div class="wux-alert wux-alert-light" id="birthdaystar">Loading...</div></div>
     <div class="wux-alert wux-alert-primary">评论区 <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="show_comment_window()" type="button">发表评论</button>
         <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="window.location='/set_avatar';" type="button">更换头像</button>
-        <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="window.location='/?114514';" type="button">主评论区</button>
-        <button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline" onclick="window.location='/bind_aerfaying';" type="button">绑定阿尔法营账号</button>
+        <button class="wux-btn wux-btn-primary wux-btn-xs Wux-btn-outline hco" onclick="window.location='/?114514';" type="button">主评论区</button>
+        <button class="wux-btn wux-btn-primary wux-btn-xs Wux-btn-outline hco" onclick="window.location='/bind_aerfaying';" type="button">绑定阿尔法营账号</button>
     </div>
-    <span>绑定阿尔法营账号，有回复时在阿尔法营提醒你 <a href="/bind_aerfaying">立即绑定</a></span><br>
+    <span class="hco">绑定阿尔法营账号，有回复时在阿尔法营提醒你 <a href="/bind_aerfaying">立即绑定</a></span><br>
     <!--
     <code>由于接口被恶意频繁大量请求，我的vercel账户被锁定，所有api无法提供服务(部分api已经恢复)，恢复时间待定。由于开学要期末考，saobby忙着备考，这几天暂时没有时间修复，抱歉。</code>
     -->
@@ -67,7 +67,7 @@
     <div id="comment-area" style="width:100%;overflow:auto;">评论加载中...若长时间未响应请刷新页面<br>若多次刷新仍然加载不出来，请发邮件到<code>bugs@saobby.com</code>反馈问题。<br>请注意此版本<b>仅允许中国大陆用户访问</b>，如果你<b>不在中国大陆</b>，请<a href="https://deploy-preview-18--legendary-centaur-6f3c91.netlify.app/"><b>访问此版本</b></a></div>
     <div id="change-page-btn" class="wux-btn-group"></div>
     <span>第<span id="page_index">1</span>/<span id="page_amount">-</span>页</span>
-    <br><a target="_blank" href="https://github.com/wux-ui/wux-ui">Wux-UI</a>
+    <br><a target="_blank" href="https://github.com/wux-ui/wux-ui" class="hco">Wux-UI</a>
     <div id="saobby-captcha"></div>
     <script src="/static/js/captcha.js?v3" async></script>
     <script src="/static/js/index.umd.min.js"></script>
