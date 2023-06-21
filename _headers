@@ -1,3 +1,4 @@
 /*
   access-control-allow-origin: *
   access-control-allow-headers: *
+  Referrer-Policy: same-origin
