@@ -123,7 +123,7 @@ function show_edit_window(e) {
 }
 
 function hide_edit_window(e) {
-    document.getElementById(`edit-div-${e}`).hidden = !0, document.getElementById(`comment-html-${e}`).hidden = !1, document.getElementById(`save-edit-btn-${e}`).hidden = !0, document.getElementById(`cancel-edit-btn-${e}`).hidden = !0, document.getElementById(`edit-btn-${e}`).hidden = !1, document.getElementById(`edit-${e}-preview-btn`).hidden = true, document.getElementById(`edit-${e}-edit-btn`).hidden = true
+    document.getElementById(`edit-div-${e}`).hidden = !0, document.getElementById(`comment-html-${e}`).hidden = !1, document.getElementById(`save-edit-btn-${e}`).hidden = !0, document.getElementById(`cancel-edit-btn-${e}`).hidden = !0, document.getElementById(`edit-btn-${e}`).hidden = !1, document.getElementById(`edit-${e}-preview-btn`).hidden = true, document.getElementById(`edit-${e}-edit-btn`).hidden = true, document.getElementById(`edit-preview-${e}`).hidden = true
 }
 
 function save_edition(e) {
