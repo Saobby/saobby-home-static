@@ -77,11 +77,8 @@ function read_comment(e, t) {
         a = e.reply_to,
         c = d.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
     for (var l in n += `<div style="position:relative;left:${40*t}px;" id="comment-area-${e.cid}"><div style="border-bottom: 2px solid #ddd;padding:12px 16px;"><img src="${e.avatar_url}" width="32px" height="32px"><b style="position:relative;top:-17px;left:5px;">${e.nickname?e.nickname.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;"):i}</b><span style="color:#777777;position:relative;top:-17px;left:5px;"> ${e.modify_time?"编辑于":"发表于"} ${e.modify_time?ts2str(e.modify_time):ts2str(e.timestamp)} #${e.cid}</span><br>`, 
-         -1 != a && (n += `<span style="color:#777777" onclick="window.scrollTo(get_element_abs_pos2(document.getElementById('comment-area-${e.reply_to}')))">回复 #${e.reply_to}</span>
-<br>`), n += `
-<span style="color:#777777" onclick="window.scrollTo(get_element_abs_pos2(document.getElementById('comment-area-${e.reply_to}')))">回复 #${e.reply_to}</span>
-<br>`,n += `
-<pre id="comment-md-${e.cid}" hidden>${c}</pre>
+         -1 != a && (n += `<span style="color:#777777" onclick="window.scrollTo(get_element_abs_pos2(document.getElementById('comment-area-${e.reply_to}')))">回复 #${e.reply_to}</span><br>`), 
+         n += `<pre id="comment-md-${e.cid}" hidden>${c}</pre>
 <div hidden>
     <textarea id="origin-content-${e.cid}">${c}</textarea>
 </div>
@@ -95,7 +92,7 @@ function read_comment(e, t) {
 <button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="view-html-${e.cid}" onclick="document.getElementById('comment-md-${e.cid}').hidden=!0;document.getElementById('comment-html-${e.cid}').hidden=!1;document.getElementById('view-md-${e.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" hidden>查看M↓</button>
 <button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="edit-btn-${e.cid}" onclick="show_edit_window(${e.cid})" style="margin-left:3px" ${e.can_edit?"":"hidden"}>编辑</button>
 <button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="cancel-edit-btn-${e.cid}" onclick="hide_edit_window(${e.cid})" style="margin-left:3px" hidden>取消</button>
-<button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="document.getElementById('edit-preview-${e.cid}').innerHTML=marked.parse(document.getElementById('edit-content-${e.cid}').value);document.getElementById('edit-preview-${e.cid}').hidden=false;document.getElementById('edit-div-${e.cid}').hidden=true;this.hidden=true;document.getElementById('edit-${e.cid}-edit-btn').hidden=false;" id="edit-${e.cid}-preview-btn">预览</button>
+<button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="document.getElementById('edit-preview-${e.cid}').innerHTML=marked.parse(document.getElementById('edit-content-${e.cid}').value);document.getElementById('edit-preview-${e.cid}').hidden=false;document.getElementById('edit-div-${e.cid}').hidden=true;this.hidden=true;document.getElementById('edit-${e.cid}-edit-btn').hidden=false;" id="edit-${e.cid}-preview-btn" hidden>预览</button>
 <button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="document.getElementById('edit-preview-${e.cid}').hidden=true;document.getElementById('edit-div-${e.cid}').hidden=false;this.hidden=true;document.getElementById('edit-${e.cid}-preview-btn').hidden=false;" id="edit-${e.cid}-edit-btn" hidden>编辑</button>
 <button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="save-edit-btn-${e.cid}" onclick="save_edition(${e.cid})" style="margin-left:3px" hidden>保存</button>
 <span id="edit-result-${e.cid}" style="color:#aa0000;margin-left:3px"></span>
@@ -122,11 +119,11 @@ function ts2str(e) {
 }
 
 function show_edit_window(e) {
-    document.getElementById(`edit-div-${e}`).hidden = !1, document.getElementById(`comment-html-${e}`).hidden = !0, document.getElementById(`save-edit-btn-${e}`).hidden = !1, document.getElementById(`cancel-edit-btn-${e}`).hidden = !1, document.getElementById(`edit-btn-${e}`).hidden = !0
+    document.getElementById(`edit-div-${e}`).hidden = !1, document.getElementById(`comment-html-${e}`).hidden = !0, document.getElementById(`save-edit-btn-${e}`).hidden = !1, document.getElementById(`cancel-edit-btn-${e}`).hidden = !1, document.getElementById(`edit-btn-${e}`).hidden = !0, document.getElementById(`edit-${e}-preview-btn`).hidden = false
 }
 
 function hide_edit_window(e) {
-    document.getElementById(`edit-div-${e}`).hidden = !0, document.getElementById(`comment-html-${e}`).hidden = !1, document.getElementById(`save-edit-btn-${e}`).hidden = !0, document.getElementById(`cancel-edit-btn-${e}`).hidden = !0, document.getElementById(`edit-btn-${e}`).hidden = !1
+    document.getElementById(`edit-div-${e}`).hidden = !0, document.getElementById(`comment-html-${e}`).hidden = !1, document.getElementById(`save-edit-btn-${e}`).hidden = !0, document.getElementById(`cancel-edit-btn-${e}`).hidden = !0, document.getElementById(`edit-btn-${e}`).hidden = !1, document.getElementById(`edit-${e}-preview-btn`).hidden = true, document.getElementById(`edit-${e}-edit-btn`).hidden = true
 }
 
 function save_edition(e) {
