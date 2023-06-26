@@ -62,7 +62,7 @@
     <div id="comment-window" hidden>
         <div id="content-div"><textarea class="wux-form-input wux-form-input-md" placeholder="说出你此刻的想法...(支持Markdown语法)" rows="5" id="content" hidden></textarea></div>
         <pre id="content-preview" hidden></pre>
-        <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window').hidden=true;" type="button">取消</button>
+        <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window').hidden=true;" type="button" id="cancel-btn">取消</button>
         <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('content-preview').innerHTML=marked.parse(document.getElementById('content').value);document.getElementById('content-preview').hidden=false;document.getElementById('content-div').hidden=true;this.hidden=true;document.getElementById('content-edit-btn').hidden=false;" type="button" id="content-preview-btn">预览</button>
         <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('content-preview').hidden=true;document.getElementById('content-div').hidden=false;this.hidden=true;document.getElementById('content-preview-btn').hidden=false;" type="button" id="content-edit-btn" hidden>编辑</button>
         <button class="wux-btn wux-btn-primary" type="button" onclick="add_root_comment()" id="rel-btn" style="margin-left:3px">发表</button>
