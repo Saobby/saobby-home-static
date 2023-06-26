@@ -80,7 +80,7 @@ function read_comment(e, t) {
          -1 != a && (n += `<span style="color:#777777" onclick="window.scrollTo(get_element_abs_pos2(document.getElementById('comment-area-${e.reply_to}')))">回复 #${e.reply_to}</span>
 <br>`), n += `
 <span style="color:#777777" onclick="window.scrollTo(get_element_abs_pos2(document.getElementById('comment-area-${e.reply_to}')))">回复 #${e.reply_to}</span>
-<br>`), n += `
+<br>`,n += `
 <pre id="comment-md-${e.cid}" hidden>${c}</pre>
 <div hidden>
     <textarea id="origin-content-${e.cid}">${c}</textarea>
