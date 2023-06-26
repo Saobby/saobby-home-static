@@ -138,7 +138,7 @@ function save_edition(e) {
                 content: t
             })), n.onreadystatechange = function() {
                 if (4 == n.readyState) {
-                    document.getElementById(`save-edit-btn-${e}`).disabled = !1, document.getElementById(`cancel-edit-btn-${e}`).disabled = !1, document.getElementById(`save-edit-btn-${e}`).innerHTML = "保存";
+                    document.getElementById(`save-edit-btn-${e}`).disabled = !1, document.getElementById(`cancel-edit-btn-${e}`).disabled = !1, document.getElementById(`edit-${e}-preview-btn`).disabled = !1, document.getElementById(`edit-${e}-edit-btn`).disabled = !1, document.getElementById(`save-edit-btn-${e}`).innerHTML = "保存";
                     var t = JSON.parse(n.responseText);
                     t.success ? (document.getElementById(`edit-result-${e}`).innerHTML = "保存成功!", get_all_comment()) : document.getElementById(`edit-result-${e}`).innerHTML = t.message
                 }
