@@ -30,7 +30,7 @@ function add_root_comment() {
 }
 
 function complete_captcha() {
-    -1 == args.reply_to ? (document.getElementById("rel-btn").disabled = !0, document.getElementById("cancel-btn").disabled = !0, document.getElementById("content-preview-btn").disabled = !0, document.getElementById("content-edit-btn").disabled = !0, document.getElementById("rel-btn").innerHTML = "请稍候") : (document.getElementById(`rel-btn-${args.reply_to}`).disabled = !0, document.getElementById(`content-${args.reply_to}-preview-btn`).disabled = !0, document.getElementById(`content-${args.reply_to}-edit-btn`).disabled = !0, document.getElementById(`cancel-btn-${args.reply_to}`).disabled = !0, document.getElementById(`rel-btn-${args.reply_to}`).innerHTML = "请稍候");
+    -1 == args.reply_to ? (document.getElementById("rel-btn").disabled = !0, document.getElementById("cancel-btn").disabled = !0, document.getElementById("content-preview-btn").disabled = !0, document.getElementById("content-edit-btn").disabled = !0, document.getElementById("rel-btn").innerHTML = "请稍候") : (document.getElementById(`rel-btn-${args.reply_to}`).disabled = !0, document.getElementById(`content-${args.reply_to}-preview-btn`).disabled = !0, document.getElementById(`content-${args.reply_to}-edit-btn`).disabled = !0, document.getElementById(`cancel-rp-${args.reply_to}`).disabled = !0, document.getElementById(`rel-btn-${args.reply_to}`).innerHTML = "请稍候");
     var e = new XMLHttpRequest;
     e.open("POST", domain + "/api/post_comment", !0), e.setRequestHeader("Content-Type", "application/json"), args.captcha_token = document.getElementById("captcha-token").value, e.send(JSON.stringify(args)), e.onreadystatechange = function() {
         if (4 == e.readyState) {
@@ -38,7 +38,7 @@ function complete_captcha() {
             t.success ? (-1 == args.reply_to ? (document.getElementById("result0").innerHTML = "评论发送成功!", document.getElementById("content").value = "", document.getElementById("content-preview").innerHTML = "", comment_page_index = 0, get_all_comment()) : (document.getElementById(`reply-result-${args.reply_to}`).innerHTML = "评论发送成功!", document.getElementById(`reply-content-${args.reply_to}`).value = "", document.getElementById(`content-preview-${args.reply_to}`).innerHTML = ""), get_all_comment()) : -1 == args.reply_to ? document.getElementById("result0").innerHTML = t.message : document.getElementById(`reply-result-${args.reply_to}`).innerHTML = t.message, -1 == args.reply_to ? (
                 document.getElementById("rel-btn").disabled = !1, document.getElementById("cancel-btn").disabled = !1, document.getElementById("content-preview-btn").disabled = !1, document.getElementById("content-edit-btn").disabled = !1, 
             document.getElementById("rel-btn").innerHTML = "发表") : 
-                (document.getElementById(`rel-btn-${args.reply_to}`).disabled = !1, document.getElementById(`content-${args.reply_to}-preview-btn`).disabled = !1, document.getElementById(`content-${args.reply_to}-edit-btn`).disabled = !1, document.getElementById(`cancel-btn-${args.reply_to}`).disabled = !1, document.getElementById(`rel-btn-${args.reply_to}`).innerHTML = "发表")
+                (document.getElementById(`rel-btn-${args.reply_to}`).disabled = !1, document.getElementById(`content-${args.reply_to}-preview-btn`).disabled = !1, document.getElementById(`content-${args.reply_to}-edit-btn`).disabled = !1, document.getElementById(`cancel-rp-${args.reply_to}`).disabled = !1, document.getElementById(`rel-btn-${args.reply_to}`).innerHTML = "发表")
         }
     }
 }
