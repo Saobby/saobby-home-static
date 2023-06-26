@@ -105,7 +105,7 @@ function read_comment(e, t) {
     	<textarea class="wux-form-input wux-form-input-md" placeholder="回复 #${e.cid} (支持Markdown语法)" rows="5" id="reply-content-${e.cid}"></textarea>
     </div>
     <pre id="content-preview-${e.cid}" hidden></pre>
-    <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window-${e.cid}').hidden=!0;document.getElementById('reply-btn-${e.cid}').disabled=!1;" type="button" id="cancel-rp-{e.cid}">取消</button>
+    <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window-${e.cid}').hidden=!0;document.getElementById('reply-btn-${e.cid}').disabled=!1;" type="button" id="cancel-rp-${e.cid}">取消</button>
     <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('content-preview-${e.cid}').innerHTML=marked.parse(document.getElementById('reply-content-${e.cid}').value);document.getElementById('content-preview-${e.cid}').hidden=false;document.getElementById('content-${e.cid}-div').hidden=true;this.hidden=true;document.getElementById('content-${e.cid}-edit-btn').hidden=false;" type="button" id="content-${e.cid}-preview-btn">预览</button>
     <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('content-preview-${e.cid}').hidden=true;document.getElementById('content-${e.cid}-div').hidden=false;this.hidden=true;document.getElementById('content-${e.cid}-preview-btn').hidden=false;" type="button" id="content-${e.cid}-edit-btn" hidden>编辑</button>
     <button class="wux-btn wux-btn-primary" type="button" onclick="add_reply_comment(${e.cid},document.getElementById('reply-content-${e.cid}').value)" id="rel-btn-${e.cid}" style="margin-left:3px">发表</button>
