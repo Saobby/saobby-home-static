@@ -1,4 +1,4 @@
-var var domain = "https://api-ry.saobby.com/comment";
+var domain = "https://api-ry.saobby.com/comment";
 
 function is_in_array(e, t) {
     for (var n = 0; n < e.length; n++)
