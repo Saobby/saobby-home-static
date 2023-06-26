@@ -130,7 +130,7 @@ function save_edition(e) {
     var t = document.getElementById(`edit-content-${e}`).value;
     if ("" !== t)
         if (t !== document.getElementById(`origin-content-${e}`).value) {
-            document.getElementById(`save-edit-btn-${e}`).disabled = !0, document.getElementById(`cancel-edit-btn-${e}`).disabled = !0, document.getElementById(`save-edit-btn-${e}`).innerHTML = "请稍候";
+            document.getElementById(`save-edit-btn-${e}`).disabled = !0, document.getElementById(`cancel-edit-btn-${e}`).disabled = !0, document.getElementById(`edit-${e}-preview-btn`).disabled = !0, document.getElementById(`edit-${e}-edit-btn`).disabled = !0, document.getElementById(`save-edit-btn-${e}`).innerHTML = "请稍候";
             var n = new XMLHttpRequest;
             n.open("POST", domain + "/api/edit_comment", !0), n.setRequestHeader("Content-Type", "application/json"), n.send(JSON.stringify({
                 access_token: localStorage["access-token"],
