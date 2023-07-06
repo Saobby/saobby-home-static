@@ -17,3 +17,5 @@ jobs:
       with:
         commit_message: "[Github Action] 压缩 JS 和 CSS 文件"
         branch: production
+        push_options: "--force"
+        skip_checkout: true
