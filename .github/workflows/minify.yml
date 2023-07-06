@@ -12,6 +12,7 @@ jobs:
       uses: nizarmah/auto-minify@v2.1
       with:
         overwrite: true
+        js_engine: uglify-js
     - name: 提交压缩后的文件
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
