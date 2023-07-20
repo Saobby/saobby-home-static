@@ -244,4 +244,4 @@ var saobbyCaptchaV2 = (function(api_base_url){
         });
     }
     return functions;
-})("");
+})("https://api-ry.saobby.com/scpc-v2");
