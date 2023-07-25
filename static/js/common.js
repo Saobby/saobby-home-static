@@ -1,4 +1,4 @@
-var api_base_url = "https://api-ry.saobby.com";
+var headers = {"Content-Type": "application/json"};
 
 function gebi(eleid){
     return document.getElementById(eleid);
@@ -27,14 +27,14 @@ function fetch_data(url, method, headers, data){
         http.onreadystatechange = function(){
             if (http.readyState === 4){
                 if (http.status === 0){
-                    reject({"message": "Http onerror"})
+                    reject({"message": "网络错误"})
                 }else{
                     resolve({"response_text": http.responseText, "status_code": http.status});
                 }
             }
         }
         http.onerror = function(){
-            reject({"message": "Http onerror"});
+            reject({"message": "网络错误"});
         }
     });
     return promise;

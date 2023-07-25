@@ -130,6 +130,10 @@ var saobbyCaptchaV2 = (function(api_base_url){
             document.addEventListener("scpc_challenge_cancelled", function(event){
                 reject({"message": "用户关闭了验证码窗口"});
             });
+            if (!(gebi("scpc-window").hidden)){
+                reject({"message": "有一个正在进行的人机验证，请先完成或取消当前的人机验证"});
+                return;
+            }
             gebi("scpc-window").hidden = false;
             gebi("scpc-challenge-area").hidden = true;
             gebi("scpc-loading-area").hidden = false;
