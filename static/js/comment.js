@@ -15,7 +15,7 @@ function get_element_abs_pos2(e) {
     }
 }
 function show_comment_window() {
-    if (localStorage["access-token"] === null){
+    if (!(localStorage["access-token"])){
         localStorage.login_redirect = window.location.href;
         window.location = "/login";
     }else{
