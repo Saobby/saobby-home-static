@@ -6,6 +6,7 @@
     <meta name="description" content="Saobby的主页">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
+    <link rel="stylesheet" type="text/css" href="/static/css/common.css">
     <link rel="stylesheet" type="text/css" href="/static/css/katex.min.css">
     
 <title>Saobby 的主页</title>
@@ -64,7 +65,7 @@
     -->
     <div id="comment-window" hidden>
         <div id="content-div"><textarea class="wux-form-input wux-form-input-md" placeholder="说出你此刻的想法...(支持Markdown语法)" rows="5" id="content" hidden></textarea></div>
-        <pre id="content-preview" hidden></pre>
+        <div id="content-preview" class="pre-like" hidden></div>
         <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window').hidden=true;" type="button" id="cancel-btn">取消</button>
         <button class="wux-btn wux-btn-primary wux-btn-outline" style="margin-left:3px" onclick="document.getElementById('content-preview').innerHTML=marked.parse(document.getElementById('content').value);document.getElementById('content-preview').hidden=false;document.getElementById('content-div').hidden=true;this.hidden=true;document.getElementById('content-edit-btn').hidden=false;" type="button" id="content-preview-btn">预览</button>
         <button class="wux-btn wux-btn-primary wux-btn-outline" style="margin-left:3px" onclick="document.getElementById('content-preview').hidden=true;document.getElementById('content-div').hidden=false;this.hidden=true;document.getElementById('content-preview-btn').hidden=false;" type="button" id="content-edit-btn" hidden>编辑</button>
