@@ -365,7 +365,8 @@ marked.setOptions({
     sanitize: !0,
     smartLists: !0,
     silent: !0,
-    renderer: mdr
+    renderer: mdr,
+    headerIds: false
 }),
 marked.use(markedKatex({
     throwOnError: !1
