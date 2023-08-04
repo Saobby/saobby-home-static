@@ -346,8 +346,12 @@ if (2 === nurl.length) {
 get_all_comment();
 var mdr = new marked.Renderer;
 mdr.image = function(e, t, n) {
-    var d = Math.random();
-    return `<img src_="${rsc(e)}" alt="${rsc(n)}" title="${t || ""}" class="marked-img" id="marked-img-${d}" hidden><a onclick="show_image(gebi('marked-img-${d}'));this.hidden=true;" href="javascript:;">点击加载外部图片</a>`
+    var rand = Math.random();
+    if (n.match(/^!Audio:.+$/)){
+        var audio_type = n.split(":").slice(1).join(":");
+        return `<audio title="${t?t:""}" id="marked-audio-${rand}" controls hidden><source src_="${rsc(e)}" id="marked-audio-source-${rand}" type="audio/${rsc(audio_type)}"></audio><a onclick="!function(t){var e=gebi('marked-audio-source-${rand}');e.src=e.getAttribute('src_');gebi('marked-audio-${rand}').hidden=false;t.hidden=true}(this)" href="javascript:;">点击加载外部音频</a>`;
+    }
+    return `<img src_="${rsc(e)}" alt="${rsc(n)}" title="${t || ""}" class="marked-img" id="marked-img-${rand}" hidden><a onclick="show_image(gebi('marked-img-${rand}'));this.hidden=true;" href="javascript:;">点击加载外部图片</a>`
 }
 ,
 mdr.table = function(e, t) {
