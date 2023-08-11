@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/katex.min.css">
+        <title>创建帖子-Saobby论坛</title>
+    </head>
+    <body>
+        <div class="wux-container wux-typo">
+            <h2>创建帖子</h2>
+            <input type="text" placeholder="帖子标题" class="wux-form-input wux-form-input-md" id="title-input">
+            <textarea placeholder="帖子正文(支持Markdown语法)" id="content-input" class="wux-form-input wux-form-input-md" style="height:calc(100vh - 200px)"></textarea>
+            <div class="pre-like" id="preview-html" style="height:auto" hidden></div>
+            <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" style="left:calc(100% - 130px)" id="preview-btn" onclick="preview(true);">预览</button>
+            <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" style="left:calc(100% - 130px)" id="edit-btn" hidden onclick="preview(false);">编辑</button>
+            <button class="wux-btn wux-btn-primary" type="button" style="left:calc(100% - 135px)" id="release-btn" onclick="release();">发表</button>
+            <span class="result" style="left:-140px;position:relative" id="result"></span>
+            <script src="/static/js/common.js"></script>
+            <div id="scpc-v2" show-trigger="false"></div>
+            <script src="/static/js/saobbyCaptchaV2.js" async></script>
+            <script src="/static/js/marked.min.js"></script>
+            <script src="/static/js/index.umd.min.js"></script>
+            <script src="/static/js/emoji.index.umd.js"></script>
+            <script src="/static/js/emojis.js"></script>
+            <script src="/static/js/marked_init.js"></script>
+            <script src="/static/js/create_post.js" async></script>
+        </div>
+    </body>
+</html>

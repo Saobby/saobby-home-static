@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+        <title>帖子列表-Saobby论坛</title>
+    </head>
+    <body>
+        <div class="wux-container wux-typo">
+            <h2>帖子列表</h2>
+            <span>排序:</span>
+            <select class="wux-form-select" style="width:120px;" id="sort-by-select" onchange="load_posts(0);">
+                <option value="modify_time" selected>更新时间</option>
+                <option value="create_time">创建时间</option>
+                <option value="loves">点赞数</option>
+                <option value="views">查看数</option>
+            </select>
+            <select class="wux-form-select" style="width:80px;" id="sort-method-select" onchange="load_posts(0);">
+                <option value="0" selected>降序</option>
+                <option value="1">升序</option>
+            </select>
+            <button type="button" class="wux-btn wux-btn-primary" onclick="window.location='/create_post'">创建帖子</button>
+            <hr>
+            <div id="posts-list-html">
+                <span>正在加载帖子列表...</span>
+            </div>
+            <div id="change-page-div" class="wux-btn-group"></div>
+            <span>第<span id="page-index">1</span>/<span id="page-amount">-</span>页</span>
+            <script src="/static/js/common.js"></script>
+            <script src="/static/js/change_page_buttons.js"></script>
+            <script src="/static/js/posts.js" async></script>
+        </div>
+    </body>
+</html>

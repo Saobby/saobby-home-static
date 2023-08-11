@@ -55,3 +55,44 @@ function include(ele, list){
     }
     return false;
 }
+function ts2str(e) {
+    e = new Date(1e3 * e);
+    return e.getFullYear() + "-" + ("0" + (e.getMonth() + 1)).slice(-2) + "-" + ("0" + e.getDate()).slice(-2) + " " + ("0" + e.getHours()).slice(-2) + ":" + ("0" + e.getMinutes()).slice(-2) + ":" + ("0" + e.getSeconds()).slice(-2)
+}
+function rsc(e) {
+    return e ? e.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;") : e;
+}
+function get_url_args(){
+    var url = window.location.href;
+    var ret = {};
+    if (url.includes("?")){
+        var args = url.split("?").slice(1).join("?").split("&");
+        for (var index in args){
+            var arg = args[index];
+            if (arg.includes("=")){
+                var kv = arg.split("=");
+                ret[kv[0]] = kv.slice(1).join("=");
+            }else{
+                ret[arg] = null;
+            }
+        }
+    }
+    return ret;
+}
+function check_logged_in(){
+    if (localStorage.getItem("access-token") === null){
+        localStorage.login_redirect = window.location.href;
+        window.location = "/login";
+        return true;
+    }
+    return false;
+}
+function get_element_abs_pos2(e) {
+    for (var t = e.offsetTop, n = e.offsetLeft; e = e.offsetParent; )
+        t += e.offsetTop,
+        n += e.offsetLeft;
+    return {
+        left: n,
+        top: t
+    }
+}
