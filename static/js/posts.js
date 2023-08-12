@@ -7,8 +7,8 @@ function load_posts(page_index){
     for (var a=0; a<cp_btn.length; a++){
         cp_btn[a].disabled = true;
     }
-    sb_select = gebi("sort-by-select");
-    sm_select = gebi("sort-method-select");
+    var sb_select = gebi("sort-by-select");
+    var sm_select = gebi("sort-method-select");
     var sort_by = sb_select.options[sb_select.selectedIndex].value;
     var sort_method = sm_select.options[sm_select.selectedIndex].value;
     fetch_data(domain+"/api/get_posts_list", "POST", headers, JSON.stringify({"page_index": page_index, "page_size": page_size, "sort_by": sort_by, "sort_method": sort_method})).then(function(val){
