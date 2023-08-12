@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+        <title>创建投票</title>
+    </head>
+    <body>
+        <div class="wux-container wux-typo">
+            <h2>创建一个投票</h2>
+            <div id="config">
+                <span class="label">标题:</span>
+                <input type="text" class="wux-form-input wux-form-input-md label" placeholder="标题" id="title">
+                <span class="label">投票选项:</span>
+                <div id="options-div" class="pre-like label"></div>
+                <button class="wux-btn wux-btn-primary label" type="button" onclick="add_option();">添加选项</button><br>
+                <span class="label">在何时显示投票结果?</span><br>
+                <select class="wux-form-select label" id="always-show-result">
+                    <option value="false" selected>投票后可查看结果</option>
+                    <option value="true">总是显示结果</option>
+                </select>
+                <span class="label">怎样显示投票结果:</span><br>
+                <input type="checkbox" class="wux-form-checks" id="show-number" checked><span class="label">显示投票人数</span><br>
+                <input type="checkbox" class="wux-form-checks" id="show-percent" checked><span class="label">显示百分比</span><br>
+                <span class="label">字体大小:</span>
+                <input type="number" class="wux-form-input wux-form-input-md label" placeholder="字体大小" value="16" id="font-size">
+                <span class="label">字体颜色(填6位或3位十六进制颜色代码,不带#号):</span>
+                <input type="text" class="wux-form-input wux-form-input-md label" placeholder="字体颜色(例如AA0000代表纯红色)" value="000" id="font-color">
+            </div>
+            <button class="wux-btn wux-btn-primary label" type="button" id="submit-btn" onclick="submit();">创建投票</button>
+            <span id="result" class="result"></span>
+            <textarea class="wux-form-input wux-form-input-md label" id="markdown" rows="5" placeholder="生成的Markdown会显示在这里"></textarea>
+            <button class="wux-btn wux-btn-primary label" type="button" onclick="navigator.clipboard.writeText(gebi('markdown').value);">复制Markdown</button>
+            <script src="/static/js/common.js"></script>
+            <div id="scpc-v2" show-trigger="false"></div>
+            <script src="/static/js/saobbyCaptchaV2.js" async></script>
+            <script src="/static/js/create_vote.js" async></script>
+        </div>
+    </body>
+</html>
