@@ -50,6 +50,9 @@ function load_post(){
             gebi("post-view-div").hidden = true;
         }
     }, function(val){
+        gebi("loading-result").innerHTML = "无法加载帖子,因为:"+val.message;
+        gebi("loading-div").hidden = false;
+        gebi("post-view-div").hidden = true;
     });
 }
 function edit_post(mode){
