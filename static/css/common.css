@@ -15,6 +15,7 @@
     border: 2px solid #ccc;
     border-radius: 12px;
     white-space: pre;
+    word-break: break-word;
 }
 .label{
     margin-top: 3px;
