@@ -10,12 +10,12 @@
 }
 .pre-like-code{
     padding: 8px 12px;
-    font-size: 16px;
+    font-size: 14px;
+    white-space: pre-wrap;
     overflow-wrap: break-word;
     border: 2px solid #ccc;
     border-radius: 12px;
-    white-space: pre;
-    word-break: break-word;
+    -webkit-overflow-scrolling: touch;
 }
 .label{
     margin-top: 3px;
