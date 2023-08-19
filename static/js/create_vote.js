@@ -1,5 +1,5 @@
 var options = ["", ""];
-var domain = "https://api-ry.saobby.com/v";
+var domain = "https://aether.saobby.com:5004";
 function add_option(){
     options.push("");
     render_options();
