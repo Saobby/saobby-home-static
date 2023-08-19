@@ -1,4 +1,4 @@
-var domain = "https://api-ry.saobby.com/comment";
+var domain = "https://aether.saobby.com:5002";
 function preview(mode){
     if (mode){
         gebi("preview-html").innerHTML = marked.parse(gebi("content-input").value);

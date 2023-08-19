@@ -1,4 +1,4 @@
-var domain = "https://api-ry.saobby.com/comment";
+var domain = "https://aether.saobby.com:5002";
 var page_size = 8;
 function load_posts(page_index){
     gebi("sort-by-select").disabled = true;

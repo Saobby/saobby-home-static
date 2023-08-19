@@ -1,4 +1,4 @@
-var domain = "https://api-ry.saobby.com/comment";
+var domain = "https://aether.saobby.com:5002";
 function is_in_array(e, t) {
     for (var n = 0; n < e.length; n++)
         if (e[n] === t)

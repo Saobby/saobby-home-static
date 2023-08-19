@@ -1,4 +1,4 @@
-var domain = "https://api-ry.saobby.com/comment-hk";
+var domain = "https://aether.saobby.com:5002";
 function get_verification_code() {
 //    var e = new XMLHttpRequest;
 //    e.open("POST", domain + "/api/get_aerfaying_verification_code", !0),
