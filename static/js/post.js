@@ -74,7 +74,7 @@ function preview(mode){
     gebi("preview-html").hidden = !mode;
     gebi("content-input").hidden = mode;
 }
-function save_edit(){
+async function save_edit(){
     var title = gebi("title-input").value;
     var content = gebi("content-input").value;
     if (title === "" || content === ""){
@@ -85,13 +85,9 @@ function save_edit(){
         gebi("operate-result").innerHTML = "你没有修改任何东西";
         return;
     }
-    var description = prompt("请填写编辑摘要/原因:");
+    var description = await prompt("保存编辑", "请填写编辑摘要/原因:", true);
     if (description === null){
         gebi("operate-result").innerHTML = "用户取消了保存";
-        return;
-    }
-    if (description === ""){
-        gebi("operate-result").innerHTML = "编辑摘要不能为空";
         return;
     }
     gebi("content-input").disabled = true;
@@ -161,9 +157,10 @@ function love(){
         gebi("loved").innerHTML = post_data.loved?"已赞":"点赞";
     });
 }
-function operate(action){
+async function operate(action){
     if (action === "close"){
-        if (!confirm("你确定要关闭这个帖子吗?关闭后你将无法再打开!")){
+        var conf = await confirm("警告!", "你确定要关闭这个帖子吗?关闭后你将无法再打开!");
+        if (!conf){
             gebi("operate-result").innerHTML = "操作被用户取消";
             return;
         }

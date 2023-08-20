@@ -320,14 +320,6 @@ function show_image(e) {
     e.src = e.getAttribute("src_"),
     e.hidden = !1
 }
-String.prototype.replaceAll = function(e, t) {
-    return this.replace(new RegExp(e,"gm"), t)
-}
-;
-function rsc(e) {
-    return e ? e.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;") : e;
-    
-}
 var comment_page_index = 0
   , nurl = window.location.href.split("?")
   , place_id = 114514;

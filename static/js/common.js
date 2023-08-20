@@ -96,3 +96,6 @@ function get_element_abs_pos2(e) {
         top: t
     }
 }
+String.prototype.replaceAll = function(e, t) {
+    return this.split(e).join(t);
+}
