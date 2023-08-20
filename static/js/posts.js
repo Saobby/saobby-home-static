@@ -31,7 +31,12 @@ function load_posts(page_index){
             var pl_html = "";
             for (var i in rep.data.posts){
                 var post = rep.data.posts[i];
-                pl_html += `<div style="border-bottom: 2px solid #ddd;padding:12px 16px;"><a href="/post/?pid=${post.name}" target="_blank"><b style="font-size:20px"><span style="color:#5064E1;">${post.is_pinned?"[置顶]":""}</span><span style="color:#${post.is_closed?"AA0000":"00AA00"};">${post.is_closed?"[已关闭]":"[开放]"}</span><span style="color:#000;">${post.title}</span></b></a><br><span>作者:${post.author}</span><span style="color:#777;"> 发表于 ${ts2str(post.modify_time)} ${post.loves}个赞 ${post.views}次访问</span></div>`;
+                var tags_html = "";
+                for (var ti in post.tags){
+                    var tag = post.tags[ti];
+                    tags_html += `<span class="wux-tag">${rsc(tag)}</span>`;
+                }
+                pl_html += `<div style="border-bottom: 2px solid #ddd;padding:12px 16px;"><a href="/post/?pid=${post.name}" target="_blank"><b style="font-size:20px"><span style="color:#5064E1;">${post.is_pinned?"[置顶]":""}</span><span style="color:#${post.is_closed?"AA0000":"00AA00"};">${post.is_closed?"[已关闭]":"[开放]"}</span><span style="color:#000;">${post.title}</span></b></a>${tags_html}<br><span>作者:${post.author}</span><span style="color:#777;"> 发表于 ${ts2str(post.modify_time)} ${post.loves}个赞 ${post.views}次访问</span></div>`;
             }
             gebi("posts-list-html").innerHTML = pl_html?pl_html:`<span style="color:#777;">没有帖子</span>`;
             gebi("page-index").innerHTML = (rep.data.page_index+1).toString();

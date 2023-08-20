@@ -17,6 +17,7 @@ function load_post(){
     fetch_data(domain+"/api/get_post_details", "POST", headers, JSON.stringify(send_data)).then(function(val){
         var rep = JSON.parse(val.response_text);
         if (rep.success){
+            post_data = rep.data;
             gebi("author").innerHTML = rsc(rep.data.author);
             gebi("post-title").innerHTML = rsc(rep.data.title);
             gebi("title-input").value = rep.data.title;
@@ -37,12 +38,18 @@ function load_post(){
             gebi("pin-btn").hidden = !rep.data.permissions.can_pin;
             gebi("unpin-btn").hidden = !rep.data.permissions.can_unpin;
             gebi("edit-btn").hidden = !rep.data.permissions.can_edit;
+            gebi("add-tag-btn").hidden = !rep.data.permissions.can_edit;
             gebi("view-markdown-btn").hidden = rep.data.permissions.can_edit;
             gebi("loading-div").hidden = true;
             gebi("post-view-div").hidden = false;
             gebi("loved").innerHTML = rep.data.loved?"已赞":"点赞";
             gebi("love-btn").disabled = false;
-            post_data = rep.data;
+            var tags_html = "";
+            for (var ti in rep.data.tags){
+                var tag = rep.data.tags[ti];
+                tags_html += `<span class="wux-tag">${rsc(tag)}<span class="wux-tag-close post-tags-close-btn" onclick="remove_tag(${ti});" ${rep.data.permissions.can_edit?"":"hidden"}>×</span></span>`;
+            }
+            gebi("tags-div").innerHTML = tags_html?tags_html:"无";
             comments_load(0, args.cid?parseInt(args.cid):null);
         }else{
             gebi("loading-result").innerHTML = "无法加载帖子,因为:"+rep.message;
@@ -53,6 +60,45 @@ function load_post(){
         gebi("loading-result").innerHTML = "无法加载帖子,因为:"+val.message;
         gebi("loading-div").hidden = false;
         gebi("post-view-div").hidden = true;
+    });
+}
+async function add_tag(){
+    var tag = await prompt("添加标签", "请输入希望添加的标签:", true);
+    if (tag === null){
+        gebi("tag-result").innerHTML = "操作被用户取消";
+        return;
+    }
+    var tags = post_data.tags.slice(0);
+    tags.push(tag);
+    save_tags(tags);
+}
+function remove_tag(index){
+    var tags = post_data.tags.slice(0);
+    tags.splice(index, 1);
+    save_tags(tags);
+}
+function save_tags(tags){
+    function set_buttons_status(status){
+        gebi("add-tag-btn").disabled = status;
+        var btn = gebcn("post-tags-close-btn");
+        for (var i=0;i<btn.length;i++){
+            btn[i].hidden = status;
+        }
+    }
+    var send_data = {"access_token": localStorage["access-token"], "name": args.pid, "tags": tags};
+    set_buttons_status(true);
+    fetch_data(domain+"/api/set_post_tags", "POST", headers, JSON.stringify(send_data)).then(function(val){
+        var rep = JSON.parse(val.response_text);
+        if (rep.success){
+            gebi("tag-result").innerHTML = "设置成功";
+            load_post();
+        }else{
+            gebi("tag-result").innerHTML = rep.message;
+        }
+        set_buttons_status(false);
+    }, function(val){
+        gebi("tag-result").innerHTML = val.message;
+        set_buttons_status(false);
     });
 }
 function edit_post(mode){
