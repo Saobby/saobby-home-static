@@ -47,7 +47,7 @@ function load_post(){
             var tags_html = "";
             for (var ti in rep.data.tags){
                 var tag = rep.data.tags[ti];
-                tags_html += `<span class="wux-tag">${rsc(tag)}<span class="wux-tag-close post-tags-close-btn" onclick="remove_tag(${ti});" ${rep.data.permissions.can_edit?"":"hidden"}>×</span></span>`;
+                tags_html += `<span class="wux-tag simple">${rsc(tag)}<span class="wux-tag-close post-tags-close-btn" onclick="remove_tag(${ti});" ${rep.data.permissions.can_edit?"":"hidden"}>×</span></span>`;
             }
             gebi("tags-div").innerHTML = tags_html?tags_html:"无";
             comments_load(0, args.cid?parseInt(args.cid):null);
