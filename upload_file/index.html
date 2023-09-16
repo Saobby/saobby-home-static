@@ -18,15 +18,16 @@
 <h2>文件上传</h2>
     <p>文件最大 25 MB, <b>上传后要等大约1分钟才能通过链接下载到文件</b></p>
     <input class="wux-form-upload" type="file" id="file"><br>
-    <button class="wux-btn wux-btn-primary" type="button" onclick="upload_file()" id="upload-btn">上传</button>
+    <button class="wux-btn wux-btn-primary" type="button" onclick="upload_file();" id="upload-btn">上传</button>
     <span id="upload_result" style="color:#aa0000"></span><br>
+    <progress class="wux-progress" value="0" max="100" id="upload-progress" hidden></progress><br>
     <input class="wux-form-input wux-form-input-md" placeholder="文件链接会显示在这里" type="text" id="file_url" style="width: calc( 100% - 90px );display: inline-block;">
     <button onclick="navigator.clipboard.writeText(document.getElementById('file_url').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
     <input class="wux-form-input wux-form-input-md" placeholder="图片markdown会显示在这里" type="text" id="markdown" style="width: calc( 100% - 90px );display: inline-block;">
     <button onclick="navigator.clipboard.writeText(document.getElementById('markdown').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
     <script src="/static/js/common.js"></script>
-    <div id="saobby-captcha"></div>
-    <script src="/static/js/captcha.js?v3" async></script>
+    <div id="scpc-v2" show-trigger="false"></div>
+    <script src="/static/js/saobbyCaptchaV2.js" async></script>
     <script src="/static/js/upload_file.js" async></script>
 </div>
 

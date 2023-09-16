@@ -125,7 +125,7 @@ var saobbyCaptchaV2 = (function(api_base_url){
     functions.open_window_and_return_promise = function(){
         var promise = new Promise(function(resolve, reject){
             document.addEventListener("scpc_challenge_resolved", function(event){
-                resolve({"message": "用户完成了验证码"});
+                resolve({"message": "用户完成了验证码", "captcha_token": gebi("scpc-token").value});
             });
             document.addEventListener("scpc_challenge_cancelled", function(event){
                 reject({"message": "用户关闭了验证码窗口"});
@@ -146,7 +146,7 @@ var saobbyCaptchaV2 = (function(api_base_url){
                 if (val.data.return_type === 1){
                     gebi("scpc-token").value = val.data.option.token;
                     functions.close_window();
-                    resolve({"message": "用户直接通过了验证"});
+                    resolve({"message": "用户直接通过了验证", "captcha_token": val.data.option.token});
                 }else if (val.data.return_type === 0){
                     gebi("scpc-challenge-id").value = val.data.option.challenge_id;
                     gebi("scpc-total").innerHTML = val.data.option.word_length;
