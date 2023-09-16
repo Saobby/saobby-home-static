@@ -20,13 +20,14 @@
     <input class="wux-form-upload" type="file" id="avatar_img_file" accept="image/*"><br>
     <button class="wux-btn wux-btn-primary" type="button" onclick="upload_avatar()" id="upload-btn">上传</button>
     <span id="upload_result" style="color:#aa0000"></span><br>
+    <progress class="wux-progress" value="0" max="100" id="upload-progress" hidden></progress><br>
     <img src="" id="avatar_img" width="32px" height="32px">
     <input class="wux-form-input wux-form-input-md" placeholder="头像链接" type="text" id="avatar_url">
-    <div id="saobby-captcha"></div>
-    <script src="/static/js/common.js"></script>
-    <script src="/static/js/captcha.js?v3" async></script>
     <button class="wux-btn wux-btn-primary" type="button" onclick="set_avatar()" id="save-btn">保存</button>
     <span id="set_result" style="color:#aa0000"></span>
+    <script src="/static/js/common.js"></script>
+    <div id="scpc-v2" show-trigger="false"></div>
+    <script src="/static/js/saobbyCaptchaV2.js" async></script>
     <script src="/static/js/upload_avatar.js" async></script>
 </div>
 
