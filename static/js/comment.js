@@ -337,11 +337,21 @@ if (2 === nurl.length) {
 }
 get_all_comment();
 var mdr = new marked.Renderer;
-mdr.image = function(e, t, n) {
-    var d = Math.random();
-    return `<img src_="${rsc(e)}" alt="${rsc(n)}" title="${t || ""}" class="marked-img" id="marked-img-${d}" hidden><a onclick="show_image(gebi('marked-img-${d}'));this.hidden=true;" href="javascript:;">点击加载外部图片</a>`
+mdr.image = function(src, title, alt) {
+    var eid = "marked-generated-" + Math.random().toString();
+    if (alt === "@Audio"){
+        var media_type = "音频";
+        var media_html = `<audio src_="${rsc(src)}" title="${title || ""}" class="marked-audio" preload="auto" id="${eid}" controls hidden>你的浏览器不支持使用AudioTag播放音频</audio>`;
+    }else if (alt === "@Video"){
+        var media_type = "视频";
+        var media_html = `<video src_="${rsc(src)}" title="${title || ""}" class="marked-video" preload="auto" id="${eid}" controls hidden>你的浏览器不支持使用VideoTag播放视频</video>`;
+    }else{
+        var media_type = "图片";
+        var media_html = `<img src_="${rsc(src)}" alt="${rsc(alt)}" title="${title || ""}" class="marked-img" id="${eid}" hidden>`;
+    }
+    var show_btn = `<a onclick="!function(t){var e=gebi('${eid}');e.src=e.getAttribute('src_');e.hidden=!1;t.hidden=!0}(this);" href="javascript:;">点击加载外部${media_type}</a>`;
+    return media_html + show_btn;
 }
-,
 mdr.table = function(e, t) {
     return '<table class="wux-table">\n<thead>\n' + e + "</thead>\n" + (t && "<tbody>" + t + "</tbody>") + "</table>\n"
 }
