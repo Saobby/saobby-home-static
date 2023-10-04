@@ -8,7 +8,7 @@
 		<br ${comment.reply_to===-1?"hidden":""}>
 		<div id="comment-markdown-${comment.cid}" class="pre-like-code" hidden>${rsc(comment.content)}</div>
 		<textarea id="comment-origin-content-${comment.cid}" hidden>${rsc(comment.content)}</textarea>
-		<textarea class="wux-form-input wux-form-input-md" placeholder="编辑 #${comment.cid} (支持Markdown语法)" rows="5" id="comment-edit-content-${comment.cid}" hidden>${rsc(comment.content)}</textarea>
+		<textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="编辑 #${comment.cid} (支持Markdown语法)" rows="5" id="comment-edit-content-${comment.cid}" hidden>${rsc(comment.content)}</textarea>
 		<div id="comment-edit-preview-${comment.cid}" class="pre-like"  hidden></div>
 		<div class="comment-content" id="comment-html-${comment.cid}">${marked.parse(comment.content)}</div>
 		<i style="color:#777777;" ${comment.is_read===null?"hidden":""}>${comment.is_read!==null?(comment.is_read?"已读("+ts2str(comment.read_time)+")":"未读"):""}</i>
@@ -24,7 +24,7 @@
 		<span id="comment-edit-result-${comment.cid}" class="result simple"></span>
 	</div>
 	<div id="comment-reply-div-${comment.cid}" hidden>
-		<textarea class="wux-form-input wux-form-input-md" placeholder="回复 #${comment.cid} (支持Markdown语法)" rows="5" id="comments-content-${comment.cid}"></textarea>
+		<textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="回复 #${comment.cid} (支持Markdown语法)" rows="5" id="comments-content-${comment.cid}"></textarea>
 		<div id="comments-preview-${comment.cid}" class="pre-like" hidden></div>
 		<button class="wux-btn wux-btn-primary wux-btn-outline" onclick="comments_reply_window(${comment.cid},false);" type="button" id="comments-cancel-btn-${comment.cid}">取消</button>
 		<button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(${comment.cid},true);" type="button" id="comments-preview-btn-${comment.cid}">预览</button>

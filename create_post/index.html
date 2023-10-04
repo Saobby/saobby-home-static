@@ -16,7 +16,7 @@
         <div class="wux-container wux-typo">
             <h2>创建帖子</h2>
             <input type="text" placeholder="帖子标题" class="wux-form-input wux-form-input-md" id="title-input">
-            <textarea placeholder="帖子正文(支持Markdown语法)" id="content-input" class="wux-form-input wux-form-input-md" style="height:calc(100vh - 200px)"></textarea>
+            <textarea placeholder="帖子正文(支持Markdown语法)" id="content-input" class="wux-form-input wux-form-input-md marked-textarea" style="height:calc(100vh - 200px)"></textarea>
             <div class="pre-like" id="preview-html" style="height:auto" hidden></div>
             <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" style="left:calc(100% - 130px)" id="preview-btn" onclick="preview(true);">预览</button>
             <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" style="left:calc(100% - 130px)" id="edit-btn" hidden onclick="preview(false);">编辑</button>
@@ -31,6 +31,8 @@
             <script src="/static/js/emojis.js"></script>
             <script src="/static/js/marked_init.js"></script>
             <script src="/static/js/create_post.js" async></script>
+            <div id="upload-image-progress-div"></div>
+            <script src="/static/js/paste_to_upload.js" async></script>
         </div>
     </body>
 </html>

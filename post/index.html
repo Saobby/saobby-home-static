@@ -25,7 +25,7 @@
                 <span style="color:#777;">标签:</span><span id="tags-div"></span><button class="wux-btn wux-btn-primary wux-btn-sm simple" type="button" id="add-tag-btn" onclick="add_tag();">添加标签</button><span id="tag-result" class="result simple"></span>
                 <hr>
                 <div class="pre-like-code" id="markdown" hidden></div>
-                <textarea placeholder="帖子正文(支持Markdown语法)" id="content-input" class="wux-form-input wux-form-input-md" style="height:calc(100vh - 180px)" hidden></textarea>
+                <textarea placeholder="帖子正文(支持Markdown语法)" id="content-input" class="wux-form-input wux-form-input-md marked-textarea" style="height:calc(100vh - 180px)" hidden></textarea>
                 <div class="pre-like" id="preview-html" style="height:auto" hidden></div>
                 <div id="html"></div>
                 <hr>
@@ -46,7 +46,7 @@
                 <span class="result" id="operate-result"></span>
                 <hr>
                 <h2>评论区</h2>
-                <textarea class="wux-form-input wux-form-input-md" placeholder="评论正文(支持Markdown语法)" rows="5" id="comments-content--1"></textarea>
+                <textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="评论正文(支持Markdown语法)" rows="5" id="comments-content--1"></textarea>
                 <div id="comments-preview--1" class="pre-like" hidden></div>
                 <button id="comments-cancel-btn--1" hidden></button>
                 <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,true);" type="button" id="comments-preview-btn--1">预览</button>
@@ -79,6 +79,8 @@
             <script src="/static/js/marked_init.js"></script>
             <script src="/static/js/change_page_buttons.js"></script>
             <script src="/static/js/post.js" async></script>
+            <div id="upload-image-progress-div"></div>
+            <script src="/static/js/paste_to_upload.js" async></script>
         </div>
     </body>
 </html>
