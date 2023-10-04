@@ -1,4 +1,6 @@
 var pasteToUpload = (function(api_url){
+    gebi("upload-image-progress-div").innerHTML = `<div id="upload-image-progress-window" style="position:fixed;top:calc(50vh - 90px);left:calc(50vw - 200px);width:400px;height:180px;background:#ffffff;white-space:normal;" class="pre-like" hidden><h2>正在上传图片...</h2><progress id="upload-image-progress-bar" class="wux-progress" value="0" max="100"></progress><span>上传进度:<span id="upload-image-progress">0</span>%</span><br><button class="wux-btn wux-btn-primary wux-btn-outline" id="upload-image-cancel-btn">取消</button><span class="result" id="upload-image-result" style="margin-left:5px;"></span><input type="hidden" id="upload-image-status" value="closed"></div>`;
+    
     var returns = {};
 
     async function upload_images(event){
@@ -88,11 +90,13 @@ var pasteToUpload = (function(api_url){
     }
 
     returns.init = function(){
-        gebi("upload-image-progress-div").innerHTML = `<div id="upload-image-progress-window" style="position:fixed;top:calc(50vh - 90px);left:calc(50vw - 200px);width:400px;height:180px;background:#ffffff;white-space:normal;" class="pre-like" hidden><h2>正在上传图片...</h2><progress id="upload-image-progress-bar" class="wux-progress" value="0" max="100"></progress><span>上传进度:<span id="upload-image-progress">0</span>%</span><br><button class="wux-btn wux-btn-primary wux-btn-outline" id="upload-image-cancel-btn">取消</button><span class="result" id="upload-image-result" style="margin-left:5px;"></span><input type="hidden" id="upload-image-status" value="closed"></div>`;
         var textareas = gebcn("marked-textarea");
         for (var i=0; i<textareas.length;i++){
             var textarea = textareas[i];
-            textarea.addEventListener("paste", upload_images);
+            if (textarea.getAttribute("ptu_patched") === null){
+                textarea.addEventListener("paste", upload_images);
+                textarea.setAttribute("ptu_patched", "");
+            }
         }
     }
     return returns;
