@@ -30,7 +30,6 @@ var pasteToUpload = (function(api_url){
                 gebi("upload-image-cancel-div").innerHTML = `<button class="wux-btn wux-btn-primary wux-btn-outline" id="${cancel_btn_id}">取消</button>`;
                 gebi(cancel_btn_id).addEventListener("click", function(){
                     gebi("upload-image-progress-window").hidden = true;
-                    console.log(gebi("upload-image-status").value);
                     if (gebi("upload-image-status").value === "uploading"){
                         http.abort();
                         gebi("upload-image-status").value = "closed";
