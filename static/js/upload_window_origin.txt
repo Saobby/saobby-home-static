@@ -2,7 +2,7 @@
     <h2>正在上传图片...</h2>
     <progress id="upload-image-progress-bar" class="wux-progress" value="0" max="100"></progress>
     <span>上传进度:<span id="upload-image-progress">0</span>%</span><br>
-    <button class="wux-btn wux-btn-primary wux-btn-outline" id="upload-image-cancel-btn">取消</button>
+    <span id="upload-image-cancel-div"></span>
     <span class="result" id="upload-image-result" style="margin-left:5px;"></span>
     <input type="hidden" id="upload-image-status" value="closed">
 </div>
