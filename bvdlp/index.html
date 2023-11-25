@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="https://sdk.51.la/perf/js-sdk-perf.min.js" crossorigin="anonymous"></script>
+        <script>
+          new LingQue.Monitor().init({id:"3FfPifEib6u1V2Bz",sendSuspicious:true});
+        </script>
+        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
+        <title>B站视频直链解析机</title>
+    </head>
+    <body>
+        <div class="wux-container wux-typo">
+            <h2>B站视频直链解析</h2>
+            <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 70px );display:inline-block;" id="video-link" placeholder="视频链接,如https://www.bilibili.com/video/BV18X4y1N7Yh/">
+            <button type="button" class="wux-btn wux-btn-primary" id="query-btn" onclick="query();">解析</button><br>
+            <div id="notice-div">
+                <h2>注意事项</h2>
+                <ul>
+                    <li>目前<b>仅支持解析普通视频</b>，暂不支持解析番剧直链</li>
+                    <li>支持填写视频链接，也支持填写b站短网址链接(如<code>https://b23.tv/HSepNvF</code>)</li>
+                    <li>由于b站API限制，目前<b>最高仅能解析出720P清晰度</b>的视频直链</li>
+                    <li>解析出来的直链有效期只有<b>4小时</b>，因此解析后请尽快下载</li>
+                    <li>若无法正常使用，请发邮件到<code>bugs@saobby.com</code>反馈或者直接在主页评论区留言反馈</li>
+                </ul>
+            </div>
+            <div id="result-div" hidden>
+                <h2>请选择需要解析的视频分P</h2>
+                <div id="pages-div" class="pre-like"></div>
+            </div>
+            <div id="error-div" hidden>
+                <h2>发生错误</h2>
+                <span>错误信息:</span><span id="error-msg" class="result"></span>
+            </div>
+            <script src="/static/js/common.js"></script>
+            <div id="scpc-v2" show-trigger="false"></div>
+            <script src="/static/js/saobbyCaptchaV2.js" async></script>
+            <script src="/static/js/bvdlp.js" async></script>
+        </div>
+    </body>
+</html>
