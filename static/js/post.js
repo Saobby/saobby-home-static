@@ -1,4 +1,4 @@
-var domain = "https://aether.saobby.com:5002";
+var domain = "https://comments.saobby.com";
 var post_data = {};
 var comments_data = {};
 var args = get_url_args();

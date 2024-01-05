@@ -1,4 +1,4 @@
-var domain = "https://aether.saobby.com:5002";
+var domain = "https://comments.saobby.com";
 function reg() {
     var username = gebi("username").value;
     var password = gebi("password").value;

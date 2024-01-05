@@ -1,4 +1,4 @@
-var domain = "https://aether.saobby.com:5002";
+var domain = "https://comments.saobby.com";
 function login() {
     if (gebi("username").value === "" || gebi("password").value === ""){
         gebi("result").innerHTML = "用户名和密码均不能为空!";

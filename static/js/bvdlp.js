@@ -1,4 +1,4 @@
-var domain = "https://aether.saobby.com:5444";
+var domain = "https://bilivideo-api.saobby.com";
 
 function query(){
     var video_link = gebi("video-link").value;

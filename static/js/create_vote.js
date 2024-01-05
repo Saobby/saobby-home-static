@@ -1,5 +1,5 @@
 var options = ["", ""];
-var domain = "https://aether.saobby.com:5004";
+var domain = "https://vote.saobby.com";
 function add_option(){
     options.push("");
     render_options();

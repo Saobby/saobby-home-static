@@ -248,4 +248,4 @@ var saobbyCaptchaV2 = (function(api_base_url){
         });
     }
     return functions;
-})("https://aether.saobby.com:5001");
+})("https://captcha-v2.saobby.com");

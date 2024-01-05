@@ -1,4 +1,4 @@
-var domain = "https://aether.saobby.com:5002";
+var domain = "https://comments.saobby.com";
 var page_size = 8;
 function load_posts(page_index){
     function set_buttons_status(status){

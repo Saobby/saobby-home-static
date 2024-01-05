@@ -1,4 +1,4 @@
-var domain = "https://aether.saobby.com:5002";
+var domain = "https://comments.saobby.com";
 //function upload_avatar() {
 //    void 0 !== gebi("avatar_img_file").files[0] ? (get_captcha_img(),
 //    gebi("captcha-window").hidden = !1) : gebi("upload_result").innerHTML = "你未选择任何文件"
@@ -16,7 +16,7 @@ function upload_avatar() {
         gebi("upload-btn").innerHTML = "正在上传";
         var form_data = new FormData;
         var http = new XMLHttpRequest;
-        http.open("post", "https://aether.saobby.com:5013/api/upload_image", true);
+        http.open("post", "https://upload-static.saobby.com/api/upload_image", true);
         http.onreadystatechange = function(){
             if (this.readyState === 4){
                 var ret = JSON.parse(this.responseText);

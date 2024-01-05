@@ -11,7 +11,7 @@ function upload_file() {
         gebi("upload-btn").innerHTML = "正在上传";
         var form_data = new FormData;
         var http = new XMLHttpRequest;
-        http.open("post", "https://aether.saobby.com:5012/api/github_picbed", true);
+        http.open("post", "https://github-picbed.saobby.com/api/github_picbed", true);
         http.onreadystatechange = function(){
             if (this.readyState === 4){
                 var ret = JSON.parse(this.responseText);
