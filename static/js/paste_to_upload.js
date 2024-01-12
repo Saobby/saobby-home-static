@@ -101,5 +101,5 @@ var pasteToUpload = (function(api_url){
         }
     }
     return returns;
-})("https://aether.saobby.com:5013/api/upload_image");
+})("https://upload-static.saobby.com/api/upload_image");
 pasteToUpload.init();
