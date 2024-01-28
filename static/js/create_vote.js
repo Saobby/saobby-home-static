@@ -12,7 +12,7 @@ function render_options(){
     var html = "";
     for (var i in options){
         var option = options[i];
-        html += `<input type="text" class="wux-form-input wux-form-input-md" placeholder="选项${parseInt(i)+1}" value="${rsc(option)}" onchange="options[${i}]=this.value;"><button class="wux-btn wux-btn-primary" type="button" onclick="remove_option(${i});">删除此项</button><hr>`;
+        html += `<input type="text" class="wux-form-input wux-form-input-md" placeholder="选项${parseInt(i)+1}" value="${rsc(option)}" onchange="options[${i}]=this.value;"><button class="wux-btn wux-btn-primary" type="button" onclick="remove_option(${i});">${icon_with_text("trash-white", "删除此项")}</button><hr>`;
     }
     gebi("options-div").innerHTML = html;
 }
@@ -25,11 +25,7 @@ function submit(){
                 set_ability(children[i]);
             }
         }
-        gebi("submit-btn").disabled = status;
         set_ability(gebi("config"));
-        if (!status){
-            gebi("submit-btn").innerHTML = "创建投票";
-        }
     }
     var title = gebi("title").value;
     var options_amount = options.length;
@@ -46,7 +42,7 @@ function submit(){
         return;
     }
     set_buttons_status(true);
-    gebi("submit-btn").innerHTML = "...";
+    set_btn_html(gebi("submit-btn"), "...");
     saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
         gebi("submit-btn").innerHTML = "请稍候";
         var send_data = {"options_amount": options_amount, "always_show_result": always_show_result, "show_number": gebi("show-number").checked, "show_percent": gebi("show-percent").checked, "font_size": font_size, "font_color": font_color, "captcha_token": gebi("scpc-token").value};
@@ -64,13 +60,16 @@ function submit(){
                 gebi("result").innerHTML = rep.message;
             }
             set_buttons_status(false);
+            set_btn_html(gebi("submit-btn"));
         }, function(val2){
             gebi("result").innerHTML = val2.message;
             set_buttons_status(false);
+            set_btn_html(gebi("submit-btn"));
         });
     }, function(val){
         gebi("result").innerHTML = "请先完成人机验证:"+val.message;
         set_buttons_status(false);
+        set_btn_html(gebi("submit-btn"));
     });
 }
 render_options();

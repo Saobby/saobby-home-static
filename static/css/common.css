@@ -50,3 +50,6 @@
 .right{
     float: right;
 }
+.middle{
+    vertical-align: middle;
+}

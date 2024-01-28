@@ -4,11 +4,10 @@ function upload_file() {
         gebi("upload_result").innerHTML = "你未选择任何文件";
         return;
     }
-    gebi("upload-btn").disabled = true;
+    set_btn_html(gebi("upload-btn"), "请完成人机验证");
     gebi("file").disabled = true;
-    gebi("upload-btn").innerHTML = "请完成人机验证";
     saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        gebi("upload-btn").innerHTML = "正在上传";
+        set_btn_html(gebi("upload-btn"), "正在上传");
         var form_data = new FormData;
         var http = new XMLHttpRequest;
         http.open("post", "https://github-picbed.saobby.com/api/github_picbed", true);
@@ -22,8 +21,7 @@ function upload_file() {
                 }else{
                     gebi("upload_result").innerHTML = ret.message;
                 }
-                gebi("upload-btn").innerHTML = "上传";
-                gebi("upload-btn").disabled = false;
+                set_btn_html(gebi("upload-btn"));
                 gebi("file").disabled = false;
             }
         };
@@ -46,9 +44,8 @@ function upload_file() {
     },
     function(val){
         gebi("upload_result").innerHTML = "请先完成人机验证:"+val.message;
-        gebi("upload-btn").disabled = false;
         gebi("file").disabled = false;
-        gebi("upload-btn").innerHTML = "上传";
+        set_btn_html(gebi("upload-btn"));
     });
 }
 //function complete_captcha() {

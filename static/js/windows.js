@@ -14,7 +14,7 @@ function confirm(title, content){
                         var btn = document.createElement("button");
                         btn.setAttribute("class", "wux-btn wux-btn-primary wux-btn-outline");
                         btn.setAttribute("type", "button");
-                        btn.innerHTML = "取消";
+                        btn.innerHTML = `${icon_with_text("x-primary", "取消")}`;
                         btn.addEventListener("click", function(event){
                             dialog.close();
                             gebi("windows-div").removeChild(dialog);
@@ -26,7 +26,7 @@ function confirm(title, content){
                         var btn = document.createElement("button");
                         btn.setAttribute("class", "wux-btn wux-btn-primary simple");
                         btn.setAttribute("type", "button");
-                        btn.innerHTML = "确定";
+                        btn.innerHTML = `${icon_with_text("check-white", "确定")}`;
                         btn.addEventListener("click", function(event){
                             dialog.close();
                             gebi("windows-div").removeChild(dialog);
@@ -82,7 +82,7 @@ function prompt(title, content, must_fill){
                         var btn = document.createElement("button");
                         btn.setAttribute("class", "wux-btn wux-btn-primary wux-btn-outline");
                         btn.setAttribute("type", "button");
-                        btn.innerHTML = "取消";
+                        btn.innerHTML = `${icon_with_text("x-primary", "取消")}`;
                         btn.addEventListener("click", function(event){
                             dialog.close();
                             gebi("windows-div").removeChild(dialog);
@@ -94,7 +94,7 @@ function prompt(title, content, must_fill){
                         var btn = document.createElement("button");
                         btn.setAttribute("class", "wux-btn wux-btn-primary simple");
                         btn.setAttribute("type", "button");
-                        btn.innerHTML = "确定";
+                        btn.innerHTML = `${icon_with_text("check-white", "确定")}`;
                         btn.addEventListener("click", function(event){
                             if (must_fill && input.value === ""){
                                 result.innerHTML = "不能为空";

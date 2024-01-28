@@ -27,7 +27,7 @@ var pasteToUpload = (function(api_url){
                 gebi("upload-image-result").innerHTML = "";
                 gebi("upload-image-status").value = "uploading";
                 var cancel_btn_id = `upload-image-cancel-btn-${Math.random()}`;
-                gebi("upload-image-cancel-div").innerHTML = `<button class="wux-btn wux-btn-primary wux-btn-outline" id="${cancel_btn_id}">取消</button>`;
+                gebi("upload-image-cancel-div").innerHTML = `<button class="wux-btn wux-btn-primary wux-btn-outline" id="${cancel_btn_id}">${icon_with_text("x-primary", "取消")}</button>`;
                 gebi(cancel_btn_id).addEventListener("click", function(){
                     gebi("upload-image-progress-window").hidden = true;
                     if (gebi("upload-image-status").value === "uploading"){

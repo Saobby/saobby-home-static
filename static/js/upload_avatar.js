@@ -9,11 +9,10 @@ function upload_avatar() {
         gebi("upload_result").innerHTML = "你未选择任何文件";
         return;
     }
-    gebi("upload-btn").disabled = true;
+    set_btn_html(gebi("upload-btn"), "请完成人机验证");
     gebi("avatar_img_file").disabled = true;
-    gebi("upload-btn").innerHTML = "请完成人机验证";
     saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        gebi("upload-btn").innerHTML = "正在上传";
+        set_btn_html(gebi("upload-btn"), "正在上传");
         var form_data = new FormData;
         var http = new XMLHttpRequest;
         http.open("post", "https://upload-static.saobby.com/api/upload_image", true);
@@ -27,8 +26,7 @@ function upload_avatar() {
                 }else{
                     gebi("upload_result").innerHTML = ret.message;
                 }
-                gebi("upload-btn").innerHTML = "上传";
-                gebi("upload-btn").disabled = false;
+                set_btn_html(gebi("upload-btn"));
                 gebi("avatar_img_file").disabled = false;
             }
         };
@@ -51,15 +49,13 @@ function upload_avatar() {
     },
     function(val){
         gebi("upload_result").innerHTML = "请先完成人机验证:"+val.message;
-        gebi("upload-btn").disabled = false;
         gebi("avatar_img_file").disabled = false;
-        gebi("upload-btn").innerHTML = "上传";
+        set_btn_html(gebi("upload-btn"));
     });
 }
 function set_avatar() {
     var e, a;
-    "" != (a = gebi("avatar_url").value) ? (gebi("save-btn").disabled = !0,
-    gebi("save-btn").innerHTML = "请稍候",
+    "" != (a = gebi("avatar_url").value) ? (set_btn_html(gebi("save-btn"), "请稍候"),
     a = gebi("avatar_url").value,
     (e = new XMLHttpRequest).open("POST", domain + "/api/set_avatar_url", !0),
     e.setRequestHeader("Content-Type", "application/json"),
@@ -69,8 +65,7 @@ function set_avatar() {
     },
     e.send(JSON.stringify(a)),
     e.onreadystatechange = function() {
-        4 == e.readyState && ((ret_json = JSON.parse(e.responseText)).success ? window.location = "/" : (gebi("save-btn").disabled = !1,
-        gebi("save-btn").innerHTML = "保存",
+        4 == e.readyState && ((ret_json = JSON.parse(e.responseText)).success ? window.location = "/" : (set_btn_html(gebi("save-btn")),
         gebi("set_result").innerHTML = ret_json.message))
     }
     ) : gebi("set_result").innerHTML = "头像链接不能为空!"

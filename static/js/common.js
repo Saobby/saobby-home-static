@@ -96,6 +96,24 @@ function get_element_abs_pos2(e) {
         top: t
     }
 }
+function icon_with_text(icon_name, text){
+    return `<img src="/static/image/icon/${icon_name}.svg" width="16px" alt="${text}" class="middle"><span class="middle">${text}</span>`;
+}
+function set_btn_html(ele, html){
+    if (html){
+        if (!ele.getAttribute("old_html")){
+            ele.setAttribute("old_html", ele.innerHTML);
+        }
+        ele.innerHTML = html;
+        ele.disabled = true;
+    }else{
+        if (ele.getAttribute("old_html")){
+            ele.innerHTML = ele.getAttribute("old_html");
+            ele.removeAttribute("old_html");
+        }
+        ele.disabled = false;
+    }
+}
 String.prototype.replaceAll = function(e, t) {
     return this.split(e).join(t);
 }

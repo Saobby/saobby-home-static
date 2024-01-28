@@ -4,7 +4,7 @@ function load_posts(page_index){
     function set_buttons_status(status){
         gebi("sort-by-select").disabled = status;
         gebi("sort-method-select").disabled = status;
-        gebi("search-btn").disabled = status;
+        (status?set_btn_html(gebi("search-btn"), "..."):set_btn_html(gebi("search-btn")))
         gebi("search-field").disabled = status;
         gebi("search-text").disabled = status;
         var cp_btn = gebcn("cp-btn");
@@ -36,7 +36,7 @@ function load_posts(page_index){
                     var tag = post.tags[ti];
                     tags_html += `<span class="wux-tag simple">${rsc(tag)}</span>`;
                 }
-                pl_html += `<div style="border-bottom: 2px solid #ddd;padding:12px 16px;"><a href="/post/?pid=${post.name}" target="_blank"><b style="font-size:20px"><span style="color:#5064E1;">${post.is_pinned?"[置顶]":""}</span><span style="color:#${post.is_closed?"AA0000":"00AA00"};">${post.is_closed?"[已关闭]":"[开放]"}</span><span style="color:#000;">${post.title}</span></b></a>${tags_html}<br><span>作者:${post.author}</span><span style="color:#777;"> 发表于 ${ts2str(post.modify_time)} ${post.loves}个赞 ${post.views}次访问</span></div>`;
+                pl_html += `<div style="border-bottom: 2px solid #ddd;padding:12px 16px;"><a href="/post/?pid=${post.name}" target="_blank"><b style="font-size:20px"><span style="color:#5064E1;">${post.is_pinned?'<img src="/static/image/icon/pinned-primary.svg" width="24px" alt="[置顶]" class="middle">':""}</span><span style="color:#${post.is_closed?"AA0000":"00AA00"};">${post.is_closed?'<img src="/static/image/icon/lock-red.svg" width="24px" alt="[已关闭]" class="middle">':'<img src="/static/image/icon/circle-dot-green.svg" width="24px" alt="[开放]" class="middle">'}</span><span style="color:#000;">${post.title}</span></b></a>${tags_html}<br><span class="middle"><img src="/static/image/icon/user.svg" width="20px" alt="作者" class="middle">${post.author}</span><span style="color:#777;"> <img src="/static/image/icon/clock-grey.svg" width="20px" alt="发布时间" class="middle">${ts2str(post.modify_time)} <img src="/static/image/icon/thumb-up-grey.svg" width="20px" alt="点赞数" class="middle">${post.loves} <img src="/static/image/icon/eye-grey.svg" width="20px" alt="访问数" class="middle">${post.views}</span></div>`;
             }
             gebi("posts-list-html").innerHTML = pl_html?pl_html:`<span style="color:#777;">没有帖子</span>`;
             gebi("page-index").innerHTML = (rep.data.page_index+1).toString();

@@ -11,10 +11,9 @@ function reg() {
         gebi("result").innerHTML = "两次密码输入不一致!";
         return;
     }
-    gebi("reg-btn").disabled = true;
-    gebi("reg-btn").innerHTML = "请完成人机验证";
+    set_btn_html(gebi("reg-btn"), "请完成人机验证");
     saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        gebi("reg-btn").innerHTML = "请稍候";
+        set_btn_html(gebi("reg-btn"), "请稍候");
         fetch_data(domain+"/api/register", "POST", headers, JSON.stringify({username:username, password:password, captcha_token: gebi("scpc-token").value})).then(function(val2){
             var ret = JSON.parse(val2.response_text);
             if (ret.success){
@@ -26,18 +25,15 @@ function reg() {
                     window.location = "/";
                 }
             }else{
-                gebi("reg-btn").disabled = false;
-                gebi("reg-btn").innerHTML = "注册";
+                set_btn_html(gebi("reg-btn"));
                 gebi("result").innerHTML = ret.message;
             }
         }, function(val2){
-            gebi("reg-btn").disabled = false;
-            gebi("reg-btn").innerHTML = "注册";
+            set_btn_html(gebi("reg-btn"));
             gebi("result").innerHTML = val2.message;
         });
     }, function(val){
-        gebi("reg-btn").disabled = false;
-        gebi("reg-btn").innerHTML = "注册";
+        set_btn_html(gebi("reg-btn"));
         gebi("result").innerHTML = "请先完成人机验证:"+val.message;
     });
 }

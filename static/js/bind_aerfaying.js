@@ -30,10 +30,9 @@ function get_verification_code() {
     });
 }
 function check_comment() {
-    gebi("check-btn").disabled = true;
-    gebi("check-btn").innerHTML = "请完成人机验证";
+    set_btn_html(gebi("check-btn"), "请完成人机验证");
     saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        gebi("check-btn").innerHTML = "请稍候";
+        set_btn_html(gebi("check-btn"), "请稍候");
         var data = {access_token: localStorage["access-token"],
             captcha_token: gebi("scpc-token").value,
             timestamp: gebi("timestamp").value,
@@ -46,17 +45,14 @@ function check_comment() {
             }else{
                 gebi("result").innerHTML = ret.message;
             }
-            gebi("check-btn").disabled = false;
-            gebi("check-btn").innerHTML = "我已评论";
+            set_btn_html(gebi("check-btn"));
         }, function(val2){
             gebi("result").innerHTML = val2.message;
-            gebi("check-btn").disabled = false;
-            gebi("check-btn").innerHTML = "我已评论";
+            set_btn_html(gebi("check-btn"));
         });
     }, function(val){
         gebi("result").innerHTML = "请先完成人机验证:"+val.message;
-        gebi("check-btn").disabled = false;
-        gebi("check-btn").innerHTML = "我已评论";
+        set_btn_html(gebi("check-btn"));
     });
 }
 // 已弃用
@@ -86,8 +82,7 @@ function check_comment() {
 //    }
 //}
 function unbind() {
-    gebi("unbind-btn").disabled = true;
-    gebi("unbind-btn").innerHTML = "请稍候";
+    set_btn_html(gebi("unbind-btn"), "请稍候");
     fetch_data(domain + "/api/unbind_aerfaying", "POST", headers, JSON.stringify({access_token: localStorage["access-token"]})).then(function(val){
         var ret = JSON.parse(val.response_text);
         if (ret.success){
@@ -95,12 +90,10 @@ function unbind() {
         }else{
             gebi("result2").innerHTML = ret.message;
         }
-        gebi("unbind-btn").disabled = false;
-        gebi("unbind-btn").innerHTML = "解除绑定";
+        set_btn_html(gebi("unbind-btn"));
     }, function(val){
         gebi("result2").innerHTML = val.message;
-        gebi("unbind-btn").disabled = false;
-        gebi("unbind-btn").innerHTML = "解除绑定";
+        set_btn_html(gebi("unbind-btn"));
     });
 //    var e = new XMLHttpRequest;
 //    e.open("POST", domain + "/api/unbind_aerfaying", !0),

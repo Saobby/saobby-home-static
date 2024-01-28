@@ -17,10 +17,9 @@ function release(){
     }
     gebi("content-input").disabled = true;
     gebi("title-input").disabled = true;
-    gebi("release-btn").disabled = true;
-    gebi("release-btn").innerHTML = "...";
+    set_btn_html(gebi("release-btn"), "...");
     saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        gebi("release-btn").innerHTML = "稍等";
+        set_btn_html(gebi("release-btn"), "稍等");
         var send_data = {"access_token": localStorage.getItem("access-token"), "title": title, "content": content, "captcha_token": gebi("scpc-token").value};
         fetch_data(domain+"/api/create_post", "POST", headers, JSON.stringify(send_data)).then(function(val2){
             var rep = JSON.parse(val2.response_text);
@@ -32,21 +31,18 @@ function release(){
             }
             gebi("content-input").disabled = false;
             gebi("title-input").disabled = false;
-            gebi("release-btn").disabled = false;
-            gebi("release-btn").innerHTML = "发表";
+            set_btn_html(gebi("release-btn"));
         }, function(val2){
             gebi("result").innerHTML = val2.message;
             gebi("content-input").disabled = false;
             gebi("title-input").disabled = false;
-            gebi("release-btn").disabled = false;
-            gebi("release-btn").innerHTML = "发表";
+            set_btn_html(gebi("release-btn"));
         });
     }, function(val){
         gebi("result").innerHTML = "请先完成人机验证:"+val.message;
         gebi("content-input").disabled = false;
         gebi("title-input").disabled = false;
-        gebi("release-btn").disabled = false;
-        gebi("release-btn").innerHTML = "发表";
+        set_btn_html(gebi("release-btn"));
     });
 }
 !function(){

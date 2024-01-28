@@ -4,10 +4,9 @@ function login() {
         gebi("result").innerHTML = "用户名和密码均不能为空!";
         return;
     }
-    gebi("login-btn").disabled = true;
-    gebi("login-btn").innerHTML = "请完成人机验证";
+    set_btn_html(gebi("login-btn"), "请完成人机验证");
     saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        gebi("login-btn").innerHTML = "请稍候";
+        set_btn_html(gebi("login-btn"), "请稍候");
         var data = {username: gebi("username").value, password: gebi("password").value, captcha_token: gebi("scpc-token").value};
         fetch_data(domain+"/api/login", "POST", headers, JSON.stringify(data)).then(function(val2){
             var ret = JSON.parse(val2.response_text);
@@ -20,18 +19,15 @@ function login() {
                     delete localStorage.login_redirect;
                 }
             }else{
-                gebi("login-btn").disabled = false;
-                gebi("login-btn").innerHTML = "登录";
+                set_btn_html(gebi("login-btn"));
                 gebi("result").innerHTML = ret.message;
             }
         }, function(val2){
-            gebi("login-btn").disabled = false;
-            gebi("login-btn").innerHTML = "登录";
+            set_btn_html(gebi("login-btn"));
             gebi("result").innerHTML = val2.message;
         });
     }, function(val){
-        gebi("login-btn").disabled = false;
-        gebi("login-btn").innerHTML = "登录";
+        set_btn_html(gebi("login-btn"));
         gebi("result").innerHTML = "请先完成人机验证:"+val.message;
     });
 }

@@ -9,9 +9,9 @@
         <script>
           new LingQue.Monitor().init({id:"3FfPifEib6u1V2Bz",sendSuspicious:true});
         </script>
+        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
         <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
         <link rel="stylesheet" type="text/css" href="/static/css/dialog-polyfill.css">
-        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
         <link rel="stylesheet" type="text/css" href="/static/css/katex.min.css">
         <title>查看帖子-Saobby论坛</title>
     </head>
@@ -21,40 +21,40 @@
                 <span id="loading-result" class="result">正在加载帖子，请稍候...</span>
             </div>
             <div id="post-view-div" hidden>
-                <h1 id="post-title-h1"><span style="color:#5064E1;" id="pinned">[置顶]</span><span id="status"></span><span id="post-title"></span></h1>
+                <h1 id="post-title-h1"><img src="/static/image/icon/pinned-primary.svg" width="36px" alt="[置顶]" class="middle" id="pinned"><span id="status"></span><span id="post-title"></span></h1>
                 <input type="text" placeholder="帖子标题" class="wux-form-input wux-form-input-md" id="title-input" hidden>
-                <span>作者:<span id="author"></span> </span><span style="color:#777;">发表于 <span id="release-time"></span> <span id="views"></span>次访问 <a onclick="show_history();" href="javascript:;" style="color:#777">V<span id="version"></span><span id="is-history">(最新)</span></a></span><br>
-                <span style="color:#777;">标签:</span><span id="tags-div"></span><button class="wux-btn wux-btn-primary wux-btn-sm simple" type="button" id="add-tag-btn" onclick="add_tag();">添加标签</button><span id="tag-result" class="result simple"></span>
+                <span><img src="/static/image/icon/user-grey.svg" width="20px" alt="作者" class="middle"><span id="author" class="middle"></span> </span><span style="color:#777;"><img src="/static/image/icon/clock-grey.svg" width="20px" alt="发布时间" class="middle"><span id="release-time" class="middle"></span> <img src="/static/image/icon/eye-grey.svg" width="20px" alt="浏览量" class="middle"><span id="views" class="middle"></span> <a onclick="show_history();" href="javascript:;" style="color:#777"><img src="/static/image/icon/versions-grey.svg" width="20px" alt="版本" class="middle">V<span id="version" class="middle"></span><span id="is-history" class="middle">(最新)</span></a></span><br>
+                <span style="color:#777;" class="middle"><img src="/static/image/icon/tags-grey.svg" width="20px" alt="标签" class="middle"></span><span id="tags-div"></span><button class="wux-btn wux-btn-primary wux-btn-sm simple" type="button" id="add-tag-btn" onclick="add_tag();"><img src="/static/image/icon/plus-white.svg" width="16px" alt="添加标签" class="middle"></button><span id="tag-result" class="result simple"></span>
                 <hr>
                 <div class="pre-like-code" id="markdown" hidden></div>
                 <textarea placeholder="帖子正文(支持Markdown语法)" id="content-input" class="wux-form-input wux-form-input-md marked-textarea" style="height:calc(100vh - 180px)" hidden></textarea>
                 <div class="pre-like" id="preview-html" style="height:auto" hidden></div>
                 <div id="html"></div>
                 <hr>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="delete-btn" onclick="operate('delete');">删除</button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="close-btn" onclick="operate('close');">关闭</button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="open-btn" onclick="operate('open');">打开</button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="pin-btn" onclick="operate('pin');">置顶</button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="unpin-btn" onclick="operate('unpin');">取消置顶</button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="view-history-btn" onclick="show_history();">查看编辑记录</button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="edit-btn" onclick="edit_post(!0);">编辑</button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="cancel-edit-btn" onclick="edit_post(!1);" hidden>取消</button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="preview-btn" onclick="preview(!0);" hidden>预览</button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="close-preview-btn" onclick="preview(!1);" hidden>编辑</button>
-                <button class="wux-btn wux-btn-primary" type="button" id="save-edit-btn" onclick="save_edit();" hidden>保存</button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="view-markdown-btn" onclick="view_markdown(!0);">查看M↓</button>
-                <button class="wux-btn wux-btn-primary" type="button" id="view-markdown-btn-pressed" onclick="view_markdown(!1);" hidden>查看M↓</button>
-                <button class="wux-btn wux-btn-primary" type="button" id="love-btn" onclick="love();"><span id="loved"></span>(<span id="loves"></span>)</button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="delete-btn" onclick="operate('delete');"><img src="/static/image/icon/trash-primary.svg" width="16px" alt="删除" class="middle"><span class="middle">删除</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="close-btn" onclick="operate('close');"><img src="/static/image/icon/lock-primary.svg" width="16px" alt="关闭" class="middle"><span class="middle">关闭</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="open-btn" onclick="operate('open');"><img src="/static/image/icon/lock-open-primary.svg" width="16px" alt="打开" class="middle"><span class="middle">打开</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="pin-btn" onclick="operate('pin');"><img src="/static/image/icon/pin-primary.svg" width="16px" alt="置顶" class="middle"><span class="middle">置顶</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="unpin-btn" onclick="operate('unpin');"><img src="/static/image/icon/pinned-off-primary.svg" width="16px" alt="取消置顶" class="middle"><span class="middle">取消置顶</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="view-history-btn" onclick="show_history();"><img src="/static/image/icon/history-primary.svg" width="16px" alt="查看编辑记录" class="middle"><span class="middle">查看编辑记录</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="edit-btn" onclick="edit_post(!0);"><img src="/static/image/icon/edit-primary.svg" width="16px" alt="编辑" class="middle"><span class="middle">编辑</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="cancel-edit-btn" onclick="edit_post(!1);" hidden><img src="/static/image/icon/x-primary.svg" width="16px" alt="取消" class="middle"><span class="middle">取消</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="preview-btn" onclick="preview(!0);" hidden><img src="/static/image/icon/eye-primary.svg" width="16px" alt="预览" class="middle"><span class="middle">预览</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="close-preview-btn" onclick="preview(!1);" hidden><img src="/static/image/icon/edit-primary.svg" width="16px" alt="编辑" class="middle"><span class="middle">编辑</span></button>
+                <button class="wux-btn wux-btn-primary" type="button" id="save-edit-btn" onclick="save_edit();" hidden><img src="/static/image/icon/check-white.svg" width="16px" alt="保存" class="middle"><span class="middle">保存</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="view-markdown-btn" onclick="view_markdown(!0);"><img src="/static/image/icon/markdown-primary.svg" width="16px" alt="查看M↓" class="middle"><span class="middle">查看M↓</span></button>
+                <button class="wux-btn wux-btn-primary" type="button" id="view-markdown-btn-pressed" onclick="view_markdown(!1);" hidden><img src="/static/image/icon/markdown-white.svg" width="16px" alt="查看M↓" class="middle"><span class="middle">查看M↓</span></button>
+                <button class="wux-btn wux-btn-primary" type="button" id="love-btn" onclick="love();"><span id="loved"></span> <span id="loves"></span></button>
                 <span class="result" id="operate-result"></span>
                 <hr>
                 <h2>评论区</h2>
                 <textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="评论正文(支持Markdown语法)" rows="5" id="comments-content--1"></textarea>
                 <div id="comments-preview--1" class="pre-like" hidden></div>
                 <button id="comments-cancel-btn--1" hidden></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,true);" type="button" id="comments-preview-btn--1">预览</button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,false);" type="button" id="comments-edit-btn--1" hidden>编辑</button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,true);" type="button" id="comments-preview-btn--1"><img src="/static/image/icon/eye-primary.svg" width="16px" alt="预览" class="middle"><span class="middle">预览</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,false);" type="button" id="comments-edit-btn--1" hidden><img src="/static/image/icon/edit-primary.svg" width="16px" alt="编辑" class="middle"><span class="middle">编辑</span></button>
                 <button class="wux-btn wux-btn-primary simple" type="button" onclick="comments_release(-1);" id="comments-release-btn--1">发表</button>
-                <span id="comments-login-btn" hidden>请先<a href="javascript:;" onclick="check_logged_in();">登录</a></span>
+                <span id="comments-login-btn" class="middle" hidden>请先<a href="javascript:;" onclick="check_logged_in();"><img src="/static/image/icon/login-2-primary.svg" width="16px" alt="登录" class="middle"><span class="middle">登录</span></a></span>
                 <span id="comments-result--1" class="result"></span>
                 <hr>
                 <div id="comments-view-div" style="width:100%;overflow:auto;">正在加载评论，请稍候...</div>
@@ -62,7 +62,7 @@
                 <span>第<span id="comments-page-index">1</span>/<span id="comments-page-amount">-</span>页</span>
                 <div id="history-div" style="position:fixed;top:calc(50vh - 200px);left:calc(50vw - 200px);width:400px;height:400px;background:#ffffff;white-space:normal;" class="pre-like" hidden>
                     <h2>帖子编辑记录</h2>
-                    <a onclick="close_history()" style="position:absolute;left:350px;top:20px" href="javascript:;">[关闭]</a>
+                    <a onclick="close_history()" style="position:absolute;left:350px;top:20px" href="javascript:;"><img src="/static/image/icon/x-primary.svg" width="24px" alt="关闭" class="middle"></a>
                     <div id="history-content-div" style="height:260px;overflow:auto;">正在加载编辑记录...</div>
                     <div id="history-change-page-btn" class="wux-btn-group"></div>
                     <span>第<span id="history-page-index">1</span>/<span id="history-page-amount">-</span>页</span>
