@@ -1,5 +1,33 @@
+var desmos_exp = {};
+function render_desmos(desmos_id, expressions){
+    var desmos = Desmos.GraphingCalculator(gebi(`desmos-${desmos_id}`));
+    for (var index=0; index<expressions.length;index++){
+        if (expressions[index]){
+            desmos.setExpression({id: `expression${index+1}`, latex: expressions[index]});
+        }
+    }
+    gebi(`desmos-${desmos_id}`).hidden = false;
+}
+var desmos_loaded = false;
+async function load_desmos(callback){
+    function finish_loading(){
+        var ele = gebcn("desmos-loading-tips");
+        for (var i=0;i<ele.length;i++){
+           ele[i].hidden = true;
+        }
+        callback();
+    }
+    if (desmos_loaded){
+        finish_loading();
+        return;
+    }
+    var rep = await fetch_data("/static/js/desmos.js", "GET", {});
+    eval(rep.response_text);
+    finish_loading();
+}
 !function(){
     var mdr = new marked.Renderer;
+    var mdr_ = new marked.Renderer;
     mdr.image = function(src, title, alt) {
         var eid = "marked-generated-" + Math.random().toString();
         if (alt === "@Audio"){
@@ -22,6 +50,16 @@
         var t;
         return e.match(/^网易云音乐:\d+$/) ? (t = Math.random(),
         `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src_="https://music.163.com/outchain/player?type=2&id=${e.match(/\d+$/)[0]}&auto=0&height=66" id="music-player-${t}" hidden></iframe><a onclick="!function(t){var e=gebi('music-player-${t}');e.src=e.getAttribute('src_');e.hidden=!1;t.hidden=!0}(this);" href="javascript:;">点击加载网易云音乐</a>`) : "<code>" + e + "</code>"
+    }
+    mdr.code = function(code, lang, a){
+        if (lang === "desmos"){
+            var cid = Math.random();
+            desmos_exp[cid] = code.split("\n");
+            var html = `<span class="desmos-loading-tips" id="desmos-loading-tips-${cid}" hidden>正在加载Desmos...</span><div id="desmos-${cid}" style="width:100%;height:500px;" hidden></div><a href="javascript:;" onclick="this.hidden=!0;gebi('desmos-loading-tips-${cid}').hidden=!1;load_desmos(function(){render_desmos(${cid}, desmos_exp[${cid}]);}).then();">点击加载Desmos计算器</a>`;
+            return html;
+        }else{
+            return mdr_.code(code, lang, a);
+        }
     }
     marked.setOptions({
         tables: true,
