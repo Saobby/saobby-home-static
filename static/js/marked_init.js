@@ -23,6 +23,7 @@ async function load_desmos(callback){
     }
     var rep = await fetch_data("/static/js/desmos.js", "GET", {});
     eval(rep.response_text);
+    desmos_loaded = true;
     finish_loading();
 }
 !function(){
