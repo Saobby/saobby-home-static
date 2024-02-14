@@ -2,5 +2,5 @@
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Headers: *
   Referrer-Policy: same-origin
-  Content-Security-Policy: default-src 'self' data:; img-src * data:; media-src * data:; frame-src music.163.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' sdk.51.la; style-src 'self' 'unsafe-inline'; connect-src 'self' *.saobby.com collect-perf.51.la collect-v6.51.la; worker-src 'self' blob:; frame-ancestors *.saobby.com;
+  Content-Security-Policy: default-src 'self' data:; img-src * data:; media-src * data:; frame-src music.163.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' sdk.51.la; style-src 'self' 'unsafe-inline'; connect-src 'self' *.saobby.com collect-perf.51.la collect-v6.51.la; worker-src 'self' blob:; frame-ancestors *.saobby.com; upgrade-insecure-requests;
   X-Content-Type-Options: nosniff
