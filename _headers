@@ -1,4 +1,6 @@
 /*
-  access-control-allow-origin: *
-  access-control-allow-headers: *
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Headers: *
   Referrer-Policy: same-origin
+  Content-Security-Policy: default-src 'self' *.saobby.com; img-src *; media-src *; frame-src 'self' music.163.com; script-src 'self' *.saobby.com sdk.51.la; frame-ancestors 'self' *.saobby.com;
+  X-Content-Type-Options: nosniff
