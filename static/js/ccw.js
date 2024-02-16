@@ -96,5 +96,5 @@ setInterval(function(){
     }, function(val2){
         gebi("process").innerHTML = "无法获取进度信息: "+val2.message;
     });
-}, 1000);
+}, 1500);
 
