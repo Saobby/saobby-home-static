@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+        <script>LA.init({id:"3H9QzVe29IQLRqsK",ck:"3H9QzVe29IQLRqsK",autoTrack:true})</script>
+        <script src="https://sdk.51.la/perf/js-sdk-perf.min.js" crossorigin="anonymous"></script>
+        <script>
+          new LingQue.Monitor().init({id:"3FfPifEib6u1V2Bz",sendSuspicious:true});
+        </script>
+        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
+        <title>在 Scratch 中演奏 MIDI 文件</title>
+    </head>
+    <body>
+        <div class="wux-container wux-typo">
+            <h2>在 Scratch 中演奏 MIDI 文件</h2>
+            <h3>功能介绍</h3>
+            <ul>
+                <li>本工具可以生成一个<b>能够演奏上传的 MIDI 文件</b>的 Scratch 角色文件 (<code>.sprite3</code>), 下载生成的文件并通过 Scratch 的导入角色功能导入即可使用。</li>
+                <li>目前支持: <b>多音轨 MIDI、多乐器、速度变化、强弱变化、音量变化、延音踏板</b>。</li>
+                <li>如果有任何问题，请发邮件到<code>bugs@saobby.com</code>反馈或者直接在主页评论区反馈。</li>
+            </ul>
+            <h3>开始使用</h3>
+            <p>1. 上传 MIDI 文件，文件最大 512KB</p>
+            <input class="wux-form-upload" type="file" id="midi-file" accept=".mid">
+            <p>2. 调整音色映射</p>
+            <span>标准 MIDI 文件支持多达 128 种不同的音色，而 Scratch 的音乐模块只支持 21 种音色，你需要设置这 128 种音色分别对应 Scratch 中的哪个音色。</span><br>
+            <span>你也可以<b>不修改</b>来使用提供的默认设置。</span><br>
+            <a href="javascript:;" id="programs-btn"><img src="/static/image/icon/folder-primary.svg" width="16px" alt="展开" class="middle"><span class="middle">展开设置</span></a><br>
+            <div id="program-map-div" hidden></div>
+            <p>3. 点击提交按钮</p>
+            <button class="wux-btn wux-btn-primary" type="button" onclick="upload_midi();" id="upload-btn"><img src="/static/image/icon/upload-white.svg" width="16px" alt="提交" class="middle"><span class="middle">提交</span></button>
+            <span id="upload-result" class="result"></span><br>
+            <progress class="wux-progress" value="0" max="100" id="upload-progress" hidden></progress><br>
+            <div id="scpc-v2" show-trigger="false"></div>
+        </div>
+        <script src="/static/js/common.js"></script>
+        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/midi2scratch.js" async></script>
+    </body>
+</html>
