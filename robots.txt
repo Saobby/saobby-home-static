@@ -1,3 +1,4 @@
+Sitemap: https://www.saobby.com/sitemap.xml
 User-agent: *
 Disallow: /admin/
 Disallow: /dlk_vote/
