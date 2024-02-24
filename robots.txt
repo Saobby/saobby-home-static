@@ -1,0 +1,10 @@
+Sitemap: https://www.saobby.com/sitemap.xml
+User-agent: *
+Disallow: /admin/
+Disallow: /dlk_vote/
+Disallow: /static/
+Disallow: /mys_picbed/
+Disallow: /create_post/
+Disallow: /bind_aerfaying/
+Disallow: /bind_email/
+Disallow: /set_avatar/
