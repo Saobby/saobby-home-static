@@ -1,1 +1,5 @@
 User-agent: *
+Disallow: /admin/
+Disallow: /dlk_vote/
+Disallow: /static/
+Disallow: /mys_picbed/
