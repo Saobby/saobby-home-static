@@ -156,7 +156,7 @@ var pm_unfolded = false;
 
 function gen_select(selected_index, n){
     //console.log(selected_index, n);
-    var ret = `<select class="wux-form-select" style="width:200px;" onchange="programs_map_update(${n},this.selectedIndex);">`;
+    var ret = `<select class="wux-form-select" style="width:120px;" onchange="programs_map_update(${n},this.selectedIndex);">`;
     for (var index in scratch_programs){
         //console.log(selected_index,index);
         ret += `<option${selected_index===parseInt(index)?" selected":""}>${scratch_programs[index]}</option>`;
