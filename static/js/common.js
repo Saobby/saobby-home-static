@@ -117,3 +117,14 @@ function set_btn_html(ele, html){
 String.prototype.replaceAll = function(e, t) {
     return this.split(e).join(t);
 }
+
+function b642link(b64, type){
+    var file_bytes = atob(b64);
+    var file_bytes_array = new Uint8Array(file_bytes.length);
+    for (var i=0; i < file_bytes.length; i++){
+        file_bytes_array[i] = file_bytes.charCodeAt(i);
+    }
+    var file_blob = new Blob([file_bytes_array], {"type": type});
+    var file_url = URL.createObjectURL(file_blob);
+    return file_url;
+}
