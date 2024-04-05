@@ -4,13 +4,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
         <title>Midi Player</title>
+        <script src="/static/js/common.js"></script>
         <script src="/static/js/midi_player.js"></script>
     </head>
     <body>
-        <midi-player
-  src=""
-  sound-font="https://soundfont.saobby.com/midi" visualizer="#midi-visualizer">
-</midi-player>
-<midi-visualizer type="piano-roll" id="midi-visualizer"></midi-visualizer>
+        <midi-player src="" sound-font="https://soundfont.saobby.com/midi" visualizer="#midi-visualizer" id="midi-player">
+        </midi-player>
+        <midi-visualizer type="piano-roll" id="midi-visualizer"></midi-visualizer>
+        <script>gebi("midi-player").src=get_url_args().midi_url</script>
     </body>
 </html>
