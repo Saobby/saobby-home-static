@@ -12,7 +12,7 @@
         <hr>
         <midi-visualizer type="piano-roll" id="midi-visualizer"></midi-visualizer>
         <script>
-        gebi("midi-player").src=get_url_args().midi_url;
+        gebi("midi-player").src=decodeURIComponent(get_url_args().midi_url);
         gebi("midi-visualizer").config={noteHeight:8,noteSpacing:1,pixelsPerTimeStep:100,noteRGB:"24, 144, 255",activeNoteRGB:"0, 86, 164"};
         </script>
     </body>
