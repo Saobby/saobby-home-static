@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Midi Player</title>
+        <script src="/static/js/common.js"></script>
+        <script src="/static/js/midi_player.js"></script>
+    </head>
+    <body>
+        <midi-player src="" sound-font="https://soundfont.saobby.com/midi" visualizer="#midi-visualizer" id="midi-player"></midi-player>
+        <hr>
+        <midi-visualizer type="piano-roll" id="midi-visualizer"></midi-visualizer>
+        <script>
+        gebi("midi-player").src=get_url_args().midi_url;
+        gebi("midi-visualizer").config={noteHeight:8,noteSpacing:1,pixelsPerTimeStep:100,noteRGB:"24, 144, 255",activeNoteRGB:"0, 86, 164"};
+        </script>
+    </body>
+</html>
