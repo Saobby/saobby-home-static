@@ -128,3 +128,13 @@ function b642link(b64, type){
     var file_url = URL.createObjectURL(file_blob);
     return file_url;
 }
+
+function input_file2b64(file){
+    return new Promise(function(resolve, reject){
+        var file_reader = FileReader();
+        file_reader.readAsDataURL(file);
+        file_reader.onload = functon(){
+            resolve(
+        }
+    });
+}
