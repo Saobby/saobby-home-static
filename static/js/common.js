@@ -134,7 +134,7 @@ function input_file2b64(file){
         var file_reader = FileReader();
         file_reader.readAsDataURL(file);
         file_reader.onload = functon(){
-            resolve(
+            resolve(this.result.split(",")[1]);
         }
     });
 }
