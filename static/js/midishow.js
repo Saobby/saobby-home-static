@@ -21,7 +21,9 @@ function download(){
         fetch_data(domain+"/api/download_midi", "POST", headers, JSON.stringify(send_data)).then(function(val2){
             var rep = JSON.parse(val2.response_text);
             if (rep.success){
-                gebi("download-link").href = b642link(rep.data.file);
+                var link = b642link(rep.data.file);
+                gebi("download-link").href = link;
+                gebi("midi-player").src = link;
                 gebi("notice-div").hidden = true;
                 gebi("error-div").hidden = true;
                 gebi("success-div").hidden = false;
