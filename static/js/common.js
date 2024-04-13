@@ -131,7 +131,7 @@ function b642link(b64, type){
 
 function input_file2b64(file){
     return new Promise(function(resolve, reject){
-        var file_reader = FileReader();
+        var file_reader = new FileReader();
         file_reader.readAsDataURL(file);
         file_reader.onload = functon(){
             resolve(this.result.split(",")[1]);
