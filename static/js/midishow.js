@@ -1,5 +1,5 @@
 var domain = "https://midishow.saobby.com";
-gebi("midi-visualizer").config={noteHeight:8,noteSpacing:1,pixelsPerTimeStep:100,noteRGB:"80, 100, 225",activeNoteRGB:"64, 80, 180"};
+gebi("midi-visualizer").config={noteHeight:8,noteSpacing:1,pixelsPerTimeStep:100,noteRGB:"80, 100, 225",activeNoteRGB:"255, 85, 65"};
 
 function show_error_msg(msg){
     gebi("error-msg").innerHTML = msg;
