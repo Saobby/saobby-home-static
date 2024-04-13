@@ -26,6 +26,10 @@
             <h3>开始使用</h3>
             <p>1. 上传 MIDI 文件，文件最大 512KB</p>
             <input class="wux-form-upload" type="file" id="midi-file" accept=".mid">
+            <p>预览 MIDI</p>
+            <script src="/static/js/midi_player.js"></script>
+            <midi-player src="" sound-font="https://soundfont.saobby.com/midi" visualizer="#midi-visualizer" id="midi-player"></midi-player>
+            <midi-visualizer type="piano-roll" id="midi-visualizer"></midi-visualizer>
             <p>2. 调整音色映射</p>
             <span>标准 MIDI 文件支持多达 128 种不同的音色，而 Scratch 的音乐模块只支持 21 种音色，你需要设置这 128 种音色分别对应 Scratch 中的哪个音色。</span><br>
             <span>你也可以<b>不修改</b>来使用提供的默认设置。</span><br>

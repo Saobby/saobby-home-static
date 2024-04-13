@@ -1,4 +1,5 @@
 var domain = "https://midishow.saobby.com";
+gebi("midi-visualizer").config={noteHeight:8,noteSpacing:1,pixelsPerTimeStep:100,noteRGB:"80, 100, 225",activeNoteRGB:"255, 85, 65"};
 
 function show_error_msg(msg){
     gebi("error-msg").innerHTML = msg;
@@ -21,7 +22,9 @@ function download(){
         fetch_data(domain+"/api/download_midi", "POST", headers, JSON.stringify(send_data)).then(function(val2){
             var rep = JSON.parse(val2.response_text);
             if (rep.success){
-                gebi("download-link").href = b642link(rep.data.file);
+                var link = b642link(rep.data.file);
+                gebi("download-link").href = link;
+                gebi("midi-player").src = link;
                 gebi("notice-div").hidden = true;
                 gebi("error-div").hidden = true;
                 gebi("success-div").hidden = false;
