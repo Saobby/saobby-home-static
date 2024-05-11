@@ -129,7 +129,7 @@ var midi_programs = [
     "127 Gunshot 枪声"
 ];
 var scratch_programs = [
-    "0 静音",
+    "静音",
     "1 钢琴",
     "2 电钢琴",
     "3 风琴",
@@ -152,19 +152,47 @@ var scratch_programs = [
     "20 合成主音",
     "21 合成柔音"
 ];
-var ins_map = {0: 1, 1: 1, 3: 1, 6: 1, 7: 1, 8: 1, 15: 1, 2: 2, 4: 2, 5: 2, 9: 3, 13: 3, 14: 3, 16: 3, 17: 3, 18: 3, 19: 3, 20: 3, 21: 3, 22: 3, 23: 3, 24: 4, 25: 4, 32: 6, 26: 5, 27: 5, 28: 5, 29: 5, 30: 5, 31: 5, 33: 6, 34: 6, 35: 6, 36: 6, 37: 6, 38: 20, 87: 6, 44: 7, 45: 7, 46: 7, 106: 7, 107: 7, 40: 8, 41: 8, 42: 8, 43: 8, 110: 8, 56: 9, 57: 9, 58: 9, 59: 9, 60: 9, 61: 9, 68: 10, 69: 10, 71: 10, 64: 11, 65: 11, 66: 11, 67: 11, 72: 12, 73: 12, 109: 12, 74: 13, 75: 13, 76: 13, 77: 13, 78: 13, 79: 13, 70: 14, 52: 15, 53: 15, 54: 15, 85: 15, 91: 15, 11: 16, 10: 17, 112: 17, 124: 17, 47: 18, 113: 18, 115: 18, 116: 18, 117: 18, 118: 18, 119: 18, 12: 19, 108: 19, 80: 20, 81: 20, 82: 20, 83: 20, 84: 20, 86: 20, 92: 20, 93: 20, 94: 20, 95: 20, 96: 0, 97: 20, 98: 2, 99: 0, 100: 2, 101: 0, 102: 0, 103: 0, 111: 20, 39: 21, 48: 21, 49: 21, 50: 21, 51: 21, 55: 21, 62: 21, 63: 21, 88: 21, 89: 21, 90: 21, 104: 21, 105: 21, 120: 0, 121: 0, 122: 0, 123: 0, 125: 0, 126: 0, 127: 0};
+var percussion = [
+    "1 小军鼓",
+    "2 低音鼓",
+    "3 敲鼓边",
+    "4 碎音钹",
+    "5 开击踩镲",
+    "6 闭击踩镲",
+    "7 铃鼓",
+    "8 手掌",
+    "9 音棒",
+    "10 木鱼",
+    "11 牛铃",
+    "12 三角铁",
+    "13 邦戈鼓",
+    "14 康加鼓",
+    "15 卡巴萨",
+    "16 刮瓜",
+    "17 颤音器",
+    "18 锯加鼓"
+];
+var ins_map = {0: 1, 1: 1, 3: 1, 6: 1, 7: 1, 8: 1, 15: 1, 2: 2, 4: 2, 5: 2, 9: 3, 13: 3, 14: 3, 16: 3, 17: 3, 18: 3, 19: 3, 20: 3, 21: 3, 22: 3, 23: 3, 24: 4, 25: 4, 32: 6, 26: 5, 27: 5, 28: 5, 29: 5, 30: 5, 31: 5, 33: 6, 34: 6, 35: 6, 36: 6, 37: 6, 38: 20, 87: 6, 44: 7, 45: 7, 46: 7, 106: 7, 107: 7, 40: 8, 41: 8, 42: 8, 43: 8, 110: 8, 56: 9, 57: 9, 58: 9, 59: 9, 60: 9, 61: 9, 68: 10, 69: 10, 71: 10, 64: 11, 65: 11, 66: 11, 67: 11, 72: 12, 73: 12, 109: 12, 74: 13, 75: 13, 76: 13, 77: 13, 78: 13, 79: 13, 70: 14, 52: 15, 53: 15, 54: 15, 85: 15, 91: 15, 11: 16, 10: 17, 112: 17, 124: 17, 47: 18, 113: 0, 114: 18, 115: 110, 116: 114, 117: 102, 118: 114, 119: 104, 12: 19, 108: 19, 80: 20, 81: 20, 82: 20, 83: 20, 84: 20, 86: 20, 92: 20, 93: 20, 94: 20, 95: 20, 96: 0, 97: 20, 98: 2, 99: 0, 100: 2, 101: 0, 102: 0, 103: 0, 111: 20, 39: 21, 48: 21, 49: 21, 50: 21, 51: 21, 55: 21, 62: 21, 63: 21, 88: 21, 89: 21, 90: 21, 104: 21, 105: 21, 120: 0, 121: 0, 122: 0, 123: 0, 125: 0, 126: 108, 127: 0};
 var pm_unfolded = false;
+while (scratch_programs.length < 101){
+    scratch_programs.push(null);
+}
+for (var i in percussion){
+    scratch_programs.push(percussion[i]);
+}
 gebi("midi-visualizer").config={noteHeight:8,noteSpacing:1,pixelsPerTimeStep:100,noteRGB:"80, 100, 225",activeNoteRGB:"255, 85, 65"};
 gebi("midi-file").addEventListener("change", async function(){
      gebi("midi-player").src = b642link(await input_file2b64(gebi("midi-file").files[0]));
 });
 
 function gen_select(selected_index, n){
-    //console.log(selected_index, n);
-    var ret = `<select class="wux-form-select" style="width:150px;" onchange="programs_map_update(${n},this.selectedIndex);">`;
+    // console.log(selected_index, n);
+    var ret = `<select class="wux-form-select" style="width:150px;" onchange="programs_map_update(${n},parseInt(this.options[this.selectedIndex].value));">`;
     for (var index in scratch_programs){
-        //console.log(selected_index,index);
-        ret += `<option${selected_index===parseInt(index)?" selected":""}>${scratch_programs[index]}</option>`;
+        // console.log(selected_index,index);
+        if (scratch_programs[index]){
+            ret += `<option value="${index}" ${selected_index===parseInt(index)?" selected":""}>${scratch_programs[index]}</option>`;
+        }
     }
     ret += `</select>`;
     return ret;
