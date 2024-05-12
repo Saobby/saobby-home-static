@@ -152,7 +152,7 @@ var scratch_programs = [
     "20 合成主音",
     "21 合成柔音"
 ];
-var percussion = [
+var scratch_percussion = [
     "1 小军鼓",
     "2 低音鼓",
     "3 敲鼓边",
@@ -172,13 +172,20 @@ var percussion = [
     "17 颤音器",
     "18 锯加鼓"
 ];
-var ins_map = {0: 1, 1: 1, 3: 1, 6: 1, 7: 1, 8: 1, 15: 1, 2: 2, 4: 2, 5: 2, 9: 3, 13: 3, 14: 3, 16: 3, 17: 3, 18: 3, 19: 3, 20: 3, 21: 3, 22: 3, 23: 3, 24: 4, 25: 4, 32: 6, 26: 5, 27: 5, 28: 5, 29: 5, 30: 5, 31: 5, 33: 6, 34: 6, 35: 6, 36: 6, 37: 6, 38: 20, 87: 6, 44: 7, 45: 7, 46: 7, 106: 7, 107: 7, 40: 8, 41: 8, 42: 8, 43: 8, 110: 8, 56: 9, 57: 9, 58: 9, 59: 9, 60: 9, 61: 9, 68: 10, 69: 10, 71: 10, 64: 11, 65: 11, 66: 11, 67: 11, 72: 12, 73: 12, 109: 12, 74: 13, 75: 13, 76: 13, 77: 13, 78: 13, 79: 13, 70: 14, 52: 15, 53: 15, 54: 15, 85: 15, 91: 15, 11: 16, 10: 17, 112: 17, 124: 17, 47: 18, 113: 0, 114: 18, 115: 110, 116: 114, 117: 102, 118: 114, 119: 104, 12: 19, 108: 19, 80: 20, 81: 20, 82: 20, 83: 20, 84: 20, 86: 20, 92: 20, 93: 20, 94: 20, 95: 20, 96: 0, 97: 20, 98: 2, 99: 0, 100: 2, 101: 0, 102: 0, 103: 0, 111: 20, 39: 21, 48: 21, 49: 21, 50: 21, 51: 21, 55: 21, 62: 21, 63: 21, 88: 21, 89: 21, 90: 21, 104: 21, 105: 21, 120: 0, 121: 0, 122: 0, 123: 0, 125: 0, 126: 108, 127: 0};
+var midi_percussion = ['35 Acoustic Bass Drum 低音大鼓', '36 Bass Drum 1 高音大鼓', '37 Side Stick 鼓边', '38 Acoustic Snare 小鼓', '39 Hand Clap 拍手声', '40 Electric Snare 电子小鼓', '41 Low Floor Tom 低音落地嗵鼓', '42 Closed Hi-Hat 合音踩镲', '43 High Floor Tom 高音落地嗵鼓', '44 Pedal Hi-Hat 踏音踩镲', '45 Low Tom 低音嗵鼓', '46 Open Hi-Hat 开音踩镲', '47 Low-Mid Tom 中低音嗵鼓', '48 Hi-Mid Tom 中高音嗵鼓', '49 Crash Cymbal 1 低砸音镲', '50 High Tom 高音嗵鼓', '51 Ride Cymbal 1 低浮音镲', '52 Chinese Cymbal 中国镲', '53 Ride Bell 浮音镲碗', '54 Tambourine 铃鼓', '55 Splash Cymbal 溅音镲', '56 Cowbell 牛铃', '57 Crash Cymbal 2 高砸音镲', '58 Vibraslap 颤音叉', '59 Ride Cymbal 2 高浮音镲', '60 Hi Bongo 高音邦戈', '61 Low Bongo 低音邦戈', '62 Mute Hi Conga 弱音康加', '63 Open Hi Conga 高音康加', '64 Low Conga 低音康加', '65 High Timbale 高音铜鼓', '66 Low Timbale 低音铜鼓', '67 High Agogo 高音拉丁打铃', '68 Low Agogo 低音拉丁打铃', '69 Cabasa 沙锤', '70 Maracas 响葫芦', '71 Short Whistle 短哨', '72 Long Whistle 长哨', '73 Short Guiro 短锯琴', '74 Long Guiro 长锯琴', '75 Claves 击杆', '76 Hi Wood Block 高音木块', '77 Low Wood Block 低音木块', '78 Mute Cuica 弱音吉加', '79 Open Cuica 开音吉加', '80 Mute Triangle 弱音三角铁', '81 Open Triangle 开音三角铁'];
+var ins_map = {0: 1, 1: 1, 3: 1, 6: 1, 7: 1, 8: 1, 15: 1, 2: 2, 4: 2, 5: 2, 9: 3, 13: 3, 14: 3, 16: 3, 17: 3, 18: 3, 19: 3, 20: 3, 21: 3, 22: 3, 23: 3, 24: 4, 25: 4, 32: 6, 26: 5, 27: 5, 28: 5, 29: 5, 30: 5, 31: 5, 33: 6, 34: 6, 35: 6, 36: 6, 37: 6, 38: 20, 87: 6, 44: 7, 45: 7, 46: 7, 106: 7, 107: 7, 40: 8, 41: 8, 42: 8, 43: 8, 110: 8, 56: 9, 57: 9, 58: 9, 59: 9, 60: 9, 61: 9, 68: 10, 69: 10, 71: 10, 64: 11, 65: 11, 66: 11, 67: 11, 72: 12, 73: 12, 109: 12, 74: 13, 75: 13, 76: 13, 77: 13, 78: 13, 79: 13, 70: 14, 52: 15, 53: 15, 54: 15, 85: 15, 91: 15, 11: 16, 10: 17, 112: 17, 124: 17, 47: 18, 113: 0, 114: 18, 115: 110, 116: 114, 117: 102, 118: 114, 119: 104, 12: 19, 108: 19, 80: 20, 81: 20, 82: 20, 83: 20, 84: 20, 86: 20, 92: 20, 93: 20, 94: 20, 95: 20, 96: 0, 97: 20, 98: 2, 99: 0, 100: 2, 101: 0, 102: 0, 103: 0, 111: 20, 39: 21, 48: 21, 49: 21, 50: 21, 51: 21, 55: 21, 62: 21, 63: 21, 88: 21, 89: 21, 90: 21, 104: 21, 105: 21, 120: 0, 121: 0, 122: 0, 123: 0, 125: 0, 126: 108, 127: 0, 235: 102, 236: 102, 237: 103, 238: 101, 239: 108, 240: 101, 241: 102, 242: 106, 243: 102, 244: 106, 245: 114, 246: 105, 247: 114, 248: 101, 249: 104, 250: 101, 251: 105, 252: 104, 253: 107, 254: 107, 255: 104, 256: 111, 257: 104, 258: 117, 259: 107, 260: 113, 261: 113, 262: 114, 263: 114, 264: 114, 265: 101, 266: 101, 267: 111, 268: 111, 269: 115, 270: 115, 271: 109, 272: 109, 273: 116, 274: 116, 275: 109, 276: 110, 277: 110, 278: 118, 279: 118, 280: 112, 281: 112};
 var pm_unfolded = false;
 while (scratch_programs.length < 101){
     scratch_programs.push(null);
 }
-for (var i in percussion){
-    scratch_programs.push(percussion[i]);
+while (midi_programs.length < 235){
+    midi_programs.push(null);
+}
+for (var i in scratch_percussion){
+    scratch_programs.push(scratch_percussion[i]);
+}
+for (var i in midi_percussion){
+    midi_programs.push(midi_percussion[i]);
 }
 gebi("midi-visualizer").config={noteHeight:8,noteSpacing:1,pixelsPerTimeStep:100,noteRGB:"80, 100, 225",activeNoteRGB:"255, 85, 65"};
 gebi("midi-file").addEventListener("change", async function(){
@@ -186,11 +193,12 @@ gebi("midi-file").addEventListener("change", async function(){
 });
 
 function gen_select(selected_index, n){
+    var selected_index = parseInt(selected_index);
     // console.log(selected_index, n);
     var ret = `<select class="wux-form-select" style="width:150px;" onchange="programs_map_update(${n},parseInt(this.options[this.selectedIndex].value));">`;
     for (var index in scratch_programs){
         // console.log(selected_index,index);
-        if (scratch_programs[index]){
+        if (scratch_programs[index] && !(n >= 235 && parseInt(index) < 100)){
             ret += `<option value="${index}" ${selected_index===parseInt(index)?" selected":""}>${scratch_programs[index]}</option>`;
         }
     }
@@ -216,7 +224,9 @@ function init(){
     });
     var programs_html = `<table class="wux-table"><thead><tr><th>MIDI 音色</th><th>Scratch 音色</th></tr></thread><tbody>`;
     for (var index in midi_programs){
-        programs_html += `<tr><th><span style="margin-left:10px">${midi_programs[index]}</span></th><td>${gen_select(ins_map[index], index)}</td></tr>`;
+        if (midi_programs[parseInt(index)]){
+            programs_html += `<tr><th><span style="margin-left:10px">${midi_programs[parseInt(index)]}</span></th><td>${gen_select(ins_map[parseInt(index)], parseInt(index))}</td></tr>`;
+        }
     }
     programs_html += `</tbody></table>`;
     gebi("program-map-div").innerHTML = programs_html;

@@ -19,7 +19,7 @@
             <h3>功能介绍</h3>
             <ul>
                 <li>本工具可以生成一个<b>能够演奏上传的 MIDI 文件</b>的 Scratch 角色文件 (<code>.sprite3</code>), 下载生成的文件并通过 Scratch 的导入角色功能导入即可使用。</li>
-                <li>目前支持: <b>多音轨 MIDI、多乐器、速度变化、强弱变化、音量变化、延音踏板</b>。</li>
+                <li>目前支持: <b>多音轨 MIDI、多乐器、打击乐、速度变化、强弱变化、音量变化、延音踏板</b>。</li>
                 <li>提示: 网上下载的一些 MIDI 可能不一定是“标准”的 MIDI 格式，如果遇到报错无法转换可以尝试用一些 MIDI 编辑软件打开 MIDI, 另存为，再重新导出 MIDI, 再来尝试转换可能就可以了。</li>
                 <li>如果有任何问题，请发邮件到<code>bugs@saobby.com</code>反馈或者直接在主页评论区反馈。</li>
             </ul>
@@ -31,7 +31,7 @@
             <midi-player src="" sound-font="https://soundfont.saobby.com/midi" visualizer="#midi-visualizer" id="midi-player"></midi-player>
             <midi-visualizer type="piano-roll" id="midi-visualizer"></midi-visualizer>
             <p>2. 调整音色映射</p>
-            <span>标准 MIDI 文件支持多达 128 种不同的音色，而 Scratch 的音乐模块只支持 21 种音色，你需要设置这 128 种音色分别对应 Scratch 中的哪个音色。</span><br>
+            <span>标准 MIDI 文件支持多达 128 种不同的音色和 47 种打击乐，而 Scratch 的音乐模块只支持 21 种音色和 18 种打击乐，你需要设置 MIDI 中的音色/打击乐分别对应 Scratch 中的哪个音色/打击乐。MIDI 中的音色可被映射到 Scratch 中的音色或打击乐，MIDI 中的打击乐只能被映射到 Scratch 中的打击乐。</span><br>
             <span>你也可以<b>不修改</b>来使用提供的默认设置。</span><br>
             <a href="javascript:;" id="programs-btn"><img src="/static/image/icon/folder-primary.svg" width="16px" alt="展开" class="middle"><span class="middle">展开设置</span></a><br>
             <div id="program-map-div" hidden></div>
