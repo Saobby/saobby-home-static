@@ -48,7 +48,7 @@
                 <span class="result" id="operate-result"></span>
                 <hr>
                 <h2>评论区</h2>
-                <textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="评论正文(支持Markdown语法)" rows="5" id="comments-content--1"></textarea>
+                <textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="评论正文(支持Markdown语法)" rows="5" id="comments-content--1" onchange="save_comment_draft(this,-1);"></textarea>
                 <div id="comments-preview--1" class="pre-like" hidden></div>
                 <button id="comments-cancel-btn--1" hidden></button>
                 <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,true);" type="button" id="comments-preview-btn--1"><img src="/static/image/icon/eye-primary.svg" width="16px" alt="预览" class="middle"><span class="middle">预览</span></button>

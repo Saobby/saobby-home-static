@@ -73,7 +73,7 @@
     <code>由于接口被恶意频繁大量请求，我的vercel账户被锁定，所有api无法提供服务(部分api已经恢复)，恢复时间待定。由于开学要期末考，saobby忙着备考，这几天暂时没有时间修复，抱歉。</code>
     -->
     <div id="comment-window" hidden>
-        <div id="content-div"><textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="说出你此刻的想法...(支持Markdown语法)" rows="5" id="content"></textarea></div>
+        <div id="content-div"><textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="说出你此刻的想法...(支持Markdown语法)" rows="5" id="content" onchange="save_comment_draft(this,-1);"></textarea></div>
         <div id="content-preview" class="pre-like" hidden></div>
         <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window').hidden=true;" type="button" id="cancel-btn"><img src="/static/image/icon/x-primary.svg" width="16px" alt="取消" class="middle"><span class="middle">取消</span></button>
         <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="document.getElementById('content-preview').innerHTML=marked.parse(document.getElementById('content').value);document.getElementById('content-preview').hidden=false;document.getElementById('content-div').hidden=true;this.hidden=true;document.getElementById('content-edit-btn').hidden=false;" type="button" id="content-preview-btn"><img src="/static/image/icon/eye-primary.svg" width="16px" alt="预览" class="middle"><span class="middle">预览</span></button>

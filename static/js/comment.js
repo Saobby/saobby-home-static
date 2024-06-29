@@ -1,4 +1,5 @@
 var domain = "https://comments.saobby.com";
+var last_save_draft = 0;
 function is_in_array(e, t) {
     for (var n = 0; n < e.length; n++)
         if (e[n] === t)
@@ -20,6 +21,7 @@ function show_comment_window() {
         window.location = "/login";
     }else{
         gebi("comment-window").hidden = false;
+        load_comment_draft(-1);
     }
 }
 function add_comment(reply_to, content) {
@@ -245,7 +247,7 @@ function read_comment(e, t) {
     var n, d = "", i = e.content, o = marked.parse(i), c = rsc(e.username), l = e.reply_to, i = rsc(i);
     for (n in d += `<div style="position:relative;left:${40 * t}px;" id="comment-area-${e.cid}"><div style="border-bottom: 2px solid #ddd;padding:12px 16px;"><img src="${e.avatar_url}" width="32px" height="32px"><b style="position:relative;top:-17px;left:5px;">${e.nickname ? rsc(e.nickname) : c}</b><span style="color:#777777;position:relative;top:-17px;left:5px;" class="middle"> <img src="/static/image/icon/mail-check-grey.svg" width="16px" alt="(已绑定电子邮箱)" title="此用户已绑定电子邮箱" class="middle" ${e.is_email_checked?"":"hidden"}> <img src="/static/image/icon/pencil-check-grey.svg" width="16px" alt="(已编辑)" title="(已编辑)" class="middle" ${e.modify_time?"":"hidden"}> <img src="/static/image/icon/clock-grey.svg" width="16px" alt="发表时间" class="middle">${e.modify_time ? ts2str(e.modify_time) : ts2str(e.timestamp)} #${e.cid}</span><br>`,
     -1 != l && (d += `<span style="color:#777777" onclick="window.scrollTo(get_element_abs_pos2(gebi('comment-area-${e.reply_to}')))" class="middle">${icon_with_text("corner-down-right-grey", "回复 #"+e.reply_to.toString())}</span><br>`),
-    d += `<div id="comment-md-${e.cid}" class="pre-like-code" hidden>${i}</div><div hidden><textarea id="origin-content-${e.cid}">${i}</textarea></div><div id="edit-div-${e.cid}" hidden><textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="编辑 #${e.cid} (支持Markdown语法)" rows="5" id="edit-content-${e.cid}">${i}</textarea></div><div id="edit-preview-${e.cid}" class="pre-like" hidden></div><div class="comment-content" id="comment-html-${e.cid}">${o}</div><i style="color:#777777;" ${e.is_read === null? "hidden": ""}>${e.is_read !== null ? (e.is_read ? "已读("+ts2str(e.read_time)+")": "未读"):""}</i><br ${e.is_read === null? "hidden": ""}><button onclick="show_reply_window(${e.cid})" class="wux-btn wux-btn-primary wux-btn-sm" id="reply-btn-${e.cid}">${icon_with_text("message-reply-white", "回复")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="view-md-${e.cid}" onclick="gebi('comment-md-${e.cid}').hidden=!1;gebi('comment-html-${e.cid}').hidden=!0;gebi('view-html-${e.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" ${e.can_edit ? "hidden" : ""}>${icon_with_text("markdown-primary", "查看M↓")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="view-html-${e.cid}" onclick="gebi('comment-md-${e.cid}').hidden=!0;gebi('comment-html-${e.cid}').hidden=!1;gebi('view-md-${e.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" hidden>${icon_with_text("markdown-white", "查看M↓")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="edit-btn-${e.cid}" onclick="show_edit_window(${e.cid})" style="margin-left:3px" ${e.can_edit ? "" : "hidden"}>${icon_with_text("edit-primary", "编辑")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="cancel-edit-btn-${e.cid}" onclick="hide_edit_window(${e.cid})" style="margin-left:3px" hidden>${icon_with_text("x-primary", "取消")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="gebi('edit-preview-${e.cid}').innerHTML=marked.parse(gebi('edit-content-${e.cid}').value);gebi('edit-preview-${e.cid}').hidden=false;gebi('edit-div-${e.cid}').hidden=true;this.hidden=true;gebi('edit-${e.cid}-edit-btn').hidden=false;" id="edit-${e.cid}-preview-btn" style="margin-left:3px" hidden>${icon_with_text("eye-primary", "预览")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="gebi('edit-preview-${e.cid}').hidden=true;gebi('edit-div-${e.cid}').hidden=false;this.hidden=true;gebi('edit-${e.cid}-preview-btn').hidden=false;" id="edit-${e.cid}-edit-btn" style="margin-left:3px" hidden>${icon_with_text("edit-primary", "编辑")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="save-edit-btn-${e.cid}" onclick="save_edition(${e.cid})" style="margin-left:3px" hidden>${icon_with_text("check-white", "保存")}</button><span id="edit-result-${e.cid}" style="color:#aa0000;margin-left:3px"></span></div><div id="comment-window-${e.cid}" hidden><div id="content-${e.cid}-div"><textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="回复 #${e.cid} (支持Markdown语法)" rows="5" id="reply-content-${e.cid}"></textarea></div><div id="content-preview-${e.cid}" class="pre-like" hidden></div><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('comment-window-${e.cid}').hidden=!0;gebi('reply-btn-${e.cid}').disabled=!1;" type="button" id="cancel-rp-${e.cid}">${icon_with_text("x-primary", "取消")}</button><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('content-preview-${e.cid}').innerHTML=marked.parse(gebi('reply-content-${e.cid}').value);gebi('content-preview-${e.cid}').hidden=false;gebi('content-${e.cid}-div').hidden=true;this.hidden=true;gebi('content-${e.cid}-edit-btn').hidden=false;" type="button" id="content-${e.cid}-preview-btn" style="margin-left:3px">${icon_with_text("eye-primary", "预览")}</button><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('content-preview-${e.cid}').hidden=true;gebi('content-${e.cid}-div').hidden=false;this.hidden=true;gebi('content-${e.cid}-preview-btn').hidden=false;" type="button" id="content-${e.cid}-edit-btn" style="margin-left:3px" hidden>${icon_with_text("edit-primary", "编辑")}</button><button class="wux-btn wux-btn-primary" type="button" onclick="add_comment(${e.cid},gebi('reply-content-${e.cid}').value)" id="rel-btn-${e.cid}" style="margin-left:3px">发表</button><span id="reply-result-${e.cid}" style="color:#aa0000;margin-left:3px"></span></div></div>`,
+    d += `<div id="comment-md-${e.cid}" class="pre-like-code" hidden>${i}</div><div hidden><textarea id="origin-content-${e.cid}">${i}</textarea></div><div id="edit-div-${e.cid}" hidden><textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="编辑 #${e.cid} (支持Markdown语法)" rows="5" id="edit-content-${e.cid}">${i}</textarea></div><div id="edit-preview-${e.cid}" class="pre-like" hidden></div><div class="comment-content" id="comment-html-${e.cid}">${o}</div><i style="color:#777777;" ${e.is_read === null? "hidden": ""}>${e.is_read !== null ? (e.is_read ? "已读("+ts2str(e.read_time)+")": "未读"):""}</i><br ${e.is_read === null? "hidden": ""}><button onclick="show_reply_window(${e.cid})" class="wux-btn wux-btn-primary wux-btn-sm" id="reply-btn-${e.cid}">${icon_with_text("message-reply-white", "回复")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="view-md-${e.cid}" onclick="gebi('comment-md-${e.cid}').hidden=!1;gebi('comment-html-${e.cid}').hidden=!0;gebi('view-html-${e.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" ${e.can_edit ? "hidden" : ""}>${icon_with_text("markdown-primary", "查看M↓")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="view-html-${e.cid}" onclick="gebi('comment-md-${e.cid}').hidden=!0;gebi('comment-html-${e.cid}').hidden=!1;gebi('view-md-${e.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" hidden>${icon_with_text("markdown-white", "查看M↓")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="edit-btn-${e.cid}" onclick="show_edit_window(${e.cid})" style="margin-left:3px" ${e.can_edit ? "" : "hidden"}>${icon_with_text("edit-primary", "编辑")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="cancel-edit-btn-${e.cid}" onclick="hide_edit_window(${e.cid})" style="margin-left:3px" hidden>${icon_with_text("x-primary", "取消")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="gebi('edit-preview-${e.cid}').innerHTML=marked.parse(gebi('edit-content-${e.cid}').value);gebi('edit-preview-${e.cid}').hidden=false;gebi('edit-div-${e.cid}').hidden=true;this.hidden=true;gebi('edit-${e.cid}-edit-btn').hidden=false;" id="edit-${e.cid}-preview-btn" style="margin-left:3px" hidden>${icon_with_text("eye-primary", "预览")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="gebi('edit-preview-${e.cid}').hidden=true;gebi('edit-div-${e.cid}').hidden=false;this.hidden=true;gebi('edit-${e.cid}-preview-btn').hidden=false;" id="edit-${e.cid}-edit-btn" style="margin-left:3px" hidden>${icon_with_text("edit-primary", "编辑")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="save-edit-btn-${e.cid}" onclick="save_edition(${e.cid})" style="margin-left:3px" hidden>${icon_with_text("check-white", "保存")}</button><span id="edit-result-${e.cid}" style="color:#aa0000;margin-left:3px"></span></div><div id="comment-window-${e.cid}" hidden><div id="content-${e.cid}-div"><textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="回复 #${e.cid} (支持Markdown语法)" rows="5" id="reply-content-${e.cid}" onchange="save_comment_draft(this,${e.cid});"></textarea></div><div id="content-preview-${e.cid}" class="pre-like" hidden></div><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('comment-window-${e.cid}').hidden=!0;gebi('reply-btn-${e.cid}').disabled=!1;" type="button" id="cancel-rp-${e.cid}">${icon_with_text("x-primary", "取消")}</button><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('content-preview-${e.cid}').innerHTML=marked.parse(gebi('reply-content-${e.cid}').value);gebi('content-preview-${e.cid}').hidden=false;gebi('content-${e.cid}-div').hidden=true;this.hidden=true;gebi('content-${e.cid}-edit-btn').hidden=false;" type="button" id="content-${e.cid}-preview-btn" style="margin-left:3px">${icon_with_text("eye-primary", "预览")}</button><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('content-preview-${e.cid}').hidden=true;gebi('content-${e.cid}-div').hidden=false;this.hidden=true;gebi('content-${e.cid}-preview-btn').hidden=false;" type="button" id="content-${e.cid}-edit-btn" style="margin-left:3px" hidden>${icon_with_text("edit-primary", "编辑")}</button><button class="wux-btn wux-btn-primary" type="button" onclick="add_comment(${e.cid},gebi('reply-content-${e.cid}').value)" id="rel-btn-${e.cid}" style="margin-left:3px">发表</button><span id="reply-result-${e.cid}" style="color:#aa0000;margin-left:3px"></span></div></div>`,
     e.replies)
         d += read_comment(e.replies[n], t + 1);
     return d
@@ -299,7 +301,7 @@ function save_edition(t) {
 function show_reply_window(e) {
     null == localStorage["access-token"] ? (localStorage.login_redirect = window.location.href,
     window.location = "/login") : (gebi("reply-btn-" + e).disabled = !0,
-    gebi("comment-window-" + e).hidden = !1)
+    gebi("comment-window-" + e).hidden = !1,load_comment_draft(e))
 }
 function change_page(e) {
     for (var t = document.getElementsByClassName("cp-btn"), n = 0; n < t.length; n++)
@@ -325,5 +327,70 @@ if (2 === nurl.length) {
         var t = args[i].split("=");
         2 === t.length && "scroll_to" === t[0] && (scroll_to = t[1])
     }
+}
+function load_comment_draft(reply_to){
+    function apply_draft(content){
+        if (!content){
+            return;
+        }
+        if (reply_to === -1){
+            gebi("content").value = content;
+        }else{
+            gebi(`reply-content-${reply_to}`).value = content;
+        }
+    }
+    function show_error_msg(msg){
+        if (reply_to === -1){
+            gebi("result0").innerHTML = msg;
+        }else{
+            gebi(`reply-result-${reply_to}`).innerHTML = msg;
+        }
+    }
+    var access_token = localStorage.getItem("access-token");
+    if (!access_token){
+        return;
+    }
+    var data = {"place_id": place_id, "reply_to": reply_to, "access_token": access_token};
+    fetch_data(domain+"/api/get_comment_draft", "POST", headers, JSON.stringify(data)).then(function(val){
+        var rsp = JSON.parse(val.response_text);
+        if (rsp.success){
+            apply_draft(rsp.data.content);
+        }else{
+            show_error_msg("无法加载草稿:"+rsp.message);
+        }
+    }, function(val){
+        show_error_msg("无法加载草稿:"+val.message);
+    });
+}
+function save_comment_draft(textarea, reply_to){
+    function show_error_msg(msg){
+        if (reply_to === -1){
+            gebi("result0").innerHTML = msg;
+        }else{
+            gebi(`reply-result-${reply_to}`).innerHTML = msg;
+        }
+    }
+    var ts = new Date().getTime() / 1e3;
+    if ((ts - last_save_draft) < 1){
+        return;
+    }
+    last_save_draft = ts;
+    var access_token = localStorage.getItem("access-token");
+    if (!access_token){
+        return;
+    }
+    var content = textarea.value;
+    if (!content){
+        return;
+    }
+    var data = {"place_id": place_id, "reply_to": reply_to, "content": content, "access_token": access_token};
+    fetch_data(domain+"/api/save_comment_draft", "POST", headers, JSON.stringify(data)).then(function(val){
+        var rsp = JSON.parse(val.response_text);
+        if (!rsp.success){
+            show_error_msg("无法保存草稿:"+rsp.message);
+        }
+    }, function(val){
+        show_error_msg("无法保存草稿:"+val.message);
+    });
 }
 get_all_comment();
