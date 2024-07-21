@@ -48,6 +48,11 @@ async function load_desmos(callback){
         return '<table class="wux-table">\n<thead>\n' + e + "</thead>\n" + (t && "<tbody>" + t + "</tbody>") + "</table>\n"
     }
     mdr.codespan = function(e) {
+        if (e === "[ ]"){
+            return '<input class="wux-form-checks" type="checkbox" disabled>';
+        }else if(e === "[x]"){
+            return '<input class="wux-form-checks" type="checkbox" checked disabled>';
+        }
         var t;
         return e.match(/^网易云音乐:\d+$/) ? (t = Math.random(),
         `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src_="https://music.163.com/outchain/player?type=2&id=${e.match(/\d+$/)[0]}&auto=0&height=66" id="music-player-${t}" hidden></iframe><a onclick="!function(t){var e=gebi('music-player-${t}');e.src=e.getAttribute('src_');e.hidden=!1;t.hidden=!0}(this);" href="javascript:;">点击加载网易云音乐</a>`) : "<code>" + e + "</code>"
