@@ -51,6 +51,7 @@ function load_post(){
                 tags_html += `<span class="wux-tag simple">${rsc(tag)}<span class="wux-tag-close post-tags-close-btn" onclick="remove_tag(${ti});" ${rep.data.permissions.can_edit?"":"hidden"}>×</span></span>`;
             }
             gebi("tags-div").innerHTML = tags_html?tags_html:"无";
+            update_highlight();
             comments_load(0, args.cid?parseInt(args.cid):null);
             load_comment_draft(-1);
         }else{
