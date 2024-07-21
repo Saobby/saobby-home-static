@@ -3,6 +3,7 @@ var last_save_draft = 0;
 function preview(mode){
     if (mode){
         gebi("preview-html").innerHTML = marked.parse(gebi("content-input").value);
+        update_highlight();
     }
     gebi("content-input").hidden = mode;
     gebi("preview-html").hidden = !mode;
