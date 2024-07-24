@@ -26,6 +26,11 @@ async function load_desmos(callback){
     desmos_loaded = true;
     finish_loading();
 }
+function switch_wrapper(id, vis){
+    gebi(`marked-wrapper-div-${id}`).hidden = !vis;
+    gebi(`marked-wrapper-fold-btn-${id}`).hidden = !vis;
+    gebi(`marked-wrapper-unfold-btn-${id}`).hidden = vis;
+}
 !function(){
     var mdr = new marked.Renderer;
     var mdr_ = new marked.Renderer;
