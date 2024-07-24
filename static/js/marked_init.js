@@ -26,6 +26,11 @@ async function load_desmos(callback){
     desmos_loaded = true;
     finish_loading();
 }
+function switch_wrapper(id, vis){
+    gebi(`marked-wrapper-div-${id}`).hidden = !vis;
+    gebi(`marked-wrapper-fold-btn-${id}`).hidden = !vis;
+    gebi(`marked-wrapper-unfold-btn-${id}`).hidden = vis;
+}
 !function(){
     var mdr = new marked.Renderer;
     var mdr_ = new marked.Renderer;
@@ -63,6 +68,9 @@ async function load_desmos(callback){
             desmos_exp[cid] = code.split("\n");
             var html = `<span class="desmos-loading-tips" id="desmos-loading-tips-${cid}" hidden>正在加载Desmos...</span><div id="desmos-${cid}" style="width:100%;height:500px;" hidden></div><a href="javascript:;" onclick="this.hidden=!0;gebi('desmos-loading-tips-${cid}').hidden=!1;load_desmos(function(){render_desmos(${cid}, desmos_exp[${cid}]);}).then();">点击加载Desmos计算器</a>`;
             return html;
+        }else if (lang === "wrapper"){
+            var wid = Math.random();
+            return `<span><a href="javascript:;" id="marked-wrapper-unfold-btn-${wid}" onclick="switch_wrapper(${wid},true);">${icon_with_text("caret-down-primary", "展开隐藏的内容")}</a><a href="javascript:;" id="marked-wrapper-fold-btn-${wid}" onclick="switch_wrapper(${wid},false);" hidden>${icon_with_text("caret-up-primary", "收起隐藏的内容")}</a></span><br><div id="marked-wrapper-div-${wid}" hidden>${marked.parse(code)}</div>`;
         }else{
             return mdr_.code(code, lang, a);
         }
