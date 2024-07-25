@@ -27,10 +27,10 @@
             <input type="text" placeholder="帖子标题" class="wux-form-input wux-form-input-md" id="title-input" onchange="save_post_draft();">
             <textarea placeholder="帖子正文(支持Markdown语法)" id="content-input" class="wux-form-input wux-form-input-md marked-textarea" style="height:calc(100vh - 200px)" onchange="save_post_draft();"></textarea>
             <div class="pre-like" id="preview-html" style="height:auto" hidden></div>
-            <span id="upload-btn-span" style="left:calc(100% - 160px)"></span>
-            <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" style="left:calc(100% - 142px)" id="preview-btn" onclick="preview(true);"><img src="/static/image/icon/eye-primary.svg" width="16px" alt="预览" class="middle"><span class="middle">预览</span></button>
-            <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" style="left:calc(100% - 142px)" id="edit-btn" hidden onclick="preview(false);"><img src="/static/image/icon/edit-primary.svg" width="16px" alt="编辑" class="middle"><span class="middle">编辑</span></button>
-            <button class="wux-btn wux-btn-primary" type="button" style="left:calc(100% - 147px)" id="release-btn" onclick="release();">发表</button>
+            <span id="upload-btn-span" style="left:calc(100% - 190px);position:relative;"></span>
+            <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" style="left:calc(100% - 192px)" id="preview-btn" onclick="preview(true);"><img src="/static/image/icon/eye-primary.svg" width="16px" alt="预览" class="middle"><span class="middle">预览</span></button>
+            <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" style="left:calc(100% - 192px)" id="edit-btn" hidden onclick="preview(false);"><img src="/static/image/icon/edit-primary.svg" width="16px" alt="编辑" class="middle"><span class="middle">编辑</span></button>
+            <button class="wux-btn wux-btn-primary" type="button" style="left:calc(100% - 197px)" id="release-btn" onclick="release();">发表</button>
             <span class="result" style="left:-140px;position:relative" id="result"></span>
             <script src="/static/js/common.js"></script>
             <div id="scpc-v2" show-trigger="false"></div>
