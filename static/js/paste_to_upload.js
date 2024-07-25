@@ -103,13 +103,24 @@ var pasteToUpload = (function(api_url){
         }
     }
     // markdown编辑器 图片上传按钮功能
-    returns._upload_btn = function(bid, step){
-        
+    returns._upload_btn = async function(bid, step){
+        switch (step){
+            case 0:
+                gebi(`upload-btn-input-${bid}`).click();
+                break;
+            case 1;
+                var file = gebi(`upload-btn-input-${bid}`).files[0];
+                if (!file){
+                    return;
+                }
+                await upload_image(file, textarea_map[bid]).catch((err)=>{gebi(`upload-btn-result-${btn_id}`).innerHTML=err.message;});
+                break;
+        }
     }
     returns.gen_upload_btn = function(textarea, size){
         var btn_id = Math.random();
         textarea_map[btn_id] = textarea;
-        return `<input type="file" accept="image/*" id="upload-btn-input-${btn_id}" hidden><button type="button" class="wux-btn wux-btn-success wux-btn-${size}" onclick="pasteToUpload._upload_btn(${btn_id},0);">${icon_with_text("photo-up-success", "上传图片")}</button>`;
+        return `<input type="file" accept="image/*" id="upload-btn-input-${btn_id}" onchange="pasteToUpload._upload_btn(${btn_id},1).then();" hidden><button type="button" class="wux-btn wux-btn-success wux-btn-${size}" onclick="pasteToUpload._upload_btn(${btn_id},0).then();">${icon_with_text("photo-up-success", "上传图片")}</button><span class="result" id="upload-btn-result-${btn_id}"></span>`;
     }
     
     return returns;
