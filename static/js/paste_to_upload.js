@@ -100,6 +100,7 @@ var pasteToUpload = (function(api_url){
             }
         }
     }
+    returns.upload_image = upload_image;
     return returns;
 })("https://upload-static.saobby.com/api/upload_image");
 pasteToUpload.init();
