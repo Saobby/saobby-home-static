@@ -119,6 +119,7 @@ function edit_post(mode){
     gebi("close-preview-btn").hidden = true;
     gebi("preview-html").hidden = true;
     gebi("save-edit-btn").hidden = !mode;
+    gebi("edit-upload-btn-span").hidden = !mode;
 }
 function preview(mode){
     gebi("preview-btn").hidden = mode;
