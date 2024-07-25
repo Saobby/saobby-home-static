@@ -21,7 +21,7 @@ function show_comment_window() {
         window.location = "/login";
     }else{
         gebi("comment-window").hidden = false;
-        gebi("upload-btn-span").innerHTML = pasteToUpload.gen_upload_btn("content", "md");
+        // gebi("upload-btn-span").innerHTML = pasteToUpload.gen_upload_btn("content", "md");
         load_comment_draft(-1);
     }
 }
