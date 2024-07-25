@@ -1,7 +1,5 @@
 // 图片粘贴上传、图片上传按钮
-function gen_upload_btn(textarea, size){
-    
-}
+var textarea_map = {};
 var pasteToUpload = (function(api_url){
     gebi("upload-image-progress-div").innerHTML = `<div id="upload-image-progress-window" style="position:fixed;top:calc(50vh - 90px);left:calc(50vw - 200px);width:400px;height:180px;background:#ffffff;white-space:normal;" class="pre-like" hidden><h2>正在上传图片...</h2><progress id="upload-image-progress-bar" class="wux-progress" value="0" max="100"></progress><span>上传进度:<span id="upload-image-progress">0</span>%</span><br><span id="upload-image-cancel-div"></span><span class="result" id="upload-image-result" style="margin-left:5px;"></span><input type="hidden" id="upload-image-status" value="closed"></div>`;
     
@@ -104,7 +102,16 @@ var pasteToUpload = (function(api_url){
             }
         }
     }
-    returns.upload_image = upload_image;
+    // markdown编辑器 图片上传按钮功能
+    returns._upload_btn = function(bid, step){
+        
+    }
+    returns.gen_upload_btn = function(textarea, size){
+        var btn_id = Math.random();
+        textarea_map[btn_id] = textarea;
+        return `<input type="file" accept="image/*" id="upload-btn-input-${btn_id}" hidden><button type="button" class="wux-btn wux-btn-success wux-btn-${size}" onclick="pasteToUpload._upload_btn(${btn_id},0);">${icon_with_text("photo-up-success", "上传图片")}</button>`;
+    }
+    
     return returns;
 })("https://upload-static.saobby.com/api/upload_image");
 pasteToUpload.init();
