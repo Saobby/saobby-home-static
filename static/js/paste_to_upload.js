@@ -108,7 +108,7 @@ var pasteToUpload = (function(api_url){
             case 0:
                 gebi(`upload-btn-input-${bid}`).click();
                 break;
-            case 1;
+            case 1:
                 var file = gebi(`upload-btn-input-${bid}`).files[0];
                 if (!file){
                     return;
