@@ -58,7 +58,7 @@ function switch_wrapper(id, vis){
         }else if (e === "[x]"){
             return '<input class="wux-form-checks" type="checkbox" checked disabled>';
         }else if (e.match(/^黑幕:.+$/)){
-            return `<span style="background-color:#000" onclick="this.style.backgroundColor='rgba(255, 255, 255, 0)';">${rsc(e)}</span>`;
+            return `<span style="background-color:#000" onclick="this.style.backgroundColor='rgba(255, 255, 255, 0)';">${rsc(e.slice(3))}</span>`;
         }
         var t;
         return e.match(/^网易云音乐:\d+$/) ? (t = Math.random(),
