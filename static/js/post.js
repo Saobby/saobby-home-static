@@ -426,7 +426,7 @@ function comments_edit(cid, mode){
     gebi(`comment-preview-btn-${cid}`).hidden = !mode;
     gebi(`comment-close-preview-btn-${cid}`).hidden = true;
     gebi(`comment-save-edit-btn-${cid}`).hidden = !mode;
-    gebi(`edit-comment-upload-btn-span-${comment.cid}`).hidden = !mode;
+    gebi(`edit-comment-upload-btn-span-${cid}`).hidden = !mode;
 }
 function comments_edit_preview(cid, mode){
     var cid = cid.toString();
