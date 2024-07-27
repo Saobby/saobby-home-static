@@ -3,6 +3,18 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
+        <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
+        <script>
+          if (typeof Aegis === 'function') {
+            var aegis = new Aegis({
+              id: 'XVx8Jfg1VPkL0x0ea2',
+              reportApiSpeed: true,
+              reportAssetSpeed: true,
+              spa: true,
+            hostUrl: 'https://rumt-zh.com'
+            });
+          }
+        </script>
         <title>Midi Player</title>
         <script src="/static/js/common.js"></script>
         <script src="/static/js/midi_player.js"></script>
