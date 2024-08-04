@@ -87,7 +87,8 @@ function switch_wrapper(id, vis){
         headerIds: false
     });
     marked.use(markedKatex({
-        throwOnError: false
+        throwOnError: false,
+        nonStandard: true
     }));
     marked.use(markedEmoji.markedEmoji({
         emojis: emojis,
