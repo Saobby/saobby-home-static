@@ -51,7 +51,6 @@ function load_post(){
                 tags_html += `<span class="wux-tag simple">${rsc(tag)}<span class="wux-tag-close post-tags-close-btn" onclick="remove_tag(${ti});" ${rep.data.permissions.can_edit?"":"hidden"}>×</span></span>`;
             }
             gebi("tags-div").innerHTML = tags_html?tags_html:"无";
-            update_highlight(gebi("html"));
             comments_load(0, args.cid?parseInt(args.cid):null);
             load_comment_draft(-1);
         }else{
@@ -125,7 +124,6 @@ function preview(mode){
     gebi("preview-btn").hidden = mode;
     gebi("close-preview-btn").hidden = !mode;
     gebi("preview-html").innerHTML = marked.parse(gebi("content-input").value);
-    update_highlight(gebi("preview-html"));
     gebi("preview-html").hidden = !mode;
     gebi("content-input").hidden = mode;
 }
@@ -283,7 +281,6 @@ function load_history(page_index){
 function comments_preview(cid, mode){
     var cid = cid.toString();
     gebi("comments-preview-"+cid).innerHTML = marked.parse(gebi("comments-content-"+cid).value);
-    update_highlight(gebi("comments-preview-"+cid));
     gebi("comments-content-"+cid).hidden = mode;
     gebi("comments-preview-"+cid).hidden = !mode;
     gebi("comments-preview-btn-"+cid).hidden = mode;
@@ -357,7 +354,6 @@ function comments_load(page_index, comment_id){
             gebi("comments-view-div").innerHTML = html?html:`<span style="color:#777;">还没有评论</span>`;
             gebi("comments-page-index").innerHTML = rep.comment_data.page_index.toString();
             gebi("comments-page-amount").innerHTML = rep.comment_data.page_amount.toString();
-            update_highlight(gebi("comments-view-div"));
             gen_cp_buttons(rep.comment_data.page_index, rep.comment_data.page_amount, 7, function(i){comments_load(i-1, null);}, gebi("comments-change-page-div"), "wux-btn comments-cp-btn", "wux-btn wux-btn-outline comments-cp-btn");
             pasteToUpload.init();
             if (comment_id){
@@ -431,7 +427,6 @@ function comments_edit(cid, mode){
 function comments_edit_preview(cid, mode){
     var cid = cid.toString();
     gebi("comment-edit-preview-"+cid).innerHTML = marked.parse(gebi("comment-edit-content-"+cid).value);
-    update_highlight(gebi("comment-edit-preview-"+cid));
     gebi("comment-edit-content-"+cid).hidden = mode;
     gebi("comment-edit-preview-"+cid).hidden = !mode;
     gebi("comment-preview-btn-"+cid).hidden = mode;

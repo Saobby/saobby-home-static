@@ -74,7 +74,8 @@ function switch_wrapper(id, vis){
             var wid = Math.random();
             return `<span><a href="javascript:;" id="marked-wrapper-unfold-btn-${wid}" onclick="switch_wrapper(${wid},true);">${icon_with_text("caret-down-primary", "展开隐藏的内容")}</a><a href="javascript:;" id="marked-wrapper-fold-btn-${wid}" onclick="switch_wrapper(${wid},false);" hidden>${icon_with_text("caret-up-primary", "收起隐藏的内容")}</a></span><br><div id="marked-wrapper-div-${wid}" hidden>${marked.parse(code)}</div>`;
         }else{
-            return mdr_.code(code, lang, a);
+            var rendered = hljs.getLanguage(lang) ? hljs.highlight(code, {language: lang, ignoreIllegals: true}): hljs.highlightAuto(code);
+            return `<pre class="hljs language-${rendered.language}">${rendered.value}</pre>`;
         }
     }
     marked.setOptions({

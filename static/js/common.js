@@ -139,14 +139,15 @@ function input_file2b64(file){
     });
 }
 
-function update_highlight(parent){
-    if (parent){
-        var hl_ele = parent.querySelectorAll(".marked-highlight");
-    }else{
-        var hl_ele = gebcn("marked-highlight");
-    }
-    for (var i=0; i<hl_ele.length; i++){
-        var ele = hl_ele[i];
-        hljs.highlightElement(ele);
-    }
-}
+// 已弃用
+// function update_highlight(parent){
+//    if (parent){
+//         var hl_ele = parent.querySelectorAll(".marked-highlight");
+//     }else{
+//         var hl_ele = gebcn("marked-highlight");
+//     }
+//     for (var i=0; i<hl_ele.length; i++){
+//         var ele = hl_ele[i];
+//         hljs.highlightElement(ele);
+//     }
+// }
