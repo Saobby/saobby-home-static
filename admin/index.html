@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
-    <script>
-      if (typeof Aegis === 'function') {
-        var aegis = new Aegis({
-          id: 'XVx8Jfg1VPkL0x0ea2',
-          uin: 'production',
-          reportApiSpeed: true,
-          reportAssetSpeed: true,
-          spa: true,
-        hostUrl: 'https://rumt-zh.com'
-        });
-      }
-    </script>
-    <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
-
-<title>网站管理后台登录</title>
-
-</head>
-<body>
-
-<div class="wux-container wux-typo">
-<h2>网站管理后台登录</h2>
-<input class="wux-form-input wux-form-input-md" placeholder="用户名:admin" type="text" id="username" >
-<input class="wux-form-input wux-form-input-md" placeholder="密码:123456" type="password" id="password" >
-<button class="wux-btn wux-btn-primary" type="button" onclick="alert('你不会真以为这是网站管理后台吧，哈哈')" id="login-btn">登录</button>
-</div>
-
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
+        <script>
+          if (typeof Aegis === 'function') {
+            var aegis = new Aegis({
+              id: 'XVx8Jfg1VPkL0x0ea2',
+              uin: 'production',
+              reportApiSpeed: true,
+              reportAssetSpeed: true,
+              spa: true,
+            hostUrl: 'https://rumt-zh.com'
+            });
+          }
+        </script>
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+        <title>网站管理后台登录</title>
+    </head>
+    <body>
+        <div class="wux-container wux-typo">
+            <h2>网站管理后台登录</h2>
+            <input class="wux-form-input wux-form-input-md" placeholder="用户名:admin" type="text" id="username" >
+            <input class="wux-form-input wux-form-input-md" placeholder="密码:123456" type="password" id="password" >
+            <button class="wux-btn wux-btn-primary" type="button" onclick="alert('你不会真以为这是网站管理后台吧，哈哈')" id="login-btn">登录</button>
+        </div>
+    </body>
 </html>

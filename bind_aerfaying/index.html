@@ -1,47 +1,44 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
-    <script>
-      if (typeof Aegis === 'function') {
-        var aegis = new Aegis({
-          id: 'XVx8Jfg1VPkL0x0ea2',
-          uin: 'production',
-          reportApiSpeed: true,
-          reportAssetSpeed: true,
-          spa: true,
-        hostUrl: 'https://rumt-zh.com'
-        });
-      }
-    </script>
-    <link rel="stylesheet" type="text/css" href="/static/css/common.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
-<title>绑定阿尔法营账号</title>
-
-</head>
-<body>
-
-<div class="wux-container wux-typo">
-<h2>绑定阿尔法营账号</h2>
-    <p>操作说明:1.请打开<a href="https://gitblock.cn/Projects/1092667" target="_blank">这个作品</a>，并点击作者名字旁边的<code>关注</code>按钮(如果没有这个按钮说明你已经关注我了)(这么做是为了让我们成为好友关系，这样我才能给你发私信提醒)。</p>
-    <img src="https://gp0.saobby.com/i/hLf9luEmCrH52LAp.PNG">
-    <p>2.请登录你要绑定的阿尔法营/稽木世界账户，并在<a href="https://gitblock.cn/Studios/67717/Forum/PostView?postId=33774" target="_blank">此帖子</a>下评论以下内容:</p>
-    <pre id="comment-content">加载中...若长时间未响应请刷新页面</pre>
-    <button onclick="navigator.clipboard.writeText(document.getElementById('comment-content').innerHTML)" type="button" class="wux-btn wux-btn-primary"><img src="/static/image/icon/copy-white.svg" width="16px" alt="复制代码" class="middle"><span class="middle">复制代码</span></button>
-    <p>评论完后，请点击<code>我已评论</code>按钮</p>
-    <button class="wux-btn wux-btn-primary" type="button" id="check-btn" onclick="check_comment();">我已评论</button>
-    <span style="color:#aa0000" id="result"></span>
-    <p>绑定阿尔法营账户后，有人回复你的评论时，你将会在阿尔法营收到提醒消息。如果想要解除绑定，请点击<code>解除绑定</code>按钮。</p>
-    <button class="wux-btn wux-btn-primary" type="button" id="unbind-btn" onclick="unbind();"><img src="/static/image/icon/unlink-white.svg" width="16px" alt="解除绑定" class="middle"><span class="middle">解除绑定</span></button>
-    <span style="color:#aa0000" id="result2"></span>
-    <script src="/static/js/common.js"></script>
-    <div id="scpc-v2" show-trigger="false"></div>
-    <script src="/static/js/saobbyCaptchaV2.js" async></script>
-    <script src="/static/js/bind_aerfaying.js" async></script>
-    <input id="timestamp" hidden><input id="signature" hidden>
-</div>
-
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
+        <script>
+          if (typeof Aegis === 'function') {
+            var aegis = new Aegis({
+              id: 'XVx8Jfg1VPkL0x0ea2',
+              uin: 'production',
+              reportApiSpeed: true,
+              reportAssetSpeed: true,
+              spa: true,
+            hostUrl: 'https://rumt-zh.com'
+            });
+          }
+        </script>
+        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+        <title>绑定阿尔法营账号</title>
+    </head>
+    <body>
+        <div class="wux-container wux-typo">
+        <h2>绑定阿尔法营账号</h2>
+            <p>操作说明:1.请打开<a href="https://gitblock.cn/Projects/1092667" target="_blank">这个作品</a>，并点击作者名字旁边的<code>关注</code>按钮(如果没有这个按钮说明你已经关注我了)(这么做是为了让我们成为好友关系，这样我才能给你发私信提醒)。</p>
+            <img src="https://gp0.saobby.com/i/hLf9luEmCrH52LAp.PNG">
+            <p>2.请登录你要绑定的阿尔法营/稽木世界账户，并在<a href="https://gitblock.cn/Studios/67717/Forum/PostView?postId=33774" target="_blank">此帖子</a>下评论以下内容:</p>
+            <pre id="comment-content">加载中...若长时间未响应请刷新页面</pre>
+            <button onclick="navigator.clipboard.writeText(document.getElementById('comment-content').innerHTML)" type="button" class="wux-btn wux-btn-primary"><img src="/static/image/icon/copy-white.svg" width="16px" alt="复制代码" class="middle"><span class="middle">复制代码</span></button>
+            <p>评论完后，请点击<code>我已评论</code>按钮</p>
+            <button class="wux-btn wux-btn-primary" type="button" id="check-btn" onclick="check_comment();">我已评论</button>
+            <span style="color:#aa0000" id="result"></span>
+            <p>绑定阿尔法营账户后，有人回复你的评论时，你将会在阿尔法营收到提醒消息。如果想要解除绑定，请点击<code>解除绑定</code>按钮。</p>
+            <button class="wux-btn wux-btn-primary" type="button" id="unbind-btn" onclick="unbind();"><img src="/static/image/icon/unlink-white.svg" width="16px" alt="解除绑定" class="middle"><span class="middle">解除绑定</span></button>
+            <span style="color:#aa0000" id="result2"></span>
+            <div id="scpc-v2" show-trigger="false"></div>
+            <input id="timestamp" hidden><input id="signature" hidden>
+        </div>
+        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/bind_aerfaying.js" defer></script>
+    </body>
 </html>

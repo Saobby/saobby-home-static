@@ -46,10 +46,10 @@
             <span id="result" class="result"></span>
             <textarea class="wux-form-input wux-form-input-md label" id="markdown" rows="5" placeholder="生成的Markdown会显示在这里"></textarea>
             <button class="wux-btn wux-btn-primary label" type="button" onclick="navigator.clipboard.writeText(gebi('markdown').value);"><img src="/static/image/icon/copy-white.svg" width="16px" alt="复制Markdown" class="middle"><span class="middle">复制Markdown</span></button>
-            <script src="/static/js/common.js"></script>
             <div id="scpc-v2" show-trigger="false"></div>
-            <script src="/static/js/saobbyCaptchaV2.js" async></script>
-            <script src="/static/js/create_vote.js" async></script>
         </div>
+        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/create_vote.js" defer></script>
     </body>
 </html>

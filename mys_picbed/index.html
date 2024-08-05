@@ -1,45 +1,41 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
-    <script>
-      if (typeof Aegis === 'function') {
-        var aegis = new Aegis({
-          id: 'XVx8Jfg1VPkL0x0ea2',
-          uin: 'production',
-          reportApiSpeed: true,
-          reportAssetSpeed: true,
-          spa: true,
-        hostUrl: 'https://rumt-zh.com'
-        });
-      }
-    </script>
-    <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
-
-<title>米游社图床</title>
-
-</head>
-<body>
-
-<div class="wux-container wux-typo">
-<h2>图片上传</h2>
-    <p>图片最大 20 MB, <b>此图床严禁上传违法违规图片，否则可能会被米游社内容审查机删除</b></p>
-    <input class="wux-form-upload" type="file" id="image_file" accept="image/*"><br>
-    <button class="wux-btn wux-btn-primary" type="button" onclick="upload()" id="upload-btn">上传</button>
-    <span id="upload_result" style="color:#aa0000"></span><br>
-    <input class="wux-form-input wux-form-input-md" placeholder="图片链接会显示在这里" type="text" id="file_url" style="width: calc( 100vw - 90px );display: inline-block;">
-    <button onclick="navigator.clipboard.writeText(document.getElementById('file_url').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
-    <input class="wux-form-input wux-form-input-md" placeholder="图片markdown会显示在这里" type="text" id="markdown" style="width: calc( 100vw - 90px );display: inline-block;">
-    <button onclick="navigator.clipboard.writeText(document.getElementById('markdown').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
-    <br><span>如有任何问题,请发邮件到<code>bugs@saobby.com</code>反馈问题</span>
-    <script src="/static/js/common.js"></script>
-    <div id="scpc-v2" show-trigger="false"></div>
-    <script src="/static/js/saobbyCaptchaV2.js" async></script>
-    <script src="/static/js/spark-md5.min.js"></script>
-    <script src="/static/js/upload_file_mys.js" async></script>
-</div>
-
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
+        <script>
+          if (typeof Aegis === 'function') {
+            var aegis = new Aegis({
+              id: 'XVx8Jfg1VPkL0x0ea2',
+              uin: 'production',
+              reportApiSpeed: true,
+              reportAssetSpeed: true,
+              spa: true,
+            hostUrl: 'https://rumt-zh.com'
+            });
+          }
+        </script>
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+        <title>米游社图床</title>
+    </head>
+    <body>
+        <div class="wux-container wux-typo">
+        <h2>图片上传</h2>
+            <p>图片最大 20 MB, <b>此图床严禁上传违法违规图片，否则可能会被米游社内容审查机删除</b></p>
+            <input class="wux-form-upload" type="file" id="image_file" accept="image/*"><br>
+            <button class="wux-btn wux-btn-primary" type="button" onclick="upload()" id="upload-btn">上传</button>
+            <span id="upload_result" style="color:#aa0000"></span><br>
+            <input class="wux-form-input wux-form-input-md" placeholder="图片链接会显示在这里" type="text" id="file_url" style="width: calc( 100vw - 90px );display: inline-block;">
+            <button onclick="navigator.clipboard.writeText(document.getElementById('file_url').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
+            <input class="wux-form-input wux-form-input-md" placeholder="图片markdown会显示在这里" type="text" id="markdown" style="width: calc( 100vw - 90px );display: inline-block;">
+            <button onclick="navigator.clipboard.writeText(document.getElementById('markdown').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
+            <br><span>如有任何问题,请发邮件到<code>bugs@saobby.com</code>反馈问题</span>
+            <div id="scpc-v2" show-trigger="false"></div>
+        </div>
+        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/spark-md5.min.js" defer></script>
+        <script src="/static/js/upload_file_mys.js" defer></script>
+    </body>
 </html>

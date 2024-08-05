@@ -1,42 +1,39 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
-    <script>
-      if (typeof Aegis === 'function') {
-        var aegis = new Aegis({
-          id: 'XVx8Jfg1VPkL0x0ea2',
-          uin: 'production',
-          reportApiSpeed: true,
-          reportAssetSpeed: true,
-          spa: true,
-        hostUrl: 'https://rumt-zh.com'
-        });
-      }
-    </script>
-    <link rel="stylesheet" type="text/css" href="/static/css/common.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
-<title>注册</title>
-
-</head>
-<body>
-
-<div class="wux-container wux-typo">
-<h2>注册</h2>
-<input class="wux-form-input wux-form-input-md" placeholder="用户名" type="text" id="username">
-<input class="wux-form-input wux-form-input-md" placeholder="密码" type="password" id="password">
-<input class="wux-form-input wux-form-input-md" placeholder="重复密码" type="password" id="password2">
-<button class="wux-btn wux-btn-primary" type="button" onclick="reg()" id="reg-btn">注册</button>
-<a href="/login">已有账号?登录!</a>
-<br>
-<span id="result" style="color:#aa0000"></span>
-<script src="/static/js/common.js"></script>
-<div id="scpc-v2" show-trigger="false"></div>
-<script src="/static/js/saobbyCaptchaV2.js" async></script>
-<script src="/static/js/reg.js?v2" async></script>
-</div>
-
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
+        <script>
+          if (typeof Aegis === 'function') {
+            var aegis = new Aegis({
+              id: 'XVx8Jfg1VPkL0x0ea2',
+              uin: 'production',
+              reportApiSpeed: true,
+              reportAssetSpeed: true,
+              spa: true,
+            hostUrl: 'https://rumt-zh.com'
+            });
+          }
+        </script>
+        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+        <title>注册</title>
+    </head>
+    <body>
+        <div class="wux-container wux-typo">
+            <h2>注册</h2>
+            <input class="wux-form-input wux-form-input-md" placeholder="用户名" type="text" id="username">
+            <input class="wux-form-input wux-form-input-md" placeholder="密码" type="password" id="password">
+            <input class="wux-form-input wux-form-input-md" placeholder="重复密码" type="password" id="password2">
+            <button class="wux-btn wux-btn-primary" type="button" onclick="reg()" id="reg-btn">注册</button>
+            <a href="/login">已有账号?登录!</a>
+            <br>
+            <span id="result" style="color:#aa0000"></span>
+            <div id="scpc-v2" show-trigger="false"></div>
+        </div>
+        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/reg.js" defer></script>
+    </body>
 </html>

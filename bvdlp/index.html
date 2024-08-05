@@ -18,7 +18,7 @@
           }
         </script>
         <link rel="stylesheet" type="text/css" href="/static/css/common.css">
-        <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
         <title>B站视频直链解析机</title>
     </head>
     <body>
@@ -44,10 +44,10 @@
                 <h2>发生错误</h2>
                 <span>错误信息:</span><span id="error-msg" class="result"></span>
             </div>
-            <script src="/static/js/common.js"></script>
             <div id="scpc-v2" show-trigger="false"></div>
-            <script src="/static/js/saobbyCaptchaV2.js" async></script>
-            <script src="/static/js/bvdlp.js" async></script>
         </div>
+        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/bvdlp.js" defer></script>
     </body>
 </html>

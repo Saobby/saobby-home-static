@@ -17,7 +17,7 @@
           }
         </script>
         <link rel="stylesheet" type="text/css" href="/static/css/common.css">
-        <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
         <title>在 Scratch 中演奏 MIDI 文件</title>
     </head>
     <body>
@@ -48,8 +48,8 @@
             <progress class="wux-progress" value="0" max="100" id="upload-progress" hidden></progress><br>
             <div id="scpc-v2" show-trigger="false"></div>
         </div>
-        <script src="/static/js/common.js"></script>
         <script src="/static/js/saobbyCaptchaV2.js" async></script>
-        <script src="/static/js/midi2scratch.js" async></script>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/midi2scratch.js" defer></script>
     </body>
 </html>

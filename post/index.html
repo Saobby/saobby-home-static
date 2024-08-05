@@ -18,9 +18,14 @@
         </script>
         <link rel="stylesheet" type="text/css" href="/static/css/common.css">
         <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
-        <link rel="stylesheet" type="text/css" href="/static/css/dialog-polyfill.css">
-        <link rel="stylesheet" type="text/css" href="/static/css/katex.min.css">
-        <link rel="stylesheet" type="text/css" href="/static/css/highlight.min.css">
+        <link rel="preload" href="/static/css/dialog-polyfill.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="preload" href="/static/css/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="preload" href="/static/css/highlight.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript>
+            <link rel="stylesheet" type="text/css" href="/static/css/dialog-polyfill.css">
+            <link rel="stylesheet" type="text/css" href="/static/css/katex.min.css">
+            <link rel="stylesheet" type="text/css" href="/static/css/highlight.min.css">
+        </noscript>
         <title>查看帖子-Saobby论坛</title>
     </head>
     <body>
@@ -79,22 +84,22 @@
                 </div>
             </div>
             <div id="windows-div"></div>
-            <script src="/static/js/dialog-polyfill.js"></script>
-            <script src="/static/js/common.js"></script>
-            <script src="/static/js/windows.js"></script>
             <div id="scpc-v2" show-trigger="false"></div>
-            <script src="/static/js/saobbyCaptchaV2.js" async></script>
-            <script src="/static/js/marked.min.js"></script>
-            <script src="/static/js/katex.min.js"></script>
-            <script src="/static/js/katex.umd.min.js"></script>
-            <script src="/static/js/emoji.index.umd.js"></script>
-            <script src="/static/js/emojis.js"></script>
-            <script src="/static/js/highlight.min.js"></script>
-            <script src="/static/js/marked_init.js"></script>
-            <script src="/static/js/change_page_buttons.js"></script>
-            <script src="/static/js/post.js" async></script>
             <div id="upload-image-progress-div"></div>
-            <script src="/static/js/paste_to_upload.js" async onload="gebi('edit-upload-btn-span').innerHTML = pasteToUpload.gen_upload_btn('content-input', 'md');gebi('comment-release-upload-btn-span--1').innerHTML = pasteToUpload.gen_upload_btn('comments-content--1', 'md');"></script>
         </div>
+        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/dialog-polyfill.js" defer></script>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/change_page_buttons.js" defer></script>
+        <script src="/static/js/windows.js" defer></script>
+        <script src="/static/js/paste_to_upload.js" defer onload="gebi('edit-upload-btn-span').innerHTML = pasteToUpload.gen_upload_btn('content-input', 'md');gebi('comment-release-upload-btn-span--1').innerHTML = pasteToUpload.gen_upload_btn('comments-content--1', 'md');"></script>
+        <script src="/static/js/marked.min.js" defer></script>
+        <script src="/static/js/katex.min.js" defer></script>
+        <script src="/static/js/katex.umd.min.js" defer></script>
+        <script src="/static/js/emojis.js" defer></script>
+        <script src="/static/js/emoji.index.umd.js" defer></script>
+        <script src="/static/js/highlight.min.js" defer></script>
+        <script src="/static/js/marked_init.js" defer></script>
+        <script src="/static/js/post.js" defer></script>
     </body>
 </html>

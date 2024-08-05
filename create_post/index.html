@@ -18,8 +18,12 @@
         </script>
         <link rel="stylesheet" type="text/css" href="/static/css/common.css">
         <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
-        <link rel="stylesheet" type="text/css" href="/static/css/katex.min.css">
-        <link rel="stylesheet" type="text/css" href="/static/css/highlight.min.css">
+        <link rel="preload" href="/static/css/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="preload" href="/static/css/highlight.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript>
+            <link rel="stylesheet" type="text/css" href="/static/css/katex.min.css">
+            <link rel="stylesheet" type="text/css" href="/static/css/highlight.min.css">
+        </noscript>
         <title>创建帖子-Saobby论坛</title>
     </head>
     <body>
@@ -33,19 +37,19 @@
             <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" style="left:calc(100% - 260px)" id="edit-btn" hidden onclick="preview(false);"><img src="/static/image/icon/edit-primary.svg" width="16px" alt="编辑" class="middle"><span class="middle">编辑</span></button>
             <button class="wux-btn wux-btn-primary" type="button" style="left:calc(100% - 265px)" id="release-btn" onclick="release();">发表</button>
             <span class="result" style="left:-270px;position:relative" id="result"></span>
-            <script src="/static/js/common.js"></script>
             <div id="scpc-v2" show-trigger="false"></div>
-            <script src="/static/js/saobbyCaptchaV2.js" async></script>
-            <script src="/static/js/marked.min.js"></script>
-            <script src="/static/js/katex.min.js"></script>
-            <script src="/static/js/katex.umd.min.js"></script>
-            <script src="/static/js/emoji.index.umd.js"></script>
-            <script src="/static/js/emojis.js"></script>
-            <script src="/static/js/highlight.min.js"></script>
-            <script src="/static/js/marked_init.js"></script>
-            <script src="/static/js/create_post.js" async></script>
             <div id="upload-image-progress-div"></div>
-            <script src="/static/js/paste_to_upload.js" async onload="gebi('upload-btn-span').innerHTML = pasteToUpload.gen_upload_btn('content-input', 'md');"></script>
         </div>
+        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/paste_to_upload.js" defer onload="gebi('upload-btn-span').innerHTML = pasteToUpload.gen_upload_btn('content-input', 'md');"></script>
+        <script src="/static/js/marked.min.js" defer></script>
+        <script src="/static/js/katex.min.js" defer></script>
+        <script src="/static/js/katex.umd.min.js" defer></script>
+        <script src="/static/js/emojis.js" defer></script>
+        <script src="/static/js/emoji.index.umd.js" defer></script>
+        <script src="/static/js/highlight.min.js" defer></script>
+        <script src="/static/js/marked_init.js" defer></script>
+        <script src="/static/js/create_post.js" defer></script>
     </body>
 </html>

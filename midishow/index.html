@@ -17,7 +17,7 @@
           }
         </script>
         <link rel="stylesheet" type="text/css" href="/static/css/common.css">
-        <link rel="stylesheet" type="text/css" href="/static/css/wux.css?v2">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
         <title>Midishow MIDI 快速下载机</title>
     </head>
     <body>
@@ -29,7 +29,7 @@
                 <h2>注意事项</h2>
                 <ul>
                     <li>这个工具可以快速下载 Midishow 网站 (midishow.com) 上的 MIDI 文件，只需输入 MIDI 查看页面链接即可</li>
-                    <li>请勿将下载的 MIDI 用于非法用途</li>
+                    <li>请勿将下载的 MIDI 用于非法用途，包括未经 MIDI 作者允许转载发布到其它网站等</li>
                     <li>有任何问题，请发邮件到<code>bugs@saobby.com</code>反馈，或者直接在主页评论区反馈</li>
                 </ul>
             </div>
@@ -45,10 +45,10 @@
                 <midi-player src="" sound-font="https://soundfont.saobby.com/midi" visualizer="#midi-visualizer" id="midi-player"></midi-player>
                 <midi-visualizer type="piano-roll" id="midi-visualizer"></midi-visualizer>
             </div>
-            <script src="/static/js/common.js"></script>
             <div id="scpc-v2" show-trigger="false"></div>
-            <script src="/static/js/saobbyCaptchaV2.js" async></script>
-            <script src="/static/js/midishow.js" async></script>
         </div>
+        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/midishow.js" defer></script>
     </body>
 </html>
