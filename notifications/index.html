@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="preconnect" href="https://rumt-zh.com">
+        <link rel="preconnect" href="https://comments.saobby.com">
+        <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
+        <script>
+          if (typeof Aegis === 'function') {
+            var aegis = new Aegis({
+              id: 'XVx8Jfg1VPkL0x0ea2',
+              uin: 'production',
+              reportApiSpeed: true,
+              reportAssetSpeed: true,
+              spa: true,
+            hostUrl: 'https://rumt-zh.com'
+            });
+          }
+        </script>
+        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+        <link rel="preload" href="/static/css/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="preload" href="/static/css/highlight.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript>
+            <link rel="stylesheet" type="text/css" href="/static/css/katex.min.css">
+            <link rel="stylesheet" type="text/css" href="/static/css/highlight.min.css">
+        </noscript>
+        <title>通知中心</title>
+    </head>
+    <body>
+        <div class="wux-typo wux-container">
+            <h1>通知中心</h1>
+            <button class="wux-btn wux-btn-primary wux-btn-outline simple" type="button" onclick="deselect();" id="deselect-btn"><img src="/static/image/icon/deselect-primary.svg" width="16px" alt="反选" class="middle"><span class="middle">反选</span></button>
+            <button class="wux-btn wux-btn-primary simple" type="button" onclick="ack_notifications(selected).then();" id="ack-btn"><img src="/static/image/icon/check-white.svg" width="16px" alt="已读" class="middle"><span class="middle">已读选中</span></button>
+            <button class="wux-btn wux-btn-primary simple" type="button" onclick="ack_notifications('all').then();" id="ack-all-btn"><img src="/static/image/icon/checks-white.svg" width="16px" alt="全部已读" class="middle"><span class="middle">全部已读</span></button>
+            <button class="wux-btn wux-btn-primary simple" type="button" onclick="refresh();" id="refresh-btn"><img src="/static/image/icon/refresh-white.svg" width="16px" alt="刷新" class="middle"><span class="middle">刷新</span></button>
+            <span id="result" class="result"></span>
+            <div class="wux-tab">
+                <input class="wux-tab-item" type="radio" id="tab-all" name="notification-tab" onclick="load_notifications(0, 0).then();" checked>
+                <label class="wux-tab-item" for="tab-all">全部</label>
+                <input class="wux-tab-item" type="radio" id="tab-unread" name="notification-tab" onclick="load_notifications(2, 0).then();">
+                <label class="wux-tab-item" for="tab-unread">未读</label>
+                <input class="wux-tab-item" type="radio" id="tab-read" name="notification-tab" onclick="load_notifications(1, 0).then();">
+                <label class="wux-tab-item" for="tab-read">已读</label>
+            </div>
+            <hr>
+            <div id="notifications-div"></div>
+            <div id="cp-btn-div" class="wux-btn-group"></div>
+        </div>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/change_page_buttons.js" defer></script>
+        <script src="/static/js/marked.min.js" defer></script>
+        <script src="/static/js/katex.min.js" defer></script>
+        <script src="/static/js/katex.umd.min.js" defer></script>
+        <script src="/static/js/emojis.js" defer></script>
+        <script src="/static/js/emoji.index.umd.js" defer></script>
+        <script src="/static/js/highlight.min.js" defer></script>
+        <script src="/static/js/marked_init.js" defer></script>
+        <script src="/static/js/notifications.js" defer></script>
+    </body>
+</html>

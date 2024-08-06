@@ -396,4 +396,22 @@ function save_comment_draft(textarea, reply_to){
         show_error_msg("无法保存草稿:"+val.message);
     });
 }
+async function get_notification_count(){
+    var access_token = localStorage.getItem("access-token");
+    if (!access_token){
+        return;
+    }
+    var rsp = await fetch_data(domain+"/api/count_unread_notification", "POST", headers, JSON.stringify({"access_token": access_token})).catch((err)=>{console.warn("failed to fetch notification count.")});
+    if (!rsp.response_text){
+        return;
+    }
+    var ret = JSON.parse(rsp.response_text);
+    if (ret.success){
+        gebi("notification-count").innerHTML = ret.data.count.toString();
+        gebi("notification-count").hidden = ret.data.count === 0;
+    }else{
+        console.warn(ret.message);
+    }
+}
+get_notification_count().then();
 get_all_comment();
