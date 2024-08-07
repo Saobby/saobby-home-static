@@ -2,5 +2,5 @@
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Headers: *
   Referrer-Policy: same-origin
-  Content-Security-Policy: default-src 'self' data:; img-src * data:; media-src * data:; frame-src music.163.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' tam.cdn-go.cn; style-src 'self' 'unsafe-inline'; connect-src 'self' blob: *.saobby.com rumt-zh.com; worker-src 'self' blob:; frame-ancestors *.saobby.com; upgrade-insecure-requests;
+  Content-Security-Policy: default-src 'self' data:; img-src * data:; media-src * data:; frame-src music.163.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' tam.cdn-go.cn www.clarity.ms; style-src 'self' 'unsafe-inline'; connect-src 'self' blob: *.saobby.com rumt-zh.com z.clarity.ms; worker-src 'self' blob:; frame-ancestors *.saobby.com; upgrade-insecure-requests;
   X-Content-Type-Options: nosniff
