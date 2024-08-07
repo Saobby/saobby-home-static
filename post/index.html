@@ -54,20 +54,20 @@
                 <div class="pre-like" id="preview-html" style="height:auto" hidden></div>
                 <div id="html"></div>
                 <hr>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="delete-btn" onclick="operate('delete');"><img src="/static/image/icon/trash-primary.svg" width="16px" alt="删除" class="middle"><span class="middle">删除</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="close-btn" onclick="operate('close');"><img src="/static/image/icon/lock-primary.svg" width="16px" alt="关闭" class="middle"><span class="middle">关闭</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="open-btn" onclick="operate('open');"><img src="/static/image/icon/lock-open-primary.svg" width="16px" alt="打开" class="middle"><span class="middle">打开</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="pin-btn" onclick="operate('pin');"><img src="/static/image/icon/pin-primary.svg" width="16px" alt="置顶" class="middle"><span class="middle">置顶</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="unpin-btn" onclick="operate('unpin');"><img src="/static/image/icon/pinned-off-primary.svg" width="16px" alt="取消置顶" class="middle"><span class="middle">取消置顶</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="view-history-btn" onclick="show_history();"><img src="/static/image/icon/history-primary.svg" width="16px" alt="查看编辑记录" class="middle"><span class="middle">查看编辑记录</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="edit-btn" onclick="edit_post(!0);"><img src="/static/image/icon/edit-primary.svg" width="16px" alt="编辑" class="middle"><span class="middle">编辑</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="cancel-edit-btn" onclick="edit_post(!1);" hidden><img src="/static/image/icon/x-primary.svg" width="16px" alt="取消" class="middle"><span class="middle">取消</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="preview-btn" onclick="preview(!0);" hidden><img src="/static/image/icon/eye-primary.svg" width="16px" alt="预览" class="middle"><span class="middle">预览</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="close-preview-btn" onclick="preview(!1);" hidden><img src="/static/image/icon/edit-primary.svg" width="16px" alt="编辑" class="middle"><span class="middle">编辑</span></button>
-                <button class="wux-btn wux-btn-primary" type="button" id="save-edit-btn" onclick="save_edit();" hidden><img src="/static/image/icon/check-white.svg" width="16px" alt="保存" class="middle"><span class="middle">保存</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="delete-btn" onclick="operate('delete');"><img src="/static/image/icon/trash-primary.svg" width="16px" class="middle"><span class="middle">删除</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="close-btn" onclick="operate('close');"><img src="/static/image/icon/lock-primary.svg" width="16px" class="middle"><span class="middle">关闭</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="open-btn" onclick="operate('open');"><img src="/static/image/icon/lock-open-primary.svg" width="16px" class="middle"><span class="middle">打开</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="pin-btn" onclick="operate('pin');"><img src="/static/image/icon/pin-primary.svg" width="16px" class="middle"><span class="middle">置顶</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="unpin-btn" onclick="operate('unpin');"><img src="/static/image/icon/pinned-off-primary.svg" width="16px" class="middle"><span class="middle">取消置顶</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="view-history-btn" onclick="show_history();"><img src="/static/image/icon/history-primary.svg" width="16px" class="middle"><span class="middle">查看编辑记录</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="edit-btn" onclick="edit_post(!0);"><img src="/static/image/icon/edit-primary.svg" width="16px" class="middle"><span class="middle">编辑</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="cancel-edit-btn" onclick="edit_post(!1);" hidden><img src="/static/image/icon/x-primary.svg" width="16px" class="middle"><span class="middle">取消</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="preview-btn" onclick="preview(!0);" hidden><img src="/static/image/icon/eye-primary.svg" width="16px" class="middle"><span class="middle">预览</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="close-preview-btn" onclick="preview(!1);" hidden><img src="/static/image/icon/edit-primary.svg" width="16px" class="middle"><span class="middle">编辑</span></button>
+                <button class="wux-btn wux-btn-primary" type="button" id="save-edit-btn" onclick="save_edit();" hidden><img src="/static/image/icon/check-white.svg" width="16px" class="middle"><span class="middle">保存</span></button>
                 <span id="edit-upload-btn-span" hidden></span>
-                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="view-markdown-btn" onclick="view_markdown(!0);"><img src="/static/image/icon/markdown-primary.svg" width="16px" alt="查看M↓" class="middle"><span class="middle">查看M↓</span></button>
-                <button class="wux-btn wux-btn-primary" type="button" id="view-markdown-btn-pressed" onclick="view_markdown(!1);" hidden><img src="/static/image/icon/markdown-white.svg" width="16px" alt="查看M↓" class="middle"><span class="middle">查看M↓</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="view-markdown-btn" onclick="view_markdown(!0);"><img src="/static/image/icon/markdown-primary.svg" width="16px" class="middle"><span class="middle">查看M↓</span></button>
+                <button class="wux-btn wux-btn-primary" type="button" id="view-markdown-btn-pressed" onclick="view_markdown(!1);" hidden><img src="/static/image/icon/markdown-white.svg" width="16px" class="middle"><span class="middle">查看M↓</span></button>
                 <button class="wux-btn wux-btn-primary" type="button" id="love-btn" onclick="love();"><span id="loved"></span> <span id="loves"></span></button>
                 <span class="result" id="operate-result"></span>
                 <hr>
@@ -75,11 +75,11 @@
                 <textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="评论正文(支持Markdown语法)" rows="5" id="comments-content--1" onchange="save_comment_draft(this,-1);"></textarea>
                 <div id="comments-preview--1" class="pre-like" hidden></div>
                 <button id="comments-cancel-btn--1" hidden></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,true);" type="button" id="comments-preview-btn--1"><img src="/static/image/icon/eye-primary.svg" width="16px" alt="预览" class="middle"><span class="middle">预览</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,false);" type="button" id="comments-edit-btn--1" hidden><img src="/static/image/icon/edit-primary.svg" width="16px" alt="编辑" class="middle"><span class="middle">编辑</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,true);" type="button" id="comments-preview-btn--1"><img src="/static/image/icon/eye-primary.svg" width="16px" class="middle"><span class="middle">预览</span></button>
+                <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,false);" type="button" id="comments-edit-btn--1" hidden><img src="/static/image/icon/edit-primary.svg" width="16px" class="middle"><span class="middle">编辑</span></button>
                 <button class="wux-btn wux-btn-primary simple" type="button" onclick="comments_release(-1);" id="comments-release-btn--1">发表</button>
                 <span id="comment-release-upload-btn-span--1"></span>
-                <span id="comments-login-btn" class="middle" hidden>请先<a href="javascript:;" onclick="check_logged_in();"><img src="/static/image/icon/login-2-primary.svg" width="16px" alt="登录" class="middle"><span class="middle">登录</span></a></span>
+                <span id="comments-login-btn" class="middle" hidden>请先<a href="javascript:;" onclick="check_logged_in();"><img src="/static/image/icon/login-2-primary.svg" width="16px" class="middle"><span class="middle">登录</span></a></span>
                 <span id="comments-result--1" class="result"></span>
                 <hr>
                 <div id="comments-view-div" style="width:100%;overflow:auto;">正在加载评论，请稍候...</div>

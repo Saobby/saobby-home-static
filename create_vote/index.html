@@ -38,7 +38,7 @@
                 <input type="text" class="wux-form-input wux-form-input-md label" placeholder="标题" id="title">
                 <span class="label">投票选项:</span>
                 <div id="options-div" class="pre-like label"></div>
-                <button class="wux-btn wux-btn-primary label" type="button" onclick="add_option();"><img src="/static/image/icon/plus-white.svg" width="16px" alt="添加选项" class="middle"><span class="middle">添加选项</span></button><br>
+                <button class="wux-btn wux-btn-primary label" type="button" onclick="add_option();"><img src="/static/image/icon/plus-white.svg" width="16px" class="middle"><span class="middle">添加选项</span></button><br>
                 <span class="label">在何时显示投票结果?</span><br>
                 <select class="wux-form-select label" id="always-show-result">
                     <option value="false" selected>投票后可查看结果</option>
@@ -55,7 +55,7 @@
             <button class="wux-btn wux-btn-primary label" type="button" id="submit-btn" onclick="submit();">创建投票</button>
             <span id="result" class="result"></span>
             <textarea class="wux-form-input wux-form-input-md label" id="markdown" rows="5" placeholder="生成的Markdown会显示在这里"></textarea>
-            <button class="wux-btn wux-btn-primary label" type="button" onclick="navigator.clipboard.writeText(gebi('markdown').value);"><img src="/static/image/icon/copy-white.svg" width="16px" alt="复制Markdown" class="middle"><span class="middle">复制Markdown</span></button>
+            <button class="wux-btn wux-btn-primary label" type="button" onclick="navigator.clipboard.writeText(gebi('markdown').value);"><img src="/static/image/icon/copy-white.svg" width="16px" class="middle"><span class="middle">复制Markdown</span></button>
             <div id="scpc-v2" show-trigger="false"></div>
         </div>
         <script src="/static/js/saobbyCaptchaV2.js" async></script>

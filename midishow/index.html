@@ -34,7 +34,7 @@
         <div class="wux-container wux-typo">
             <h2>Midishow MIDI 快速下载机</h2>
             <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 120px );display:inline-block;" id="url" placeholder="MIDI 查看页网址, 例如 https://www.midishow.com/midi/42011.html">
-            <button type="button" class="wux-btn wux-btn-primary" id="download-btn" onclick="download();"><img src="/static/image/icon/download-white.svg" width="16px" alt="下载" class="middle"><span class="middle">下载</span></button><br>
+            <button type="button" class="wux-btn wux-btn-primary" id="download-btn" onclick="download();"><img src="/static/image/icon/download-white.svg" width="16px" class="middle"><span class="middle">下载</span></button><br>
             <div id="notice-div">
                 <h2>注意事项</h2>
                 <ul>
@@ -49,7 +49,7 @@
             </div>
             <div id="success-div" hidden>
                 <h2>下载成功</h2>
-                <a target="_blank" download="midi.mid" id="download-link"><button class="wux-btn wux-btn-primary wux-btn-lg" onclick="set_btn_html(this,'已开始下载');setTimeout(set_btn_html,1000,this);"><img src="/static/image/icon/download-white.svg" width="16px" alt="下载" class="middle"><span class="middle">下载 MIDI</span></button></a>
+                <a target="_blank" download="midi.mid" id="download-link"><button class="wux-btn wux-btn-primary wux-btn-lg" onclick="set_btn_html(this,'已开始下载');setTimeout(set_btn_html,1000,this);"><img src="/static/image/icon/download-white.svg" width="16px" class="middle"><span class="middle">下载 MIDI</span></button></a>
                 <h3>预览 MIDI</h3>
                 <script src="/static/js/midi_player.js"></script>
                 <midi-player src="" sound-font="https://soundfont.saobby.com/midi" visualizer="#midi-visualizer" id="midi-player"></midi-player>

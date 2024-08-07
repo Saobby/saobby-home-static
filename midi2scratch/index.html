@@ -50,10 +50,10 @@
             <p>2. 调整音色映射</p>
             <span>标准 MIDI 文件支持多达 128 种不同的音色和 47 种打击乐，而 Scratch 的音乐模块只支持 21 种音色和 18 种打击乐，你需要设置 MIDI 中的音色/打击乐分别对应 Scratch 中的哪个音色/打击乐。MIDI 中的音色可被映射到 Scratch 中的音色或打击乐，MIDI 中的打击乐只能被映射到 Scratch 中的打击乐。</span><br>
             <span>你也可以<b>不修改</b>来使用提供的默认设置。</span><br>
-            <a href="javascript:;" id="programs-btn"><img src="/static/image/icon/folder-primary.svg" width="16px" alt="展开" class="middle"><span class="middle">展开设置</span></a><br>
+            <a href="javascript:;" id="programs-btn"><img src="/static/image/icon/folder-primary.svg" width="16px" class="middle"><span class="middle">展开设置</span></a><br>
             <div id="program-map-div" hidden></div>
             <p>3. 点击提交按钮</p>
-            <button class="wux-btn wux-btn-primary" type="button" onclick="upload_midi();" id="upload-btn"><img src="/static/image/icon/upload-white.svg" width="16px" alt="提交" class="middle"><span class="middle">提交</span></button>
+            <button class="wux-btn wux-btn-primary" type="button" onclick="upload_midi();" id="upload-btn"><img src="/static/image/icon/upload-white.svg" width="16px" class="middle"><span class="middle">提交</span></button>
             <span id="upload-result" class="result"></span><br>
             <progress class="wux-progress" value="0" max="100" id="upload-progress" hidden></progress><br>
             <div id="scpc-v2" show-trigger="false"></div>
