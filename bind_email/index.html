@@ -38,10 +38,10 @@
             <p><span>当前绑定的电子邮箱:</span><code id="email-addr">加载中</code></p>
             <p>绑定方法: 在下面的输入框里输入要绑定的邮箱地址，点击<code>发送验证邮件</code>按钮，点击邮箱收到的验证邮件中的链接即可完成绑定。</p>
             <input type="email" id="email-addr-input" placeholder="要绑定的电子邮箱地址" class="wux-form-input wux-form-input-md" style="width: calc( 100% - 150px );display: inline-block;">
-            <button onclick="send_email();" class="wux-btn wux-btn-primary" id="send-email-btn" type="button"><img src="/static/image/icon/mail-white.svg" width="16px" class="middle"><span class="middle">发送验证邮件</span></button><br>
+            <button onclick="send_email();" class="wux-btn wux-btn-primary" id="send-email-btn" type="button"><img src="/static/image/icon/mail-white.svg" alt="" width="16px" class="middle"><span class="middle">发送验证邮件</span></button><br>
             <span class="result" id="send-email-result"></span><br>
             <p>如果想要解除绑定，请点击<code>解除绑定</code>按钮</p>
-            <button onclick="unbind_email();" class="wux-btn wux-btn-primary" id="unbind-email-btn" type="button"><img src="/static/image/icon/unlink-white.svg" width="16px" class="middle"><span class="middle">解除绑定</span></button>
+            <button onclick="unbind_email();" class="wux-btn wux-btn-primary" id="unbind-email-btn" type="button"><img src="/static/image/icon/unlink-white.svg" alt="" width="16px" class="middle"><span class="middle">解除绑定</span></button>
             <span class="result" id="unbind-email-result"></span>
             <div id="scpc-v2" show-trigger="false"></div>
         </div>

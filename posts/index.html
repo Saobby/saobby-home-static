@@ -39,7 +39,7 @@
                 <option value="tag">标签</option>
             </select>
             <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 175px );display:inline-block;" id="search-text" placeholder="搜索">
-            <button type="button" class="wux-btn wux-btn-primary" id="search-btn" onclick="load_posts(0);"><img src="/static/image/icon/search-white.svg" width="16px" class="middle"><span class="middle">搜索</span></button><br>
+            <button type="button" class="wux-btn wux-btn-primary" id="search-btn" onclick="load_posts(0);"><img src="/static/image/icon/search-white.svg" alt="" width="16px" class="middle"><span class="middle">搜索</span></button><br>
             <span>排序:</span>
             <select class="wux-form-select" style="width:120px;" id="sort-by-select" onchange="load_posts(0);">
                 <option value="modify_time" selected>更新时间</option>
@@ -51,7 +51,7 @@
                 <option value="0" selected>降序</option>
                 <option value="1">升序</option>
             </select>
-            <button type="button" class="wux-btn wux-btn-primary" onclick="window.location='/create_post'"><img src="/static/image/icon/plus-white.svg" width="16px" class="middle"><span class="middle">创建帖子</span></button>
+            <button type="button" class="wux-btn wux-btn-primary" onclick="window.location='/create_post'"><img src="/static/image/icon/plus-white.svg" alt="" width="16px" class="middle"><span class="middle">创建帖子</span></button>
             <hr>
             <div id="posts-list-html">
                 <span>正在加载帖子列表...</span>
