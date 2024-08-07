@@ -97,7 +97,7 @@ function get_element_abs_pos2(e) {
     }
 }
 function icon_with_text(icon_name, text){
-    return `<img src="/static/image/icon/${icon_name}.svg" width="16px" class="middle"><span class="middle">${text}</span>`;
+    return `<img src="/static/image/icon/${icon_name}.svg" alt="" width="16px" class="middle"><span class="middle">${text}</span>`;
 }
 function set_btn_html(ele, html){
     if (html){
