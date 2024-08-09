@@ -74,16 +74,17 @@
                     <li>如需添加友链，请在评论区或者我的qq留言!</li>
                 </ul>
                 <div class="wux-alert wux-alert-primary"><img src="/static/image/icon/message-primary.svg" alt="" width="16px" class="middle"><span class="middle">论坛</span></div>
-                <button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text" onclick="window.location='/posts';" type="button"><img src="/static/image/icon/message-primary.svg" alt="" width="20px" class="middle"><span class="middle">前往论坛</span></button>
+                <a href="/posts"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text" type="button"><img src="/static/image/icon/message-primary.svg" alt="" width="20px" class="middle"><span class="middle">前往论坛</span></button></a>
                 <div class="wux-alert wux-alert-primary"><img src="/static/image/icon/user-primary.svg" alt="" width="16px" class="middle"><span class="middle">用户区域</span></div>
-                <button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text" onclick="window.location='/notifications';" type="button"><img src="/static/image/icon/bell-primary.svg" alt="" width="20px" class="middle"><span class="middle">通知中心</span><span class="wux-badge" id="notification-count" hidden></span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text" onclick="window.location='/set_avatar';" type="button"><img src="/static/image/icon/user-circle-primary.svg" alt="" width="20px" class="middle"><span class="middle">更换头像</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text" onclick="window.location='/bind_email';" type="button"><img src="/static/image/icon/link-primary.svg" alt="" width="20px" class="middle"><span class="middle">绑定电子邮箱</span></button>
+                <a href="/notifications"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text" type="button"><img src="/static/image/icon/bell-primary.svg" alt="" width="20px" class="middle"><span class="middle">通知中心</span><span class="wux-badge" id="notification-count" hidden></span></button></a>
+                <a href="/set_avatar"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text" type="button"><img src="/static/image/icon/user-circle-primary.svg" alt="" width="20px" class="middle"><span class="middle">更换头像</span></button></a>
+                <a href="/bind_email"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text" type="button"><img src="/static/image/icon/link-primary.svg" alt="" width="20px" class="middle"><span class="middle">绑定电子邮箱</span></button></a>
+                <a href="/user_config"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text" type="button"><img src="/static/image/icon/settings-primary.svg" alt="" width="20px" class="middle"><span class="middle">用户设置</span></button></a>
                 <div class="wux-alert wux-alert-light" id="birthdaystar" hidden>Loading...</div>
             </div>
             <div class="wux-alert wux-alert-primary"><img src="/static/image/icon/message-primary.svg" alt="" width="16px" class="middle"><span class="middle">评论区</span>
                 <button class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="show_comment_window()" type="button"><img src="/static/image/icon/message-plus-primary.svg" alt="" width="16px" class="middle"><span class="middle">发表评论</span></button>
-                <button class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline hco" onclick="window.location='/?114514';" type="button"><img src="/static/image/icon/message-primary.svg" alt="" width="16px" class="middle"><span class="middle">主评论区</span></button>
+                <a href="/?114514"><button class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline hco" type="button"><img src="/static/image/icon/message-primary.svg" alt="" width="16px" class="middle"><span class="middle">主评论区</span></button></a>
             </div>
             <span class="hco">绑定电子邮箱，有回复时发邮件提醒你 <a href="/bind_email">立即绑定</a><br></span>
             <div id="comment-window" hidden>

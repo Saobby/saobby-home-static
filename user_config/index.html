@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="preconnect" href="https://rumt-zh.com">
+        <link rel="preconnect" href="https://comments.saobby.com">
+        <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
+        <script>
+          if (typeof Aegis === 'function') {
+            var aegis = new Aegis({
+              id: 'XVx8Jfg1VPkL0x0ea2',
+              uin: 'production',
+              reportApiSpeed: true,
+              reportAssetSpeed: true,
+              spa: true,
+            hostUrl: 'https://rumt-zh.com'
+            });
+          }
+        </script>
+        <script type="text/javascript">
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "nghuq29wf0");
+        </script>
+        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+    <title>用户设置</title>
+    </head>
+    <body>
+        <div class="wux-container wux-typo">
+            <h1>用户设置</h1>
+            <h2>通知设置</h2>
+            <p>当被选中的事件发生时，系统会发送一则通知到你的通知中心。</p>
+            <input type="checkbox" class="wux-form-checks notification-check notification-form" field="do_comment_replies_notice"><span>有人回复你的评论</span><br>
+            <input type="checkbox" class="wux-form-checks notification-check notification-form" field="do_post_replies_notice"><span>有人在你的帖子下留言</span><br>
+            <input type="checkbox" class="wux-form-checks notification-check notification-form" field="do_read_comment_notice"><span>有人阅读你回复他的评论</span><br>
+            <input type="checkbox" class="wux-form-checks notification-check notification-form" field="do_post_loves_notice"><span>有人点赞你的帖子</span><br>
+            <input type="checkbox" class="wux-form-checks notification-check notification-form" field="do_post_operates_notice"><span>有人操作你的帖子(置顶/关闭/删除,仅管理员可操作)</span><br><br>
+            <button class="wux-btn wux-btn-primary" type="button" id="save-notification-config-btn" onclick="save_notification_config().then();"><img src="/static/image/icon/check-white.svg" alt="" width="16px" class="middle">保存</button>
+            <span id="notification-form-result" class="result"></span>
+            <h2>绑定电子邮箱</h2>
+            <a href="/bind_email"><button class="wux-btn wux-btn-primary" type="button"><img src="/static/image/icon/mail-white.svg" alt="" width="16px" class="middle">前往绑定邮箱页面</button></a>
+        </div>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/user_config.js" defer></script>
+    </body>
 </html>

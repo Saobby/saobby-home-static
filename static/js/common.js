@@ -39,6 +39,22 @@ function fetch_data(url, method, headers, data){
     });
     return promise;
 }
+
+function fetch_api(endpoint, payload){
+    return new Promise(function(resolve, reject){
+        fetch_data(endpoint, "POST", headers, JSON.stringify(payload)).then(function(val){
+            try{
+                var rsp = JSON.parse(val.response_text);
+            }catch(err){
+                resolve({"retcode": -1, "msg": err, "data": null});
+            }
+            resolve({"retcode": rsp.success?0:-2, "msg": rsp.message, "data": rsp.data});
+        }, function(val){
+            resolve({"retcode": -3, "msg": val.message, "data": null})
+        });
+    });
+}
+
 function is_in(chr, str){
     for (var t in str){
         if (chr === str[t]){
