@@ -49,7 +49,7 @@
             </div>
             <div id="success-div" hidden>
                 <h2>下载成功</h2>
-                <a target="_blank" download="midi.mid" id="download-link"><button class="wux-btn wux-btn-primary wux-btn-lg" onclick="set_btn_html(this,'已开始下载');setTimeout(set_btn_html,1000,this);"><img src="/static/image/icon/download-white.svg" alt="" width="16px" class="middle"><span class="middle">下载 MIDI</span></button></a>
+                <a target="_blank" id="download-link"><button class="wux-btn wux-btn-primary wux-btn-lg" onclick="set_btn_html(this,'已开始下载');setTimeout(set_btn_html,1000,this);"><img src="/static/image/icon/download-white.svg" alt="" width="16px" class="middle"><span class="middle">保存 MIDI</span></button></a>
                 <h3>预览 MIDI</h3>
                 <script src="/static/js/midi_player.js"></script>
                 <midi-player src="" sound-font="https://soundfont.saobby.com/midi" visualizer="#midi-visualizer" id="midi-player"></midi-player>

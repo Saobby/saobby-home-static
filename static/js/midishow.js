@@ -24,6 +24,7 @@ function download(){
             if (rep.success){
                 var link = b642link(rep.data.file);
                 gebi("download-link").href = link;
+                gebi("download-link").download = rep.data.title.replaceAll("\\", "、").replaceAll("/", "、").replaceAll(":", "：").replaceAll("*", "⭐").replaceAll("?", "？").replaceAll('"', "'").replaceAll("<", "《").replaceAll(">", "》").replaceAll("|", " ")+".mid";  // windows系统不能用这些字符做文件名
                 gebi("midi-player").src = link;
                 gebi("notice-div").hidden = true;
                 gebi("error-div").hidden = true;
