@@ -20,7 +20,7 @@ jobs:
       run: |
         npm install --save-dev @babel/core @babel/cli @babel/preset-env
         npm install --global terser
-        npm install --save-dev postcss cssnano
+        npm install --global cssnano-cli
 
     - name: Run Babel
       run: npx babel ./static/js --out-dir ./static/js --presets=@babel/preset-env
@@ -29,7 +29,7 @@ jobs:
       run: find ./static/js -name '*.js' -exec terser {} -o {} -m -c \;
 
     - name: Minify CSS
-      run: find ./static/css -name '*.css' -exec npx postcss {} -o {} -u cssnano --no-map \;
+      run: find ./static/css -name '*.css' -exec cssnano < {} > {} \;
 
     - name: Commit artifacts
       uses: stefanzweifel/git-auto-commit-action@v4
