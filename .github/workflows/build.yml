@@ -20,7 +20,7 @@ jobs:
       run: |
         npm install --save-dev @babel/core @babel/cli @babel/preset-env
         npm install --global terser
-        npm install --global postcss cssnano
+        npm install --save-dev postcss cssnano
 
     - name: Run Babel
       run: npx babel ./static/js --out-dir ./static/js --presets=@babel/preset-env
