@@ -18,8 +18,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        npm install --global babel-cli
-        npm install --save-dev @babel/preset-env
+        npm install --save-dev @babel/core @babel/cli @babel/preset-env
         npm install --global terser
         npm install --global postcss-cli autoprefixer
 
