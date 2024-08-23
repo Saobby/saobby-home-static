@@ -29,9 +29,9 @@ jobs:
       run: find ./static/js -name '*.js' -exec terser {} -o {} -m -c \;
 
     - name: Minify CSS
-      run: find ./static/css -name '*.css' -exec postcss --use cssnano --preset default -o {} {} \;
+      run: find ./static/css -name '*.css' -exec postcss --use cssnano --preset default --no-map -o {} {} \;
 
-    - name: Commit artifacts
+    - name: Commit
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: "[Github Action] Build"
