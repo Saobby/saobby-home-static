@@ -29,8 +29,9 @@ jobs:
       run: find ./static/js -name '*.js' -exec terser {} -o {} -m -c \;
 
     - name: Minify CSS
-      run: echo "module.exports={plugins:[require('cssnano')({preset:'default'})]};" > "./postcss.config.js"
-      run: find ./static/css -name '*.css' -exec npx postcss {} > {} \;
+      run: |
+        echo "module.exports={plugins:[require('cssnano')({preset:'default'})]};" > "./postcss.config.js"
+        find ./static/css -name '*.css' -exec npx postcss {} > {} \;
 
     - name: Commit artifacts
       uses: stefanzweifel/git-auto-commit-action@v4
