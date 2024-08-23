@@ -23,7 +23,7 @@ jobs:
         npm install --global cssnano-cli postcss-cli cssnano postcss
 
     - name: Run Babel
-      run: npx babel ./static/js --out-dir ./static/js --presets=@babel/preset-env
+      run: npx babel ./static/js --out-dir ./static/js --presets=@babel/preset-env --targets="{\"chrome\":45, \"firefox\":43}"
 
     - name: Minify javascript
       run: find ./static/js -name '*.js' -exec terser {} -o {} -m -c \;
