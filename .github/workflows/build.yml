@@ -29,7 +29,7 @@ jobs:
       run: find ./static/js -name '*.js' -exec terser {} -o {} -m -c \;
 
     - name: Minify CSS
-      run: find ./static/css -name '*.css' -exec cssnano {} > {} \;
+      run: find ./static/css -name '*.css' -exec cssnano < {} > {} \;
 
     - name: Commit artifacts
       uses: stefanzweifel/git-auto-commit-action@v4
