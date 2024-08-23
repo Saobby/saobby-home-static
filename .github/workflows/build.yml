@@ -19,17 +19,17 @@ jobs:
     - name: Install dependencies
       run: |
         npm install --save-dev @babel/core @babel/cli @babel/preset-env
-        npm install --global terser
-        npm install --global postcss-cli autoprefixer
+        npm install --save-dev terser
+        npm install --save-dev postcss cssnano
 
     - name: Run Babel
       run: npx babel ./static/js --out-dir ./static/js --presets=@babel/preset-env
 
     - name: Minify javascript
-      run: find ./static/js -name '*.js' -exec terser {} -o {} \;
+      run: find ./static/js -name '*.js' -exec terser {} -o {} -m -c \;
 
     - name: Minify CSS
-      run: find ./static/css -name '*.css' -exec postcss {} -o {} \;
+      run: npx postcss static/css/*.css -u cssnano --no-map -d static/css/
 
     - name: Commit artifacts
       uses: stefanzweifel/git-auto-commit-action@v4
