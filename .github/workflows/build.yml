@@ -23,7 +23,7 @@ jobs:
         npm install --global postcss-cli autoprefixer
 
     - name: Run Babel
-      run: npx babel ./static/js --out-dir ./static/js --presets=@babel/preset-env --target "chrome 45, firefox 43"
+      run: npx babel ./static/js --out-dir ./static/js --presets=@babel/preset-env
 
     - name: Minify javascript
       run: find ./static/js -name '*.js' -exec terser {} -o {} \;
