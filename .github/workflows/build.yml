@@ -19,7 +19,7 @@ jobs:
     - name: Install dependencies
       run: |
         npm install --save-dev @babel/core @babel/cli @babel/preset-env
-        npm install --save-dev terser
+        npm install --global terser
         npm install --save-dev postcss cssnano
 
     - name: Run Babel
