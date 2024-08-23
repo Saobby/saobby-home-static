@@ -28,8 +28,8 @@ jobs:
     - name: Minify javascript
       run: find ./static/js -name '*.js' -exec terser {} -o {} -m -c \;
 
-    - name: Minify CSS
-      run: npx postcss static/css/*.css -u cssnano --no-map -d static/css/
+    # - name: Minify CSS
+    #   run: npx postcss static/css/*.css -u cssnano --no-map -d static/css/
 
     - name: Commit artifacts
       uses: stefanzweifel/git-auto-commit-action@v4
