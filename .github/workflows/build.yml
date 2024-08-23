@@ -1,0 +1,41 @@
+name: Build
+
+on:
+  push:
+    branches: development
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: |
+        npm install --global babel-cli
+        npm install --global terser
+        npm install --global postcss-cli autoprefixer
+
+    - name: Run Babel
+      run: npx babel ./static/js --out-dir ./static/js --presets=@babel/preset-env --target "chrome 45, firefox 43"
+
+    - name: Minify javascript
+      run: find ./static/js -name '*.js' -exec terser {} -o {} \;
+
+    - name: Minify CSS
+      run: find ./static/css -name '*.css' -exec postcss {} -o {} \;
+
+    - name: Commit artifacts
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "[Github Action] Build"
+        branch: production
+        push_options: "--force"
+        skip_checkout: true
+
