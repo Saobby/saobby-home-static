@@ -167,3 +167,13 @@ function input_file2b64(file){
 //         hljs.highlightElement(ele);
 //     }
 // }
+
+function insert_into_textarea(text, textarea){
+    var start_pos = textarea.selectionStart;
+    var end_pos = textarea.selectionEnd;
+    var old_text = textarea.value;
+    var new_text = old_text.substring(0, start_pos) + text + old_text.substring(end_pos, old_text.length);
+    textarea.value = new_text;
+    textarea.selectionStart = start_pos + text.length;
+    textarea.selectionEnd = start_pos + text.length;
+}

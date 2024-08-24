@@ -66,6 +66,7 @@
                 <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="close-preview-btn" onclick="preview(!1);" hidden><img src="/static/image/icon/edit-primary.svg" alt="" width="16px" class="middle"><span class="middle">编辑</span></button>
                 <button class="wux-btn wux-btn-primary" type="button" id="save-edit-btn" onclick="save_edit();" hidden><img src="/static/image/icon/check-white.svg" width="16px" alt="" class="middle"><span class="middle">保存</span></button>
                 <span id="edit-upload-btn-span" hidden></span>
+                <span id="edit-emotions-btn-span" hidden></span>
                 <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="view-markdown-btn" onclick="view_markdown(!0);"><img src="/static/image/icon/markdown-primary.svg" alt="" width="16px" class="middle"><span class="middle">查看M↓</span></button>
                 <button class="wux-btn wux-btn-primary" type="button" id="view-markdown-btn-pressed" onclick="view_markdown(!1);" hidden><img src="/static/image/icon/markdown-white.svg" alt="" width="16px" class="middle"><span class="middle">查看M↓</span></button>
                 <button class="wux-btn wux-btn-primary" type="button" id="love-btn" onclick="love();"><span id="loved"></span> <span id="loves"></span></button>
@@ -79,6 +80,7 @@
                 <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,false);" type="button" id="comments-edit-btn--1" hidden><img src="/static/image/icon/edit-primary.svg" alt="" width="16px" class="middle"><span class="middle">编辑</span></button>
                 <button class="wux-btn wux-btn-primary simple" type="button" onclick="comments_release(-1);" id="comments-release-btn--1">发表</button>
                 <span id="comment-release-upload-btn-span--1"></span>
+                <span id="comment-release-emotions-btn-span--1"></span>
                 <span id="comments-login-btn" class="middle" hidden>请先<a href="javascript:;" onclick="check_logged_in();"><img src="/static/image/icon/login-2-primary.svg" alt="" width="16px" class="middle"><span class="middle">登录</span></a></span>
                 <span id="comments-result--1" class="result"></span>
                 <hr>
@@ -94,8 +96,9 @@
                 </div>
             </div>
             <div id="windows-div"></div>
-            <div id="scpc-v2" show-trigger="false"></div>
+            <span id="emotion-bar"></span>
             <div id="upload-image-progress-div"></div>
+            <div id="scpc-v2" show-trigger="false"></div>
         </div>
         <script src="/static/js/saobbyCaptchaV2.js" async></script>
         <script src="/static/js/dialog-polyfill.js" defer></script>
@@ -103,10 +106,11 @@
         <script src="/static/js/change_page_buttons.js" defer></script>
         <script src="/static/js/windows.js" defer></script>
         <script src="/static/js/paste_to_upload.js" defer onload="gebi('edit-upload-btn-span').innerHTML = pasteToUpload.gen_upload_btn('content-input', 'md');gebi('comment-release-upload-btn-span--1').innerHTML = pasteToUpload.gen_upload_btn('comments-content--1', 'md');"></script>
+        <script src="/static/js/emojis.js" defer></script>
+        <script src="/static/js/emotion_bar.js" defer onload="gebi('edit-emotions-btn-span').innerHTML = emotionBar.gen_open_btn('content-input', 'md');gebi('comment-release-emotions-btn-span--1').innerHTML = emotionBar.gen_open_btn('comments-content--1', 'md');"></script>
         <script src="/static/js/marked.min.js" defer></script>
         <script src="/static/js/katex.min.js" defer></script>
         <script src="/static/js/katex.umd.min.js" defer></script>
-        <script src="/static/js/emojis.js" defer></script>
         <script src="/static/js/emoji.index.umd.js" defer></script>
         <script src="/static/js/highlight.min.js" defer></script>
         <script src="/static/js/marked_init.js" defer></script>

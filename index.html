@@ -96,28 +96,31 @@
                 <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="document.getElementById('content-preview').hidden=true;document.getElementById('content-div').hidden=false;this.hidden=true;document.getElementById('content-preview-btn').hidden=false;" type="button" id="content-edit-btn" hidden><img src="/static/image/icon/edit-primary.svg" alt="" width="16px" class="middle"><span class="middle">编辑</span></button>
                 <button class="wux-btn wux-btn-primary simple" type="button" onclick="add_comment(-1, gebi('content').value);" id="rel-btn">发表</button>
                 <span id="upload-btn-span"></span>
+                <span id="emotions-btn-span"></span>
                 <span id="result0" style="color:#aa0000"></span>
             </div>
             <div id="comment-area" style="width:100%;overflow:auto;">评论加载中...若长时间未响应请刷新页面<br>若多次刷新仍无法显示评论,则可能是因为服务器网络故障,一般会在2分钟到数小时内恢复,请耐心等待<br>若有任何问题,请发邮件到<code>bugs@saobby.com</code>反馈!</div>
             <div id="change-page-btn" class="wux-btn-group"></div>
             <span>第<span id="page_index">1</span>/<span id="page_amount">-</span>页</span>
             <div class="hco"><img src="/static/image/icon/chart-dots-primary.svg" alt="" width="16px" class="middle"><span class="middle"> <a target="_blank" href="https://stats.uptimerobot.com/pj3R5f9YRK">Saobby状态</a></span></div>
-            <div id="scpc-v2" show-trigger="false"></div>
+            <div id="emotion-bar"></div>
             <div id="upload-image-progress-div"></div>
+            <div id="scpc-v2" show-trigger="false"></div>
             <div style="font-size:12px">
                 <center><a href="https://icp.gov.moe/?keyword=20225339" target="_blank" hidden>萌ICP备20225339号</a></center>
             </div>
         </div>
         <!--async lib-->
         <script src="/static/js/saobbyCaptchaV2.js" async></script>
-        <script src="/static/js/birthday.js?v2" async></script>
         <!--defer lib-->
         <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/birthday.js" defer></script>
         <script src="/static/js/paste_to_upload.js" defer onload="gebi('upload-btn-span').innerHTML = pasteToUpload.gen_upload_btn('content', 'md');"></script>
+        <script src="/static/js/emojis.js" defer></script>
+        <script src="/static/js/emotion_bar.js" defer onload="gebi('emotions-btn-span').innerHTML = emotionBar.gen_open_btn('content', 'md');"></script>
         <script src="/static/js/marked.min.js" defer></script>
         <script src="/static/js/katex.min.js" defer></script>
         <script src="/static/js/katex.umd.min.js" defer></script>
-        <script src="/static/js/emojis.js" defer></script>
         <script src="/static/js/emoji.index.umd.js" defer></script>
         <script src="/static/js/highlight.min.js" defer></script>
         <script src="/static/js/marked_init.js" defer></script>
