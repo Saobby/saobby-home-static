@@ -2,6 +2,16 @@ var emotionBar = (function (){
     var target_textarea = null;
     var ret = {};
     var all_emotions = [];
+    function load_emotions(pack_index){
+        var imgs = gebcn(`emotion-img-${pack_index}`);
+        for (var i=0; i<imgs.length; i++){
+            var img = imgs[i];
+            if (img.getAttribute("src_")){
+                img.src = img.getAttribute("src_");
+                img.removeAttribute("src_");
+            }
+        }
+    }
     ret.init = (emotions) => {
         all_emotions = emotions;
         var select_pack_html = `<div id="emotion-select-pack-div" style="width:100%;height:65px;overflow-y:hidden;overflow-x:auto;" class="wux-tab"><div style="white-space:nowrap;">`;
@@ -16,7 +26,7 @@ var emotionBar = (function (){
             emotions_html += `<div id="emotion-select-div-${pack_index}" style="height:calc(100% - 130px);overflow-y:auto;line-height:40px;margin-top:10px;margin-bottom:10px;"${parseInt(pack_index)===0?"":" hidden"}>`;
             for (var emotion_index in pack[1]){
                 var emotion = pack[1][emotion_index];
-                emotions_html += `<a href="javascript:;" onclick="emotionBar.select_emotion(${pack_index},${emotion_index});" style="padding:8px;"><img width="24px" height="24px" alt="${emotion[0]}" src="${emotion[1]}" title="${emotion[0]}"></a>`;
+                emotions_html += `<a href="javascript:;" onclick="emotionBar.select_emotion(${pack_index},${emotion_index});" style="padding:8px;"><img width="24px" height="24px" alt="${emotion[0]}" src_="${emotion[1]}" title="${emotion[0]}" class="emotion-img-${pack_index}"></a>`;
             }
             emotions_html += `</div>`;
         }
@@ -25,6 +35,7 @@ var emotionBar = (function (){
     };
     ret.show = (target) => {
         target_textarea = target;
+        load_emotions(0);
         gebi("emotion-bar-div").hidden = false;
     };
     ret.close = () => {
@@ -34,6 +45,7 @@ var emotionBar = (function (){
         for (var i=0; i<all_emotions.length; i++){
             gebi(`emotion-select-div-${i}`).hidden = i!==pack_index;
         }
+        load_emotions(pack_index);
     };
     ret.select_emotion = (pack_index, emotion_index) => {
         insert_into_textarea(`:${all_emotions[pack_index][1][emotion_index][0]}:`, target_textarea);
