@@ -256,7 +256,7 @@ function upload_midi() {
                     }
                     var file_blob = new Blob([file_bytes_array], {"type": "application/scratch3-sprite"});
                     var file_url = URL.createObjectURL(file_blob);
-                    gebi("upload-result").innerHTML = `成功生成了角色文件!现在可以下载!<br><a href="${file_url}" target="_blank" download="player.sprite3"><button class="wux-btn wux-btn-primary wux-btn-lg" onclick="set_btn_html(this,'已开始下载');setTimeout(set_btn_html,1000,this);">${icon_with_text("download-white", "下载")}</button></a>`;
+                    gebi("upload-result").innerHTML = `成功生成了角色文件!现在可以下载!<br><a href="${file_url}" target="_blank" download="${rsc(file.name)}.sprite3"><button class="wux-btn wux-btn-primary wux-btn-lg" onclick="set_btn_html(this,'已开始下载');setTimeout(set_btn_html,1000,this);">${icon_with_text("download-white", "下载")}</button></a>`;
                 }else{
                     gebi("upload-result").innerHTML = ret.message;
                 }
