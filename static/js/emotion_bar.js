@@ -1,5 +1,5 @@
 var emotionBar = (function (){
-    var sticker_packs = ["HSR PPG"];
+    var sticker_packs = ["HSR PPG", "GI PP"];
     var target_textarea = null;
     var ret = {};
     var all_emotions = [];
@@ -69,6 +69,7 @@ var emotionBar = (function (){
     var qq2 = [];
     var wechat = [];
     var ppg = [];
+    var pp = [];
     for (var i in bilibili_emojis){
         bilibili.push([i, bilibili_emojis[i]]);
     }
@@ -90,5 +91,8 @@ var emotionBar = (function (){
     for (var i in ppg_stickers){
         ppg.push([i, ppg_stickers[i]]);
     }
-    emotionBar.init([["B站表情包", bilibili], ["微信表情包", wechat], ["QQ表情包", qq2], ["QQ GIF", qq], ["Scratch", scratch], ["HSR PPG", ppg]]);
+    for (var i in pp_stickers){
+        pp.push([i, pp_stickers[i]]);
+    }
+    emotionBar.init([["B站表情包", bilibili], ["微信表情包", wechat], ["QQ表情包", qq2], ["QQ GIF", qq], ["Scratch", scratch], ["HSR PPG", ppg], ["GI PP", pp]]);
 })();
