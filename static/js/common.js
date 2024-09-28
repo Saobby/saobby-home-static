@@ -178,6 +178,13 @@ function insert_into_textarea(text, textarea){
     textarea.selectionEnd = start_pos + text.length;
 }
 
+function is_in_array(e, t) {
+    for (var n = 0; n < e.length; n++)
+        if (e[n] === t)
+            return true;
+    return false
+}
+
 function add_markdown_tips(){
     var markdown_tips = "\n提示:\n1. 支持Markdown语法、LaTeX语法\n2. 可直接粘贴图片到输入框，会自动上传\n3. 更多用法请见论坛置顶帖子";
     var textareas = gebcn("marked-textarea");

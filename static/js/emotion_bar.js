@@ -1,4 +1,5 @@
 var emotionBar = (function (){
+    var sticker_packs = ["HSR PPG"];
     var target_textarea = null;
     var ret = {};
     var all_emotions = [];
@@ -26,7 +27,11 @@ var emotionBar = (function (){
             emotions_html += `<div id="emotion-select-div-${pack_index}" style="height:calc(100% - 130px);overflow-y:auto;line-height:40px;margin-top:10px;margin-bottom:10px;"${parseInt(pack_index)===0?"":" hidden"}>`;
             for (var emotion_index in pack[1]){
                 var emotion = pack[1][emotion_index];
-                emotions_html += `<a href="javascript:;" onclick="emotionBar.select_emotion(${pack_index},${emotion_index});" style="padding:8px;"><img width="24px" height="24px" alt="${emotion[0]}" src_="${emotion[1]}" title="${emotion[0]}" class="emotion-img-${pack_index}"></a>`;
+                if (is_in_array(sticker_packs, pack[0])){
+                    emotions_html += `<a href="javascript:;" onclick="emotionBar.select_emotion(${pack_index},${emotion_index});" style="padding:8px;"><img height="64px" alt="${emotion[0]}" src_="${emotion[1]}" title="${emotion[0]}" class="emotion-img-${pack_index}"></a>`;
+                }else{
+                    emotions_html += `<a href="javascript:;" onclick="emotionBar.select_emotion(${pack_index},${emotion_index});" style="padding:8px;"><img width="24px" height="24px" alt="${emotion[0]}" src_="${emotion[1]}" title="${emotion[0]}" class="emotion-img-${pack_index}"></a>`;
+                }
             }
             emotions_html += `</div>`;
         }
@@ -63,6 +68,7 @@ var emotionBar = (function (){
     var qq = [];
     var qq2 = [];
     var wechat = [];
+    var ppg = [];
     for (var i in bilibili_emojis){
         bilibili.push([i, bilibili_emojis[i]]);
     }
@@ -81,5 +87,8 @@ var emotionBar = (function (){
     for (var i in wechat_emojis2){
         wechat.push([i, wechat_emojis2[i]]);
     }
-    emotionBar.init([["B站表情包", bilibili], ["微信表情包", wechat], ["QQ表情包", qq2], ["QQ GIF", qq], ["Scratch", scratch]]);
+    for (var i in ppg_stickers){
+        ppg.push([i, ppg_stickers[i]]);
+    }
+    emotionBar.init([["B站表情包", bilibili], ["微信表情包", wechat], ["QQ表情包", qq2], ["QQ GIF", qq], ["Scratch", scratch], ["HSR PPG", ppg]]);
 })();

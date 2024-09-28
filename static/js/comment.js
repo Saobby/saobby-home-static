@@ -1,11 +1,6 @@
 var domain = "https://comments.saobby.com";
 var last_save_draft = 0;
-function is_in_array(e, t) {
-    for (var n = 0; n < e.length; n++)
-        if (e[n] === t)
-            return true;
-    return false
-}
+
 function get_element_abs_pos2(e) {
     for (var t = e.offsetTop, n = e.offsetLeft; e = e.offsetParent; )
         t += e.offsetTop,

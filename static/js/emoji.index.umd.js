@@ -48,7 +48,7 @@
           if (options.unicode) {
             return token.emoji;
           } else {
-            return `<img style="vertical-align:middle" width="24px" height="24px" alt="${token.name}" src="${token.emoji}"${this.parser.options.xhtml ? ' /' : ''}>`;
+            return `<img style="vertical-align:text-bottom;" height="${token.name.startsWith('stk_')?'64px':'24px'}" alt="${token.name}" src="${token.emoji}"${this.parser.options.xhtml ? ' /' : ''}>`;
           }
         }
       }]
