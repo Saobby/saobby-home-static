@@ -104,6 +104,7 @@ var pasteToUpload = (function(api_url){
                     return;
                 }
                 await upload_image(file, gebi(textarea_map[bid]));
+                gebi(`upload-btn-input-${bid}`).value = "";
                 break;
         }
     }
@@ -114,5 +115,5 @@ var pasteToUpload = (function(api_url){
     }
     
     return returns;
-})("https://upload-static.saobby.com/api/upload_image");
+})("https://image.saobby.com/api/upload_image");
 pasteToUpload.init();
