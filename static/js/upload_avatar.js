@@ -53,22 +53,23 @@ function upload_avatar() {
         set_btn_html(gebi("upload-btn"));
     });
 }
-function set_avatar() {
-    var e, a;
-    "" != (a = gebi("avatar_url").value) ? (set_btn_html(gebi("save-btn"), "请稍候"),
-    a = gebi("avatar_url").value,
-    (e = new XMLHttpRequest).open("POST", domain + "/api/set_avatar_url", !0),
-    e.setRequestHeader("Content-Type", "application/json"),
-    a = {
-        avatar_url: a,
-        access_token: localStorage.getItem("access-token")
-    },
-    e.send(JSON.stringify(a)),
-    e.onreadystatechange = function() {
-        4 == e.readyState && ((ret_json = JSON.parse(e.responseText)).success ? window.location = "/" : (set_btn_html(gebi("save-btn")),
-        gebi("set_result").innerHTML = ret_json.message))
+async function set_avatar() {
+    let avatar_url = gebi("avatar_url").value;
+    if (!avatar_url) {
+        gebi("set_result").innerHTML = "链接不能为空";
+        return;
     }
-    ) : gebi("set_result").innerHTML = "头像链接不能为空!"
+    set_btn_html(gebi("save-btn"), "请稍候");
+    let ret = await fetch_api(domain + "/api/set_avatar_url", {
+        "avatar_url": avatar_url,
+        "access_token": localStorage.getItem("access-token")
+    });
+    if (!ret.retcode){
+        gebi("set_result").innerHTML = "头像设置成功";
+    }else{
+        gebi("set_result").innerHTML = ret.msg;
+    }
+    set_btn_html(gebi("save-btn"));
 }
 //function complete_captcha() {
 //    gebi("upload-btn").innerHTML = "上传中",

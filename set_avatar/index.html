@@ -40,7 +40,7 @@
             <progress class="wux-progress" value="0" max="100" id="upload-progress" hidden></progress><br>
             <img src="" alt="头像" id="avatar_img" width="32px" height="32px">
             <input class="wux-form-input wux-form-input-md" placeholder="头像链接" type="text" id="avatar_url">
-            <button class="wux-btn wux-btn-primary" type="button" onclick="set_avatar()" id="save-btn"><img src="/static/image/icon/check-white.svg" alt="" width="16px" class="middle"><span class="middle">保存</span></button>
+            <button class="wux-btn wux-btn-primary" type="button" onclick="set_avatar().then();" id="save-btn"><img src="/static/image/icon/check-white.svg" alt="" width="16px" class="middle"><span class="middle">保存</span></button>
             <span id="set_result" style="color:#aa0000"></span>
             <div id="scpc-v2" show-trigger="false"></div>
         </div>
