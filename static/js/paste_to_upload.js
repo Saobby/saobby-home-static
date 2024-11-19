@@ -103,8 +103,8 @@ var pasteToUpload = (function(api_url){
                 if (!file){
                     return;
                 }
-                await upload_image(file, gebi(textarea_map[bid]));
                 gebi(`upload-btn-input-${bid}`).value = "";
+                await upload_image(file, gebi(textarea_map[bid]));
                 break;
         }
     }
