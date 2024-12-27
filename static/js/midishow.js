@@ -17,7 +17,7 @@ function download(){
     }
     set_btn_html(gebi("download-btn"), "...");
     saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        set_btn_html(gebi("download-btn"), "请等30s");
+        set_btn_html(gebi("download-btn"), "请等10s");
         var send_data = {"url": url, "captcha_token": val.captcha_token};
         fetch_data(domain+"/api/download_midi", "POST", headers, JSON.stringify(send_data)).then(function(val2){
             var rep = JSON.parse(val2.response_text);
