@@ -35,8 +35,12 @@
         <div class="wux-container wux-typo">
             <h2>Midishow MIDI 快速下载机</h2>
             <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 120px );display:inline-block;" id="url" placeholder="MIDI 查看页网址, 例如 https://www.midishow.com/midi/42011.html">
-            <button type="button" class="wux-btn wux-btn-primary" id="download-btn" onclick="download();"><img src="/static/image/icon/download-white.svg" alt="" width="16px" class="middle"><span class="middle">下载</span></button><br>
+            <button type="button" class="wux-btn wux-btn-primary" id="download-btn" onclick="download();" disabled><img src="/static/image/icon/download-white.svg" alt="" width="16px" class="middle"><span class="middle">下载</span></button><br>
             <div id="notice-div">
+                <h1>注意！</h1>
+                <p><b>由于服务器 IP 被封禁，本工具暂时关闭。</b></p>
+                <p>未来我可能会制作可以本地部署使用的版本(如果愿意使用本地版的人够多的话)，如果你需要本地版，请发邮件到<code>bugs@saobby.com</code>告知我，如果人数较多，我将会在未来制作发布本地使用的版本。</p>
+                <p>如果你不愿意使用本地版，你可以等我想到可靠的解决方案并有精力实现它，恢复在线服务。</p>
                 <h2>注意事项</h2>
                 <ul>
                     <li>这个工具可以快速下载 Midishow 网站 (midishow.com) 上的 MIDI 文件，只需输入 MIDI 查看页面链接即可</li>
