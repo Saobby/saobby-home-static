@@ -35,24 +35,14 @@
         <div class="wux-container wux-typo">
             <h2>Midishow MIDI 快速下载机</h2>
             <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 120px );display:inline-block;" id="url" placeholder="MIDI 查看页网址, 例如 https://www.midishow.com/midi/42011.html">
-            <button type="button" class="wux-btn wux-btn-primary" id="download-btn" onclick="download();" disabled><img src="/static/image/icon/download-white.svg" alt="" width="16px" class="middle"><span class="middle">下载</span></button><br>
+            <button type="button" class="wux-btn wux-btn-primary" id="download-btn" onclick="download();"><img src="/static/image/icon/download-white.svg" alt="" width="16px" class="middle"><span class="middle">下载</span></button><br>
             <div id="notice-div">
-                <h1>注意！</h1>
-                <span><b>由于服务器 IP 被封禁，在线工具暂时关闭。</b></span><br>
-                <span>本工具已发布<b>本地版</b>。<a href="https://github.com/Saobby/midishow-downloader-selfhost" target="_blank">在 Github 上查看</a></span><br>
-                <span>直接下载最新版:</span><br>
-                <ul>
-                    <li><a href="https://nightly.link/Saobby/midishow-downloader-selfhost/workflows/build.yaml/main/midishow_downloader-x86.zip" target="_blank">32 位下载</a></li>
-                    <li><a href="https://nightly.link/Saobby/midishow-downloader-selfhost/workflows/build.yaml/main/midishow_downloader-x64.zip" target="_blank">64 位下载</a></li>
-                    <li>如果你不清楚你的电脑是 32 位还是 64 位，下载 32 位即可。</li>
-                </ul>
-                <span><b>请在下载后解压，根据<code>README_CHS.md</code>指引进行使用。</b></span>
-                <p>如果你不愿意使用本地版，你可以等我想到可靠的解决方案并有精力实现它，恢复在线服务。</p>
                 <h2>注意事项</h2>
                 <ul>
                     <li>这个工具可以快速下载 Midishow 网站 (midishow.com) 上的 MIDI 文件，只需输入 MIDI 查看页面链接即可</li>
                     <li><b>请勿将下载的 MIDI 用于非法用途</b>，包括未经 MIDI 作者允许转载发布到其它网站等</li>
                     <li>有任何问题，请发邮件到<code>bugs@saobby.com</code>反馈，或者直接在<a href="/" target="_blank">主页评论区</a>反馈</li>
+                    <li>本工具已发布本地版, 可以<a href="https://github.com/Saobby/midishow-downloader-selfhost" target="_blank">在 Github 上查看</a><a></a></li>
                 </ul>
                 <h2>更新日志</h2>
                 <ul>
