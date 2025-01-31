@@ -1,4 +1,4 @@
-var domain = "https://midishow.saobby.com";
+var domain = "https://midishow-vc.saobby.com";
 gebi("midi-visualizer").config={noteHeight:8,noteSpacing:1,pixelsPerTimeStep:100,noteRGB:"80, 100, 225",activeNoteRGB:"255, 85, 65"};
 
 function show_error_msg(msg){
