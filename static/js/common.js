@@ -197,4 +197,9 @@ function add_markdown_tips(){
     }
 }
 
+async function load_script(url){
+    var rsp = await fetch_data(url, "GET", {});
+    eval(rsp.response_text);
+}
+
 add_markdown_tips();

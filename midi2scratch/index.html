@@ -45,9 +45,7 @@
             <p>1. 上传 MIDI 文件，文件最大 512KB</p>
             <input class="wux-form-upload" type="file" id="midi-file" accept=".mid">
             <p>预览 MIDI</p>
-            <script src="/static/js/midi_player.js"></script>
-            <midi-player src="" sound-font="https://soundfont.saobby.com/midi" visualizer="#midi-visualizer" id="midi-player"></midi-player>
-            <midi-visualizer type="piano-roll" id="midi-visualizer"></midi-visualizer>
+            <div id="midi-player-div">正在加载 Midi 播放器</div>
             <p>2. 调整音色映射</p>
             <span>标准 MIDI 文件支持多达 128 种不同的音色和 47 种打击乐，而 Scratch 的音乐模块只支持 21 种音色和 18 种打击乐，你需要设置 MIDI 中的音色/打击乐分别对应 Scratch 中的哪个音色/打击乐。MIDI 中的音色可被映射到 Scratch 中的音色或打击乐，MIDI 中的打击乐只能被映射到 Scratch 中的打击乐。</span><br>
             <span>你也可以<b>不修改</b>来使用提供的默认设置。</span><br>

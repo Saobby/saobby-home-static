@@ -187,10 +187,6 @@ for (var i in scratch_percussion){
 for (var i in midi_percussion){
     midi_programs.push(midi_percussion[i]);
 }
-gebi("midi-visualizer").config={noteHeight:8,noteSpacing:1,pixelsPerTimeStep:100,noteRGB:"80, 100, 225",activeNoteRGB:"255, 85, 65"};
-gebi("midi-file").addEventListener("change", async function(){
-     gebi("midi-player").src = b642link(await input_file2b64(gebi("midi-file").files[0]));
-});
 
 function gen_select(selected_index, n){
     var selected_index = parseInt(selected_index);
@@ -289,4 +285,27 @@ function upload_midi() {
     });
 }
 
+async function load_midi_player(){
+    await load_script("/static/js/midi_player.js");
+    gebi("midi-player-div").innerHTML = `
+    <midi-player src="" sound-font="https://soundfont.saobby.com/midi" id="midi-player"></midi-player>
+    <midi-visualizer type="piano-roll" id="midi-visualizer"></midi-visualizer>
+    `;
+    gebi("midi-visualizer").config = {
+        noteHeight: 8,
+        noteSpacing: 1,
+        pixelsPerTimeStep: 100,
+        noteRGB: "80, 100, 225",
+        activeNoteRGB: "255, 85, 65"
+    };
+    gebi("midi-player").addVisualizer(gebi("midi-visualizer"));
+    gebi("midi-file").addEventListener(
+        "change",
+        async function(){
+            gebi("midi-player").src = b642link(await input_file2b64(gebi("midi-file").files[0]));
+        }
+    );
+}
+
 init();
+load_midi_player().then();

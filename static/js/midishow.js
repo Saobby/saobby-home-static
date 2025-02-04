@@ -1,5 +1,4 @@
 var domain = "https://midishow-vc.saobby.com";
-gebi("midi-visualizer").config={noteHeight:8,noteSpacing:1,pixelsPerTimeStep:100,noteRGB:"80, 100, 225",activeNoteRGB:"255, 85, 65"};
 
 function show_error_msg(msg){
     gebi("error-msg").innerHTML = msg;
@@ -42,3 +41,21 @@ function download(){
         set_btn_html(gebi("download-btn"));
     });
 }
+
+async function load_midi_player(){
+    await load_script("/static/js/midi_player.js");
+    gebi("midi-player-div").innerHTML = `
+    <midi-player src="" sound-font="https://soundfont.saobby.com/midi" id="midi-player"></midi-player>
+    <midi-visualizer type="piano-roll" id="midi-visualizer"></midi-visualizer>
+    `;
+    gebi("midi-visualizer").config = {
+        noteHeight: 8,
+        noteSpacing: 1,
+        pixelsPerTimeStep: 100,
+        noteRGB: "80, 100, 225",
+        activeNoteRGB: "255, 85, 65"
+    };
+    gebi("midi-player").addVisualizer(gebi("midi-visualizer"));
+}
+
+load_midi_player().then();
