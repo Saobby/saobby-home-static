@@ -29,8 +29,7 @@ function submit(){
     }
     var title = gebi("title").value;
     var options_amount = options.length;
-    var asr = gebi("always-show-result");
-    var always_show_result = ({"true": true, "false": false})[asr.options[asr.selectedIndex].value];
+    var always_show_result = gebi("always-show-result").checked;
     var font_size = gebi("font-size").value;
     var font_color = gebi("font-color").value;
     if (title === "" || font_size === "" || font_color === "" || include("", options)){
