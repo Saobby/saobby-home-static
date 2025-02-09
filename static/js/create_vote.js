@@ -31,7 +31,7 @@ function submit(){
     var options_amount = options.length;
     var always_show_result = gebi("always-show-result").checked;
     var font_size = gebi("font-size").value;
-    var font_color = gebi("font-color").value;
+    var font_color = gebi("font-color").value.slice(1);
     if (title === "" || font_size === "" || font_color === "" || include("", options)){
         gebi("result").innerHTML = "所有字段均不能为空";
         return;
@@ -71,4 +71,31 @@ function submit(){
         set_btn_html(gebi("submit-btn"));
     });
 }
+
+function preview_color(){
+    var r = parseInt(gebi("color-r-range").value);
+    var g = parseInt(gebi("color-g-range").value);
+    var b = parseInt(gebi("color-b-range").value);
+    gebi("color-r-val").innerHTML = r;
+    gebi("color-g-val").innerHTML = g;
+    gebi("color-b-val").innerHTML = b;
+    var hex = "#"+r.toString(16).padStart(2, "0")+g.toString(16).padStart(2, "0")+b.toString(16).padStart(2, "0");
+    gebi("font-color").value = hex;
+    gebi("color-preview-div").style.backgroundColor = hex;
+}
+
+function set_color(){
+    var hex = gebi("font-color").value;
+    var r = parseInt(hex.slice(1, 3), 16);
+    var g = parseInt(hex.slice(3, 5), 16);
+    var b = parseInt(hex.slice(5, 7), 16);
+    gebi("color-r-range").value = r;
+    gebi("color-g-range").value = g;
+    gebi("color-b-range").value = b;
+    gebi("color-r-val").innerHTML = r;
+    gebi("color-g-val").innerHTML = g;
+    gebi("color-b-val").innerHTML = b;
+    gebi("color-preview-div").style.backgroundColor = hex;
+}
+
 render_options();

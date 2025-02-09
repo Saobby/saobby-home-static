@@ -39,22 +39,36 @@
             <div class="wux-typo">
                 <h2 class="mt">创建一个投票</h2>
                 <div id="config">
-                    <span class="label">标题:</span>
+                    <span class="label">1. 标题:</span>
                     <input type="text" class="wux-form-input wux-form-input-md label" placeholder="标题" id="title">
-                    <span class="label">投票选项:</span>
+                    <span class="label">2. 投票选项:</span>
                     <div id="options-div" class="pre-like label"></div>
                     <button class="wux-btn wux-btn-primary label" type="button" onclick="add_option();"><img src="/static/image/icon/plus-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">添加选项</span></button><br>
-                    <span class="label">在何时显示投票结果?</span><br>
+                    <span class="label">3. 在何时显示投票结果?</span><br>
                     <label><input class="wux-form-radios" type="radio" name="always-show-result" checked>投票后可查看结果</label><br>
                     <label><input class="wux-form-radios" type="radio" name="always-show-result" id="always-show-result">总是显示结果</label><br>
-                    <span class="label">怎样显示投票结果:</span><br>
+                    <span class="label">4. 怎样显示投票结果:</span><br>
                     <label><input type="checkbox" class="wux-form-checks" id="show-number" checked>显示投票人数</label><br>
                     <label><input type="checkbox" class="wux-form-checks" id="show-percent" checked>显示百分比</label><br>
-                    <span class="label">字体大小:</span>
+                    <span class="label">5. 字体大小:</span>
                     <input type="number" class="wux-form-input wux-form-input-md label" placeholder="字体大小" value="16" min="1" id="font-size">
-                    <span class="label">字体颜色(填6位或3位十六进制颜色代码,不带#号):</span>
-                    <input type="text" class="wux-form-input wux-form-input-md label" placeholder="字体颜色(例如AA0000代表纯红色)" value="000" id="font-color">
+                    <span class="label">6. 字体颜色(点击下方色块使用浏览器的取色器):</span><br>
+                    <input type="color" style="width: 64px; height: 64px;" value="#000000" id="font-color" placeholder="填6位16进制颜色代码,要带#号,如#aa0000表示红色" oninput="set_color();"><br>
+                    <span class="label">如果你的浏览器不支持,请使用下方的滑块</span>
+                    <div class="wux-row-md-3">
+                        <div class="wux-col">
+                            <label>R:<span id="color-r-val">0</span><input class="wux-form-range" type="range" value="0" min="0" max="255" id="color-r-range" oninput="preview_color();"></label><br>
+                        </div>
+                        <div class="wux-col">
+                            <label>G:<span id="color-g-val">0</span><input class="wux-form-range" type="range" value="0" min="0" max="255" id="color-g-range" oninput="preview_color();"></label><br>
+                        </div>
+                        <div class="wux-col">
+                            <label>B:<span id="color-b-val">0</span><input class="wux-form-range" type="range" value="0" min="0" max="255" id="color-b-range" oninput="preview_color();"></label><br>
+                        </div>
+                    </div>
+                    <div style="width: 64px; height: 64px; background-color: #000000" id="color-preview-div" onclick="gebi('font-color').click();"></div>
                 </div>
+                <span class="label">7. 点击创建</span><br>
                 <button class="wux-btn wux-btn-primary label" type="button" id="submit-btn" onclick="submit();">创建投票</button>
                 <span id="result" class="result"></span>
                 <textarea class="wux-form-input wux-form-input-md label" id="markdown" rows="5" placeholder="生成的Markdown会显示在这里"></textarea>
