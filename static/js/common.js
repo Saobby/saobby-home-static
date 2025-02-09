@@ -213,4 +213,10 @@ async function load_script(url){
     eval(rsp.response_text);
 }
 
+function copy_text(text, btn){
+    navigator.clipboard.writeText(text);
+    set_btn_html(btn, "已复制");
+    setTimeout(set_btn_html, 1000, btn);
+}
+
 add_markdown_tips();

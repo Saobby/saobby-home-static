@@ -44,7 +44,7 @@ function get_video_link(vid, vid_type, cid, ele, btn, res){
         fetch_data(domain+"/api/get_video_link", "POST", headers, JSON.stringify(send_data)).then(function(val2){
             var rep = JSON.parse(val2.response_text);
             if (rep.success){
-                ele.innerHTML = `<b>画质: </b><span>${rep.data.quality}</span><br><b>大小: </b><span>${Math.round(rep.data.size*100)/100}MB</span><br><b>直链: </b><a target="_blank" href="${rsc(rep.data.url)}"><button class="wux-btn wux-btn-primary wux-btn-sm">${icon_with_text("eye-white", "打开")}</button></a><button class="wux-btn wux-btn-primary wux-btn-sm" style="left:3px;" onclick="navigator.clipboard.writeText('${rsc(rep.data.url)}');">${icon_with_text("copy-white", "复制")}</button>`;
+                ele.innerHTML = `<b>画质: </b><span>${rep.data.quality}</span><br><b>大小: </b><span>${Math.round(rep.data.size*100)/100}MB</span><br><b>直链: </b><a target="_blank" href="${rsc(rep.data.url)}"><button class="wux-btn wux-btn-primary wux-btn-sm">${icon_with_text("eye-white", "打开")}</button></a><button class="wux-btn wux-btn-primary wux-btn-sm" style="left:3px;" onclick="copy_text('${rsc(rep.data.url)}',this);">${icon_with_text("copy-white", "复制")}</button>`;
             }else{
                 res.innerHTML = rep.message;
                 set_btn_status(false);

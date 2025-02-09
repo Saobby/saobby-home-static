@@ -60,7 +60,7 @@
                 <button class="wux-btn wux-btn-primary label" type="button" id="submit-btn" onclick="submit();">创建投票</button>
                 <span id="result" class="result"></span>
                 <textarea class="wux-form-input wux-form-input-md label" id="markdown" rows="5" placeholder="生成的Markdown会显示在这里"></textarea>
-                <button class="wux-btn wux-btn-primary label" type="button" onclick="navigator.clipboard.writeText(gebi('markdown').value);"><img src="/static/image/icon/copy-white.svg" alt="" width="16px" class="middle"><span class="middle">复制Markdown</span></button>
+                <button class="wux-btn wux-btn-primary label" type="button" onclick="copy_text(gebi('markdown').value,this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16px" class="middle"><span class="middle">复制Markdown</span></button>
                 <div id="scpc-v2" show-trigger="false"></div>
             </div>
         </div>
