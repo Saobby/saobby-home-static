@@ -53,3 +53,6 @@
 .middle{
     vertical-align: middle;
 }
+.mb {
+    margin-bottom: 12px !important;
+}
