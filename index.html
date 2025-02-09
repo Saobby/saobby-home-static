@@ -137,7 +137,23 @@
                     <div class="wux-card wux-card-flat">
                         <div class="wux-card-body">
                             <h2><img src="/static/image/icon/clover.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">签到</span></h2>
-                            <span>本功能施工中...</span>
+                            <div class="centered">
+                                <div id="loading-div">
+                                    <span class="wux-loading"></span><br>
+                                    <span class="result" id="check-in-loading-result"></span>
+                                </div>
+                                <div id="show-date-div" hidden>
+                                    <span style="font-size: 20px">今天是</span><br>
+                                    <span style="color: #4050b4; font-size: 48px;" id="date">--/--</span><br>
+                                    <button class="wux-btn wux-btn-primary" type="button" onclick="check_in().then();" id="check-in-btn"><img src="/static/image/icon/clover-white.svg" alt="" width="16px" class="middle"><span class="middle">签到</span></button><br>
+                                    <span class="result" id="check-in-result"></span>
+                                </div>
+                                <div id="show-fortune-div" hidden>
+                                    <span style="font-size: 20px">今日运势</span><br>
+                                    <span style="color: #f59632; font-size: 48px;" id="fortune"></span><br>
+                                    <span>你已连续签到<b id="check-in-combo"></b>天</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -233,5 +249,6 @@
         <script src="/static/js/highlight.min.js" defer></script>
         <script src="/static/js/marked_init.js" defer></script>
         <script src="/static/js/comment.js" defer></script>
+        <script src="/static/js/check_in.js" defer></script>
     </body>
 </html>
