@@ -44,7 +44,7 @@ function submit(){
     set_buttons_status(true);
     set_btn_html(gebi("submit-btn"), "...");
     saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        gebi("submit-btn").innerHTML = "请稍候";
+        set_btn_html(gebi("submit-btn"), "请稍候");
         var send_data = {"options_amount": options_amount, "always_show_result": always_show_result, "show_number": gebi("show-number").checked, "show_percent": gebi("show-percent").checked, "font_size": font_size, "font_color": font_color, "captcha_token": gebi("scpc-token").value};
         fetch_data(domain+"/api/create_vote", "POST", headers, JSON.stringify(send_data)).then(function(val2){
             var rep = JSON.parse(val2.response_text);

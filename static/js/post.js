@@ -189,7 +189,7 @@ function love(){
     if (check_logged_in()){
         return;
     }
-    gebi("loved").innerHTML = "请稍候";
+    gebi("loved").innerHTML = '<span class="wux-loading"></span>';
     gebi("love-btn").disabled = true;
     var send_data = {"access_token": localStorage.getItem("access-token"), "name": args.pid, "value": !post_data.loved};
     fetch_data(domain+"/api/love_post", "POST", headers, JSON.stringify(send_data)).then(function(val){

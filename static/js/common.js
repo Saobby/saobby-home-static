@@ -48,7 +48,13 @@ function fetch_api(endpoint, payload){
             }catch(err){
                 resolve({"retcode": -1, "msg": err, "data": null});
             }
-            resolve({"retcode": rsp.success?0:-2, "msg": rsp.message, "data": rsp.data});
+            var ret = {"retcode": rsp.success?0:-2, "msg": rsp.message, "data": rsp.data};
+            for (var key in rsp){
+                if (!["success", "message"].includes(key) && ret[key] === undefined){
+                    ret[key] = rsp[key];
+                }
+            }
+            resolve(ret);
         }, function(val){
             resolve({"retcode": -3, "msg": val.message, "data": null})
         });
@@ -117,6 +123,11 @@ function icon_with_text(icon_name, text){
 }
 function set_btn_html(ele, html){
     if (html){
+        var loading_words = ["请稍候", "...", "正在上传"];
+        for (var i in loading_words){
+            var t = loading_words[i];
+            html = html.replaceAll(t, '<span class="wux-loading"></span>');
+        }
         if (!ele.getAttribute("old_html")){
             ele.setAttribute("old_html", ele.innerHTML);
         }

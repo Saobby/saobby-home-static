@@ -67,7 +67,7 @@ function add_comment(reply_to, content) {
                         gebi("reply-content-" + reply_to).value = "";
                         gebi("content-preview-" + reply_to).innerHTML = "";
                     }
-                    get_all_comment();
+                    get_all_comment().then();
                 }else{
                     if (reply_to == -1){
                         gebi("result0").innerHTML = ret.message;
@@ -198,46 +198,41 @@ function add_comment(reply_to, content) {
 //        }
 //    }
 //}
-function get_all_comment() {
-    var l = new XMLHttpRequest
-      , e = (l.open("POST", domain + "/api/get_comment", !0),
-    l.setRequestHeader("Content-Type", "application/json"),
-    {
-        place_id: place_id,
-        amount_per_page: 8,
-        page_index: comment_page_index,
-        access_token: localStorage["access-token"],
-        scroll_to: scroll_to
-    });
-    l.send(JSON.stringify(e)),
-    l.onreadystatechange = function() {
-        if (4 == l.readyState) {
-            var e = JSON.parse(l.responseText);
-            if (e.success) {
-                var t, n = "";
-                for (t in e.data)
-                    n += read_comment(e.data[t], 0);
-                comment_page_index = e.comment_data.page_index - 1,
-                gebi("comment-area").innerHTML = n,
-                gebi("page_index").innerHTML = e.comment_data.page_index,
-                gebi("page_amount").innerHTML = e.comment_data.page_amount,
-                scroll_to && window.scrollTo(get_element_abs_pos2(gebi("comment-area-" + scroll_to))),
-                scroll_to = scroll_to && void 0;
-                var d = e.comment_data.page_index - 2
-                  , i = e.comment_data.page_index + 2
-                  , o = (e.comment_data.page_index - 2 < 1 && (d = 1),
-                e.comment_data.page_index + 2 > e.comment_data.page_amount && (i = e.comment_data.page_amount),
-                "");
-                1 != d && (o += '<button class="wux-btn cp-btn wux-btn-outline" onclick="change_page(0);">«</button>');
-                for (var c = d; c <= i; c++)
-                    o += `<button class="${c == e.comment_data.page_index ? "wux-btn cp-btn" : "wux-btn cp-btn wux-btn-outline"}" onclick="change_page(${c - 1});">${c}</button>`;
-                i != e.comment_data.page_amount && (o += `<button class="wux-btn cp-btn wux-btn-outline" onclick="change_page(${e.comment_data.page_amount - 1});">»</button>`),
-                gebi("change-page-btn").innerHTML = o;
-                pasteToUpload.init();
-                add_markdown_tips();
-            } else
-                gebi("comment-area").innerHTML = "无法获取到评论,因为:" + e.message
+async function get_all_comment() {
+    var rsp = await fetch_api(
+        domain + "/api/get_comment",
+        {
+            place_id: place_id,
+            amount_per_page: 8,
+            page_index: comment_page_index,
+            access_token: localStorage["access-token"],
+            scroll_to: scroll_to
         }
+    );
+    if (rsp.retcode){
+        gebi("comment-area").innerHTML = `<span class="result">无法加载评论:${rsp.msg}</span>`;
+    }else{
+        var t, n = "";
+        for (t in rsp.data)
+            n += read_comment(rsp.data[t], 0);
+        comment_page_index = rsp.comment_data.page_index - 1,
+        gebi("comment-area").innerHTML = n,
+        gebi("page_index").innerHTML = rsp.comment_data.page_index,
+        gebi("page_amount").innerHTML = rsp.comment_data.page_amount,
+        scroll_to && window.scrollTo(get_element_abs_pos2(gebi("comment-area-" + scroll_to))),
+        scroll_to = scroll_to && void 0;
+        var d = rsp.comment_data.page_index - 2
+          , i = rsp.comment_data.page_index + 2
+          , o = (rsp.comment_data.page_index - 2 < 1 && (d = 1),
+        rsp.comment_data.page_index + 2 > rsp.comment_data.page_amount && (i = rsp.comment_data.page_amount),
+        "");
+        1 != d && (o += '<button class="wux-btn cp-btn wux-btn-outline" onclick="change_page(0);">«</button>');
+        for (var c = d; c <= i; c++)
+            o += `<button class="${c == rsp.comment_data.page_index ? "wux-btn cp-btn" : "wux-btn cp-btn wux-btn-outline"}" onclick="change_page(${c - 1});">${c}</button>`;
+        i != rsp.comment_data.page_amount && (o += `<button class="wux-btn cp-btn wux-btn-outline" onclick="change_page(${rsp.comment_data.page_amount - 1});">»</button>`),
+        gebi("change-page-btn").innerHTML = o;
+        pasteToUpload.init();
+        add_markdown_tips();
     }
 }
 function read_comment(e, t) {
@@ -293,7 +288,7 @@ function save_edition(t) {
         gebi(`edit-${t}-preview-btn`).disabled = !1,
         gebi(`edit-${t}-edit-btn`).disabled = !1,
         (e = JSON.parse(n.responseText)).success ? (gebi("edit-result-" + t).innerHTML = "保存成功!",
-        get_all_comment()) : gebi("edit-result-" + t).innerHTML = e.message)
+        get_all_comment().then()) : gebi("edit-result-" + t).innerHTML = e.message)
     }
     ) : gebi("edit-result-" + t).innerHTML = "你没有修改任何东西!" : gebi("edit-result-" + t).innerHTML = "编辑内容不能为空!"
 }
@@ -306,7 +301,7 @@ function change_page(e) {
     for (var t = document.getElementsByClassName("cp-btn"), n = 0; n < t.length; n++)
         t[n].disabled = !0;
     comment_page_index = e,
-    get_all_comment()
+    get_all_comment().then()
 }
 function show_image(e) {
     e.src = e.getAttribute("src_"),
@@ -410,4 +405,4 @@ async function get_notification_count(){
     }
 }
 get_notification_count().then();
-get_all_comment();
+get_all_comment().then();
