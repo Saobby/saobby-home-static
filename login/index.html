@@ -31,15 +31,21 @@
         <title>登录</title>
     </head>
     <body>
-        <div class="wux-container wux-typo">
-            <h2>登录</h2>
-            <input class="wux-form-input wux-form-input-md" placeholder="用户名" type="text" id="username">
-            <input class="wux-form-input wux-form-input-md" placeholder="密码" type="password" id="password">
-            <button class="wux-btn wux-btn-primary" type="button" onclick="login()" id="login-btn"><img src="/static/image/icon/login-white.svg" alt="" width="16px" class="middle"><span class="middle">登录</span></button>
-            <a href="/register">没有账号?点击注册!</a>
-            <br>
-            <span id="result" style="color:#aa0000"></span>
-            <div id="scpc-v2" show-trigger="false"></div>
+        <div class="wux-container">
+            <ul class="wux-breadcrumb">
+                <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
+                <li class="wux-breadcrumb-item">登录</li>
+            </ul>
+            <div class="wux-typo">
+                <h2 class="mt">登录</h2>
+                <input class="wux-form-input wux-form-input-md" placeholder="用户名" type="text" id="username">
+                <input class="wux-form-input wux-form-input-md" placeholder="密码" type="password" id="password">
+                <button class="wux-btn wux-btn-primary" type="button" onclick="login()" id="login-btn"><img src="/static/image/icon/login-white.svg" alt="" width="16px" class="middle"><span class="middle">登录</span></button>
+                <a href="/register">没有账号?点击注册!</a>
+                <br>
+                <span id="result" class="result"></span>
+                <div id="scpc-v2" show-trigger="false"></div>
+            </div>
         </div>
         <script src="/static/js/saobbyCaptchaV2.js" async></script>
         <script src="/static/js/common.js" defer></script>

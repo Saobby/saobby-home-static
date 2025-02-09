@@ -32,30 +32,36 @@
         <title>在 Scratch 中演奏 MIDI 文件</title>
     </head>
     <body>
-        <div class="wux-container wux-typo">
-            <h2>在 Scratch 中演奏 MIDI 文件</h2>
-            <h3>功能介绍</h3>
-            <ul>
-                <li>本工具可以生成一个<b>能够演奏上传的 MIDI 文件</b>的 Scratch 角色文件 (<code>.sprite3</code>), 下载生成的文件并通过 Scratch 的导入角色功能导入即可使用。</li>
-                <li>目前支持: <b>多音轨 MIDI、多乐器、打击乐、速度变化、强弱变化、音量变化、延音踏板</b>。</li>
-                <li>提示: 网上下载的一些 MIDI 可能不一定是“标准”的 MIDI 格式，如果遇到报错无法转换可以尝试用一些 MIDI 编辑软件打开 MIDI, 另存为，再重新导出 MIDI, 再来尝试转换可能就可以了。</li>
-                <li>如果有任何问题，请发邮件到<code>bugs@saobby.com</code>反馈或者直接在主页评论区反馈。</li>
+        <div class="wux-container">
+            <ul class="wux-breadcrumb">
+                <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
+                <li class="wux-breadcrumb-item">MIDI 转 Scratch 工具</li>
             </ul>
-            <h3>开始使用</h3>
-            <p>1. 上传 MIDI 文件，文件最大 512KB</p>
-            <input class="wux-form-upload" type="file" id="midi-file" accept=".mid">
-            <p>预览 MIDI</p>
-            <div id="midi-player-div">正在加载 Midi 播放器</div>
-            <p>2. 调整音色映射</p>
-            <span>标准 MIDI 文件支持多达 128 种不同的音色和 47 种打击乐，而 Scratch 的音乐模块只支持 21 种音色和 18 种打击乐，你需要设置 MIDI 中的音色/打击乐分别对应 Scratch 中的哪个音色/打击乐。MIDI 中的音色可被映射到 Scratch 中的音色或打击乐，MIDI 中的打击乐只能被映射到 Scratch 中的打击乐。</span><br>
-            <span>你也可以<b>不修改</b>来使用提供的默认设置。</span><br>
-            <a href="javascript:;" id="programs-btn"><img src="/static/image/icon/folder-primary.svg" alt="" width="16px" class="middle"><span class="middle">展开设置</span></a><br>
-            <div id="program-map-div" hidden></div>
-            <p>3. 点击提交按钮</p>
-            <button class="wux-btn wux-btn-primary" type="button" onclick="upload_midi();" id="upload-btn"><img src="/static/image/icon/upload-white.svg" width="16px" alt="" class="middle"><span class="middle">提交</span></button>
-            <span id="upload-result" class="result"></span><br>
-            <progress class="wux-progress" value="0" max="100" id="upload-progress" hidden></progress><br>
-            <div id="scpc-v2" show-trigger="false"></div>
+            <div class="wux-typo">
+                <h2 class="mt">在 Scratch 中演奏 MIDI 文件</h2>
+                <h3>功能介绍</h3>
+                <ul>
+                    <li>本工具可以生成一个<b>能够演奏上传的 MIDI 文件</b>的 Scratch 角色文件 (<code>.sprite3</code>), 下载生成的文件并通过 Scratch 的导入角色功能导入即可使用。</li>
+                    <li>目前支持: <b>多音轨 MIDI、多乐器、打击乐、速度变化、强弱变化、音量变化、延音踏板</b>。</li>
+                    <li>提示: 网上下载的一些 MIDI 可能不一定是“标准”的 MIDI 格式，如果遇到报错无法转换可以尝试用一些 MIDI 编辑软件打开 MIDI, 另存为，再重新导出 MIDI, 再来尝试转换可能就可以了。</li>
+                    <li>如果有任何问题，请发邮件到<code>bugs@saobby.com</code>反馈或者直接在主页评论区反馈。</li>
+                </ul>
+                <h3>开始使用</h3>
+                <p>1. 上传 MIDI 文件，文件最大 512KB</p>
+                <input class="wux-form-upload" type="file" id="midi-file" accept=".mid">
+                <p>预览 MIDI</p>
+                <div id="midi-player-div">正在加载 Midi 播放器</div>
+                <p>2. 调整音色映射</p>
+                <span>标准 MIDI 文件支持多达 128 种不同的音色和 47 种打击乐，而 Scratch 的音乐模块只支持 21 种音色和 18 种打击乐，你需要设置 MIDI 中的音色/打击乐分别对应 Scratch 中的哪个音色/打击乐。MIDI 中的音色可被映射到 Scratch 中的音色或打击乐，MIDI 中的打击乐只能被映射到 Scratch 中的打击乐。</span><br>
+                <span>你也可以<b>不修改</b>来使用提供的默认设置。</span><br>
+                <a href="javascript:;" id="programs-btn"><img src="/static/image/icon/folder-primary.svg" alt="" width="16px" class="middle"><span class="middle">展开设置</span></a><br>
+                <div id="program-map-div" hidden></div>
+                <p>3. 点击提交按钮</p>
+                <button class="wux-btn wux-btn-primary" type="button" onclick="upload_midi();" id="upload-btn"><img src="/static/image/icon/upload-white.svg" width="16px" alt="" class="middle"><span class="middle">提交</span></button>
+                <span id="upload-result" class="result"></span><br>
+                <progress class="wux-progress" value="0" max="100" id="upload-progress" hidden></progress><br>
+                <div id="scpc-v2" show-trigger="false"></div>
+            </div>
         </div>
         <script src="/static/js/saobbyCaptchaV2.js" async></script>
         <script src="/static/js/common.js" defer></script>

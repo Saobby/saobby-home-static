@@ -30,34 +30,40 @@
         <title>帖子列表-Saobby论坛</title>
     </head>
     <body>
-        <div class="wux-container wux-typo">
-            <h2>帖子列表</h2>
-            <select class="wux-form-select" style="width:80px;" id="search-field">
-                <option value="title">标题</option>
-                <option value="content">内容</option>
-                <option value="author">作者</option>
-                <option value="tag">标签</option>
-            </select>
-            <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 175px );display:inline-block;" id="search-text" placeholder="搜索">
-            <button type="button" class="wux-btn wux-btn-primary" id="search-btn" onclick="load_posts(0);"><img src="/static/image/icon/search-white.svg" alt="" width="16px" class="middle"><span class="middle">搜索</span></button><br>
-            <span>排序:</span>
-            <select class="wux-form-select" style="width:120px;" id="sort-by-select" onchange="load_posts(0);">
-                <option value="modify_time" selected>更新时间</option>
-                <option value="create_time">创建时间</option>
-                <option value="loves">点赞数</option>
-                <option value="views">查看数</option>
-            </select>
-            <select class="wux-form-select" style="width:80px;" id="sort-method-select" onchange="load_posts(0);">
-                <option value="0" selected>降序</option>
-                <option value="1">升序</option>
-            </select>
-            <button type="button" class="wux-btn wux-btn-primary" onclick="window.location='/create_post'"><img src="/static/image/icon/plus-white.svg" alt="" width="16px" class="middle"><span class="middle">创建帖子</span></button>
-            <hr>
-            <div id="posts-list-html">
-                <span>正在加载帖子列表...</span>
+        <div class="wux-container">
+            <ul class="wux-breadcrumb">
+                <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
+                <li class="wux-breadcrumb-item">论坛</li>
+            </ul>
+            <div class="wux-typo">
+                <h2 class="mt">帖子列表</h2>
+                <select class="wux-form-select" style="width:80px;" id="search-field">
+                    <option value="title">标题</option>
+                    <option value="content">内容</option>
+                    <option value="author">作者</option>
+                    <option value="tag">标签</option>
+                </select>
+                <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 175px );display:inline-block;" id="search-text" placeholder="搜索">
+                <button type="button" class="wux-btn wux-btn-primary" id="search-btn" onclick="load_posts(0);"><img src="/static/image/icon/search-white.svg" alt="" width="16px" class="middle"><span class="middle">搜索</span></button><br>
+                <span>排序:</span>
+                <select class="wux-form-select" style="width:120px;" id="sort-by-select" onchange="load_posts(0);">
+                    <option value="modify_time" selected>更新时间</option>
+                    <option value="create_time">创建时间</option>
+                    <option value="loves">点赞数</option>
+                    <option value="views">查看数</option>
+                </select>
+                <select class="wux-form-select" style="width:80px;" id="sort-method-select" onchange="load_posts(0);">
+                    <option value="0" selected>降序</option>
+                    <option value="1">升序</option>
+                </select>
+                <button type="button" class="wux-btn wux-btn-primary" onclick="window.location='/create_post'"><img src="/static/image/icon/plus-white.svg" alt="" width="16px" class="middle"><span class="middle">创建帖子</span></button>
+                <hr>
+                <div id="posts-list-html">
+                    <span>正在加载帖子列表...</span>
+                </div>
+                <div id="change-page-div" class="wux-btn-group"></div>
+                <span>第<span id="page-index">1</span>/<span id="page-amount">-</span>页</span>
             </div>
-            <div id="change-page-div" class="wux-btn-group"></div>
-            <span>第<span id="page-index">1</span>/<span id="page-amount">-</span>页</span>
         </div>
         <script src="/static/js/common.js" defer></script>
         <script src="/static/js/change_page_buttons.js" defer></script>

@@ -31,18 +31,24 @@
         <title>设置头像</title>
     </head>
     <body>
-        <div class="wux-container wux-typo">
-            <h2>设置头像</h2>
-            <p>上传头像或者设置头像图片链接，图片最大 16MB</p>
-            <input class="wux-form-upload" type="file" id="avatar_img_file" accept="image/*"><br>
-            <button class="wux-btn wux-btn-primary" type="button" onclick="upload_avatar()" id="upload-btn"><img src="/static/image/icon/upload-white.svg" alt="" width="16px" class="middle"><span class="middle">上传</span></button>
-            <span id="upload_result" style="color:#aa0000"></span><br>
-            <progress class="wux-progress" value="0" max="100" id="upload-progress" hidden></progress><br>
-            <img src="" alt="头像" id="avatar_img" width="32px" height="32px">
-            <input class="wux-form-input wux-form-input-md" placeholder="头像链接" type="text" id="avatar_url">
-            <button class="wux-btn wux-btn-primary" type="button" onclick="set_avatar().then();" id="save-btn"><img src="/static/image/icon/check-white.svg" alt="" width="16px" class="middle"><span class="middle">保存</span></button>
-            <span id="set_result" style="color:#aa0000"></span>
-            <div id="scpc-v2" show-trigger="false"></div>
+        <div class="wux-container">
+            <ul class="wux-breadcrumb">
+                <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
+                <li class="wux-breadcrumb-item">设置头像</li>
+            </ul>
+            <div class="wux-typo">
+                <h2 class="mt">设置头像</h2>
+                <p>上传头像或者设置头像图片链接，图片最大 16MB</p>
+                <input class="wux-form-upload" type="file" id="avatar_img_file" accept="image/*"><br>
+                <button class="wux-btn wux-btn-primary" type="button" onclick="upload_avatar()" id="upload-btn"><img src="/static/image/icon/upload-white.svg" alt="" width="16px" class="middle"><span class="middle">上传</span></button>
+                <span id="upload_result" style="color:#aa0000"></span><br>
+                <progress class="wux-progress" value="0" max="100" id="upload-progress" hidden></progress><br>
+                <img src="" alt="头像" id="avatar_img" width="32px" height="32px">
+                <input class="wux-form-input wux-form-input-md" placeholder="头像链接" type="text" id="avatar_url">
+                <button class="wux-btn wux-btn-primary" type="button" onclick="set_avatar().then();" id="save-btn"><img src="/static/image/icon/check-white.svg" alt="" width="16px" class="middle"><span class="middle">保存</span></button>
+                <span id="set_result" style="color:#aa0000"></span>
+                <div id="scpc-v2" show-trigger="false"></div>
+            </div>
         </div>
         <script src="/static/js/saobbyCaptchaV2.js" async></script>
         <script src="/static/js/common.js" defer></script>

@@ -36,24 +36,30 @@
         <title>通知中心</title>
     </head>
     <body>
-        <div class="wux-typo wux-container">
-            <h1>通知中心</h1>
-            <button class="wux-btn wux-btn-primary wux-btn-outline simple" type="button" onclick="deselect();" id="deselect-btn"><img src="/static/image/icon/deselect-primary.svg" alt="" width="16px" class="middle"><span class="middle">反选</span></button>
-            <button class="wux-btn wux-btn-primary simple" type="button" onclick="ack_notifications(selected).then();" id="ack-btn"><img src="/static/image/icon/check-white.svg" alt="" width="16px" class="middle"><span class="middle">已读选中</span></button>
-            <button class="wux-btn wux-btn-primary simple" type="button" onclick="ack_notifications('all').then();" id="ack-all-btn"><img src="/static/image/icon/checks-white.svg" alt="" width="16px" class="middle"><span class="middle">全部已读</span></button>
-            <button class="wux-btn wux-btn-primary simple" type="button" onclick="refresh();" id="refresh-btn"><img src="/static/image/icon/refresh-white.svg" alt="" width="16px" class="middle"><span class="middle">刷新</span></button>
-            <span id="result" class="result"></span>
-            <div class="wux-tab">
-                <input class="wux-tab-item" type="radio" id="tab-all" name="notification-tab" onclick="load_notifications(0, 0).then();" checked>
-                <label class="wux-tab-item" for="tab-all">全部</label>
-                <input class="wux-tab-item" type="radio" id="tab-unread" name="notification-tab" onclick="load_notifications(2, 0).then();">
-                <label class="wux-tab-item" for="tab-unread">未读</label>
-                <input class="wux-tab-item" type="radio" id="tab-read" name="notification-tab" onclick="load_notifications(1, 0).then();">
-                <label class="wux-tab-item" for="tab-read">已读</label>
+        <div class="wux-container">
+            <ul class="wux-breadcrumb">
+                <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
+                <li class="wux-breadcrumb-item">通知中心</li>
+            </ul>
+            <div class="wux-typo">
+                <h1 class="mt">通知中心</h1>
+                <button class="wux-btn wux-btn-primary wux-btn-outline simple" type="button" onclick="deselect();" id="deselect-btn"><img src="/static/image/icon/deselect-primary.svg" alt="" width="16px" class="middle"><span class="middle">反选</span></button>
+                <button class="wux-btn wux-btn-primary simple" type="button" onclick="ack_notifications(selected).then();" id="ack-btn"><img src="/static/image/icon/check-white.svg" alt="" width="16px" class="middle"><span class="middle">已读选中</span></button>
+                <button class="wux-btn wux-btn-primary simple" type="button" onclick="ack_notifications('all').then();" id="ack-all-btn"><img src="/static/image/icon/checks-white.svg" alt="" width="16px" class="middle"><span class="middle">全部已读</span></button>
+                <button class="wux-btn wux-btn-primary simple" type="button" onclick="refresh();" id="refresh-btn"><img src="/static/image/icon/refresh-white.svg" alt="" width="16px" class="middle"><span class="middle">刷新</span></button>
+                <span id="result" class="result"></span>
+                <div class="wux-tab">
+                    <input class="wux-tab-item" type="radio" id="tab-all" name="notification-tab" onclick="load_notifications(0, 0).then();" checked>
+                    <label class="wux-tab-item" for="tab-all">全部</label>
+                    <input class="wux-tab-item" type="radio" id="tab-unread" name="notification-tab" onclick="load_notifications(2, 0).then();">
+                    <label class="wux-tab-item" for="tab-unread">未读</label>
+                    <input class="wux-tab-item" type="radio" id="tab-read" name="notification-tab" onclick="load_notifications(1, 0).then();">
+                    <label class="wux-tab-item" for="tab-read">已读</label>
+                </div>
+                <hr>
+                <div id="notifications-div"></div>
+                <div id="cp-btn-div" class="wux-btn-group"></div>
             </div>
-            <hr>
-            <div id="notifications-div"></div>
-            <div id="cp-btn-div" class="wux-btn-group"></div>
         </div>
         <script src="/static/js/common.js" defer></script>
         <script src="/static/js/change_page_buttons.js" defer></script>
