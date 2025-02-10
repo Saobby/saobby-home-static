@@ -28,6 +28,7 @@ async function check_in(){
     if (rsp.retcode){
         gebi("check-in-result").innerHTML = rsp.msg;
     }else{
+        make_splash();
         show_checked_in(rsp.data.fortune, rsp.data.combo);
     }
     set_btn_html(gebi("check-in-btn"));

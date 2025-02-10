@@ -118,6 +118,15 @@ function get_element_abs_pos2(e) {
         top: t
     }
 }
+function get_element_abs_pos_center(el) {
+    if (!el) return null;
+
+    const rect = el.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2 + window.scrollX;
+    const centerY = rect.top + rect.height / 2 + window.scrollY;
+
+    return { x: centerX, y: centerY };
+}
 function icon_with_text(icon_name, text){
     return `<img src="/static/image/icon/${icon_name}.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">${text}</span>`;
 }
@@ -217,6 +226,14 @@ function copy_text(text, btn){
     navigator.clipboard.writeText(text);
     set_btn_html(btn, "已复制");
     setTimeout(set_btn_html, 1000, btn);
+}
+
+function gen_randint(a, b) {
+    return Math.floor(Math.random() * (b - a + 1)) + a;
+}
+
+function gen_continuous_random(a, b){
+    return Math.random() * (b - a) + a;
 }
 
 add_markdown_tips();
