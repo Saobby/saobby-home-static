@@ -212,7 +212,7 @@
                                 <button class="wux-btn wux-btn-primary wux-btn-outline" onclick="document.getElementById('comment-window').hidden=true;" type="button" id="cancel-btn"><img src="/static/image/icon/x-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">取消</span></button>
                                 <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="document.getElementById('content-preview').innerHTML=marked.parse(document.getElementById('content').value);document.getElementById('content-preview').hidden=false;document.getElementById('content-div').hidden=true;this.hidden=true;document.getElementById('content-edit-btn').hidden=false;" type="button" id="content-preview-btn"><img src="/static/image/icon/eye-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">预览</span></button>
                                 <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="document.getElementById('content-preview').hidden=true;document.getElementById('content-div').hidden=false;this.hidden=true;document.getElementById('content-preview-btn').hidden=false;" type="button" id="content-edit-btn" hidden><img src="/static/image/icon/edit-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">编辑</span></button>
-                                <button class="wux-btn wux-btn-primary simple" type="button" onclick="add_comment(-1, gebi('content').value);" id="rel-btn">发表</button>
+                                <button class="wux-btn wux-btn-primary simple" type="button" onclick="add_comment(-1, gebi('content').value).then();" id="rel-btn">发表</button>
                                 <span id="upload-btn-span"></span>
                                 <span id="emotions-btn-span"></span>
                                 <span id="result0" class="result"></span>
@@ -243,7 +243,7 @@
             </div>
         </div>
         <!--async lib-->
-        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/saobbyCaptchaV3.js" async></script>
         <script src="/static/js/check_browser.js" async></script>
         <!--defer lib-->
         <script src="/static/js/common.js" defer></script>

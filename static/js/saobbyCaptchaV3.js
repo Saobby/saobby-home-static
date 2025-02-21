@@ -313,7 +313,7 @@ class SaobbyCaptchaV3{
                 <span id="SCV3-trigger-text-${this.#id}">${this.#iconWithText("square", "点击进行人机验证")}</span>
             </div>
         </div>
-        <div id="SCV3-cover-${this.#id}" class="SCV3-cover" hidden>
+        <div id="SCV3-cover-${this.#id}" class="SCV3-cover">
             <div id="SCV3-window-${this.#id}" class="SCV3-window SCV3-centered">
                 <span class="SCV3-top">请<b class="SCV3-result">依次</b>点击:</span>
                 <img width="129px" height="30px" class="SCV3-on-top SCV3-img" id="SCV3-tip-img-${this.#id}" draggable="false">
@@ -452,6 +452,10 @@ class SaobbyCaptchaV3{
             id_: this.#challengeId,
             pos: this.#pos
         });
+        this.#setButtonHTML(this.#elements.submitButton);
+        this.#elements.closeButton.disabled = false;
+        this.#elements.refreshButton.disabled = false;
+        this.#updateSubmitButtonStatus();
         if (response.retcode){
             this.#elements.result.innerHTML = response.msg;
             if (response.retcode === 1){
@@ -461,10 +465,6 @@ class SaobbyCaptchaV3{
             this.#verifyResult.result = response;
             this.#close();
         }
-        this.#setButtonHTML(this.#elements.submitButton);
-        this.#elements.closeButton.disabled = false;
-        this.#elements.refreshButton.disabled = false;
-        this.#updateSubmitButtonStatus();
     }
 
     #open(){
@@ -514,7 +514,9 @@ class SaobbyCaptchaV3{
 
     #autoDestroy(){
         if (this.once){
-            this.destroy();
+            setTimeout(() => {
+                this.destroy();
+            }, 200);
         }
     }
 }

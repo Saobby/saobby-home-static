@@ -236,4 +236,12 @@ function gen_continuous_random(a, b){
     return Math.random() * (b - a) + a;
 }
 
+async function captcha_v3(){
+    const captcha = new SaobbyCaptchaV3({
+        apiBaseUrl: "https://captcha-v3.saobby.com",
+        once: true
+    });
+    return await captcha.verify();
+}
+
 add_markdown_tips();

@@ -25,109 +25,67 @@ function show_comment_window() {
         load_comment_draft(-1);
     }
 }
-function add_comment(reply_to, content) {
-//    var e = gebi("content").value;
-    if (content != ""){
-//        get_captcha_img();
-//        gebi("captcha-window").hidden = false;
-//        args = {
-//            place_id: place_id,
-//            access_token: localStorage["access-token"],
-//            content: e,
-//            reply_to: -1
-//        }
+async function add_comment(reply_to, content) {
+    function show_error_msg(msg){
         if (reply_to == -1){
-            set_btn_html(gebi("rel-btn"), "请完成验证码");
-            gebi("cancel-btn").disabled = true;
-            gebi("content-preview-btn").disabled = true;
-            gebi("content-edit-btn").disabled = true;
+            gebi("result0").innerHTML = msg;
         }else{
-            set_btn_html(gebi("rel-btn-" + reply_to), "请完成验证码");
-            gebi(`content-${reply_to}-preview-btn`).disabled = true;
-            gebi(`content-${reply_to}-edit-btn`).disabled = true;
-            gebi("cancel-rp-" + reply_to).disabled = true;
+            gebi("reply-result-" + reply_to).innerHTML = msg;
         }
-
-        saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-            if (reply_to == -1){
-                set_btn_html(gebi("rel-btn"), "请稍候");
-            }else{
-                set_btn_html(gebi("rel-btn-" + reply_to), "请稍候");
-            }
-            fetch_data(domain+"/api/post_comment", "POST", headers, JSON.stringify({place_id: place_id,
-                access_token: localStorage["access-token"],
-                content: content,
-                reply_to: reply_to,
-                captcha_token: gebi("scpc-token").value
-            })).then(function(val2){
-                var ret = JSON.parse(val2.response_text);
-                if (ret.success){
-                    if (reply_to == -1){
-                        gebi("result0").innerHTML = "评论发送成功!";
-                        gebi("content").value = "";
-                        gebi("content-preview").innerHTML = "";
-                        comment_page_index = 0;
-                    }else{
-                        gebi("reply-result-" + reply_to).innerHTML = "评论发送成功!";
-                        gebi("reply-content-" + reply_to).value = "";
-                        gebi("content-preview-" + reply_to).innerHTML = "";
-                    }
-                    get_all_comment().then();
-                }else{
-                    if (reply_to == -1){
-                        gebi("result0").innerHTML = ret.message;
-                    }else{
-                        gebi("reply-result-" + reply_to).innerHTML = ret.message;
-                    }
-                }
-                if (reply_to == -1){
-                    gebi("cancel-btn").disabled = false;
-                    gebi("content-preview-btn").disabled = false;
-                    gebi("content-edit-btn").disabled = false;
-                    set_btn_html(gebi("rel-btn"));
-                }else{
-                    gebi(`content-${reply_to}-preview-btn`).disabled = false;
-                    gebi(`content-${reply_to}-edit-btn`).disabled = false;
-                    gebi("cancel-rp-" + reply_to).disabled = false;
-                    set_btn_html(gebi("rel-btn-" + reply_to));
-                }
-            }, function(val2){
-                if (reply_to == -1){
-                    gebi("result0").innerHTML = val2.message;
-                    gebi("cancel-btn").disabled = false;
-                    gebi("content-preview-btn").disabled = false;
-                    gebi("content-edit-btn").disabled = false;
-                    set_btn_html(gebi("rel-btn"));
-                }else{
-                    gebi("reply-result-" + reply_to).innerHTML = val2.message;
-                    gebi(`content-${reply_to}-preview-btn`).disabled = false;
-                    gebi(`content-${reply_to}-edit-btn`).disabled = false;
-                    gebi("cancel-rp-" + reply_to).disabled = false;
-                    set_btn_html(gebi("rel-btn-" + reply_to));
-                }
-            });
-        }, function(val){
-            if (reply_to == -1){
-                gebi("result0").innerHTML = "请先完成验证码:"+val.message;
-                gebi("cancel-btn").disabled = false;
-                gebi("content-preview-btn").disabled = false;
-                gebi("content-edit-btn").disabled = false;
+        set_btn_status(true);
+    }
+    function set_btn_status(status){
+        if (reply_to == -1){
+            gebi("cancel-btn").disabled = !status;
+            gebi("content-preview-btn").disabled = !status;
+            gebi("content-edit-btn").disabled = !status;
+            if (status){
                 set_btn_html(gebi("rel-btn"));
             }else{
-                gebi("reply-result-" + reply_to).innerHTML = "请先完成验证码:"+val.message;
-                gebi(`content-${reply_to}-preview-btn`).disabled = false;
-                gebi(`content-${reply_to}-edit-btn`).disabled = false;
-                gebi("cancel-rp-" + reply_to).disabled = false;
-                set_btn_html(gebi("rel-btn-" + reply_to));
+                set_btn_html(gebi("rel-btn"), "...");
             }
-        });
-    }else{
-        if (reply_to == -1){
-            gebi("result0").innerHTML = "评论不能为空";
         }else{
-            gebi("reply-result-" + reply_to).innerHTML = "评论不能为空";
+            gebi(`content-${reply_to}-preview-btn`).disabled = !status;
+            gebi(`content-${reply_to}-edit-btn`).disabled = !status;
+            gebi("cancel-rp-" + reply_to).disabled = !status;
+            if (status){
+                set_btn_html(gebi("rel-btn-" + reply_to));
+            }else{
+                set_btn_html(gebi("rel-btn-" + reply_to), "...");
+            }
         }
     }
+    set_btn_status(false);
+    if (content === ""){
+        show_error_msg("评论不能为空");
+        return;
+    }
+    const captcha_rsp = await captcha_v3();
+    if (captcha_rsp.retcode){
+        show_error_msg(captcha_rsp.msg);
+        return;
+    }
+    const rsp = await fetch_api(domain+"/api/post_comment", {
+        place_id: place_id,
+        access_token: localStorage["access-token"],
+        content: content,
+        reply_to: reply_to,
+        captcha_token: captcha_rsp.data.token
+    });
+    if (rsp.retcode){
+        show_error_msg(rsp.msg);
+        return;
+    }
+    if (reply_to == -1){
+        gebi("content").value = "";
+        gebi("content-preview").innerHTML = "";
+        comment_page_index = 0;
+    }else{
+        gebi("reply-content-" + reply_to).value = "";
+        gebi("content-preview-" + reply_to).innerHTML = "";
+    }
+    show_error_msg("评论发送成功!");
+    get_all_comment().then();
 }
 // 已弃用
 //function add_reply_comment(e, t) {
@@ -290,7 +248,7 @@ function read_comment(comment_data, indent_level) {
         html_output += `<span style="color:#777777" onclick="window.scrollTo(get_element_abs_pos2(gebi('comment-area-${comment_data.reply_to}')))" class="middle">${icon_with_text("corner-down-right-grey", "回复 #"+comment_data.reply_to.toString())}</span><br>`;
     }
 
-    html_output += `<div id="comment-md-${comment_data.cid}" class="pre-like-code" hidden>${escaped_content}</div><div hidden><textarea id="origin-content-${comment_data.cid}">${escaped_content}</textarea></div><div id="edit-div-${comment_data.cid}" hidden><textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="编辑 #${comment_data.cid} 最多4096字" rows="5" id="edit-content-${comment_data.cid}">${escaped_content}</textarea></div><div id="edit-preview-${comment_data.cid}" class="pre-like" hidden></div><div class="comment-content" id="comment-html-${comment_data.cid}">${parsed_content}</div><i style="color:#777777;" ${comment_data.is_read === null? "hidden": ""}>${comment_data.is_read !== null ? (comment_data.is_read ? "已读("+ts2str(comment_data.read_time)+")": "未读"):""}</i><br ${comment_data.is_read === null? "hidden": ""}><button onclick="show_reply_window(${comment_data.cid})" class="wux-btn wux-btn-primary wux-btn-sm" id="reply-btn-${comment_data.cid}">${icon_with_text("message-reply-white", "回复")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="view-md-${comment_data.cid}" onclick="gebi('comment-md-${comment_data.cid}').hidden=!1;gebi('comment-html-${comment_data.cid}').hidden=!0;gebi('view-html-${comment_data.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" ${comment_data.can_edit ? "hidden" : ""}>${icon_with_text("markdown-primary", "查看M↓")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="view-html-${comment_data.cid}" onclick="gebi('comment-md-${comment_data.cid}').hidden=!0;gebi('comment-html-${comment_data.cid}').hidden=!1;gebi('view-md-${comment_data.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" hidden>${icon_with_text("markdown-white", "查看M↓")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="edit-btn-${comment_data.cid}" onclick="show_edit_window(${comment_data.cid})" style="margin-left:3px" ${comment_data.can_edit ? "" : "hidden"}>${icon_with_text("edit-primary", "编辑")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="cancel-edit-btn-${comment_data.cid}" onclick="hide_edit_window(${comment_data.cid})" style="margin-left:3px" hidden>${icon_with_text("x-primary", "取消")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="gebi('edit-preview-${comment_data.cid}').innerHTML=marked.parse(gebi('edit-content-${comment_data.cid}').value);gebi('edit-preview-${comment_data.cid}').hidden=false;gebi('edit-div-${comment_data.cid}').hidden=true;this.hidden=true;gebi('edit-${comment_data.cid}-edit-btn').hidden=false;" id="edit-${comment_data.cid}-preview-btn" style="margin-left:3px" hidden>${icon_with_text("eye-primary", "预览")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="gebi('edit-preview-${comment_data.cid}').hidden=true;gebi('edit-div-${comment_data.cid}').hidden=false;this.hidden=true;gebi('edit-${comment_data.cid}-preview-btn').hidden=false;" id="edit-${comment_data.cid}-edit-btn" style="margin-left:3px" hidden>${icon_with_text("edit-primary", "编辑")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="save-edit-btn-${comment_data.cid}" onclick="save_edition(${comment_data.cid})" style="margin-left:3px" hidden>${icon_with_text("check-white", "保存")}</button><span id="edit-upload-btn-${comment_data.cid}" hidden>${pasteToUpload.gen_upload_btn("edit-content-"+comment_data.cid, "sm")}${emotionBar.gen_open_btn("edit-content-"+comment_data.cid, "sm")}</span><span id="edit-result-${comment_data.cid}" style="color:#aa0000;margin-left:3px"></span></div><div id="comment-window-${comment_data.cid}" hidden><div id="content-${comment_data.cid}-div"><textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="回复 #${comment_data.cid} 最多4096字" rows="5" id="reply-content-${comment_data.cid}" onchange="save_comment_draft(this,${comment_data.cid});"></textarea></div><div id="content-preview-${comment_data.cid}" class="pre-like" hidden></div><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('comment-window-${comment_data.cid}').hidden=!0;gebi('reply-btn-${comment_data.cid}').disabled=!1;" type="button" id="cancel-rp-${comment_data.cid}">${icon_with_text("x-primary", "取消")}</button><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('content-preview-${comment_data.cid}').innerHTML=marked.parse(gebi('reply-content-${comment_data.cid}').value);gebi('content-preview-${comment_data.cid}').hidden=false;gebi('content-${comment_data.cid}-div').hidden=true;this.hidden=true;gebi('content-${comment_data.cid}-edit-btn').hidden=false;" type="button" id="content-${comment_data.cid}-preview-btn" style="margin-left:3px">${icon_with_text("eye-primary", "预览")}</button><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('content-preview-${comment_data.cid}').hidden=true;gebi('content-${comment_data.cid}-div').hidden=false;this.hidden=true;gebi('content-${comment_data.cid}-preview-btn').hidden=false;" type="button" id="content-${comment_data.cid}-edit-btn" style="margin-left:3px" hidden>${icon_with_text("edit-primary", "编辑")}</button><button class="wux-btn wux-btn-primary" type="button" onclick="add_comment(${comment_data.cid},gebi('reply-content-${comment_data.cid}').value)" id="rel-btn-${comment_data.cid}" style="margin-left:3px">发表</button>${pasteToUpload.gen_upload_btn("reply-content-"+comment_data.cid, "md")}${emotionBar.gen_open_btn("reply-content-"+comment_data.cid, "md")}<span id="reply-result-${comment_data.cid}" style="color:#aa0000;margin-left:3px"></span></div></div>`;
+    html_output += `<div id="comment-md-${comment_data.cid}" class="pre-like-code" hidden>${escaped_content}</div><div hidden><textarea id="origin-content-${comment_data.cid}">${escaped_content}</textarea></div><div id="edit-div-${comment_data.cid}" hidden><textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="编辑 #${comment_data.cid} 最多4096字" rows="5" id="edit-content-${comment_data.cid}">${escaped_content}</textarea></div><div id="edit-preview-${comment_data.cid}" class="pre-like" hidden></div><div class="comment-content" id="comment-html-${comment_data.cid}">${parsed_content}</div><i style="color:#777777;" ${comment_data.is_read === null? "hidden": ""}>${comment_data.is_read !== null ? (comment_data.is_read ? "已读("+ts2str(comment_data.read_time)+")": "未读"):""}</i><br ${comment_data.is_read === null? "hidden": ""}><button onclick="show_reply_window(${comment_data.cid})" class="wux-btn wux-btn-primary wux-btn-sm" id="reply-btn-${comment_data.cid}">${icon_with_text("message-reply-white", "回复")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="view-md-${comment_data.cid}" onclick="gebi('comment-md-${comment_data.cid}').hidden=!1;gebi('comment-html-${comment_data.cid}').hidden=!0;gebi('view-html-${comment_data.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" ${comment_data.can_edit ? "hidden" : ""}>${icon_with_text("markdown-primary", "查看M↓")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="view-html-${comment_data.cid}" onclick="gebi('comment-md-${comment_data.cid}').hidden=!0;gebi('comment-html-${comment_data.cid}').hidden=!1;gebi('view-md-${comment_data.cid}').hidden=!1;this.hidden=!0;" style="margin-left:3px" hidden>${icon_with_text("markdown-white", "查看M↓")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="edit-btn-${comment_data.cid}" onclick="show_edit_window(${comment_data.cid})" style="margin-left:3px" ${comment_data.can_edit ? "" : "hidden"}>${icon_with_text("edit-primary", "编辑")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" id="cancel-edit-btn-${comment_data.cid}" onclick="hide_edit_window(${comment_data.cid})" style="margin-left:3px" hidden>${icon_with_text("x-primary", "取消")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="gebi('edit-preview-${comment_data.cid}').innerHTML=marked.parse(gebi('edit-content-${comment_data.cid}').value);gebi('edit-preview-${comment_data.cid}').hidden=false;gebi('edit-div-${comment_data.cid}').hidden=true;this.hidden=true;gebi('edit-${comment_data.cid}-edit-btn').hidden=false;" id="edit-${comment_data.cid}-preview-btn" style="margin-left:3px" hidden>${icon_with_text("eye-primary", "预览")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline" onclick="gebi('edit-preview-${comment_data.cid}').hidden=true;gebi('edit-div-${comment_data.cid}').hidden=false;this.hidden=true;gebi('edit-${comment_data.cid}-preview-btn').hidden=false;" id="edit-${comment_data.cid}-edit-btn" style="margin-left:3px" hidden>${icon_with_text("edit-primary", "编辑")}</button><button type="button" class="wux-btn wux-btn-primary wux-btn-sm" id="save-edit-btn-${comment_data.cid}" onclick="save_edition(${comment_data.cid})" style="margin-left:3px" hidden>${icon_with_text("check-white", "保存")}</button><span id="edit-upload-btn-${comment_data.cid}" hidden>${pasteToUpload.gen_upload_btn("edit-content-"+comment_data.cid, "sm")}${emotionBar.gen_open_btn("edit-content-"+comment_data.cid, "sm")}</span><span id="edit-result-${comment_data.cid}" style="color:#aa0000;margin-left:3px"></span></div><div id="comment-window-${comment_data.cid}" hidden><div id="content-${comment_data.cid}-div"><textarea class="wux-form-input wux-form-input-md marked-textarea" placeholder="回复 #${comment_data.cid} 最多4096字" rows="5" id="reply-content-${comment_data.cid}" onchange="save_comment_draft(this,${comment_data.cid});"></textarea></div><div id="content-preview-${comment_data.cid}" class="pre-like" hidden></div><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('comment-window-${comment_data.cid}').hidden=!0;gebi('reply-btn-${comment_data.cid}').disabled=!1;" type="button" id="cancel-rp-${comment_data.cid}">${icon_with_text("x-primary", "取消")}</button><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('content-preview-${comment_data.cid}').innerHTML=marked.parse(gebi('reply-content-${comment_data.cid}').value);gebi('content-preview-${comment_data.cid}').hidden=false;gebi('content-${comment_data.cid}-div').hidden=true;this.hidden=true;gebi('content-${comment_data.cid}-edit-btn').hidden=false;" type="button" id="content-${comment_data.cid}-preview-btn" style="margin-left:3px">${icon_with_text("eye-primary", "预览")}</button><button class="wux-btn wux-btn-primary wux-btn-outline" onclick="gebi('content-preview-${comment_data.cid}').hidden=true;gebi('content-${comment_data.cid}-div').hidden=false;this.hidden=true;gebi('content-${comment_data.cid}-preview-btn').hidden=false;" type="button" id="content-${comment_data.cid}-edit-btn" style="margin-left:3px" hidden>${icon_with_text("edit-primary", "编辑")}</button><button class="wux-btn wux-btn-primary" type="button" onclick="add_comment(${comment_data.cid},gebi('reply-content-${comment_data.cid}').value).then();" id="rel-btn-${comment_data.cid}" style="margin-left:3px">发表</button>${pasteToUpload.gen_upload_btn("reply-content-"+comment_data.cid, "md")}${emotionBar.gen_open_btn("reply-content-"+comment_data.cid, "md")}<span id="reply-result-${comment_data.cid}" style="color:#aa0000;margin-left:3px"></span></div></div>`;
 
     // 递归处理回复
     if (comment_data.replies) {
