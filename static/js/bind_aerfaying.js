@@ -29,31 +29,28 @@ function get_verification_code() {
         gebi("comment-content").innerHTML = `无法加载评论内容，因为:${val.message}，请刷新页面`;
     });
 }
-function check_comment() {
-    set_btn_html(gebi("check-btn"), "请完成人机验证");
-    saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        set_btn_html(gebi("check-btn"), "请稍候");
-        var data = {access_token: localStorage["access-token"],
-            captcha_token: gebi("scpc-token").value,
-            timestamp: gebi("timestamp").value,
-            signature: gebi("signature").value,
-            auth_key: gebi("comment-content").innerHTML};
-        fetch_data(domain + "/api/set_aerfaying_uid", "POST", headers, JSON.stringify(data)).then(function(val2){
-            var ret = JSON.parse(val2.response_text);
-            if (ret.success){
-                gebi("result").innerHTML = "绑定成功!有人回复你的评论时，你将会在阿尔法营收到提醒消息";
-            }else{
-                gebi("result").innerHTML = ret.message;
-            }
-            set_btn_html(gebi("check-btn"));
-        }, function(val2){
-            gebi("result").innerHTML = val2.message;
-            set_btn_html(gebi("check-btn"));
-        });
-    }, function(val){
-        gebi("result").innerHTML = "请先完成人机验证:"+val.message;
+async function check_comment() {
+    set_btn_html(gebi("check-btn"), "...");
+    const captcha_rsp = await captcha_v3();
+    if (captcha_rsp.retcode){
+        gebi("result").innerHTML = "人机验证失败:"+captcha_rsp.msg;
         set_btn_html(gebi("check-btn"));
+        return;
+    }
+    const rsp = await fetch_api(domain+"/api/set_aerfaying_uid", {
+        access_token: localStorage["access-token"],
+        captcha_token: captcha_rsp.captcha_token,
+        timestamp: gebi("timestamp").value,
+        signature: gebi("signature").value,
+        auth_key: gebi("comment-content").innerHTML
     });
+    if (rsp.retcode){
+        gebi("result").innerHTML = rsp.msg;
+        set_btn_html(gebi("check-btn"));
+        return;
+    }
+    gebi("result").innerHTML = "绑定成功!有人回复你的评论时，你将会在阿尔法营收到提醒消息";
+    set_btn_html(gebi("check-btn"));
 }
 // 已弃用
 //function complete_captcha() {
