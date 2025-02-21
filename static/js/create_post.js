@@ -9,7 +9,7 @@ function preview(mode){
     gebi("preview-btn").hidden = mode;
     gebi("edit-btn").hidden = !mode;
 }
-function release(){
+async function release(){
     var title = gebi("title-input").value;
     var content = gebi("content-input").value;
     if (title === "" || content === ""){
@@ -19,32 +19,31 @@ function release(){
     gebi("content-input").disabled = true;
     gebi("title-input").disabled = true;
     set_btn_html(gebi("release-btn"), "...");
-    saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        set_btn_html(gebi("release-btn"), "稍等");
-        var send_data = {"access_token": localStorage.getItem("access-token"), "title": title, "content": content, "captcha_token": gebi("scpc-token").value};
-        fetch_data(domain+"/api/create_post", "POST", headers, JSON.stringify(send_data)).then(function(val2){
-            var rep = JSON.parse(val2.response_text);
-            if (rep.success){
-                gebi("result").innerHTML = "发表成功";
-                window.location = "/post/?pid="+rep.data.name;
-            }else{
-                gebi("result").innerHTML = rep.message;
-            }
-            gebi("content-input").disabled = false;
-            gebi("title-input").disabled = false;
-            set_btn_html(gebi("release-btn"));
-        }, function(val2){
-            gebi("result").innerHTML = val2.message;
-            gebi("content-input").disabled = false;
-            gebi("title-input").disabled = false;
-            set_btn_html(gebi("release-btn"));
-        });
-    }, function(val){
-        gebi("result").innerHTML = "请先完成人机验证:"+val.message;
+
+    const captcha_rsp = await captcha_v3();
+    if (captcha_rsp.retcode){
+        gebi("result").innerHTML = "人机验证失败:"+captcha_rsp.msg;
         gebi("content-input").disabled = false;
         gebi("title-input").disabled = false;
         set_btn_html(gebi("release-btn"));
+        return;
+    }
+
+    const rsp = await fetch_api(domain+"/api/create_post", {
+        access_token: localStorage.getItem("access-token"),
+        title: title,
+        content: content,
+        captcha_token: captcha_rsp.data.token
     });
+    if (rsp.retcode){
+        gebi("result").innerHTML = rsp.msg;
+        gebi("content-input").disabled = false;
+        gebi("title-input").disabled = false;
+        set_btn_html(gebi("release-btn"));
+        return;
+    }
+    gebi("result").innerHTML = "发表成功";
+    window.location = "/post/?pid="+rsp.data.name;
 }
 function load_post_draft(){
     function apply_draft(data){

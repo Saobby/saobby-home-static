@@ -48,7 +48,7 @@
                 <input type="text" placeholder="帖子标题" class="wux-form-input wux-form-input-md" id="title-input" onchange="save_post_draft();">
                 <textarea placeholder="请输入帖子正文, 最多32768字" id="content-input" class="wux-form-input wux-form-input-md marked-textarea" style="height:calc(100vh - 230px)" onchange="save_post_draft();"></textarea>
                 <div class="pre-like" id="preview-html" style="height:auto" hidden></div>
-                <button class="wux-btn wux-btn-primary right simple" type="button" id="release-btn" onclick="release();">发表</button>
+                <button class="wux-btn wux-btn-primary right simple" type="button" id="release-btn" onclick="release().then();">发表</button>
                 <button class="wux-btn wux-btn-primary wux-btn-outline right simple" type="button" id="preview-btn" onclick="preview(true);"><img src="/static/image/icon/eye-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">预览</span></button>
                 <button class="wux-btn wux-btn-primary wux-btn-outline right simple" type="button" id="edit-btn" hidden onclick="preview(false);"><img src="/static/image/icon/edit-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">编辑</span></button>
                 <span id="emotions-btn-span" class="right"></span>
@@ -59,7 +59,7 @@
                 <div id="scpc-v2" show-trigger="false"></div>
             </div>
         </div>
-        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/saobbyCaptchaV3.js" async></script>
         <script src="/static/js/check_browser.js" async></script>
         <script src="/static/js/common.js" defer></script>
         <script src="/static/js/paste_to_upload.js" defer onload="gebi('upload-btn-span').innerHTML = pasteToUpload.gen_upload_btn('content-input', 'md');"></script>
