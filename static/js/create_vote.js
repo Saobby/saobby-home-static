@@ -16,7 +16,7 @@ function render_options(){
     }
     gebi("options-div").innerHTML = html;
 }
-function submit(){
+async function submit(){
     function set_buttons_status(status){
         function set_ability(ele){
             var children = ele.children;
@@ -42,34 +42,39 @@ function submit(){
     }
     set_buttons_status(true);
     set_btn_html(gebi("submit-btn"), "...");
-    saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        set_btn_html(gebi("submit-btn"), "请稍候");
-        var send_data = {"options_amount": options_amount, "always_show_result": always_show_result, "show_number": gebi("show-number").checked, "show_percent": gebi("show-percent").checked, "font_size": font_size, "font_color": font_color, "captcha_token": gebi("scpc-token").value};
-        fetch_data(domain+"/api/create_vote", "POST", headers, JSON.stringify(send_data)).then(function(val2){
-            var rep = JSON.parse(val2.response_text);
-            if (rep.success){
-                gebi("result").innerHTML = "创建成功";
-                var markdown = `**投票:${title}**(点击选项进行投票):  \n`;
-                for (var i in options){
-                    var option = options[i];
-                    markdown += `[${option}](${domain+"/v/"+rep.data.vote_id+"/"+i.toString()}) ![](${domain+"/i/"+rep.data.vote_id+"/"+i.toString()})  \n`;
-                }
-                gebi("markdown").value = markdown;
-            }else{
-                gebi("result").innerHTML = rep.message;
-            }
-            set_buttons_status(false);
-            set_btn_html(gebi("submit-btn"));
-        }, function(val2){
-            gebi("result").innerHTML = val2.message;
-            set_buttons_status(false);
-            set_btn_html(gebi("submit-btn"));
-        });
-    }, function(val){
-        gebi("result").innerHTML = "请先完成人机验证:"+val.message;
+
+    const captcha_rsp = await captcha_v3();
+    if (captcha_rsp.retcode){
+        gebi("result").innerHTML = "人机验证失败:"+captcha_rsp.msg;
         set_buttons_status(false);
         set_btn_html(gebi("submit-btn"));
+        return;
+    }
+
+    const rsp = await fetch_api(domain+"/api/create_vote", {
+        options_amount: options_amount,
+        always_show_result: always_show_result,
+        show_number: gebi("show-number").checked,
+        show_percent: gebi("show-percent").checked,
+        font_size: font_size,
+        font_color: font_color,
+        captcha_token: captcha_rsp.data.token
     });
+    if (rsp.retcode){
+        gebi("result").innerHTML = rsp.msg;
+        set_buttons_status(false);
+        set_btn_html(gebi("submit-btn"));
+        return;
+    }
+    gebi("result").innerHTML = "创建成功";
+    var markdown = `**投票:${title}**(点击选项进行投票):  \n`;
+    for (var i in options){
+        var option = options[i];
+        markdown += `[${option}](${domain+"/v/"+rsp.data.vote_id+"/"+i.toString()}) ![](${domain+"/i/"+rsp.data.vote_id+"/"+i.toString()})  \n`;
+    }
+    gebi("markdown").value = markdown;
+    set_buttons_status(false);
+    set_btn_html(gebi("submit-btn"));
 }
 
 function preview_color(){
