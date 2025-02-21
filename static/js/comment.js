@@ -62,7 +62,7 @@ async function add_comment(reply_to, content) {
     }
     const captcha_rsp = await captcha_v3();
     if (captcha_rsp.retcode){
-        show_error_msg(captcha_rsp.msg);
+        show_error_msg("人机验证失败"+captcha_rsp.msg);
         return;
     }
     const rsp = await fetch_api(domain+"/api/post_comment", {
