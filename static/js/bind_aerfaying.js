@@ -39,7 +39,7 @@ async function check_comment() {
     }
     const rsp = await fetch_api(domain+"/api/set_aerfaying_uid", {
         access_token: localStorage["access-token"],
-        captcha_token: captcha_rsp.captcha_token,
+        captcha_token: captcha_rsp.data.token,
         timestamp: gebi("timestamp").value,
         signature: gebi("signature").value,
         auth_key: gebi("comment-content").innerHTML
