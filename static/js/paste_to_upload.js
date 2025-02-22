@@ -48,6 +48,9 @@ var pasteToUpload = (function(api_url){
                 gebi("upload-image-cancel-div").innerHTML = `<button class="wux-btn wux-btn-primary wux-btn-outline right" id="${cancel_btn_id}">${icon_with_text("x-primary", "取消")}</button>`;
                 gebi(cancel_btn_id).addEventListener("click", function(){
                     gebi("upload-image-progress-window").hidden = true;
+                    if (!no_tips){
+                        insert_into_textarea("", textarea);
+                    }
                     if (gebi("upload-image-status").value === "uploading"){
                         http.abort();
                         gebi("upload-image-status").value = "closed";
