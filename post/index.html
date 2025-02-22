@@ -70,7 +70,7 @@
                     <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="cancel-edit-btn" onclick="edit_post(!1);" hidden><img src="/static/image/icon/x-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">取消</span></button>
                     <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="preview-btn" onclick="preview(!0);" hidden><img src="/static/image/icon/eye-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">预览</span></button>
                     <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="close-preview-btn" onclick="preview(!1);" hidden><img src="/static/image/icon/edit-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">编辑</span></button>
-                    <button class="wux-btn wux-btn-primary" type="button" id="save-edit-btn" onclick="save_edit();" hidden><img src="/static/image/icon/check-white.svg" width="16px" height="16px" alt="" class="middle"><span class="middle">保存</span></button>
+                    <button class="wux-btn wux-btn-primary" type="button" id="save-edit-btn" onclick="save_edit().then();" hidden><img src="/static/image/icon/check-white.svg" width="16px" height="16px" alt="" class="middle"><span class="middle">保存</span></button>
                     <span id="edit-upload-btn-span" hidden></span>
                     <span id="edit-emotions-btn-span" hidden></span>
                     <button class="wux-btn wux-btn-primary wux-btn-outline" type="button" id="view-markdown-btn" onclick="view_markdown(!0);"><img src="/static/image/icon/markdown-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">查看M↓</span></button>
@@ -84,19 +84,19 @@
                     <button id="comments-cancel-btn--1" hidden></button>
                     <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,true);" type="button" id="comments-preview-btn--1"><img src="/static/image/icon/eye-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">预览</span></button>
                     <button class="wux-btn wux-btn-primary wux-btn-outline simple" onclick="comments_preview(-1,false);" type="button" id="comments-edit-btn--1" hidden><img src="/static/image/icon/edit-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">编辑</span></button>
-                    <button class="wux-btn wux-btn-primary simple" type="button" onclick="comments_release(-1);" id="comments-release-btn--1">发表</button>
+                    <button class="wux-btn wux-btn-primary simple" type="button" onclick="comments_release(-1).then();" id="comments-release-btn--1">发表</button>
                     <span id="comment-release-upload-btn-span--1"></span>
                     <span id="comment-release-emotions-btn-span--1"></span>
                     <span id="comments-login-btn" class="middle" hidden>请先<a href="javascript:;" onclick="check_logged_in();"><img src="/static/image/icon/login-2-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">登录</span></a></span>
                     <span id="comments-result--1" class="result"></span>
                     <hr>
-                    <div id="comments-view-div" style="width:100%;overflow:auto;">正在加载评论，请稍候...</div>
+                    <div id="comments-view-div" style="width:100%;overflow:auto;"><div class="centered"><span class="wux-loading"></span><br><span>评论加载中</span></div></div>
                     <div id="comments-change-page-div" class="wux-btn-group"></div>
                     <span>第<span id="comments-page-index">1</span>/<span id="comments-page-amount">-</span>页</span>
                     <div id="history-div" style="position:fixed;top:calc(50vh - 200px);left:calc(50vw - 200px);width:400px;height:400px;background:#ffffff;white-space:normal;" class="pre-like" hidden>
                         <h2>帖子编辑记录</h2>
                         <a onclick="close_history()" style="position:absolute;left:350px;top:20px" href="javascript:;"><img src="/static/image/icon/x-primary.svg" width="24px" height="24px" alt="关闭" class="middle"></a>
-                        <div id="history-content-div" style="height:260px;overflow:auto;">正在加载编辑记录...</div>
+                        <div id="history-content-div" style="height:260px;overflow:auto;"><div class="centered"><span class="wux-loading"></span><br><span>编辑记录加载中</span></div></div>
                         <div id="history-change-page-btn" class="wux-btn-group"></div>
                         <span>第<span id="history-page-index">1</span>/<span id="history-page-amount">-</span>页</span>
                     </div>
@@ -107,7 +107,7 @@
                 <div id="scpc-v2" show-trigger="false"></div>
             </div>
         </div>
-        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/saobbyCaptchaV3.js" async></script>
         <script src="/static/js/check_browser.js" async></script>
         <script src="/static/js/dialog-polyfill.js" defer></script>
         <script src="/static/js/common.js" defer></script>
