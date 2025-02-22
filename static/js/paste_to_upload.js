@@ -7,10 +7,16 @@ var pasteToUpload = (function(api_url){
 
     async function upload_images(event){
         var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        let prevented = false;
         for (var i = 0; i < items.length; i++) {
-            if (items[i].type.indexOf("image") !== -1) {
-                var image_file = items[i].getAsFile();
-                await upload_image(image_file, this);
+            const item = items[i];
+            if (item.type.startsWith("image/")) {
+                if (!prevented){
+                    event.preventDefault();
+                    prevented = true;
+                }
+                const image_file = item.getAsFile();
+                await upload_image(image_file, event.target);
             }
         }
     }
@@ -22,9 +28,12 @@ var pasteToUpload = (function(api_url){
                 reject({"message": "无法上传图片,因为有一个正在进行的上传任务"});
                 return;
             }
+            gebi("upload-image-status").value = "captcha_verifying";
+            insert_into_textarea("(上传中...)", textarea, true);
             gen_captcha_v3().verify().then(function(val){
                 if (val.retcode){
                     insert_into_textarea("(无法上传图片,人机验证失败:"+val.msg+")", textarea);
+                    gebi("upload-image-status").value = "closed";
                     reject({"message": "无法上传图片,人机验证失败:"+val.msg});
                     return;
                 }
@@ -106,14 +115,22 @@ var pasteToUpload = (function(api_url){
                     return;
                 }
                 gebi(`upload-btn-input-${bid}`).value = "";
-                await upload_image(file, gebi(textarea_map[bid]));
+                const btn = gebi(`upload-btn-${bid}`);
+                set_btn_html(btn, "...");
+                try{
+                    await upload_image(file, gebi(textarea_map[bid]));
+                }catch(e){
+                    throw e;
+                }finally{
+                    set_btn_html(btn);
+                }
                 break;
         }
     }
     returns.gen_upload_btn = function(textarea, size){
         var btn_id = Math.random();
         textarea_map[btn_id] = textarea;
-        return `<input type="file" accept="image/*" id="upload-btn-input-${btn_id}" onchange="pasteToUpload._upload_btn(${btn_id},1).then();" hidden><button type="button" class="wux-btn wux-btn-success wux-btn-${size} wux-btn-outline simple" onclick="pasteToUpload._upload_btn(${btn_id},0).then();">${icon_with_text("photo-up-success", "上传图片")}</button>`;
+        return `<input type="file" accept="image/*" id="upload-btn-input-${btn_id}" onchange="pasteToUpload._upload_btn(${btn_id},1).then();" hidden><button type="button" id="upload-btn-${btn_id}" class="wux-btn wux-btn-success wux-btn-${size} wux-btn-outline simple" onclick="pasteToUpload._upload_btn(${btn_id},0).then();">${icon_with_text("photo-up-success", "上传图片")}</button>`;
     }
     
     return returns;

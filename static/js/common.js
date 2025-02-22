@@ -188,14 +188,17 @@ function input_file2b64(file){
 //     }
 // }
 
-function insert_into_textarea(text, textarea){
+function insert_into_textarea(text, textarea, select_text){
     var start_pos = textarea.selectionStart;
     var end_pos = textarea.selectionEnd;
     var old_text = textarea.value;
     var new_text = old_text.substring(0, start_pos) + text + old_text.substring(end_pos, old_text.length);
     textarea.value = new_text;
-    textarea.selectionStart = start_pos + text.length;
-    textarea.selectionEnd = start_pos + text.length;
+    if (select_text){
+        textarea.setSelectionRange(start_pos, start_pos + text.length);
+    }else{
+        textarea.setSelectionRange(start_pos + text.length, start_pos + text.length);
+    }
 }
 
 function is_in_array(e, t) {
