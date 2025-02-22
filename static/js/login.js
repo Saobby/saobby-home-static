@@ -1,36 +1,37 @@
 var domain = "https://comments.saobby.com";
-function login() {
+async function login() {
     if (gebi("username").value === "" || gebi("password").value === ""){
         gebi("result").innerHTML = "用户名和密码均不能为空!";
         return;
     }
-    set_btn_html(gebi("login-btn"), "请完成人机验证");
-    saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        set_btn_html(gebi("login-btn"), "请稍候");
-        var data = {username: gebi("username").value, password: gebi("password").value, captcha_token: gebi("scpc-token").value};
-        fetch_data(domain+"/api/login", "POST", headers, JSON.stringify(data)).then(function(val2){
-            var ret = JSON.parse(val2.response_text);
-            if (ret.success){
-                localStorage.setItem("access-token", ret.data.access_token);
-                if (!(localStorage.login_redirect)){
-                    window.location = "/";
-                }else{
-                    window.location = localStorage.login_redirect;
-                    delete localStorage.login_redirect;
-                }
-            }else{
-                set_btn_html(gebi("login-btn"));
-                gebi("result").innerHTML = ret.message;
-            }
-        }, function(val2){
-            set_btn_html(gebi("login-btn"));
-            gebi("result").innerHTML = val2.message;
-        });
-    }, function(val){
+    set_btn_html(gebi("login-btn"), "...");
+
+    const captcha_rsp = await captcha_v3();
+    if (captcha_rsp.retcode){
+        gebi("result").innerHTML = "人机验证失败:"+captcha_rsp.msg;
         set_btn_html(gebi("login-btn"));
-        gebi("result").innerHTML = "请先完成人机验证:"+val.message;
+        return;
+    }
+
+    const rsp = await fetch_api(domain+"/api/login", {
+        username: gebi("username").value,
+        password: gebi("password").value,
+        captcha_token: captcha_rsp.data.token
     });
+    if (rsp.retcode){
+        gebi("result").innerHTML = rsp.msg;
+        set_btn_html(gebi("login-btn"));
+        return;
+    }
+    localStorage.setItem("access-token", rsp.data.access_token);
+    if (!(localStorage.login_redirect)){
+        window.location = "/";
+    }else{
+        window.location = localStorage.login_redirect;
+        delete localStorage.login_redirect;
+    }
 }
+
 // 已弃用
 //function complete_captcha() {
 //    gebi("login-btn").disabled = !0,
