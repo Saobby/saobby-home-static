@@ -22,7 +22,12 @@ var pasteToUpload = (function(api_url){
                 reject({"message": "无法上传图片,因为有一个正在进行的上传任务"});
                 return;
             }
-            saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
+            gen_captcha_v3().verify().then(function(val){
+                if (val.retcode){
+                    insert_into_textarea("(无法上传图片,人机验证失败:"+val.msg+")", textarea);
+                    reject({"message": "无法上传图片,人机验证失败:"+val.msg});
+                    return;
+                }
                 gebi("upload-image-progress-window").hidden = false;
                 gebi("upload-image-progress-bar").value = 0;
                 gebi("upload-image-progress").innerHTML = "0";
@@ -73,11 +78,8 @@ var pasteToUpload = (function(api_url){
                     reject({"message": "网络错误"});
                 }
                 form_data.append("image", image_file);
-                form_data.append("captcha_token", val.captcha_token);
+                form_data.append("captcha_token", val.data.token);
                 http.send(form_data);
-            }, function(val){
-                insert_into_textarea("(无法上传图片,请先完成人机验证:"+val.message+")", textarea);
-                reject({"message": "无法上传图片,请先完成人机验证:"+val.message});
             });
         });
     }

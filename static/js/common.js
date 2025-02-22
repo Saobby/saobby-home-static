@@ -244,4 +244,11 @@ async function captcha_v3(){
     return await captcha.verify();
 }
 
+function gen_captcha_v3(){
+    return new SaobbyCaptchaV3({
+        apiBaseUrl: "https://captcha-v3.saobby.com",
+        once: true
+    });
+}
+
 add_markdown_tips();
