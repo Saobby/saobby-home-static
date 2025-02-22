@@ -228,61 +228,68 @@ function init(){
     gebi("program-map-div").innerHTML = programs_html;
 }
 
-function upload_midi() {
+async function upload_midi() {
     var file = gebi("midi-file").files[0];
     if (!file){
         gebi("upload-result").innerHTML = "请先选择 MIDI 文件";
         return;
     }
-    set_btn_html(gebi("upload-btn"), "请完成人机验证");
+    set_btn_html(gebi("upload-btn"), "...");
     gebi("midi-file").disabled = true;
-    saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        set_btn_html(gebi("upload-btn"), "正在上传");
-        var form_data = new FormData;
-        var http = new XMLHttpRequest;
-        http.open("post", "https://midi2scratch.saobby.com/api/gen_sprite_file", true);
-        http.onreadystatechange = function(){
-            if (this.readyState === 4){
-                var ret = JSON.parse(this.responseText);
-                if (ret.success){
-                    var file_bytes = atob(ret.data.file);
-                    var file_bytes_array = new Uint8Array(file_bytes.length);
-                    for (var i=0; i < file_bytes.length; i++){
-                        file_bytes_array[i] = file_bytes.charCodeAt(i);
-                    }
-                    var file_blob = new Blob([file_bytes_array], {"type": "application/scratch3-sprite"});
-                    var file_url = URL.createObjectURL(file_blob);
-                    gebi("upload-result").innerHTML = `成功生成了角色文件!现在可以下载!<br><a href="${file_url}" target="_blank" download="${rsc(file.name)}.sprite3"><button class="wux-btn wux-btn-primary wux-btn-lg" onclick="set_btn_html(this,'已开始下载');setTimeout(set_btn_html,1000,this);">${icon_with_text("download-white", "下载")}</button></a>`;
-                }else{
-                    gebi("upload-result").innerHTML = ret.message;
-                }
-                set_btn_html(gebi("upload-btn"));
-                gebi("midi-file").disabled = false;
-            }
-        };
-        http.upload.onprogress = function(t){
-            if (t.lengthComputable){
-                var percentage = 100 * t.loaded / t.total;
-                if (percentage === 100){
-                    gebi("upload-result").innerHTML = "正在处理，请稍候...";
-                    gebi("upload-progress").hidden = true;
-                }else{
-                    gebi("upload-result").innerHTML = "上传中(" + Math.floor(percentage) + "%)";
-                    gebi("upload-progress").value = percentage;
-                    gebi("upload-progress").hidden = false;
-                }
-            }
-        };
-        form_data.append("midi", file);
-        form_data.append("instruments", JSON.stringify(ins_map));
-        form_data.append("captcha_token", val.captcha_token);
-        http.send(form_data);
-    },
-    function(val){
-        gebi("upload-result").innerHTML = "请先完成人机验证:"+val.message;
+
+    const captcha_rsp = await captcha_v3();
+    if (captcha_rsp.retcode){
+        gebi("upload-result").innerHTML = "人机验证失败:"+captcha_rsp.msg;
         gebi("midi-file").disabled = false;
         set_btn_html(gebi("upload-btn"));
-    });
+        return;
+    }
+
+    set_btn_html(gebi("upload-btn"), "正在上传");
+    var form_data = new FormData;
+    var http = new XMLHttpRequest;
+    http.open("post", "https://midi2scratch.saobby.com/api/gen_sprite_file", true);
+    http.onreadystatechange = function(){
+        if (this.readyState === 4){
+            var ret = JSON.parse(this.responseText);
+            if (ret.success){
+                var file_bytes = atob(ret.data.file);
+                var file_bytes_array = new Uint8Array(file_bytes.length);
+                for (var i=0; i < file_bytes.length; i++){
+                    file_bytes_array[i] = file_bytes.charCodeAt(i);
+                }
+                var file_blob = new Blob([file_bytes_array], {"type": "application/scratch3-sprite"});
+                var file_url = URL.createObjectURL(file_blob);
+                gebi("upload-result").innerHTML = `成功生成了角色文件!现在可以下载!<br><a href="${file_url}" target="_blank" download="${rsc(file.name)}.sprite3"><button class="wux-btn wux-btn-primary wux-btn-lg" onclick="set_btn_html(this,'已开始下载');setTimeout(set_btn_html,1000,this);">${icon_with_text("download-white", "下载")}</button></a>`;
+            }else{
+                gebi("upload-result").innerHTML = ret.message;
+            }
+            set_btn_html(gebi("upload-btn"));
+            gebi("midi-file").disabled = false;
+        }
+    };
+    http.upload.onprogress = function(t){
+        if (t.lengthComputable){
+            var percentage = 100 * t.loaded / t.total;
+            if (percentage === 100){
+                gebi("upload-result").innerHTML = "正在处理，请稍候...";
+                gebi("upload-progress").hidden = true;
+            }else{
+                gebi("upload-result").innerHTML = "上传中(" + Math.floor(percentage) + "%)";
+                gebi("upload-progress").value = percentage;
+                gebi("upload-progress").hidden = false;
+            }
+        }
+    };
+    http.onerror = function(){
+        gebi("upload-result").innerHTML = "网络错误";
+        gebi("midi-file").disabled = false;
+        set_btn_html(gebi("upload-btn"));
+    };
+    form_data.append("midi", file);
+    form_data.append("instruments", JSON.stringify(ins_map));
+    form_data.append("captcha_token", captcha_rsp.data.token);
+    http.send(form_data);
 }
 
 async function load_midi_player(){

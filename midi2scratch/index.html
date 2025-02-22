@@ -57,13 +57,13 @@
                 <a href="javascript:;" id="programs-btn"><img src="/static/image/icon/folder-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">展开设置</span></a><br>
                 <div id="program-map-div" hidden></div>
                 <p>3. 点击提交按钮</p>
-                <button class="wux-btn wux-btn-primary" type="button" onclick="upload_midi();" id="upload-btn"><img src="/static/image/icon/upload-white.svg" width="16px" height="16px" alt="" class="middle"><span class="middle">提交</span></button>
+                <button class="wux-btn wux-btn-primary" type="button" onclick="upload_midi().then();" id="upload-btn"><img src="/static/image/icon/upload-white.svg" width="16px" height="16px" alt="" class="middle"><span class="middle">提交</span></button>
                 <span id="upload-result" class="result"></span><br>
                 <progress class="wux-progress" value="0" max="100" id="upload-progress" hidden></progress><br>
                 <div id="scpc-v2" show-trigger="false"></div>
             </div>
         </div>
-        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/saobbyCaptchaV3.js" async></script>
         <script src="/static/js/check_browser.js" async></script>
         <script src="/static/js/common.js" defer></script>
         <script src="/static/js/midi2scratch.js" defer></script>
