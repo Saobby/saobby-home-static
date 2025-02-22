@@ -37,7 +37,7 @@
                 <h2 class="mt">图片上传</h2>
                 <p>图片最大 20 MB, <b>此图床严禁上传违法违规图片，否则可能会被米游社内容审查机删除</b></p>
                 <input class="wux-form-upload" type="file" id="image_file" accept="image/*"><br>
-                <button class="wux-btn wux-btn-primary" type="button" onclick="upload()" id="upload-btn">上传</button>
+                <button class="wux-btn wux-btn-primary" type="button" onclick="upload().then();" id="upload-btn">上传</button>
                 <span id="upload_result" style="color:#aa0000"></span><br>
                 <input class="wux-form-input wux-form-input-md" placeholder="图片链接会显示在这里" type="text" id="file_url" style="width: calc( 100vw - 90px );display: inline-block;">
                 <button onclick="navigator.clipboard.writeText(document.getElementById('file_url').value)" type="button" class="wux-btn wux-btn-primary">复制</button>
@@ -47,7 +47,7 @@
                 <div id="scpc-v2" show-trigger="false"></div>
             </div>
         </div>
-        <script src="/static/js/saobbyCaptchaV2.js" async></script>
+        <script src="/static/js/saobbyCaptchaV3.js" async></script>
         <script src="/static/js/check_browser.js" async></script>
         <script src="/static/js/common.js" defer></script>
         <script src="/static/js/spark-md5.min.js" defer></script>

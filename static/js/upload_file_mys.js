@@ -10,42 +10,39 @@ async function upload(){
     gebi("upload_result").innerHTML = "正在计算文件MD5";
     var file_md5 = await get_file_md5(file);
     gebi("upload_result").innerHTML = "请完成人机验证";
-    saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        var data = {file_md5: file_md5,
-            file_type: (function (){
-                var name=file.name.split(".");
-                return name[name.length-1];
-                })(),
-            captcha_token: gebi("scpc-token").value};
-        gebi("upload_result").innerHTML = "正在获取上传参数";
-        fetch_data(domain+"/api/get_args", "POST", headers, JSON.stringify(data)).then(function(val2){
-            var ret = JSON.parse(val2.response_text);
-            if (ret.success){
-                aliyun_upload(ret.data, file).then(function(val3){
-                    gebi("upload_result").innerHTML = "上传成功";
-                    gebi("file_url").value = val3.url;
-                    gebi("markdown").value = "![](" + val3.url + ")";
-                    gebi("upload-btn").disabled = false;
-                    gebi("image_file").disabled = false;
-                }, function(val3){
-                    gebi("upload_result").innerHTML = val3.message;
-                    gebi("upload-btn").disabled = false;
-                    gebi("image_file").disabled = false;
-                });
-            }else{
-                gebi("upload-btn").disabled = false;
-                gebi("image_file").disabled = false;
-                gebi("upload_result").innerHTML = ret.message;
-            }
-        }, function(val2){
-            gebi("upload-btn").disabled = false;
-            gebi("image_file").disabled = false;
-            gebi("upload_result").innerHTML = val2.message;
-        });
-    }, function(val){
+
+    const captcha_rsp = await captcha_v3();
+    if (captcha_rsp.retcode){
+        gebi("upload_result").innerHTML = "人机验证失败:"+captcha_rsp.msg;
         gebi("upload-btn").disabled = false;
         gebi("image_file").disabled = false;
-        gebi("upload_result").innerHTML = "请先完成人机验证:"+val.message;
+        return;
+    }
+    var data = {file_md5: file_md5,
+        file_type: (function (){
+            var name=file.name.split(".");
+            return name[name.length-1];
+            })(),
+        captcha_token: captcha_rsp.data.token
+    };
+    gebi("upload_result").innerHTML = "正在获取上传参数";
+    const rsp = await fetch_api(domain+"/api/get_args", "POST", headers, JSON.stringify(data));
+    if (rsp.retcode){
+        gebi("upload_result").innerHTML = rsp.msg;
+        gebi("upload-btn").disabled = false;
+        gebi("image_file").disabled = false;
+        return;
+    }
+    aliyun_upload(ret.data, file).then(function(val3){
+        gebi("upload_result").innerHTML = "上传成功";
+        gebi("file_url").value = val3.url;
+        gebi("markdown").value = "![](" + val3.url + ")";
+        gebi("upload-btn").disabled = false;
+        gebi("image_file").disabled = false;
+    }, function(val3){
+        gebi("upload_result").innerHTML = val3.message;
+        gebi("upload-btn").disabled = false;
+        gebi("image_file").disabled = false;
     });
 }
 // 已弃用
