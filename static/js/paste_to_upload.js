@@ -21,7 +21,7 @@ var pasteToUpload = (function(api_url){
         }
     }
 
-    async function upload_image(image_file, textarea){
+    async function upload_image(image_file, textarea, no_tips){
         return new Promise(function(resolve, reject){
             if (gebi("upload-image-status").value !== "closed"){
                 insert_into_textarea("(无法上传图片,因为有一个正在进行的上传任务)", textarea);
@@ -29,7 +29,9 @@ var pasteToUpload = (function(api_url){
                 return;
             }
             gebi("upload-image-status").value = "captcha_verifying";
-            insert_into_textarea("(上传中...)", textarea, true);
+            if (!no_tips){
+                insert_into_textarea("(上传中...)", textarea, true);
+            }
             gen_captcha_v3().verify().then(function(val){
                 if (val.retcode){
                     insert_into_textarea("(无法上传图片,人机验证失败:"+val.msg+")", textarea);
@@ -65,6 +67,7 @@ var pasteToUpload = (function(api_url){
                             gebi("upload-image-status").value = "closed";
                             resolve({"message": ret.message});
                         }else{
+                            insert_into_textarea("(上传失败:"+ret.message+")", textarea);
                             gebi("upload-image-result").innerHTML = ret.message;
                             gebi("upload-image-status").value = "onerror";
                             reject({"message": ret.message});
@@ -118,7 +121,7 @@ var pasteToUpload = (function(api_url){
                 const btn = gebi(`upload-btn-${bid}`);
                 set_btn_html(btn, "...");
                 try{
-                    await upload_image(file, gebi(textarea_map[bid]));
+                    await upload_image(file, gebi(textarea_map[bid]), true);
                 }catch(e){
                     throw e;
                 }finally{
