@@ -8,38 +8,37 @@ function show_error_msg(msg){
     set_btn_html(gebi("download-btn"));
 }
 
-function download(){
+async function download(){
     var url = gebi("url").value;
     if (!url){
         show_error_msg("请输入 MIDI 查看页面网址");
         return;
     }
     set_btn_html(gebi("download-btn"), "...");
-    saobbyCaptchaV2.open_window_and_return_promise().then(function(val){
-        set_btn_html(gebi("download-btn"), "请等10s");
-        var send_data = {"url": url, "captcha_token": val.captcha_token};
-        fetch_data(domain+"/api/download_midi", "POST", headers, JSON.stringify(send_data)).then(function(val2){
-            var rep = JSON.parse(val2.response_text);
-            if (rep.success){
-                var link = b642link(rep.data.file);
-                gebi("download-link").href = link;
-                gebi("download-link").download = rep.data.title.replaceAll("\\", "、").replaceAll("/", "、").replaceAll(":", "：").replaceAll("*", "⭐").replaceAll("?", "？").replaceAll('"', "'").replaceAll("<", "《").replaceAll(">", "》").replaceAll("|", " ")+".mid";  // windows系统不能用这些字符做文件名
-                gebi("midi-player").src = link;
-                gebi("notice-div").hidden = true;
-                gebi("error-div").hidden = true;
-                gebi("success-div").hidden = false;
-            }else{
-                show_error_msg(rep.message);
-            }
-            set_btn_html(gebi("download-btn"));
-        }, function(val2){
-            show_error_msg(val2.message);
-            set_btn_html(gebi("download-btn"));
-        });
-    }, function(val){
-        show_error_msg("请先完成人机验证:"+val.message);
+
+    const captcha_rsp = await captcha_v3();
+    if (captcha_rsp.retcode){
+        show_error_msg("人机验证失败:"+captcha_rsp.msg);
         set_btn_html(gebi("download-btn"));
-    });
+        return;
+    }
+
+    set_btn_html(gebi("download-btn"), "请等10s");
+    var send_data = {"url": url, "captcha_token": captcha_rsp.data.token};
+    const rsp = await fetch_api(domain+"/api/download_midi", send_data);
+    if (rsp.retcode){
+        show_error_msg(rsp.msg);
+        set_btn_html(gebi("download-btn"));
+        return;
+    }
+    var link = b642link(rsp.data.file);
+    gebi("download-link").href = link;
+    gebi("download-link").download = rsp.data.title.replaceAll("\\", "、").replaceAll("/", "、").replaceAll(":", "：").replaceAll("*", "⭐").replaceAll("?", "？").replaceAll('"', "'").replaceAll("<", "《").replaceAll(">", "》").replaceAll("|", " ")+".mid";  // windows系统不能用这些字符做文件名
+    gebi("midi-player").src = link;
+    gebi("notice-div").hidden = true;
+    gebi("error-div").hidden = true;
+    gebi("success-div").hidden = false;
+    set_btn_html(gebi("download-btn"));
 }
 
 async function load_midi_player(){
