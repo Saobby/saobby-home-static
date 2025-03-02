@@ -167,6 +167,60 @@
                     <label class="wux-tab-item" for="tab-log-query">日志查询</label>
                     <div class="wux-tab-content">
                         <hr>
+                        <div class="wux-row-md-1">
+                            <div class="wux-col">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <span style="font-size: 24px;">日志查询</span>
+                                        <select id="log-time-range-select" class="wux-form-select" style="width: 200px;">
+                                            <option value="604800">最近 7 天</option>
+                                            <option value="1209600">最近 14 天</option>
+                                            <option value="2592000">最近 30 天</option>
+                                            <option value="7776000">最近 90 天</option>
+                                        </select>
+                                        <label><input type="checkbox" class="wux-form-checks" id="auto-refresh">自动刷新</label>
+                                        <hr>
+                                        <table class="wux-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>时间</th>
+                                                    <th>IP</th>
+                                                    <th>浏览器</th>
+                                                    <th>设备</th>
+                                                    <th>操作系统</th>
+                                                    <th>国家</th>
+                                                    <th>地区</th>
+                                                    <th>城市</th>
+                                                    <th>网络服务商</th>
+                                                    <th>是否移动网络</th>
+                                                    <th>是否代理IP</th>
+                                                    <th>是否机房IP</th>
+                                                    <th>Referer</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>2024-01-01 12:00:00</td>
+                                                    <td>127.0.0.1</td>
+                                                    <td>Chrome</td>
+                                                    <td>PC</td>
+                                                    <td>Windows</td>
+                                                    <td>中国</td>
+                                                    <td>北京</td>
+                                                    <td>北京</td>
+                                                    <td>电信</td>
+                                                    <td>否</td>
+                                                    <td>否</td> 
+                                                    <td>否</td>
+                                                    <td>https://www.baidu.com</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div id="change-page-div" class="wux-btn-group"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-settings">
                     <label class="wux-tab-item" for="tab-settings">显示设置</label>

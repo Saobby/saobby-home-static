@@ -64,20 +64,20 @@
                 <span>5. 背景颜色(点击色块修改)</span><br>
                 <input type="color" style="width: 64px; height: 64px;" value="#ffffff" id="background-color" placeholder="填6位16进制颜色代码,要带#号,如#aa0000表示红色"><br>
                 <hr>
-                <button class="wux-btn wux-btn-primary" id="create-counter-btn" onclick="create_counter().then();">创建计数器</button>
+                <button class="wux-btn wux-btn-primary" id="create-counter-btn" onclick="create_counter().then();" type="button">创建计数器</button>
                 <span id="create-counter-result" class="result"></span>
                 <div id="success-div" hidden>
                     <hr>
                     <h3>创建成功</h3>
                     <span>将下面的图片放置在需要计数的网页:</span>
                     <textarea id="markdown-code" class="wux-form-input wux-form-input-md" readonly></textarea>
-                    <button class="wux-btn wux-btn-primary" onclick="copy_text(gebi('markdown-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 Markdown 代码</span></button>
+                    <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('markdown-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 Markdown 代码</span></button>
                     <textarea id="html-code" class="wux-form-input wux-form-input-md" readonly></textarea>
-                    <button class="wux-btn wux-btn-primary" onclick="copy_text(gebi('html-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 HTML 代码</span></button>
+                    <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('html-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 HTML 代码</span></button>
                     <hr>
-                    <b>计数器 ID:</b><span id="counter-id"></span><button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('counter-id').value, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><br>
-                    <b>控制面板访问密钥:</b><span id="access-token"></span><button class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('access-token').value, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><br>
-                    <a href="" target="_blank" id="dashboard-link"><button class="wux-btn wux-btn-primary"><img src="/static/image/icon/external-link-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">打开控制面板</span></button></a>
+                    <b>计数器 ID:</b><span id="counter-id"></span><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('counter-id').value, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><br>
+                    <b>控制面板访问密钥:</b><span id="access-token"></span><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('access-token').value, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><br>
+                    <a href="" target="_blank" id="dashboard-link"><button type="button" class="wux-btn wux-btn-primary"><img src="/static/image/icon/external-link-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">打开控制面板</span></button></a>
                 </div>
             </div>
         </div>
