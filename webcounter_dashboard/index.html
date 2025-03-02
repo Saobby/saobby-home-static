@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="preconnect" href="https://rumt-zh.com">
+        <link rel="dns-prefetch" href="https://w.saobby.com">
+        <link rel="dns-prefetch" href="https://captcha-v2.saobby.com">
+        <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
+        <script>
+          if (typeof Aegis === 'function') {
+            var aegis = new Aegis({
+              id: 'XVx8Jfg1VPkL0x0ea2',
+              uin: 'production',
+              reportApiSpeed: true,
+              reportAssetSpeed: true,
+              spa: true,
+            hostUrl: 'https://rumt-zh.com'
+            });
+          }
+        </script>
+        <script type="text/javascript">
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "nghuq29wf0");
+        </script>
+        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+        <style>
+            .wux-card-body h2{
+                margin-top: 0px;
+                margin-left: 12px;
+                margin-bottom: 0px;
+            }
+            .wux-card-body .big-number{
+                margin-left: 12px;
+            }
+            .wux-col {
+                padding: 0px 4px;
+            }
+            @media (min-width: 1024px){
+                .same-height-container {
+                    display: flex;
+                }
+                .same-height-box {
+                    display: flex;
+                }
+                .same-height-box div {
+                    flex: 1;
+                }
+            }
+        </style>
+        <title>网页计数器控制面板</title>
+    </head>
+    <body>
+        <div class="wux-container">
+            <ul class="wux-breadcrumb">
+                <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
+                <li class="wux-breadcrumb-item">网页计数器控制面板</li>
+            </ul>
+            <div class="wux-typo">
+                <div class="wux-tab">
+                    <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-data-overview" checked>
+                    <label class="wux-tab-item" for="tab-data-overview">数据总览</label>
+                    <div class="wux-tab-content">
+                        <hr>
+                        <div class="wux-row-md-3 same-height-container">
+                            <div class="wux-col same-height-box">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <h2>总访问量</h2>
+                                        <span class="big-number">1000</span>
+                                        <h2>总独立 IP 数量</h2>
+                                        <span class="big-number">1000</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="wux-col same-height-box">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <h2>今日访问量</h2>
+                                        <h2>今日独立 IP 数量</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="wux-col same-height-box">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <h2>昨日访问量</h2>
+                                        <h2>昨日独立 IP 数量</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wux-row-md-1">
+                            <div class="wux-col">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <span>时间段:</span>
+                                        <select id="time-range-select" class="wux-form-select" style="width: 200px;">
+                                            <option value="604800">最近 7 天</option>
+                                            <option value="1209600">最近 14 天</option>
+                                            <option value="2592000">最近 30 天</option>
+                                            <option value="7776000">最近 90 天</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wux-row-md-1">
+                            <div class="wux-col">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <h2>访问量趋势</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wux-row-md-1">
+                            <div class="wux-col">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <h2>用户地理位置</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wux-row-md-1">
+                            <div class="wux-col">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <h2>访问时间段</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wux-row-md-3 same-height-container">
+                            <div class="wux-col same-height-box">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <h2>浏览器统计</h2>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="wux-col same-height-box">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <h2>设备统计</h2>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="wux-col same-height-box">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <h2>操作系统统计</h2>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-log-query">
+                    <label class="wux-tab-item" for="tab-log-query">日志查询</label>
+                    <div class="wux-tab-content">
+                        <hr>
+                    </div>
+                    <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-settings">
+                    <label class="wux-tab-item" for="tab-settings">显示设置</label>
+                    <div class="wux-tab-content">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/static/js/saobbyCaptchaV3.js" async></script>
+        <script src="/static/js/check_browser.js" async></script>
+        <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/webcounter_dashboard.js" defer></script>
+    </body>
+</html>
