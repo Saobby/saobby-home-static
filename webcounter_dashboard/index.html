@@ -163,7 +163,7 @@
                             </div>
                         </div>
                     </div>
-                    <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-log-query" onclick="load_logs(0).then();">
+                    <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-log-query" onclick="load_logs(0).then();tab='log';">
                     <label class="wux-tab-item" for="tab-log-query">日志查询</label>
                     <div class="wux-tab-content">
                         <hr>
@@ -208,7 +208,7 @@
                             </div>
                         </div>
                     </div>
-                    <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-settings">
+                    <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-settings" onclick="load_settings().then();tab='settings';">
                     <label class="wux-tab-item" for="tab-settings">显示设置</label>
                     <div class="wux-tab-content">
                         <hr>
@@ -217,9 +217,9 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <h2>计数器 ID</h2>
-                                        <span>aaaa</span>
+                                        <code id="counter-id"><span class="wux-loading"></span></code><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('counter-id').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><br>
                                         <h2>访问凭据</h2>
-                                        <span>bbbb</span>
+                                        <code id="access-token"><span class="wux-loading"></span></code><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('access-token').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><br>
                                     </div>
                                 </div>
                             </div>
@@ -267,7 +267,8 @@
                             <div class="wux-col">
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
-                                        <button class="wux-btn wux-btn-primary right mb" type="button" id="save-settings-btn">保存设置</button>
+                                        <span id="save-settings-result" class="result"></span>
+                                        <button class="wux-btn wux-btn-primary right mb" type="button" id="save-settings-btn" onclick="save_settings().then();">保存设置</button>
                                     </div>
                                 </div>
                             </div>
