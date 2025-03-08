@@ -31,7 +31,7 @@
         <style>
             .wux-card-body h2{
                 margin-top: 0px;
-                margin-left: 12px;
+                margin-left: 4px;
                 margin-bottom: 0px;
             }
             .wux-col {
@@ -55,18 +55,18 @@
                 </ul>
                 <hr>
                 <div id="args-div">
-                    <h3>立即创建一个计数器并打开控制面板</h3>
-                    <div class="wux-alert wux-alert-info" id="login-tip" hidden>你还没有登录!登录后可查看账户创建的所有计数器，<b>无需手动记录控制面板访问密钥</b>，更加方便。<br>当然，不登录仍然可以使用本工具的完整功能。<br><a href="javascript:;" onclick="login();">立即登录</a></div>
+                    <h3 class="thin">立即创建一个计数器并打开控制面板</h3>
+                    <div class="wux-alert wux-alert-info" id="login-tip" hidden>你还没有登录!登录后可查看账户创建的所有计数器，<b>无需手动记录控制面板访问密钥</b>，更加方便。<br>当然，不登录仍然可以使用本工具的完整功能。<br><a href="javascript:;" onclick="login();"><img src="/static/image/icon/login-2-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">立即登录</span></a></div>
                     <div class="wux-row-md-2 same-height-container">
                         <div class="wux-col same-height-box">
                             <div class="wux-card wux-card-hover">
                                 <div class="wux-card-body">
-                                    <h2>响应图片类型</h2>
+                                    <h2 class="thin"><img src="/static/image/icon/photo.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">响应图片类型</span></h2>
                                     <select class="wux-form-select wux-form-select-md" id="pic-type">
                                         <option value="0">JPEG</option>
                                         <option value="1" selected>SVG</option>
                                     </select>
-                                    <h2>显示设置</h2>
+                                    <h2 class="thin"><img src="/static/image/icon/typography.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">显示设置</span></h2>
                                     <select class="wux-form-select wux-form-select-md" id="display-type">
                                         <option value="0" selected>总访问量</option>
                                         <option value="1">总独立 IP 数量</option>
@@ -78,11 +78,11 @@
                         <div class="wux-col same-height-box">
                             <div class="wux-card wux-card-hover">
                                 <div class="wux-card-body">
-                                    <h2>字体尺寸</h2>
+                                    <h2 class="thin"><img src="/static/image/icon/typography.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">字体尺寸</span></h2>
                                     <input type="number" class="wux-form-input wux-form-input-md" id="font-size" min="1" max="100" value="16">
-                                    <h2>字体颜色</h2>
+                                    <h2 class="thin"><img src="/static/image/icon/palette.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">字体颜色</span></h2>
                                     <input type="color" style="width: 64px; height: 64px;" value="#000000" id="font-color" placeholder="填6位16进制颜色代码,要带#号,如#aa0000表示红色"><br>
-                                    <h2>背景颜色</h2>
+                                    <h2 class="thin"><img src="/static/image/icon/palette.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">背景颜色</span></h2>
                                     <input type="color" style="width: 64px; height: 64px;" value="#ffffff" id="background-color" placeholder="填6位16进制颜色代码,要带#号,如#aa0000表示红色"><br>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                         <div class="wux-col">
                             <div class="wux-card wux-card-hover">
                                 <div class="wux-card-body">
-                                    <button class="wux-btn wux-btn-primary" id="create-counter-btn" onclick="create_counter().then();" type="button">创建计数器</button>
+                                    <button class="wux-btn wux-btn-primary" id="create-counter-btn" onclick="create_counter().then();" type="button"><img src="/static/image/icon/check-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">创建计数器</span></button>
                                     <span id="create-counter-result" class="result"></span>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                     </div>
                 </div>
                 <div id="success-div" hidden>
-                    <h3>创建成功</h3>
+                    <h3 class="thin">创建成功</h3>
                     <div class="wux-row-md-2 same-height-container">
                         <div class="wux-col same-height-box">
                             <div class="wux-card wux-card-hover">

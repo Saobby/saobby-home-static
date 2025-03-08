@@ -31,6 +31,11 @@
         <style>
             .wux-card-body h2{
                 margin-top: 0px;
+                margin-left: 4px;
+                margin-bottom: 0px;
+            }
+            .wux-card-body h6{
+                margin-top: 0px;
                 margin-left: 12px;
                 margin-bottom: 0px;
             }
@@ -59,7 +64,7 @@
                 <div id="login">
                     <h2>登录控制面板</h2>
                     <input type="text" id="access-token-input" class="wux-form-input wux-form-input-md" placeholder="控制面板访问密钥" style="width:calc( 100% - 100px );display:inline-block;">
-                    <button class="wux-btn wux-btn-primary" type="button" id="login-btn" onclick="login().then();">登录</button><br>
+                    <button class="wux-btn wux-btn-primary" type="button" id="login-btn" onclick="login().then();"><img src="/static/image/icon/login-2-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">登录</span></button><br>
                     <span id="login-result" class="result"></span>
                 </div>
                 <div id="dashboard" hidden>
@@ -72,30 +77,30 @@
                                 <div class="wux-col same-height-box">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2>总访问量</h2>
-                                            <span class="big-number" id="overall-total-visits"><span class="wux-loading"></span></span>
-                                            <h2>总独立 IP 数量</h2>
-                                            <span class="big-number" id="overall-total-ips"><span class="wux-loading"></span></span>
+                                            <h6 class="thin gray"><img src="/static/image/icon/login-2-grey.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">总访问量</span></h6>
+                                            <b class="big-number" id="overall-total-visits"><span class="wux-loading"></span></b>
+                                            <h6 class="thin gray"><img src="/static/image/icon/user-grey.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">总独立 IP 数量</span></h6>
+                                            <b class="big-number" id="overall-total-ips"><span class="wux-loading"></span></b>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="wux-col same-height-box">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2>今日访问量</h2>
-                                            <span class="big-number" id="overall-today-visits"><span class="wux-loading"></span></span>
-                                            <h2>今日独立 IP 数量</h2>
-                                            <span class="big-number" id="overall-today-ips"><span class="wux-loading"></span></span>
+                                            <h6 class="thin gray"><img src="/static/image/icon/login-2-grey.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">今日访问量</span></h6>
+                                            <b class="big-number" id="overall-today-visits"><span class="wux-loading"></span></b>
+                                            <h6 class="thin gray"><img src="/static/image/icon/user-grey.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">今日独立 IP 数量</span></h6>
+                                            <b class="big-number" id="overall-today-ips"><span class="wux-loading"></span></b>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="wux-col same-height-box">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2>昨日访问量</h2>
-                                            <span class="big-number" id="overall-yesterday-visits"><span class="wux-loading"></span></span>
-                                            <h2>昨日独立 IP 数量</h2>
-                                            <span class="big-number" id="overall-yesterday-ips"><span class="wux-loading"></span></span>
+                                            <h6 class="thin gray"><img src="/static/image/icon/login-2-grey.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">昨日访问量</span></h6>
+                                            <b class="big-number" id="overall-yesterday-visits"><span class="wux-loading"></span></b>
+                                            <h6 class="thin gray"><img src="/static/image/icon/user-grey.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">昨日独立 IP 数量</span></h6>
+                                            <b class="big-number" id="overall-yesterday-ips"><span class="wux-loading"></span></b>
                                         </div>
                                     </div>
                                 </div>
@@ -104,7 +109,7 @@
                                 <div class="wux-col">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <span>时间段:</span>
+                                            <span class="ml">时间段:</span>
                                             <select id="time-range-select" class="wux-form-select" style="width: 150px;" onchange="load_overview_page().then();">
                                                 <option value="604800">最近 7 天</option>
                                                 <option value="1209600">最近 14 天</option>
@@ -120,7 +125,7 @@
                                 <div class="wux-col">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2>访问量趋势</h2>
+                                            <h2 class="thin"><img src="/static/image/icon/trending-up.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">访问量趋势</span></h2>
                                             <div id="overall-visits-trend" class="chart-container" hidden></div>
                                             <div id="overall-visits-trend-loading" class="centered">
                                                 <span class="wux-loading"></span><br>
@@ -135,7 +140,7 @@
                                 <div class="wux-col">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2>用户地理位置</h2>
+                                            <h2 class="thin"><img src="/static/image/icon/world.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">用户地理位置</span></h2>
                                             <div id="overall-ip-location" class="chart-container" hidden></div>
                                             <div id="overall-ip-location-loading" class="centered">
                                                 <span class="wux-loading"></span><br>
@@ -150,7 +155,7 @@
                                 <div class="wux-col">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2>访问时间段</h2>
+                                            <h2 class="thin"><img src="/static/image/icon/clock.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">访问时间段</span></h2>
                                             <div id="overall-visit-time" class="chart-container" hidden></div>
                                             <div id="overall-visit-time-loading" class="centered">
                                                 <span class="wux-loading"></span><br>
@@ -165,7 +170,7 @@
                                 <div class="wux-col same-height-box">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2>浏览器统计</h2>
+                                            <h2 class="thin"><img src="/static/image/icon/browser.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">浏览器统计</span></h2>
                                             <div id="overall-browser-stat" class="short-chart-container" hidden></div>
                                             <div id="overall-browser-stat-loading" class="centered">
                                                 <span class="wux-loading"></span><br>
@@ -178,7 +183,7 @@
                                 <div class="wux-col same-height-box">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2>设备统计</h2>
+                                            <h2 class="thin"><img src="/static/image/icon/keyboard.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">设备统计</span></h2>
                                             <div id="overall-device-stat" class="short-chart-container" hidden></div>
                                             <div id="overall-device-stat-loading" class="centered">
                                                 <span class="wux-loading"></span><br>
@@ -191,7 +196,7 @@
                                 <div class="wux-col same-height-box">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2>操作系统统计</h2>
+                                            <h2 class="thin"><img src="/static/image/icon/brand-windows.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">操作系统统计</span></h2>
                                             <div id="overall-os-stat" class="short-chart-container" hidden></div>
                                             <div id="overall-os-stat-loading" class="centered">
                                                 <span class="wux-loading"></span><br>
@@ -211,13 +216,13 @@
                                 <div class="wux-col">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <span style="font-size: 24px;">日志查询</span>
+                                            <span style="font-size: 28px;"><img src="/static/image/icon/logs.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">日志查询</span></span>
                                             <select id="log-time-range-select" class="wux-form-select" style="width: 150px;">
                                                 <option value="604800">最近 7 天</option>
                                                 <option value="1209600">最近 14 天</option>
                                                 <option value="2592000">最近 30 天</option>
                                             </select>
-                                            <button class="wux-btn wux-btn-primary" type="button" id="refresh-log-btn" onclick="load_logs(0).then();">刷新</button>
+                                            <button class="wux-btn wux-btn-primary" type="button" id="refresh-log-btn" onclick="load_logs(0).then();"><img src="/static/image/icon/refresh-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">刷新</span></button>
                                             <label><input type="checkbox" class="wux-form-checks" id="log-auto-refresh" onchange="update_auto_refresh_log(this.checked);">自动刷新</label>
                                             <span id="log-result" class="result"></span>
                                             <hr>
@@ -257,7 +262,7 @@
                                 <div class="wux-col">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <b>控制面板访问密钥: </b><code id="access-token"><span class="wux-loading"></span></code><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('access-token').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button>
+                                            <b><img src="/static/image/icon/key.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">控制面板访问密钥: </span></b><code id="access-token"><span class="wux-loading"></span></code><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('access-token').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button>
                                             <input type="text" id="description" class="wux-form-input wux-form-input-md mb right" placeholder="备注" style="width: 150px;">
                                         </div>
                                     </div>
@@ -267,7 +272,7 @@
                                 <div class="wux-col same-height-box">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2>放置计数器</h2>
+                                            <h2 class="thin">放置计数器</h2>
                                             <span>将下面的图片放置在<b>需要计数的网页</b>:</span>
                                             <textarea id="markdown-code" class="wux-form-input wux-form-input-md mt" readonly></textarea>
                                             <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('markdown-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 Markdown 代码</span></button>
@@ -279,12 +284,12 @@
                                 <div class="wux-col same-height-box">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2>图片类型</h2>
+                                            <h2 class="thin"><img src="/static/image/icon/photo.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">图片类型</span></h2>
                                             <select id="image-type-select" class="wux-form-select" style="width: 200px;">
                                                 <option value="0">JPEG</option>
                                                 <option value="1">SVG</option>
                                             </select>
-                                            <h2>显示设置</h2>
+                                            <h2 class="thin"><img src="/static/image/icon/typography.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">显示设置</span></h2>
                                             <select id="display-setting-select" class="wux-form-select" style="width: 200px;">
                                                 <option value="0">显示总访问量</option>
                                                 <option value="1">显示总独立 IP 数</option>
@@ -298,17 +303,17 @@
                                         <div class="wux-card-body">
                                             <div class="wux-row-xs-1">
                                                 <div class="wux-col">
-                                                    <h2>字体大小</h2>
+                                                    <h2 class="thin"><img src="/static/image/icon/typography.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">字体大小</span></h2>
                                                     <input type="number" class="wux-form-input wux-form-input-md" id="font-size" min="1" max="100" value="16">
                                                 </div>
                                             </div>
                                             <div class="wux-row-xs-2">
                                                 <div class="wux-col">
-                                                    <h2>字体颜色</h2>
+                                                    <h2 class="thin"><img src="/static/image/icon/palette.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">字体颜色</span></h2>
                                                     <input type="color" id="font-color" value="#000000" style="width:64px;height:64px;">
                                                 </div>
                                                 <div class="wux-col">
-                                                    <h2>背景颜色</h2>
+                                                    <h2 class="thin"><img src="/static/image/icon/palette.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">背景颜色</span></h2>
                                                     <input type="color" id="background-color" value="#ffffff" style="width:64px;height:64px;">
                                                 </div>
                                             </div>
@@ -321,7 +326,7 @@
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
                                             <span id="save-settings-result" class="result"></span>
-                                            <button class="wux-btn wux-btn-primary right mb" type="button" id="save-settings-btn" onclick="save_settings().then();">保存设置</button>
+                                            <button class="wux-btn wux-btn-primary right mb" type="button" id="save-settings-btn" onclick="save_settings().then();"><img src="/static/image/icon/check-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">保存设置</span></button>
                                         </div>
                                     </div>
                                 </div>
