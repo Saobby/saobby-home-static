@@ -127,8 +127,522 @@ async function save_settings(){
     gebi("save-settings-result").innerHTML = "设置已保存";
 }
 
-function load_overview_page(){
+async function load_overview_page(){
     get_overall_data().then();
+    render_trend_chart().then();
+    render_visit_time_chart().then();
+    render_browser_stat_chart().then();
+    render_device_stat_chart().then();
+    render_os_stat_chart().then();
+}
+
+async function render_trend_chart() {
+    const payload = {
+        access_token: access_token,
+        period: gebi("time-range-select").value
+    }
+    const rsp = await fetch_api(domain + "/api/get_trend_data", payload);
+    if (rsp.retcode) {
+        gebi("visits-trend-result").innerHTML = "加载失败:" + rsp.msg;
+        return;
+    }
+
+    const chart_dom = gebi("overall-visits-trend");
+    const chart = echarts.init(chart_dom);
+    const option = {
+        tooltip: {
+            trigger: "axis",
+            axisPointer: { type: "shadow" }
+        },
+        legend: {
+            data: ["访问量", "独立IP数"],
+            top: "0%"
+        },
+        grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "3%",
+            top: "10%",
+            containLabel: true
+        },
+        xAxis: {
+            type: "category",
+            data: rsp.data.trend.dates,
+            axisLabel: { rotate: 45 }
+        },
+        yAxis: [
+            {
+                type: "value",
+                name: "访问量",
+                position: "left",
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: "#5064e1"
+                    }
+                },
+                axisLabel: {
+                    color: "#5064e1"
+                }
+            },
+            {
+                type: "value",
+                name: "独立IP数",
+                position: "right",
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: "#ff5541"
+                    }
+                },
+                axisLabel: {
+                    color: "#ff5541"
+                }
+            }
+        ],
+        series: [
+            {
+                name: "访问量",
+                type: "line",
+                data: rsp.data.trend.visits,
+                smooth: true,
+                itemStyle: { color: "#5064e1" },
+                yAxisIndex: 0
+            },
+            {
+                name: "独立IP数",
+                type: "line",
+                data: rsp.data.trend.ips,
+                smooth: true,
+                itemStyle: { color: "#ff5541" },
+                yAxisIndex: 1
+            }
+        ]
+    };
+    chart.setOption(option);
+    const resize_observer = new ResizeObserver(() => {
+        chart.resize();
+    });
+    resize_observer.observe(chart_dom);
+}
+
+async function render_visit_time_chart() {
+    const payload = {
+        access_token: access_token, 
+        period: gebi("time-range-select").value, 
+        type: 0
+    }
+    const rsp = await fetch_api(domain + "/api/get_top", payload);
+    if (rsp.retcode) {
+        gebi("visits-time-result").innerHTML = "加载失败:" + rsp.msg;
+        return;
+    }
+
+    const chart_dom = gebi("overall-visit-time");
+    const chart = echarts.init(chart_dom);
+    const option = {
+        tooltip: {
+            trigger: "axis",
+            axisPointer: {
+                type: "shadow"
+            }
+        },
+        legend: {
+            data: ["访问量", "独立IP数"],
+            top: "0%"
+        },
+        grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "3%",
+            top: "10%",
+            containLabel: true
+        },
+        xAxis: {
+            type: "category",
+            data: Array.from({length: 24}, (_, i) => `${i}时`),
+            axisLabel: {
+                interval: 0
+            }
+        },
+        yAxis: [
+            {
+                type: "value",
+                name: "访问量",
+                position: "left",
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: "#5064e1"
+                    }
+                },
+                axisLabel: {
+                    color: "#5064e1"
+                }
+            },
+            {
+                type: "value",
+                name: "独立IP数",
+                position: "right",
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: "#ff5541"
+                    }
+                },
+                axisLabel: {
+                    color: "#ff5541"
+                }
+            }
+        ],
+        series: [
+            {
+                name: "访问量",
+                type: "bar",
+                data: rsp.data.visits,
+                itemStyle: {
+                    color: "#5064e1"
+                },
+                barGap: "0%",
+                barWidth: "30%",
+                yAxisIndex: 0
+            },
+            {
+                name: "独立IP数",
+                type: "bar",
+                data: rsp.data.ips,
+                itemStyle: {
+                    color: "#ff5541"
+                },
+                barWidth: "30%",
+                yAxisIndex: 1
+            }
+        ]
+    };
+    
+    chart.setOption(option);
+    const resize_observer = new ResizeObserver(() => {
+        chart.resize();
+    });
+    resize_observer.observe(chart_dom);
+}
+
+async function render_browser_stat_chart() {
+    const payload = {
+        access_token: access_token,
+        period: gebi("time-range-select").value,
+        type: 1  // 浏览器统计
+    }
+    const rsp = await fetch_api(domain + "/api/get_top", payload);
+    if (rsp.retcode) {
+        gebi("browser-stat-result").innerHTML = "加载失败:" + rsp.msg;
+        return;
+    }
+
+    const chart_dom = gebi("overall-browser-stat");
+    const chart = echarts.init(chart_dom);
+    
+    // 获取所有有效的浏览器（IP数大于0或访问次数大于0）
+    const valid_browsers = new Set([
+        ...Object.entries(rsp.data.ips)
+            .filter(([_, value]) => value > 0)
+            .map(([name]) => name),
+        ...Object.entries(rsp.data.visits)
+            .filter(([_, value]) => value > 0)
+            .map(([name]) => name)
+    ]);
+
+    // 计算总访问次数和总IP数
+    const total_visits = Object.values(rsp.data.visits).reduce((sum, count) => sum + count, 0);
+    const total_ips = Object.values(rsp.data.ips).reduce((sum, count) => sum + count, 0);
+
+    // 准备两组数据
+    const ip_data = Array.from(valid_browsers).map(browser => ({
+        name: browser,
+        value: rsp.data.ips[browser] || 0
+    }));
+
+    const visit_data = Array.from(valid_browsers).map(browser => ({
+        name: browser,
+        value: rsp.data.visits[browser] || 0
+    }));
+
+    const option = {
+        tooltip: {
+            trigger: "item",
+            formatter: (params) => {
+                const browser = params.name;
+                const ips = rsp.data.ips[browser] || 0;
+                const visits = rsp.data.visits[browser] || 0;
+                const ip_percent = ((ips / total_ips) * 100).toFixed(2);
+                const visit_percent = ((visits / total_visits) * 100).toFixed(2);
+                return `${browser}<br/>` + 
+                       `独立IP数: ${ips} (${ip_percent}%)<br/>` +
+                       `访问次数: ${visits} (${visit_percent}%)`;
+            }
+        },
+        legend: {
+            orient: "horizontal",
+            top: "top",
+            left: "center"
+        },
+        series: [
+            {
+                name: "独立IP数",
+                type: "pie",
+                radius: ["45%", "70%"],
+                center: ["50%", "60%"],
+                label: {
+                    position: "outside",
+                    formatter: "{b}\nIP: {c}"
+                },
+                data: ip_data,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: "rgba(0, 0, 0, 0.5)"
+                    }
+                }
+            },
+            {
+                name: "访问次数",
+                type: "pie",
+                radius: "45%",
+                center: ["50%", "60%"],
+                label: {
+                    position: "inside",
+                    formatter: "访问: {c}"
+                },
+                data: visit_data,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: "rgba(0, 0, 0, 0.5)"
+                    }
+                }
+            }
+        ]
+    };
+    
+    chart.setOption(option);
+    const resize_observer = new ResizeObserver(() => {
+        chart.resize();
+    });
+    resize_observer.observe(chart_dom);
+}
+
+async function render_device_stat_chart() {
+    const payload = {
+        access_token: access_token,
+        period: gebi("time-range-select").value,
+        type: 2  // 设备统计
+    }
+    const rsp = await fetch_api(domain + "/api/get_top", payload);
+    if (rsp.retcode) {
+        gebi("device-stat-result").innerHTML = "加载失败:" + rsp.msg;
+        return;
+    }
+
+    const chart_dom = gebi("overall-device-stat");
+    const chart = echarts.init(chart_dom);
+    
+    // 获取所有有效的设备（IP数大于0或访问次数大于0）
+    const valid_devices = new Set([
+        ...Object.entries(rsp.data.ips)
+            .filter(([_, value]) => value > 0)
+            .map(([name]) => name),
+        ...Object.entries(rsp.data.visits)
+            .filter(([_, value]) => value > 0)
+            .map(([name]) => name)
+    ]);
+
+    // 计算总访问次数和总IP数
+    const total_visits = Object.values(rsp.data.visits).reduce((sum, count) => sum + count, 0);
+    const total_ips = Object.values(rsp.data.ips).reduce((sum, count) => sum + count, 0);
+
+    // 准备两组数据
+    const ip_data = Array.from(valid_devices).map(device => ({
+        name: device,
+        value: rsp.data.ips[device] || 0
+    }));
+
+    const visit_data = Array.from(valid_devices).map(device => ({
+        name: device,
+        value: rsp.data.visits[device] || 0
+    }));
+
+    const option = {
+        tooltip: {
+            trigger: "item",
+            formatter: (params) => {
+                const device = params.name;
+                const ips = rsp.data.ips[device] || 0;
+                const visits = rsp.data.visits[device] || 0;
+                const ip_percent = ((ips / total_ips) * 100).toFixed(2);
+                const visit_percent = ((visits / total_visits) * 100).toFixed(2);
+                return `${device}<br/>` + 
+                       `独立IP数: ${ips} (${ip_percent}%)<br/>` +
+                       `访问次数: ${visits} (${visit_percent}%)`;
+            }
+        },
+        legend: {
+            orient: "horizontal",
+            top: "top",
+            left: "center"
+        },
+        series: [
+            {
+                name: "独立IP数",
+                type: "pie",
+                radius: ["45%", "70%"],  // 外圈环形
+                center: ["50%", "60%"],
+                label: {
+                    position: "outside",
+                    formatter: "{b}\nIP: {c}"
+                },
+                data: ip_data,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: "rgba(0, 0, 0, 0.5)"
+                    }
+                }
+            },
+            {
+                name: "访问次数",
+                type: "pie",
+                radius: "45%",  // 修改这里，使其与外圈的内半径相等
+                center: ["50%", "60%"],
+                label: {
+                    position: "inside",
+                    formatter: "访问: {c}"
+                },
+                data: visit_data,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: "rgba(0, 0, 0, 0.5)"
+                    }
+                }
+            }
+        ]
+    };
+    
+    chart.setOption(option);
+    const resize_observer = new ResizeObserver(() => {
+        chart.resize();
+    });
+    resize_observer.observe(chart_dom);
+}
+
+async function render_os_stat_chart() {
+    const payload = {
+        access_token: access_token,
+        period: gebi("time-range-select").value,
+        type: 3  // 操作系统统计
+    }
+    const rsp = await fetch_api(domain + "/api/get_top", payload);
+    if (rsp.retcode) {
+        gebi("os-stat-result").innerHTML = "加载失败:" + rsp.msg;
+        return;
+    }
+
+    const chart_dom = gebi("overall-os-stat");
+    const chart = echarts.init(chart_dom);
+    
+    // 获取所有有效的操作系统（IP数大于0或访问次数大于0）
+    const valid_os = new Set([
+        ...Object.entries(rsp.data.ips)
+            .filter(([_, value]) => value > 0)
+            .map(([name]) => name),
+        ...Object.entries(rsp.data.visits)
+            .filter(([_, value]) => value > 0)
+            .map(([name]) => name)
+    ]);
+
+    // 计算总访问次数和总IP数
+    const total_visits = Object.values(rsp.data.visits).reduce((sum, count) => sum + count, 0);
+    const total_ips = Object.values(rsp.data.ips).reduce((sum, count) => sum + count, 0);
+
+    // 准备两组数据
+    const ip_data = Array.from(valid_os).map(os => ({
+        name: os,
+        value: rsp.data.ips[os] || 0
+    }));
+
+    const visit_data = Array.from(valid_os).map(os => ({
+        name: os,
+        value: rsp.data.visits[os] || 0
+    }));
+
+    const option = {
+        tooltip: {
+            trigger: "item",
+            formatter: (params) => {
+                const os = params.name;
+                const ips = rsp.data.ips[os] || 0;
+                const visits = rsp.data.visits[os] || 0;
+                const ip_percent = ((ips / total_ips) * 100).toFixed(2);
+                const visit_percent = ((visits / total_visits) * 100).toFixed(2);
+                return `${os}<br/>` + 
+                       `独立IP数: ${ips} (${ip_percent}%)<br/>` +
+                       `访问次数: ${visits} (${visit_percent}%)`;
+            }
+        },
+        legend: {
+            orient: "horizontal",
+            top: "top",
+            left: "center"
+        },
+        series: [
+            {
+                name: "独立IP数",
+                type: "pie",
+                radius: ["45%", "70%"],  // 外圈环形
+                center: ["50%", "60%"],
+                label: {
+                    position: "outside",
+                    formatter: "{b}\nIP: {c}"
+                },
+                data: ip_data,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: "rgba(0, 0, 0, 0.5)"
+                    }
+                }
+            },
+            {
+                name: "访问次数",
+                type: "pie",
+                radius: "45%",  // 修改这里，使其与外圈的内半径相等
+                center: ["50%", "60%"],
+                label: {
+                    position: "inside",
+                    formatter: "访问: {c}"
+                },
+                data: visit_data,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: "rgba(0, 0, 0, 0.5)"
+                    }
+                }
+            }
+        ]
+    };
+    
+    chart.setOption(option);
+    const resize_observer = new ResizeObserver(() => {
+        chart.resize();
+    });
+    resize_observer.observe(chart_dom);
 }
 
 async function get_overall_data() {
@@ -145,4 +659,9 @@ async function get_overall_data() {
     gebi("overall-yesterday-ips").innerHTML = rsp.data.yesterday_ips;
 }
 
-load_overview_page();
+async function init(){
+    await load_script("/static/js/echarts.min.js");
+    load_overview_page().then();
+}
+
+init().then();

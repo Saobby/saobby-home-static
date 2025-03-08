@@ -40,6 +40,12 @@
             .wux-col {
                 padding: 0px 4px;
             }
+            .chart-container{
+                height: 400px;
+            }
+            .short-chart-container{
+                height: 300px;
+            }
         </style>
         <title>网页计数器控制面板</title>
     </head>
@@ -108,6 +114,11 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <h2>访问量趋势</h2>
+                                        <div id="overall-visits-trend" class="chart-container centered">
+                                            <span class="wux-loading"></span><br>
+                                            <span>加载中</span><br>
+                                            <span id="visits-trend-result" class="result"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -117,6 +128,11 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <h2>用户地理位置</h2>
+                                        <div id="overall-ip-location" class="chart-container centered">
+                                            <span class="wux-loading"></span><br>
+                                            <span>加载中</span><br>
+                                            <span id="ip-location-result" class="result"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -126,6 +142,11 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <h2>访问时间段</h2>
+                                        <div id="overall-visit-time" class="chart-container centered">
+                                            <span class="wux-loading"></span><br>
+                                            <span>加载中</span><br>
+                                            <span id="visits-time-result" class="result"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +156,11 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <h2>浏览器统计</h2>
-                                        
+                                        <div id="overall-browser-stat" class="short-chart-container centered">
+                                            <span class="wux-loading"></span><br>
+                                            <span>加载中</span><br>
+                                            <span id="browser-stat-result" class="result"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +168,11 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <h2>设备统计</h2>
-                                        
+                                        <div id="overall-device-stat" class="short-chart-container centered">
+                                            <span class="wux-loading"></span><br>
+                                            <span>加载中</span><br>
+                                            <span id="device-stat-result" class="result"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -151,7 +180,11 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <h2>操作系统统计</h2>
-                                        
+                                        <div id="overall-os-stat" class="short-chart-container centered">
+                                            <span class="wux-loading"></span><br>
+                                            <span>加载中</span><br>
+                                            <span id="os-stat-result" class="result"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
