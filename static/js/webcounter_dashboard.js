@@ -52,6 +52,8 @@ async function load_logs(page_index) {
     }
     gebi("log-table-body").innerHTML = logs_html;
     gen_cp_buttons(page_index+1, rsp.data.page_amount, 8, (n)=>{load_logs(n-1).then();}, gebi("change-page-div"), "wux-btn log-cp-btn", "wux-btn wux-btn-outline log-cp-btn");
+    gebi("log-page-index").innerHTML = page_index+1;
+    gebi("log-page-amount").innerHTML = rsp.data.page_amount;
 }
 
 function update_auto_refresh_log(checked){
@@ -76,6 +78,7 @@ async function load_settings() {
         gebi("font-size").disabled = status;
         gebi("font-color").disabled = status;
         gebi("background-color").disabled = status;
+        gebi("description").disabled = status;
     }
     set_btn_status(true);
     const rsp = await fetch_api(domain+"/api/get_counter_settings", {access_token: access_token});
@@ -92,6 +95,7 @@ async function load_settings() {
     gebi("font-size").value = rsp.data.settings.font_size;
     gebi("font-color").value = rsp.data.settings.text_color;
     gebi("background-color").value = rsp.data.settings.background_color;
+    gebi("description").value = rsp.data.settings.desc;
 }
 
 async function save_settings(){
@@ -102,6 +106,7 @@ async function save_settings(){
         gebi("font-size").disabled = status;
         gebi("font-color").disabled = status;
         gebi("background-color").disabled = status;
+        gebi("description").disabled = status;
         if (status){
             set_btn_html(gebi("save-settings-btn"), "...");
         }
@@ -115,7 +120,8 @@ async function save_settings(){
         display_type: gebi("display-setting-select").selectedIndex,
         font_size: gebi("font-size").value,
         text_color: gebi("font-color").value,
-        background_color: gebi("background-color").value
+        background_color: gebi("background-color").value, 
+        desc: gebi("description").value
     }
     set_btn_status(true);
     const rsp = await fetch_api(domain+"/api/update_counter_settings", payload);
@@ -751,14 +757,12 @@ async function render_ip_location_chart() {
         tooltip: {
             trigger: "item",
             formatter: (params) => {
-                // 通过名称找到对应的代码（取第一个）
                 const country_name = params.name;
-                const country_code = name_to_codes[country_name]?.[0] || country_name;
-                const visits = merged_visits[country_code] || 0;
-                const ips = merged_ips[country_code] || 0;
-                return `${country_name}<br/>` +
-                       `访问量: ${visits}<br/>` +
-                       `独立IP数: ${ips}`;
+                // 查找国家代码
+                const country_code = Object.entries(country_code_map).find(([_, name]) => name === country_name)?.[0];
+                const visits = country_code ? (merged_visits[country_code] || 0) : 0;
+                const ips = country_code ? (merged_ips[country_code] || 0) : 0;
+                return `${country_name}<br/>访问量: ${visits}<br/>独立IP数: ${ips}`;
             }
         },
         visualMap: [
@@ -787,15 +791,15 @@ async function render_ip_location_chart() {
                         show: true
                     }
                 },
-                data: visits_data.map(item => ({
-                    ...item,
-                    ip_count: merged_ips[name_to_codes[item.name]?.[0] || item.name] || 0
-                })),
+                data: visits_data,
                 tooltip: {
                     formatter: (params) => {
-                        return `${params.name}<br/>` +
-                               `访问量: ${params.value || 0}<br/>` +
-                               `独立IP数: ${params.data.ip_count}`;
+                        const country_name = params.name;
+                        // 查找国家代码
+                        const country_code = Object.entries(country_code_map).find(([_, name]) => name === country_name)?.[0];
+                        const visits = country_code ? (merged_visits[country_code] || 0) : 0;
+                        const ips = country_code ? (merged_ips[country_code] || 0) : 0;
+                        return `${country_name}<br/>访问量: ${visits}<br/>独立IP数: ${ips}`;
                     }
                 }
             }

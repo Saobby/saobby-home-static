@@ -59,7 +59,10 @@
                 <button type="button" class="wux-btn wux-btn-primary" onclick="window.location='/create_post'"><img src="/static/image/icon/plus-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">创建帖子</span></button>
                 <hr>
                 <div id="posts-list-html">
-                    <span>正在加载帖子列表...</span>
+                    <div class="centered">
+                        <span class="wux-loading"></span><br>
+                        <span>加载中</span>
+                    </div>
                 </div>
                 <div id="change-page-div" class="wux-btn-group"></div>
                 <span>第<span id="page-index">1</span>/<span id="page-amount">-</span>页</span>
