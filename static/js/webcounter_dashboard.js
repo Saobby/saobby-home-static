@@ -134,6 +134,7 @@ async function load_overview_page(){
     render_browser_stat_chart().then();
     render_device_stat_chart().then();
     render_os_stat_chart().then();
+    render_ip_location_chart().then();
 }
 
 async function render_trend_chart() {
@@ -689,8 +690,133 @@ async function get_overall_data() {
     gebi("overall-yesterday-ips").innerHTML = rsp.data.yesterday_ips;
 }
 
+async function render_ip_location_chart() {
+    function set_chart_status(status) {
+        gebi("overall-ip-location").hidden = status;
+        gebi("overall-ip-location-loading").hidden = !status;
+    }
+    
+    set_chart_status(true);
+    const payload = {
+        access_token: access_token,
+        period: gebi("time-range-select").value
+    }
+    const rsp = await fetch_api(domain + "/api/get_heatmap_data", payload);
+    if (rsp.retcode) {
+        gebi("ip-location-result").innerHTML = "加载失败:" + rsp.msg;
+        return;
+    }
+
+    const country_code_map = {'AF': '阿富汗', 'AL': '阿尔巴尼亚', 'DZ': '阿尔及利亚', 'AO': '安哥拉', 'AR': '阿根廷', 'AM': '亚美尼亚', 'AU': '澳大利亚', 'AT': '奥地利', 'AZ': '阿塞拜疆', 'BH': '巴林', 'BD': '孟加拉国', 'BY': '白俄罗斯', 'BE': '比利时', 'BZ': '伯利兹', 'BJ': '贝宁', 'BT': '不丹', 'BO': '玻利维亚', 'BA': '波斯尼亚', 'BW': '博茨瓦纳', 'BR': '巴西', 'BN': '文莱', 'BG': '保加利亚', 'BF': '布基纳法索', 'BI': '布隆迪', 'KH': '柬埔寨', 'CM': '喀麦隆', 'CA': '加拿大', 'CF': '中非', 'TD': '乍得', 'CL': '智利', 'CN': '中国', 'CO': '哥伦比亚', 'KM': '科摩罗', 'CG': '刚果', 'CD': '刚果', 'CR': '哥斯达黎加', 'CI': '科特迪瓦', 'HR': '克罗地亚', 'CU': '古巴', 'CY': '塞浦路斯', 'CZ': '捷克', 'DK': '丹麦', 'DJ': '吉布提', 'DO': '多米尼加', 'EC': '厄瓜多尔', 'EG': '埃及', 'SV': '萨尔瓦多', 'GQ': '几内亚', 'ER': '厄立特里亚', 'EE': '爱沙尼亚', 'SZ': '斯威士兰', 'ET': '埃塞俄比亚', 'FJ': '斐济', 'FI': '芬兰', 'FR': '法国', 'GA': '加蓬', 'GM': '冈比亚', 'GE': '格鲁吉亚', 'DE': '德国', 'GH': '加纳', 'GR': '希腊', 'GT': '危地马拉', 'GN': '几内亚', 'GW': '几内亚比绍', 'GY': '圭亚那', 'HT': '海地', 'HN': '洪都拉斯', 'HU': '匈牙利', 'IS': '冰岛', 'IN': '印度', 'ID': '印度尼西亚', 'IR': '伊朗', 'IQ': '伊拉克', 'IE': '爱尔兰', 'IL': '以色列', 'IT': '意大利', 'JM': '牙买加', 'JP': '日本', 'JO': '约旦', 'KZ': '哈萨克斯坦', 'KE': '肯尼亚', 'KR': '韩国', 'KW': '科威特', 'KG': '吉尔吉斯斯坦', 'LA': '老挝', 'LV': '拉脱维亚', 'LB': '黎巴嫩', 'LS': '莱索托', 'LR': '利比里亚', 'LY': '利比亚', 'LT': '立陶宛', 'LU': '卢森堡', 'MG': '马达加斯加', 'MW': '马拉维', 'MY': '马来西亚', 'MV': '斯里兰卡', 'ML': '马里', 'MT': '马耳他', 'MR': '毛里塔尼亚', 'MU': '毛里求斯', 'MX': '墨西哥', 'MD': '摩尔多瓦', 'MC': '法国', 'MN': '蒙古', 'ME': '黑山', 'MA': '摩洛哥', 'MZ': '莫桑比克', 'MM': '缅甸', 'NA': '纳米比亚', 'NP': '尼泊尔', 'NL': '荷兰', 'NZ': '新西兰', 'NI': '尼加拉瓜', 'NE': '尼日尔', 'NG': '尼日利亚', 'MK': '马其顿', 'NO': '挪威', 'OM': '阿曼', 'PK': '巴基斯坦', 'PA': '巴拿马', 'PG': '巴布亚新几内亚', 'PY': '巴拉圭', 'PE': '秘鲁', 'PH': '菲律宾', 'PL': '波兰', 'PT': '葡萄牙', 'QA': '卡塔尔', 'RO': '罗马尼亚', 'RU': '俄罗斯', 'RW': '卢旺达', 'SA': '沙特阿拉伯', 'SN': '塞内加尔', 'RS': '塞尔维亚', 'SL': '塞拉利昂', 'SG': '新加坡', 'SK': '斯洛伐克', 'SI': '斯洛文尼亚', 'SO': '索马里', 'ZA': '南非', 'ES': '西班牙', 'LK': '斯里兰卡', 'SD': '苏丹', 'SR': '苏里南', 'SE': '瑞典', 'CH': '瑞士', 'SY': '叙利亚', 'TJ': '塔吉克斯坦', 'TZ': '坦桑尼亚', 'TH': '泰国', 'TG': '多哥', 'TO': '汤加', 'TT': '特立尼达和多巴哥', 'TN': '突尼斯', 'TR': '土耳其', 'TM': '土库曼斯坦', 'TW': '中国', 'UG': '乌干达', 'UA': '乌克兰', 'AE': '阿联酋', 'GB': '英国', 'US': '美国', 'UY': '乌拉圭', 'UZ': '乌兹别克斯坦', 'VU': '瓦努阿图', 'VE': '委内瑞拉', 'VN': '越南', 'YE': '也门', 'ZM': '赞比亚', 'ZW': '津巴布韦'};
+
+    const chart_dom = gebi("overall-ip-location");
+    const chart = echarts.init(chart_dom);
+
+    // 创建名称到代码的映射关系
+    const name_to_codes = {};
+    Object.entries(country_code_map).forEach(([code, name]) => {
+        if (!name_to_codes[name]) {
+            name_to_codes[name] = [];
+        }
+        name_to_codes[name].push(code);
+    });
+
+    // 合并相同名称的国家数据
+    const merged_visits = {};
+    const merged_ips = {};
+    Object.entries(name_to_codes).forEach(([name, codes]) => {
+        // 如果一个名称对应多个代码，则合并其数据
+        const total_visits = codes.reduce((sum, code) => sum + (rsp.data.visits[code] || 0), 0);
+        const total_ips = codes.reduce((sum, code) => sum + (rsp.data.ips[code] || 0), 0);
+        // 使用第一个代码作为主代码
+        if (total_visits > 0) merged_visits[codes[0]] = total_visits;
+        if (total_ips > 0) merged_ips[codes[0]] = total_ips;
+    });
+
+    const max_visits = Math.max(...Object.values(merged_visits));
+    const max_ips = Math.max(...Object.values(merged_ips));
+
+    const visits_data = Object.entries(merged_visits).map(([code, value]) => ({
+        name: country_code_map[code],
+        value: value
+    }));
+
+    const ips_data = Object.entries(merged_ips).map(([code, value]) => ({
+        name: country_code_map[code],
+        value: value
+    }));
+
+    const option = {
+        backgroundColor: "#ffffff",
+        tooltip: {
+            trigger: "item",
+            formatter: (params) => {
+                // 通过名称找到对应的代码（取第一个）
+                const country_name = params.name;
+                const country_code = name_to_codes[country_name]?.[0] || country_name;
+                const visits = merged_visits[country_code] || 0;
+                const ips = merged_ips[country_code] || 0;
+                return `${country_name}<br/>` +
+                       `访问量: ${visits}<br/>` +
+                       `独立IP数: ${ips}`;
+            }
+        },
+        visualMap: [
+            {
+                type: "continuous",
+                min: 0,
+                max: max_visits,
+                text: ["访问量"],
+                calculable: true,
+                inRange: {
+                    color: ["#e0f3f8", "#5064e1"]
+                },
+                left: "left",
+                top: "bottom"
+            }
+        ],
+        series: [
+            {
+                name: "访问量",
+                type: "map",
+                map: "world",
+                roam: true,
+                selectedMode: false,
+                emphasis: {
+                    label: {
+                        show: true
+                    }
+                },
+                data: visits_data.map(item => ({
+                    ...item,
+                    ip_count: merged_ips[name_to_codes[item.name]?.[0] || item.name] || 0
+                })),
+                tooltip: {
+                    formatter: (params) => {
+                        return `${params.name}<br/>` +
+                               `访问量: ${params.value || 0}<br/>` +
+                               `独立IP数: ${params.data.ip_count}`;
+                    }
+                }
+            }
+        ]
+    };
+
+    chart.setOption(option);
+    set_chart_status(false);
+    const resize_observer = new ResizeObserver(() => {
+        chart.resize();
+    });
+    resize_observer.observe(chart_dom);
+}
+
 async function init(){
-    await load_script("/static/js/echarts.min.js");
+    const [echarts_js, world_json] = await Promise.all([
+        fetch("/static/js/echarts.min.js").then(response => response.text()),
+        fetch("/static/js/world_cn.json").then(response => response.json())
+    ]);
+    eval(echarts_js);
+    echarts.registerMap("world", world_json);
     load_overview_page().then();
 }
 
