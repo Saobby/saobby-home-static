@@ -37,8 +37,9 @@
             </ul>
             <div class="wux-typo">
                 <h2 class="mt">我创建的计数器</h2>
-                <a href="/create_webcounter" target="_blank"><button class="wux-btn wux-btn-primary"><img src="/static/image/icon/plus-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">创建计数器</span></button></a>
-                <button type="button" class="wux-btn wux-btn-primary wux-btn-outline" onclick="load_webcounters(0).then();" id="refresh-btn"><img src="/static/image/icon/refresh-primary.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">刷新</span></button>
+                <input type="text" id="search-input" class="wux-form-input wux-form-input-md" placeholder="搜索 ID 或备注" style="width:calc( 100% - 100px );display:inline-block;">
+                <button type="button" class="wux-btn wux-btn-primary" onclick="load_webcounters(0).then();" id="refresh-btn"><img src="/static/image/icon/search-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">搜索</span></button><br>
+                <a href="/create_webcounter" target="_blank"><button class="wux-btn wux-btn-primary mt"><img src="/static/image/icon/plus-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">创建计数器</span></button></a>
                 <hr>
                 <div id="webcounters">
                     <div class="centered">
