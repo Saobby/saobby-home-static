@@ -206,14 +206,25 @@
                     <label class="wux-tab-item" for="tab-settings">显示设置</label>
                     <div class="wux-tab-content">
                         <hr>
+                        <div class="wux-row-md-1">
+                            <div class="wux-col">
+                                <div class="wux-card wux-card-hover">
+                                    <div class="wux-card-body">
+                                        <b>控制面板访问密钥: </b><code id="access-token"><span class="wux-loading"></span></code><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('access-token').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="wux-row-md-3 same-height-container">
                             <div class="wux-col same-height-box">
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
-                                        <h2>计数器 ID</h2>
-                                        <code id="counter-id"><span class="wux-loading"></span></code><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('counter-id').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><br>
-                                        <h2>访问凭据</h2>
-                                        <code id="access-token"><span class="wux-loading"></span></code><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('access-token').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><br>
+                                        <h2>放置计数器</h2>
+                                        <span>将下面的图片放置在<b>需要计数的网页</b>:</span>
+                                        <textarea id="markdown-code" class="wux-form-input wux-form-input-md mt" readonly></textarea>
+                                        <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('markdown-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 Markdown 代码</span></button>
+                                        <textarea id="html-code" class="wux-form-input wux-form-input-md mt" readonly></textarea>
+                                        <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('html-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 HTML 代码</span></button>
                                     </div>
                                 </div>
                             </div>

@@ -84,7 +84,8 @@ async function load_settings() {
         gebi("save-settings-result").innerHTML = "无法加载设置:"+rsp.msg;
         return;
     }
-    gebi("counter-id").innerHTML = rsp.data.settings.counter_id;
+    gebi("markdown-code").innerHTML = `![](${domain}/w/${rsp.data.settings.counter_id})`;
+    gebi("html-code").innerHTML = `<img src="${domain}/w/${rsp.data.settings.counter_id}">`;
     gebi("access-token").innerHTML = rsp.data.settings.access_token;
     gebi("image-type-select").selectedIndex = rsp.data.settings.pic_type;
     gebi("display-setting-select").selectedIndex = rsp.data.settings.display_type;

@@ -57,47 +57,43 @@
                 <div id="args-div">
                     <h3>立即创建一个计数器并打开控制面板</h3>
                     <div class="wux-alert wux-alert-info" id="login-tip" hidden>你还没有登录!登录后可查看账户创建的所有计数器，<b>无需手动记录控制面板访问密钥</b>，更加方便。<br>当然，不登录仍然可以使用本工具的完整功能。<br><a href="javascript:;" onclick="login();">立即登录</a></div>
-                    <div class="wux-tab-content">
-                        <div class="wux-row-md-2 same-height-container">
-                            <div class="wux-col same-height-box">
-                                <div class="wux-card wux-card-hover">
-                                    <div class="wux-card-body">
-                                        <h2>响应图片类型</h2>
-                                        <select class="wux-form-select wux-form-select-md" id="pic-type">
-                                            <option value="0">JPEG</option>
-                                            <option value="1" selected>SVG</option>
-                                        </select>
-                                        <h2>显示设置</h2>
-                                        <select class="wux-form-select wux-form-select-md" id="display-type">
-                                            <option value="0" selected>总访问量</option>
-                                            <option value="1">总独立 IP 数量</option>
-                                            <option value="2">什么也不显示, 静默统计</option>
-                                        </select>
-                                    </div>
+                    <div class="wux-row-md-2 same-height-container">
+                        <div class="wux-col same-height-box">
+                            <div class="wux-card wux-card-hover">
+                                <div class="wux-card-body">
+                                    <h2>响应图片类型</h2>
+                                    <select class="wux-form-select wux-form-select-md" id="pic-type">
+                                        <option value="0">JPEG</option>
+                                        <option value="1" selected>SVG</option>
+                                    </select>
+                                    <h2>显示设置</h2>
+                                    <select class="wux-form-select wux-form-select-md" id="display-type">
+                                        <option value="0" selected>总访问量</option>
+                                        <option value="1">总独立 IP 数量</option>
+                                        <option value="2">什么也不显示, 静默统计</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="wux-col same-height-box">
-                                <div class="wux-card wux-card-hover">
-                                    <div class="wux-card-body">
-                                        <h2>字体尺寸</h2>
-                                        <input type="number" class="wux-form-input wux-form-input-md" id="font-size" min="1" max="100" value="16">
-                                        <h2>字体颜色</h2>
-                                        <input type="color" style="width: 64px; height: 64px;" value="#000000" id="font-color" placeholder="填6位16进制颜色代码,要带#号,如#aa0000表示红色"><br>
-                                        <h2>背景颜色</h2>
-                                        <input type="color" style="width: 64px; height: 64px;" value="#ffffff" id="background-color" placeholder="填6位16进制颜色代码,要带#号,如#aa0000表示红色"><br>
-                                    </div>
+                        </div>
+                        <div class="wux-col same-height-box">
+                            <div class="wux-card wux-card-hover">
+                                <div class="wux-card-body">
+                                    <h2>字体尺寸</h2>
+                                    <input type="number" class="wux-form-input wux-form-input-md" id="font-size" min="1" max="100" value="16">
+                                    <h2>字体颜色</h2>
+                                    <input type="color" style="width: 64px; height: 64px;" value="#000000" id="font-color" placeholder="填6位16进制颜色代码,要带#号,如#aa0000表示红色"><br>
+                                    <h2>背景颜色</h2>
+                                    <input type="color" style="width: 64px; height: 64px;" value="#ffffff" id="background-color" placeholder="填6位16进制颜色代码,要带#号,如#aa0000表示红色"><br>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="wux-tab-content">
-                        <div class="wux-row-md-1">
-                            <div class="wux-col">
-                                <div class="wux-card wux-card-hover">
-                                    <div class="wux-card-body">
-                                        <button class="wux-btn wux-btn-primary" id="create-counter-btn" onclick="create_counter().then();" type="button">创建计数器</button>
-                                        <span id="create-counter-result" class="result"></span>
-                                    </div>
+                    <div class="wux-row-md-1">
+                        <div class="wux-col">
+                            <div class="wux-card wux-card-hover">
+                                <div class="wux-card-body">
+                                    <button class="wux-btn wux-btn-primary" id="create-counter-btn" onclick="create_counter().then();" type="button">创建计数器</button>
+                                    <span id="create-counter-result" class="result"></span>
                                 </div>
                             </div>
                         </div>
@@ -105,42 +101,39 @@
                 </div>
                 <div id="success-div" hidden>
                     <h3>创建成功</h3>
-                    <div class="wux-tab-content">
-                        <div class="wux-row-md-2 same-height-container">
-                            <div class="wux-col same-height-box">
-                                <div class="wux-card wux-card-hover">
-                                    <div class="wux-card-body">
-                                        <span>将下面的图片放置在<b>需要计数的网页</b>:</span>
-                                        <textarea id="markdown-code" class="wux-form-input wux-form-input-md mt" readonly></textarea>
-                                        <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('markdown-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 Markdown 代码</span></button>
-                                        <textarea id="html-code" class="wux-form-input wux-form-input-md mt" readonly></textarea>
-                                        <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('html-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 HTML 代码</span></button>
-                                        
-                                    </div>
+                    <div class="wux-row-md-2 same-height-container">
+                        <div class="wux-col same-height-box">
+                            <div class="wux-card wux-card-hover">
+                                <div class="wux-card-body">
+                                    <span>将下面的图片放置在<b>需要计数的网页</b>:</span>
+                                    <textarea id="markdown-code" class="wux-form-input wux-form-input-md mt" readonly></textarea>
+                                    <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('markdown-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 Markdown 代码</span></button>
+                                    <textarea id="html-code" class="wux-form-input wux-form-input-md mt" readonly></textarea>
+                                    <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('html-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 HTML 代码</span></button>
                                 </div>
                             </div>
-                            <div class="wux-col same-height-box">
-                                <div class="wux-card wux-card-hover">
-                                    <div class="wux-card-body">
-                                        <div class="wux-row-xs-2">
-                                            <div class="wux-col">
-                                                <b>计数器 ID:</b>
-                                            </div>
-                                            <div class="wux-col">
-                                                <button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right" onclick="copy_text(gebi('counter-id').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><code id="counter-id" class="right"></code>
-                                            </div>
+                        </div>
+                        <div class="wux-col same-height-box">
+                            <div class="wux-card wux-card-hover">
+                                <div class="wux-card-body">
+                                    <div class="wux-row-xs-2">
+                                        <div class="wux-col">
+                                            <b>计数器 ID:</b>
                                         </div>
-                                        <div class="wux-row-xs-2">
-                                            <div class="wux-col">
-                                                <b>控制面板访问密钥:</b>
-                                            </div>
-                                            <div class="wux-col">
-                                                <button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right" onclick="copy_text(gebi('access-token').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><code id="access-token" class="right"></code>
-                                            </div>
+                                        <div class="wux-col">
+                                            <button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right" onclick="copy_text(gebi('counter-id').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><code id="counter-id" class="right"></code>
                                         </div>
-                                        <a href="" target="_blank" id="dashboard-link"><button type="button" class="wux-btn wux-btn-primary"><img src="/static/image/icon/external-link-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">打开控制面板</span></button></a>
-                                        <button type="button" class="wux-btn wux-btn-primary wux-btn-outline" onclick="reset();"><img src="/static/image/icon/refresh-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">再创建一个</span></button>
                                     </div>
+                                    <div class="wux-row-xs-2">
+                                        <div class="wux-col">
+                                            <b>控制面板访问密钥:</b>
+                                        </div>
+                                        <div class="wux-col">
+                                            <button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right" onclick="copy_text(gebi('access-token').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><code id="access-token" class="right"></code>
+                                        </div>
+                                    </div>
+                                    <a href="" target="_blank" id="dashboard-link"><button type="button" class="wux-btn wux-btn-primary"><img src="/static/image/icon/external-link-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">打开控制面板</span></button></a>
+                                    <button type="button" class="wux-btn wux-btn-primary wux-btn-outline" onclick="reset();"><img src="/static/image/icon/refresh-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">再创建一个</span></button>
                                 </div>
                             </div>
                         </div>
