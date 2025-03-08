@@ -125,3 +125,23 @@ async function save_settings(){
     }
     gebi("save-settings-result").innerHTML = "设置已保存";
 }
+
+function load_overview_page(){
+    get_overall_data().then();
+}
+
+async function get_overall_data() {
+    const rsp = await fetch_api(domain+"/api/get_overall_data", {access_token: access_token});
+    if (rsp.retcode){
+        gebi("overall-data-result").innerHTML = "无法获取数据:"+rsp.msg;
+        return;
+    }
+    gebi("overall-total-visits").innerHTML = rsp.data.total_visits;
+    gebi("overall-total-ips").innerHTML = rsp.data.total_ips;
+    gebi("overall-today-visits").innerHTML = rsp.data.today_visits;
+    gebi("overall-today-ips").innerHTML = rsp.data.today_ips;
+    gebi("overall-yesterday-visits").innerHTML = rsp.data.yesterday_visits;
+    gebi("overall-yesterday-ips").innerHTML = rsp.data.yesterday_ips;
+}
+
+load_overview_page();

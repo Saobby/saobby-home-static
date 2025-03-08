@@ -62,7 +62,7 @@
             </ul>
             <div class="wux-typo">
                 <div class="wux-tab">
-                    <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-data-overview" checked>
+                    <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-data-overview" onclick="load_overview_page();tab='overview';" checked>
                     <label class="wux-tab-item" for="tab-data-overview">数据总览</label>
                     <div class="wux-tab-content">
                         <hr>
@@ -71,9 +71,9 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <h2>总访问量</h2>
-                                        <span class="big-number">1000</span>
+                                        <span class="big-number" id="overall-total-visits"><span class="wux-loading"></span></span>
                                         <h2>总独立 IP 数量</h2>
-                                        <span class="big-number">1000</span>
+                                        <span class="big-number" id="overall-total-ips"><span class="wux-loading"></span></span>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,9 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <h2>今日访问量</h2>
+                                        <span class="big-number" id="overall-today-visits"><span class="wux-loading"></span></span>
                                         <h2>今日独立 IP 数量</h2>
+                                        <span class="big-number" id="overall-today-ips"><span class="wux-loading"></span></span>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +91,9 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <h2>昨日访问量</h2>
+                                        <span class="big-number" id="overall-yesterday-visits"><span class="wux-loading"></span></span>
                                         <h2>昨日独立 IP 数量</h2>
+                                        <span class="big-number" id="overall-yesterday-ips"><span class="wux-loading"></span></span>
                                     </div>
                                 </div>
                             </div>
@@ -99,12 +103,13 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <span>时间段:</span>
-                                        <select id="time-range-select" class="wux-form-select" style="width: 200px;">
+                                        <select id="time-range-select" class="wux-form-select" style="width: 150px;">
                                             <option value="604800">最近 7 天</option>
                                             <option value="1209600">最近 14 天</option>
                                             <option value="2592000">最近 30 天</option>
                                             <option value="7776000">最近 90 天</option>
                                         </select>
+                                        <span id="overall-data-result" class="result"></span>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +177,7 @@
                                 <div class="wux-card wux-card-hover">
                                     <div class="wux-card-body">
                                         <span style="font-size: 24px;">日志查询</span>
-                                        <select id="log-time-range-select" class="wux-form-select" style="width: 200px;">
+                                        <select id="log-time-range-select" class="wux-form-select" style="width: 150px;">
                                             <option value="604800">最近 7 天</option>
                                             <option value="1209600">最近 14 天</option>
                                             <option value="2592000">最近 30 天</option>
