@@ -137,6 +137,11 @@ async function load_overview_page(){
 }
 
 async function render_trend_chart() {
+    function set_chart_status(status){
+        gebi("overall-visits-trend").hidden = status;
+        gebi("overall-visits-trend-loading").hidden = !status;
+    }
+    set_chart_status(true);
     const payload = {
         access_token: access_token,
         period: gebi("time-range-select").value
@@ -220,6 +225,7 @@ async function render_trend_chart() {
         ]
     };
     chart.setOption(option);
+    set_chart_status(false);
     const resize_observer = new ResizeObserver(() => {
         chart.resize();
     });
@@ -227,6 +233,11 @@ async function render_trend_chart() {
 }
 
 async function render_visit_time_chart() {
+    function set_chart_status(status){
+        gebi("overall-visit-time").hidden = status;
+        gebi("overall-visit-time-loading").hidden = !status;
+    }
+    set_chart_status(true);
     const payload = {
         access_token: access_token, 
         period: gebi("time-range-select").value, 
@@ -321,6 +332,7 @@ async function render_visit_time_chart() {
     };
     
     chart.setOption(option);
+    set_chart_status(false);
     const resize_observer = new ResizeObserver(() => {
         chart.resize();
     });
@@ -328,6 +340,11 @@ async function render_visit_time_chart() {
 }
 
 async function render_browser_stat_chart() {
+    function set_chart_status(status){
+        gebi("overall-browser-stat").hidden = status;
+        gebi("overall-browser-stat-loading").hidden = !status;
+    }
+    set_chart_status(true);
     const payload = {
         access_token: access_token,
         period: gebi("time-range-select").value,
@@ -427,6 +444,7 @@ async function render_browser_stat_chart() {
     };
     
     chart.setOption(option);
+    set_chart_status(false);
     const resize_observer = new ResizeObserver(() => {
         chart.resize();
     });
@@ -434,6 +452,11 @@ async function render_browser_stat_chart() {
 }
 
 async function render_device_stat_chart() {
+    function set_chart_status(status){
+        gebi("overall-device-stat").hidden = status;
+        gebi("overall-device-stat-loading").hidden = !status;
+    }
+    set_chart_status(true);
     const payload = {
         access_token: access_token,
         period: gebi("time-range-select").value,
@@ -533,6 +556,7 @@ async function render_device_stat_chart() {
     };
     
     chart.setOption(option);
+    set_chart_status(false);
     const resize_observer = new ResizeObserver(() => {
         chart.resize();
     });
@@ -540,6 +564,11 @@ async function render_device_stat_chart() {
 }
 
 async function render_os_stat_chart() {
+    function set_chart_status(status){
+        gebi("overall-os-stat").hidden = status;
+        gebi("overall-os-stat-loading").hidden = !status;
+    }
+    set_chart_status(true);
     const payload = {
         access_token: access_token,
         period: gebi("time-range-select").value,
@@ -639,6 +668,7 @@ async function render_os_stat_chart() {
     };
     
     chart.setOption(option);
+    set_chart_status(false);
     const resize_observer = new ResizeObserver(() => {
         chart.resize();
     });
