@@ -1,4 +1,4 @@
-domain = "http://127.0.0.1:7799"
+domain = "http://127.0.0.1:7799";
 
 function check_login() {
     if (!localStorage.getItem("access-token")) {

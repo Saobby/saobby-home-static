@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" style="overflow-y: scroll;">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
@@ -163,7 +163,7 @@
                             </div>
                         </div>
                     </div>
-                    <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-log-query">
+                    <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-log-query" onclick="load_logs(0).then();">
                     <label class="wux-tab-item" for="tab-log-query">日志查询</label>
                     <div class="wux-tab-content">
                         <hr>
@@ -176,10 +176,10 @@
                                             <option value="604800">最近 7 天</option>
                                             <option value="1209600">最近 14 天</option>
                                             <option value="2592000">最近 30 天</option>
-                                            <option value="7776000">最近 90 天</option>
                                         </select>
-                                        <button class="wux-btn wux-btn-primary" type="button" id="refresh-log-btn">刷新</button>
-                                        <label><input type="checkbox" class="wux-form-checks" id="auto-refresh">自动刷新</label>
+                                        <button class="wux-btn wux-btn-primary" type="button" id="refresh-log-btn" onclick="load_logs(0).then();">刷新</button>
+                                        <label><input type="checkbox" class="wux-form-checks" id="log-auto-refresh" onchange="update_auto_refresh_log(this.checked);">自动刷新</label>
+                                        <span id="log-result" class="result"></span>
                                         <hr>
                                         <table class="wux-table">
                                             <thead>
@@ -199,22 +199,7 @@
                                                     <th>Referer</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>2024-01-01 12:00:00</td>
-                                                    <td>127.0.0.1</td>
-                                                    <td>Chrome</td>
-                                                    <td>PC</td>
-                                                    <td>Windows</td>
-                                                    <td>中国</td>
-                                                    <td>北京</td>
-                                                    <td>北京</td>
-                                                    <td>电信</td>
-                                                    <td>否</td>
-                                                    <td>否</td> 
-                                                    <td>否</td>
-                                                    <td>https://www.baidu.com</td>
-                                                </tr>
+                                            <tbody id="log-table-body">
                                             </tbody>
                                         </table>
                                         <div id="change-page-div" class="wux-btn-group"></div>
@@ -294,6 +279,7 @@
         <script src="/static/js/saobbyCaptchaV3.js" async></script>
         <script src="/static/js/check_browser.js" async></script>
         <script src="/static/js/common.js" defer></script>
+        <script src="/static/js/change_page_buttons.js" defer></script>
         <script src="/static/js/webcounter_dashboard.js" defer></script>
     </body>
 </html>
