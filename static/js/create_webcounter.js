@@ -63,8 +63,8 @@ async function create_counter() {
         set_btn_status(false);
         return
     }
-    gebi("create-counter-result").innerHTML = "创建成功, 计数器信息已显示在下方";
     gebi("success-div").hidden = false;
+    gebi("args-div").hidden = true;
     gebi("counter-id").innerHTML = rsp2.data.counter_id;
     gebi("access-token").innerHTML = rsp2.data.access_token;
     gebi("dashboard-link").href = "/webcounter_dashboard?access_token="+rsp2.data.access_token;
@@ -73,3 +73,10 @@ async function create_counter() {
     gebi("html-code").value = `<img src="${url}">`;
     set_btn_status(false);
 }
+
+function reset(){
+    gebi("success-div").hidden = true;
+    gebi("args-div").hidden = false;
+}
+
+check_login();

@@ -65,3 +65,14 @@
 .big-number{
     font-size: 32px;
 }
+@media (min-width: 1024px){
+    .same-height-container {
+        display: flex !important;
+    }
+    .same-height-box {
+        display: flex !important;
+    }
+    .same-height-box div {
+        flex: 1 !important;
+    }
+}
