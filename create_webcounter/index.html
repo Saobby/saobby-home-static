@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
+        <meta name="description" content="创建一个轻量网页访问量统计器：嵌入图片即可实时追踪访问量、独立IP、地理位置、时段分布及设备信息，支持自定义字体样式、实时数据显示与深度日志分析，兼容所有Markdown平台，免费即用。">
         <link rel="preconnect" href="https://rumt-zh.com">
         <link rel="dns-prefetch" href="https://w.saobby.com">
         <link rel="dns-prefetch" href="https://captcha-v2.saobby.com">
@@ -44,10 +45,11 @@
         <div class="wux-container">
             <ul class="wux-breadcrumb">
                 <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
-                <li class="wux-breadcrumb-item">创建网页计数器</li>
+                <li class="wux-breadcrumb-item"><a href="/webcounter">网页计数器</a></li>
+                <li class="wux-breadcrumb-item">创建计数器</li>
             </ul>
             <div class="wux-typo">
-                <h2 class="mt">网页计数器</h2>
+                <h2 class="mt">创建网页计数器</h2>
                 <ul>
                     <li>只需在网页上放置一个图片，即可统计<b>网页访问量、IP 数量、访客位置、访问量趋势、访问时段、浏览器、设备、操作系统</b>等信息</li>
                     <li>还可以<b>查看访问日志</b>，进行进一步分析</li>
@@ -132,9 +134,10 @@
                                             <button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right" onclick="copy_text(gebi('access-token').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button><code id="access-token" class="right"></code>
                                         </div>
                                     </div>
-                                    <b class="result">如果你未登录，请务必记好访问密钥!</b><br>
                                     <a href="" target="_blank" id="dashboard-link"><button type="button" class="wux-btn wux-btn-primary"><img src="/static/image/icon/external-link-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">打开控制面板</span></button></a>
-                                    <button type="button" class="wux-btn wux-btn-primary wux-btn-outline" onclick="reset();"><img src="/static/image/icon/refresh-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">再创建一个</span></button>
+                                    <button type="button" class="wux-btn wux-btn-primary wux-btn-outline" onclick="reset();"><img src="/static/image/icon/refresh-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">再创建一个</span></button><br>
+                                    <b class="result">如果你未登录，请务必记好访问密钥!</b><br>
+                                    <span>登录用户可在<a href="/my_webcounters" target="_blank">我的计数器</a>查看自己创建的计数器</span>
                                 </div>
                             </div>
                         </div>

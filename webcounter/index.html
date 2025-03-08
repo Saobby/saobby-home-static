@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="description" content="轻量级网页访问量统计工具：嵌入图片即可实时追踪访问量、独立IP、地理位置、时段分布及设备信息，支持自定义字体样式、实时数据显示与深度日志分析，兼容所有Markdown平台，免费即用。">
+        <link rel="preconnect" href="https://rumt-zh.com">
+        <script src="https://tam.cdn-go.cn/aegis-sdk/latest/aegis.min.js"></script>
+        <script>
+          if (typeof Aegis === 'function') {
+            var aegis = new Aegis({
+              id: 'XVx8Jfg1VPkL0x0ea2',
+              uin: 'production',
+              reportApiSpeed: true,
+              reportAssetSpeed: true,
+              spa: true,
+            hostUrl: 'https://rumt-zh.com'
+            });
+          }
+        </script>
+        <script type="text/javascript">
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "nghuq29wf0");
+        </script>
+        <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/wux.css">
+        <style>
+            .wux-card-body h2{
+                margin-top: 0px;
+                margin-left: 12px;
+                margin-bottom: 8px;
+            }
+            .wux-col {
+                padding: 0px 4px;
+            }
+        </style>
+        <title>网页访问量计数器</title>
+    </head>
+    <body>
+        <div class="wux-container">
+            <ul class="wux-breadcrumb">
+                <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
+                <li class="wux-breadcrumb-item">网页计数器</li>
+            </ul>
+            <div class="wux-typo">
+                <h2 class="mt">网页访问量计数器</h2>
+                <ul>
+                    <li>只需在网页上放置一个图片，即可统计<b>网页访问量、IP 数量、访客位置、访问量趋势、访问时段、浏览器、设备、操作系统</b>等信息</li>
+                    <li>可在图片上<b>实时显示总访问量/独立 IP 数量</b>，支持设置字体颜色和大小</li>
+                    <li>还可以<b>查看访问日志</b>，进行进一步分析</li>
+                    <li>使用方便，<b>可在各类支持 Markdown 的平台上使用，完全免费</b></li>
+                </ul>
+                <hr>
+                <div class="wux-row-md-3 same-height-container">
+                    <div class="wux-col same-height-box">
+                        <div class="wux-card wux-card-hover">
+                            <div class="wux-card-body">
+                                <a href="/create_webcounter"><button class="wux-btn wux-btn-primary wux-btn-text wux-btn-xl"><img src="/static/image/icon/plus-primary.svg" width="24px" height="24px" class="middle"><span class="middle">创建计数器</span></button></a><br>
+                                <span class="ml">新建一个网页计数器</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wux-col same-height-box">
+                        <div class="wux-card wux-card-hover">
+                            <div class="wux-card-body">
+                                <a href="/my_webcounters"><button class="wux-btn wux-btn-primary wux-btn-text wux-btn-xl"><img src="/static/image/icon/user-primary.svg" width="24px" height="24px" class="middle"><span class="middle">我的计数器</span></button></a><br>
+                                <span class="ml">登录用户可查看自己创建的所有计数器</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wux-col same-height-box">
+                        <div class="wux-card wux-card-hover">
+                            <div class="wux-card-body">
+                                <a href="/webcounter_dashboard"><button class="wux-btn wux-btn-primary wux-btn-text wux-btn-xl"><img src="/static/image/icon/settings-primary.svg" width="24px" height="24px" class="middle"><span class="middle">控制面板</span></button></a><br>
+                                <span class="ml">查看统计数据、修改显示设置</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
