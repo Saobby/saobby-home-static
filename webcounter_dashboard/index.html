@@ -47,9 +47,13 @@
             }
             .chart-container{
                 height: 400px;
+                min-width: 720px;
             }
             .short-chart-container{
                 height: 300px;
+            }
+            .chart-holder{
+                overflow-x: auto;
             }
         </style>
         <title>网页计数器控制面板</title>
@@ -127,7 +131,9 @@
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
                                             <h2 class="thin"><img src="/static/image/icon/trending-up.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">访问量趋势</span></h2>
-                                            <div id="overall-visits-trend" class="chart-container" hidden></div>
+                                            <div class="chart-holder" id="overall-visits-trend-holder" hidden>
+                                                <div id="overall-visits-trend" class="chart-container"></div>
+                                            </div>
                                             <div id="overall-visits-trend-loading" class="centered">
                                                 <span class="wux-loading"></span><br>
                                                 <span>加载中</span><br>
@@ -142,7 +148,9 @@
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
                                             <h2 class="thin"><img src="/static/image/icon/world.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">用户地理位置</span></h2>
-                                            <div id="overall-ip-location" class="chart-container" hidden></div>
+                                            <div class="chart-holder" id="overall-ip-location-holder" hidden>
+                                                <div id="overall-ip-location" class="chart-container"></div>
+                                            </div>
                                             <div id="overall-ip-location-loading" class="centered">
                                                 <span class="wux-loading"></span><br>
                                                 <span>加载中</span><br>
@@ -157,7 +165,9 @@
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
                                             <h2 class="thin"><img src="/static/image/icon/clock.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">访问时间段</span></h2>
-                                            <div id="overall-visit-time" class="chart-container" hidden></div>
+                                            <div class="chart-holder" id="overall-visit-time-holder" hidden>
+                                                <div id="overall-visit-time" class="chart-container"></div>
+                                            </div>
                                             <div id="overall-visit-time-loading" class="centered">
                                                 <span class="wux-loading"></span><br>
                                                 <span>加载中</span><br>
@@ -224,31 +234,33 @@
                                                 <option value="2592000">最近 30 天</option>
                                             </select>
                                             <button class="wux-btn wux-btn-primary" type="button" id="refresh-log-btn" onclick="load_logs(0).then();"><img src="/static/image/icon/refresh-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">刷新</span></button>
-                                            <label><input type="checkbox" class="wux-form-checks" id="log-auto-refresh" onchange="update_auto_refresh_log(this.checked);">自动刷新</label>
+                                            <label style="display: inline-block;"><input type="checkbox" class="wux-form-checks" id="log-auto-refresh" onchange="update_auto_refresh_log(this.checked);">自动刷新</label>
                                             <span id="log-result" class="result"></span>
                                             <hr>
-                                            <table class="wux-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>时间</th>
-                                                        <th>IP</th>
-                                                        <th>浏览器</th>
-                                                        <th>设备</th>
-                                                        <th>操作系统</th>
-                                                        <th>国家</th>
-                                                        <th>地区</th>
-                                                        <th>城市</th>
-                                                        <th>网络服务商</th>
-                                                        <th>是否移动网络</th>
-                                                        <th>是否代理IP</th>
-                                                        <th>是否机房IP</th>
-                                                        <th>Referer</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="log-table-body">
-                                                </tbody>
-                                            </table>
-                                            <div id="change-page-div" class="wux-btn-group"></div>
+                                            <div style="overflow-x: auto;">
+                                                <table class="wux-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>时间</th>
+                                                            <th>IP</th>
+                                                            <th>浏览器</th>
+                                                            <th>设备</th>
+                                                            <th>操作系统</th>
+                                                            <th>国家</th>
+                                                            <th>地区</th>
+                                                            <th>城市</th>
+                                                            <th>网络服务商</th>
+                                                            <th>是否移动网络</th>
+                                                            <th>是否代理IP</th>
+                                                            <th>是否机房IP</th>
+                                                            <th>Referer</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="log-table-body">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div id="change-page-div" class="wux-btn-group mt"></div>
                                             <span>第<span id="log-page-index">1</span>/<span id="log-page-amount">-</span>页</span>
                                         </div>
                                     </div>
@@ -263,7 +275,7 @@
                                 <div class="wux-col">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <b><img src="/static/image/icon/key.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">控制面板访问密钥: </span></b><code id="access-token"><span class="wux-loading"></span></code><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('access-token').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button>
+                                            <b><img src="/static/image/icon/key.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">控制面板访问密钥: </span></b><span style="display: inline-block;"><code id="access-token"><span class="wux-loading"></span></code><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" onclick="copy_text(gebi('access-token').innerHTML, this);"><img src="/static/image/icon/copy-primary.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制</span></button></span>
                                             <input type="text" id="description" class="wux-form-input wux-form-input-md mb right" placeholder="备注" style="width: 150px;">
                                         </div>
                                     </div>

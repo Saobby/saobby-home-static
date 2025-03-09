@@ -78,7 +78,7 @@ async function load_logs(page_index) {
         </tr>`;
     }
     gebi("log-table-body").innerHTML = logs_html;
-    gen_cp_buttons(page_index+1, rsp.data.page_amount, 8, (n)=>{load_logs(n-1).then();}, gebi("change-page-div"), "wux-btn log-cp-btn", "wux-btn wux-btn-outline log-cp-btn");
+    gen_cp_buttons(page_index+1, rsp.data.page_amount, 6, (n)=>{load_logs(n-1).then();}, gebi("change-page-div"), "wux-btn log-cp-btn", "wux-btn wux-btn-outline log-cp-btn");
     gebi("log-page-index").innerHTML = page_index+1;
     gebi("log-page-amount").innerHTML = rsp.data.page_amount;
 }
@@ -172,7 +172,7 @@ async function load_overview_page(){
 
 async function render_trend_chart() {
     function set_chart_status(status){
-        gebi("overall-visits-trend").hidden = status;
+        gebi("overall-visits-trend-holder").hidden = status;
         gebi("overall-visits-trend-loading").hidden = !status;
     }
     set_chart_status(true);
@@ -268,7 +268,7 @@ async function render_trend_chart() {
 
 async function render_visit_time_chart() {
     function set_chart_status(status){
-        gebi("overall-visit-time").hidden = status;
+        gebi("overall-visit-time-holder").hidden = status;
         gebi("overall-visit-time-loading").hidden = !status;
     }
     set_chart_status(true);
@@ -725,7 +725,7 @@ async function get_overall_data() {
 
 async function render_ip_location_chart() {
     function set_chart_status(status) {
-        gebi("overall-ip-location").hidden = status;
+        gebi("overall-ip-location-holder").hidden = status;
         gebi("overall-ip-location-loading").hidden = !status;
     }
     
