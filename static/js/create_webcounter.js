@@ -1,4 +1,4 @@
-domain = "https://w.saobby.com";
+let domain = "https://w.saobby.com";
 
 function check_login() {
     if (!localStorage.getItem("access-token")) {
