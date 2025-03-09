@@ -1,6 +1,6 @@
 let domain = "https://w.saobby.com";
 let access_token = get_url_args().access_token;
-let tab = "overview"
+let tab = "overview";
 
 async function login() {
     function set_btn_status(status){
