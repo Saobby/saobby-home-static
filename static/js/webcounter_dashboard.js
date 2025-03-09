@@ -1,4 +1,4 @@
-domain = "http://127.0.0.1:7799";
+domain = "https://w.saobby.com";
 access_token = get_url_args().access_token;
 tab = "overview"
 
