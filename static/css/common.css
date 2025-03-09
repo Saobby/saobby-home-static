@@ -59,6 +59,33 @@
 .mt {
     margin-top: 12px !important;
 }
+.ml {
+    margin-left: 12px !important;
+}
 .centered {
     text-align: center;
+}
+.big-number{
+    font-size: 40px;
+}
+@media (min-width: 1024px){
+    .same-height-container {
+        display: flex !important;
+    }
+    .same-height-box {
+        display: flex !important;
+    }
+    .same-height-box div {
+        flex: 1 !important;
+    }
+}
+.bottom-line{
+    border-bottom: 2px solid #ddd;
+    padding: 12px 16px;
+}
+.thin{
+    font-weight: 400 !important;
+}
+.gray{
+    color: #777 !important;
 }
