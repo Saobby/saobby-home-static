@@ -1,4 +1,4 @@
-domain = "http://127.0.0.1:7799"
+let domain = "https://w.saobby.com"
 
 async function load_webcounters(page_index) {
     function set_btn_status(status){
