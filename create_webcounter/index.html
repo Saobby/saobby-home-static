@@ -51,9 +51,11 @@
             <div class="wux-typo">
                 <h2 class="mt">创建网页计数器</h2>
                 <ul>
-                    <li>只需在网页上放置一个图片，即可统计<b>网页访问量、IP 数量、访客位置、访问量趋势、访问时段、浏览器、设备、操作系统</b>等信息</li>
+                    <li>在图片上实时显示页面<b>访问量/独立IP数</b>，或者<b>静默统计</b></li>
+                    <li>只需放置一张图片，即可在后台自动统计<b>网页访问量、IP 数量、访客位置、访问量趋势、访问时段、浏览器、设备、操作系统</b>等信息</li>
                     <li>还可以<b>查看访问日志</b>，进行进一步分析</li>
-                    <li>还可在图片上<b>实时显示总访问量/独立 IP 数量</b>，支持设置字体颜色和大小</li>
+                    <li>使用方便，<b>可在各类支持 Markdown 的平台上使用，完全免费</b></li>
+                    <li class="middle">示例:当前页面访问次数:<img src="https://w.saobby.com/w/e51jahcg" alt="当前页面访问人数" class="middle"></li>
                 </ul>
                 <hr>
                 <div id="args-div">
@@ -63,16 +65,16 @@
                         <div class="wux-col same-height-box">
                             <div class="wux-card wux-card-hover">
                                 <div class="wux-card-body">
-                                    <h2 class="thin"><img src="/static/image/icon/photo.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">响应图片类型</span></h2>
+                                    <h2 class="thin"><img src="/static/image/icon/photo.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">图片类型</span><button type="button" class="wux-btn wux-btn-primary wux-btn-text wux-tooltip"><img src="/static/image/icon/help-primary.svg" alt="" width="24px" height="24px" class="middle"><span class="wux-tooltip-item wux-tooltip-item-bottom" style="color: white;">矢量图:放大不模糊<br>位图:放大会模糊</span></button></h2>
                                     <select class="wux-form-select wux-form-select-md" id="pic-type">
-                                        <option value="0">JPEG</option>
-                                        <option value="1" selected>SVG</option>
+                                        <option value="0">位图(JPEG)</option>
+                                        <option value="1" selected>矢量图(SVG) (推荐)</option>
                                     </select>
-                                    <h2 class="thin"><img src="/static/image/icon/typography.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">显示设置</span></h2>
+                                    <h2 class="thin"><img src="/static/image/icon/typography.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">显示内容</span><button type="button" class="wux-btn wux-btn-primary wux-btn-text wux-tooltip"><img src="/static/image/icon/help-primary.svg" alt="" width="24px" height="24px" class="middle"><span class="wux-tooltip-item wux-tooltip-item-bottom" style="color: white;">访问次数:每访问一次页面+1<br>访客数:同一人多次访问算作一次</span></button></h2>
                                     <select class="wux-form-select wux-form-select-md" id="display-type">
-                                        <option value="0" selected>总访问量</option>
-                                        <option value="1">总独立 IP 数量</option>
-                                        <option value="2">什么也不显示, 静默统计</option>
+                                        <option value="0" selected>总访问次数</option>
+                                        <option value="1">总访客数(独立IP数)</option>
+                                        <option value="2">只统计不显示(仍需放置图片)</option>
                                     </select>
                                 </div>
                             </div>
@@ -80,7 +82,7 @@
                         <div class="wux-col same-height-box">
                             <div class="wux-card wux-card-hover">
                                 <div class="wux-card-body">
-                                    <h2 class="thin"><img src="/static/image/icon/typography.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">字体尺寸</span></h2>
+                                    <h2 class="thin"><img src="/static/image/icon/typography.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">字体大小</span></h2>
                                     <input type="number" class="wux-form-input wux-form-input-md" id="font-size" min="1" max="100" value="16">
                                     <h2 class="thin"><img src="/static/image/icon/palette.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">字体颜色</span></h2>
                                     <input type="color" style="width: 64px; height: 64px;" value="#000000" id="font-color" placeholder="填6位16进制颜色代码,要带#号,如#aa0000表示红色"><br>

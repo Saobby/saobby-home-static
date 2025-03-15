@@ -281,7 +281,7 @@
                             </div>
                         </div>
                         <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-settings" onclick="load_settings().then();tab='settings';">
-                        <label class="wux-tab-item" for="tab-settings">显示设置</label>
+                        <label class="wux-tab-item" for="tab-settings">设置</label>
                         <div class="wux-tab-content">
                             <hr>
                             <div class="wux-row-md-1">
@@ -310,16 +310,16 @@
                                 <div class="wux-col same-height-box">
                                     <div class="wux-card wux-card-hover">
                                         <div class="wux-card-body">
-                                            <h2 class="thin"><img src="/static/image/icon/photo.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">图片类型</span></h2>
-                                            <select id="image-type-select" class="wux-form-select" style="width: 200px;">
-                                                <option value="0">JPEG</option>
-                                                <option value="1">SVG</option>
+                                            <h2 class="thin"><img src="/static/image/icon/photo.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">图片类型</span><button type="button" class="wux-btn wux-btn-primary wux-btn-text wux-tooltip"><img src="/static/image/icon/help-primary.svg" alt="" width="24px" height="24px" class="middle"><span class="wux-tooltip-item wux-tooltip-item-bottom" style="color: white;">矢量图:放大不模糊<br>位图:放大会模糊</span></button></h2>
+                                            <select id="image-type-select" class="wux-form-select">
+                                                <option value="0">位图(JPEG)</option>
+                                                <option value="1">矢量图(SVG) (推荐)</option>
                                             </select>
-                                            <h2 class="thin"><img src="/static/image/icon/typography.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">显示设置</span></h2>
-                                            <select id="display-setting-select" class="wux-form-select" style="width: 200px;">
-                                                <option value="0">显示总访问量</option>
-                                                <option value="1">显示总独立 IP 数</option>
-                                                <option value="2">不显示(静默统计)</option>
+                                            <h2 class="thin"><img src="/static/image/icon/typography.svg" alt="" width="32px" height="32px" class="middle"><span class="middle">显示内容</span><button type="button" class="wux-btn wux-btn-primary wux-btn-text wux-tooltip"><img src="/static/image/icon/help-primary.svg" alt="" width="24px" height="24px" class="middle"><span class="wux-tooltip-item wux-tooltip-item-bottom" style="color: white;">访问次数:每访问一次页面+1<br>访客数:同一人多次访问算作一次</span></button></h2>
+                                            <select id="display-setting-select" class="wux-form-select">
+                                                <option value="0">总访问次数</option>
+                                                <option value="1">总访客数(独立IP数)</option>
+                                                <option value="2">只统计不显示(仍需放置图片)</option>
                                             </select>
                                         </div>
                                     </div>
