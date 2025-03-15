@@ -64,17 +64,17 @@ async function load_logs(page_index) {
         logs_html += `<tr>
             <td>${ts2str(log.timestamp)}</td>
             <td>${log.ip}</td>
-            <td>${log.browser}</td>
-            <td>${log.device}</td>
-            <td>${log.os}</td>
-            <td>${log.country}</td>
-            <td>${log.province}</td>
-            <td>${log.city}</td>
-            <td>${log.isp}</td>
-            <td>${log.is_mobile_ip ? "是" : "否"}</td>
-            <td>${log.is_proxy_ip ? "是" : "否"}</td>
-            <td>${log.is_hosting_ip ? "是" : "否"}</td>
-            <td>${log.referer}</td>
+            <td>${log.browser?log.browser:"解析中"}</td>
+            <td>${log.device?log.device:"解析中"}</td>
+            <td>${log.os?log.os:"解析中"}</td>
+            <td>${log.country?log.country:"解析中"}</td>
+            <td>${log.province?log.province:"解析中"}</td>
+            <td>${log.city?log.city:"解析中"}</td>
+            <td>${log.isp?log.isp:"解析中"}</td>
+            <td>${log.is_mobile_ip===null?"解析中":(log.is_mobile_ip?"是":"否")}</td>
+            <td>${log.is_proxy_ip===null?"解析中":(log.is_proxy_ip?"是":"否")}</td>
+            <td>${log.is_hosting_ip===null?"解析中":(log.is_hosting_ip?"是":"否")}</td>
+            <td>${log.referer?log.referer:"无"}</td>
         </tr>`;
     }
     gebi("log-table-body").innerHTML = logs_html;
