@@ -744,44 +744,46 @@ async function render_ip_location_chart() {
         return;
     }
 
-    const country_code_map = {'AF': '阿富汗', 'AL': '阿尔巴尼亚', 'DZ': '阿尔及利亚', 'AO': '安哥拉', 'AR': '阿根廷', 'AM': '亚美尼亚', 'AU': '澳大利亚', 'AT': '奥地利', 'AZ': '阿塞拜疆', 'BH': '巴林', 'BD': '孟加拉国', 'BY': '白俄罗斯', 'BE': '比利时', 'BZ': '伯利兹', 'BJ': '贝宁', 'BT': '不丹', 'BO': '玻利维亚', 'BA': '波斯尼亚', 'BW': '博茨瓦纳', 'BR': '巴西', 'BN': '文莱', 'BG': '保加利亚', 'BF': '布基纳法索', 'BI': '布隆迪', 'KH': '柬埔寨', 'CM': '喀麦隆', 'CA': '加拿大', 'CF': '中非', 'TD': '乍得', 'CL': '智利', 'CN': '中国', 'CO': '哥伦比亚', 'KM': '科摩罗', 'CG': '刚果', 'CD': '刚果', 'CR': '哥斯达黎加', 'CI': '科特迪瓦', 'HR': '克罗地亚', 'CU': '古巴', 'CY': '塞浦路斯', 'CZ': '捷克', 'DK': '丹麦', 'DJ': '吉布提', 'DO': '多米尼加', 'EC': '厄瓜多尔', 'EG': '埃及', 'SV': '萨尔瓦多', 'GQ': '几内亚', 'ER': '厄立特里亚', 'EE': '爱沙尼亚', 'SZ': '斯威士兰', 'ET': '埃塞俄比亚', 'FJ': '斐济', 'FI': '芬兰', 'FR': '法国', 'GA': '加蓬', 'GM': '冈比亚', 'GE': '格鲁吉亚', 'DE': '德国', 'GH': '加纳', 'GR': '希腊', 'GT': '危地马拉', 'GN': '几内亚', 'GW': '几内亚比绍', 'GY': '圭亚那', 'HT': '海地', 'HN': '洪都拉斯', 'HU': '匈牙利', 'IS': '冰岛', 'IN': '印度', 'ID': '印度尼西亚', 'IR': '伊朗', 'IQ': '伊拉克', 'IE': '爱尔兰', 'IL': '以色列', 'IT': '意大利', 'JM': '牙买加', 'JP': '日本', 'JO': '约旦', 'KZ': '哈萨克斯坦', 'KE': '肯尼亚', 'KR': '韩国', 'KW': '科威特', 'KG': '吉尔吉斯斯坦', 'LA': '老挝', 'LV': '拉脱维亚', 'LB': '黎巴嫩', 'LS': '莱索托', 'LR': '利比里亚', 'LY': '利比亚', 'LT': '立陶宛', 'LU': '卢森堡', 'MG': '马达加斯加', 'MW': '马拉维', 'MY': '马来西亚', 'MV': '斯里兰卡', 'ML': '马里', 'MT': '马耳他', 'MR': '毛里塔尼亚', 'MU': '毛里求斯', 'MX': '墨西哥', 'MD': '摩尔多瓦', 'MC': '法国', 'MN': '蒙古', 'ME': '黑山', 'MA': '摩洛哥', 'MZ': '莫桑比克', 'MM': '缅甸', 'NA': '纳米比亚', 'NP': '尼泊尔', 'NL': '荷兰', 'NZ': '新西兰', 'NI': '尼加拉瓜', 'NE': '尼日尔', 'NG': '尼日利亚', 'MK': '马其顿', 'NO': '挪威', 'OM': '阿曼', 'PK': '巴基斯坦', 'PA': '巴拿马', 'PG': '巴布亚新几内亚', 'PY': '巴拉圭', 'PE': '秘鲁', 'PH': '菲律宾', 'PL': '波兰', 'PT': '葡萄牙', 'QA': '卡塔尔', 'RO': '罗马尼亚', 'RU': '俄罗斯', 'RW': '卢旺达', 'SA': '沙特阿拉伯', 'SN': '塞内加尔', 'RS': '塞尔维亚', 'SL': '塞拉利昂', 'SG': '新加坡', 'SK': '斯洛伐克', 'SI': '斯洛文尼亚', 'SO': '索马里', 'ZA': '南非', 'ES': '西班牙', 'LK': '斯里兰卡', 'SD': '苏丹', 'SR': '苏里南', 'SE': '瑞典', 'CH': '瑞士', 'SY': '叙利亚', 'TJ': '塔吉克斯坦', 'TZ': '坦桑尼亚', 'TH': '泰国', 'TG': '多哥', 'TO': '汤加', 'TT': '特立尼达和多巴哥', 'TN': '突尼斯', 'TR': '土耳其', 'TM': '土库曼斯坦', 'TW': '中国', 'UG': '乌干达', 'UA': '乌克兰', 'AE': '阿联酋', 'GB': '英国', 'US': '美国', 'UY': '乌拉圭', 'UZ': '乌兹别克斯坦', 'VU': '瓦努阿图', 'VE': '委内瑞拉', 'VN': '越南', 'YE': '也门', 'ZM': '赞比亚', 'ZW': '津巴布韦'};
+    const country_code_map = {"SO":"索马里","LI":"列支敦士登","MA":"摩洛哥","EH":"西撒哈拉","RS":"塞尔维亚","AF":"阿富汗","AO":"安哥拉","AL":"阿尔巴尼亚","AX":"奥兰群岛","AD":"安道尔","AE":"阿联酋","AR":"阿根廷","AM":"亚美尼亚","AS":"美属萨摩亚","TF":"法属南部领地","AG":"安提瓜和巴布达","AU":"澳大利亚","AT":"奥地利","AZ":"阿塞拜疆","BI":"布隆迪","BE":"比利时","BJ":"贝宁","BF":"布基纳法索","BD":"孟加拉国","BG":"保加利亚","BH":"巴林","BS":"巴哈马","BA":"波黑","BY":"白俄罗斯","BZ":"伯利兹","BM":"百慕大","BO":"玻利维亚","BR":"巴西","BB":"巴巴多斯","BN":"文莱","BT":"不丹","BW":"博茨瓦纳","CF":"中非共和国","CA":"加拿大","CH":"瑞士","CL":"智利","CN":"中国","CI":"科特迪瓦","CM":"喀麦隆","CD":"刚果（金）","CG":"刚果（布）","CO":"哥伦比亚","KM":"科摩罗","CV":"佛得角","CR":"哥斯达黎加","CU":"古巴","CW":"库拉索","KY":"开曼群岛","CT":"北塞浦路斯","CY":"塞浦路斯","CZ":"捷克","DE":"德国","DJ":"吉布提","DM":"多米尼克","DK":"丹麦","DO":"多米尼加","DZ":"阿尔及利亚","EC":"厄瓜多尔","EG":"埃及","ER":"厄立特里亚","ES":"西班牙","EE":"爱沙尼亚","ET":"埃塞俄比亚","FI":"芬兰","FJ":"斐济","FK":"马尔维纳斯群岛（福克兰）","FR":"法国","FO":"法罗群岛","FM":"密克罗尼西亚","GA":"加蓬","GB":"英国","GE":"格鲁吉亚","GH":"加纳","GN":"几内亚","GM":"冈比亚","GW":"几内亚比绍","GQ":"赤道几内亚","GR":"希腊","GD":"格林纳达","GL":"格陵兰","GT":"危地马拉","GU":"关岛","GY":"圭亚那","HM":"赫德岛和麦克唐纳群岛","HN":"洪都拉斯","HR":"克罗地亚","HT":"海地","HU":"匈牙利","ID":"印度尼西亚","IM":"马恩岛","IN":"印度","IO":"英属印度洋领地","IE":"爱尔兰","IR":"伊朗","IQ":"伊拉克","IS":"冰岛","IL":"以色列","IT":"意大利","JM":"牙买加","JE":"泽西岛","JO":"约旦","JP":"日本","":"锡亚琴冰川","KZ":"哈萨克斯坦","KE":"肯尼亚","KG":"吉尔吉斯斯坦","KH":"柬埔寨","KI":"基里巴斯","KR":"韩国","KW":"科威特","LA":"老挝","LB":"黎巴嫩","LR":"利比里亚","LY":"利比亚","LC":"圣卢西亚","LK":"斯里兰卡","LS":"莱索托","LT":"立陶宛","LU":"卢森堡","LV":"拉脱维亚","MD":"摩尔多瓦","MG":"马达加斯加","MX":"墨西哥","MK":"北马其顿","ML":"马里","MT":"马耳他","MM":"缅甸","ME":"黑山","MN":"蒙古","MP":"北马里亚纳群岛","MZ":"莫桑比克","MR":"毛里塔尼亚","MS":"蒙特塞拉特","MU":"毛里求斯","MW":"马拉维","MY":"马来西亚","NA":"纳米比亚","NC":"新喀里多尼亚","NE":"尼日尔","NG":"尼日利亚","NI":"尼加拉瓜","NU":"纽埃","NL":"荷兰","NO":"挪威","NP":"尼泊尔","NZ":"新西兰","OM":"阿曼","PK":"巴基斯坦","PA":"巴拿马","PE":"秘鲁","PH":"菲律宾","PW":"帕劳","PG":"巴布亚新几内亚","PL":"波兰","PR":"波多黎各","KP":"朝鲜","PT":"葡萄牙","PY":"巴拉圭","PS":"巴勒斯坦","PF":"法属波利尼西亚","QA":"卡塔尔","RO":"罗马尼亚","RU":"俄罗斯","RW":"卢旺达","SA":"沙特阿拉伯","SD":"苏丹","SS":"南苏丹","SN":"塞内加尔","SG":"新加坡","GS":"南乔治亚和南桑威奇群岛","SH":"圣赫勒拿","SB":"所罗门群岛","SL":"塞拉利昂","SV":"萨尔瓦多","PM":"圣皮埃尔和密克隆群岛","ST":"圣多美和普林西比","SR":"苏里南","SK":"斯洛伐克","SI":"斯洛文尼亚","SE":"瑞典","SZ":"斯威士兰","SC":"塞舌尔","SY":"叙利亚","TC":"特克斯和凯科斯群岛","TD":"乍得","TG":"多哥","TH":"泰国","TJ":"塔吉克斯坦","TM":"土库曼斯坦","TL":"东帝汶","TO":"汤加","TT":"特立尼达和多巴哥","TN":"突尼斯","TR":"土耳其","TZ":"坦桑尼亚","UG":"乌干达","UA":"乌克兰","UY":"乌拉圭","US":"美国","UZ":"乌兹别克斯坦","VC":"圣文森特和格林纳丁斯","VE":"委内瑞拉","VI":"美属维尔京群岛","VN":"越南","VU":"瓦努阿图","WS":"萨摩亚","YE":"也门","ZA":"南非","ZM":"赞比亚","ZW":"津巴布韦","AI": "英国","AQ":"","AW":"荷兰","BQ":"荷兰","BV":"挪威","CX":"澳大利亚","CC":"澳大利亚","CK":"新西兰","GF":"法国","GI":"英国","GP":"法国","GG":"英国","VA":"","HK":"中国","MO":"中国","MV":"","MH":"","MQ":"法国","YT":"法国","MC":"","NR":"","NF":"澳大利亚","PN":"英国","RE":"法国","BL":"法国","KN":"","MF":"法国","SM":"","SX":"荷兰","SJ":"挪威","TW":"中国","TK":"新西兰","TV":"","UM":"美国","VG":"英国","WF":"法国"};
+    let countries_visits = {};
+    let countries_ips = {};
+
+    for (let country_code in country_code_map){
+        const country_name = country_code_map[country_code];
+        if (countries_visits[country_name] === undefined){
+            countries_visits[country_name] = 0;
+            countries_ips[country_name] = 0;
+        }
+    }
+
+    for (let country_code in rsp.data.visits){
+        const country_name = country_code_map[country_code];
+        countries_visits[country_name] += rsp.data.visits[country_code];
+    }
+    for (let country_code in rsp.data.ips){
+        const country_name = country_code_map[country_code];
+        countries_ips[country_name] += rsp.data.ips[country_code];
+    }
+
+    const max_visits = Math.max(...Object.values(countries_visits));
 
     const chart_dom = gebi("overall-ip-location");
     const chart = echarts.init(chart_dom);
 
-    // 创建名称到代码的映射关系
-    const name_to_codes = {};
-    Object.entries(country_code_map).forEach(([code, name]) => {
-        if (!name_to_codes[name]) {
-            name_to_codes[name] = [];
-        }
-        name_to_codes[name].push(code);
-    });
-
-    // 合并相同名称的国家数据
-    const merged_visits = {};
-    const merged_ips = {};
-    Object.entries(name_to_codes).forEach(([name, codes]) => {
-        // 如果一个名称对应多个代码，则合并其数据
-        const total_visits = codes.reduce((sum, code) => sum + (rsp.data.visits[code] || 0), 0);
-        const total_ips = codes.reduce((sum, code) => sum + (rsp.data.ips[code] || 0), 0);
-        // 使用第一个代码作为主代码
-        if (total_visits > 0) merged_visits[codes[0]] = total_visits;
-        if (total_ips > 0) merged_ips[codes[0]] = total_ips;
-    });
-
-    const max_visits = Math.max(...Object.values(merged_visits));
-    const max_ips = Math.max(...Object.values(merged_ips));
-
-    const visits_data = Object.entries(merged_visits).map(([code, value]) => ({
-        name: country_code_map[code],
-        value: value
-    }));
-
-    const ips_data = Object.entries(merged_ips).map(([code, value]) => ({
-        name: country_code_map[code],
-        value: value
-    }));
+    let visits_data = [];
+    for (let country_name in countries_visits){
+        visits_data.push({
+            name: country_name,
+            value: countries_visits[country_name]
+        });
+    }
+    let ips_data = [];
+    for (let country_name in countries_ips){
+        ips_data.push({
+            name: country_name,
+            value: countries_ips[country_name]
+        });
+    }
 
     const option = {
         backgroundColor: "#ffffff",
@@ -789,10 +791,8 @@ async function render_ip_location_chart() {
             trigger: "item",
             formatter: (params) => {
                 const country_name = params.name;
-                // 查找国家代码
-                const country_code = Object.entries(country_code_map).find(([_, name]) => name === country_name)?.[0];
-                const visits = country_code ? (merged_visits[country_code] || 0) : 0;
-                const ips = country_code ? (merged_ips[country_code] || 0) : 0;
+                const visits = countries_visits[country_name];
+                const ips = countries_ips[country_name];
                 return `${country_name}<br/>访问量: ${visits}<br/>独立IP数: ${ips}`;
             }
         },
@@ -826,10 +826,8 @@ async function render_ip_location_chart() {
                 tooltip: {
                     formatter: (params) => {
                         const country_name = params.name;
-                        // 查找国家代码
-                        const country_code = Object.entries(country_code_map).find(([_, name]) => name === country_name)?.[0];
-                        const visits = country_code ? (merged_visits[country_code] || 0) : 0;
-                        const ips = country_code ? (merged_ips[country_code] || 0) : 0;
+                        const visits = countries_visits[country_name];
+                        const ips = countries_ips[country_name];
                         return `${country_name}<br/>访问量: ${visits}<br/>独立IP数: ${ips}`;
                     }
                 }
