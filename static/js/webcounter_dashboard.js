@@ -75,6 +75,7 @@ async function load_logs(page_index) {
             <td>${log.is_proxy_ip===null?"解析中":(log.is_proxy_ip?"是":"否")}</td>
             <td>${log.is_hosting_ip===null?"解析中":(log.is_hosting_ip?"是":"否")}</td>
             <td>${log.referer?log.referer:"无"}</td>
+            <td>${log.user_agent?log.user_agent:"无"}</td>
         </tr>`;
     }
     gebi("log-table-body").innerHTML = logs_html;

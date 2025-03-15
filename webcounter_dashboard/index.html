@@ -55,6 +55,18 @@
             .chart-holder{
                 overflow-x: auto;
             }
+            .log-table{
+                table-layout: auto;
+                width: 100%;
+            }
+            .log-table th{
+                white-space: nowrap;
+            }
+            .log-table td{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         </style>
         <title>网页计数器控制面板</title>
     </head>
@@ -238,7 +250,7 @@
                                             <span id="log-result" class="result"></span>
                                             <hr>
                                             <div style="overflow-x: auto;">
-                                                <table class="wux-table">
+                                                <table class="wux-table log-table">
                                                     <thead>
                                                         <tr>
                                                             <th>时间</th>
@@ -254,6 +266,7 @@
                                                             <th>是否代理IP</th>
                                                             <th>是否机房IP</th>
                                                             <th>Referer</th>
+                                                            <th>User-Agent</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="log-table-body">
