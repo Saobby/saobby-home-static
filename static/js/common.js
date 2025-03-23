@@ -127,8 +127,11 @@ function get_element_abs_pos_center(el) {
 
     return { x: centerX, y: centerY };
 }
-function icon_with_text(icon_name, text){
-    return `<img src="/static/image/icon/${icon_name}.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">${text}</span>`;
+function icon_with_text(icon_name, text, size){
+    if (!size){
+        size = 16;
+    }
+    return `<img src="/static/image/icon/${icon_name}.svg" alt="" width="${size}px" height="${size}px" class="middle"><span class="middle">${text}</span>`;
 }
 function set_btn_html(ele, html){
     if (html){

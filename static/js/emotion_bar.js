@@ -57,7 +57,7 @@ var emotionBar = (function (){
         ret.close();
     };
     ret.gen_open_btn = (textarea_id, size) => {
-        return `<button class="wux-btn wux-btn-warning wux-btn-outline wux-btn-${size} simple" type="button" onclick="emotionBar.show(gebi('${textarea_id}'));">${icon_with_text("mood-happy", "表情")}</button>`;
+        return `<button class="wux-btn wux-btn-warning wux-btn-text wux-btn-${size} icon-btn simple" type="button" onclick="emotionBar.show(gebi('${textarea_id}'));">${icon_with_text("mood-happy", "", 24)}</button>`;
     }
     return ret;
 })();
