@@ -61,6 +61,61 @@ function fetch_api(endpoint, payload){
     });
 }
 
+class LargeFormSubmitter {
+    constructor(url, formData, onprogress) {
+        this.url = url;
+        this.formData = formData;
+        this.onprogress = onprogress;
+    }
+
+    async send() {
+        return new Promise((resolve) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", this.url, true);
+
+            xhr.upload.onprogress = (event) => {
+                if (this.onprogress && event.lengthComputable) {
+                    this.onprogress(event.loaded / event.total * 100);
+                }
+            };
+
+            xhr.onload = () => {
+                resolve({
+                    status: xhr.status,
+                    response: xhr.responseText,
+                    msg: "OK"
+                });
+            };
+
+            xhr.onerror = () => {
+                resolve({
+                    status: -1,
+                    response: null,
+                    msg: "网络错误"
+                });
+            };
+
+            xhr.onabort = () => {
+                resolve({
+                    status: -2,
+                    response: null,
+                    msg: "已取消"
+                });
+            };
+
+            xhr.send(this.formData);
+            this.xhr = xhr;
+        });
+    }
+
+    abort() {
+        if (this.xhr) {
+            this.xhr.abort();
+        }
+    }
+}
+
+
 function is_in(chr, str){
     for (var t in str){
         if (chr === str[t]){
