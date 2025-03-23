@@ -28,14 +28,17 @@ var pasteToUpload = (function(api_url){
                 reject({"message": "无法上传图片,因为有一个正在进行的上传任务"});
                 return;
             }
+            textarea.readOnly = true;
+            let ta_selected_range = [textarea.selectionStart, textarea.selectionEnd];
             gebi("upload-image-status").value = "captcha_verifying";
             if (!no_tips){
-                insert_into_textarea("(上传中...)", textarea, true);
+                ta_selected_range = insert_into_textarea_position("(上传中...)", textarea, ta_selected_range[0], ta_selected_range[1], true);
             }
             gen_captcha_v3().verify().then(function(val){
                 if (val.retcode){
-                    insert_into_textarea("(无法上传图片,人机验证失败:"+val.msg+")", textarea);
+                    insert_into_textarea_position("(无法上传图片,人机验证失败:"+val.msg+")", textarea, ta_selected_range[0], ta_selected_range[1]);
                     gebi("upload-image-status").value = "closed";
+                    textarea.readOnly = false;
                     reject({"message": "无法上传图片,人机验证失败:"+val.msg});
                     return;
                 }
@@ -49,11 +52,12 @@ var pasteToUpload = (function(api_url){
                 gebi(cancel_btn_id).addEventListener("click", function(){
                     gebi("upload-image-progress-window").hidden = true;
                     if (!no_tips){
-                        insert_into_textarea("", textarea);
+                        insert_into_textarea_position("", textarea, ta_selected_range[0], ta_selected_range[1]);
                     }
                     if (gebi("upload-image-status").value === "uploading"){
                         http.abort();
                         gebi("upload-image-status").value = "closed";
+                        textarea.readOnly = false;
                         reject({"message": "操作被用户取消"});
                     }
                     gebi("upload-image-status").value = "closed";
@@ -65,14 +69,16 @@ var pasteToUpload = (function(api_url){
                     if (this.readyState === 4){
                         var ret = JSON.parse(this.responseText);
                         if (ret.success){
-                            insert_into_textarea("![](" + ret.data.image_url + ")", textarea);
+                            insert_into_textarea_position("![](" + ret.data.image_url + ")", textarea, ta_selected_range[0], ta_selected_range[1]);
                             gebi("upload-image-progress-window").hidden = true;
                             gebi("upload-image-status").value = "closed";
+                            textarea.readOnly = false;
                             resolve({"message": ret.message});
                         }else{
-                            insert_into_textarea("(上传失败:"+ret.message+")", textarea);
+                            insert_into_textarea_position("(上传失败:"+ret.message+")", textarea, ta_selected_range[0], ta_selected_range[1]);
                             gebi("upload-image-result").innerHTML = ret.message;
                             gebi("upload-image-status").value = "onerror";
+                            textarea.readOnly = false;
                             reject({"message": ret.message});
                         }
                     }
@@ -90,6 +96,7 @@ var pasteToUpload = (function(api_url){
                 http.onerror = function(){
                     gebi("upload-image-result").innerHTML = "网络错误";
                     gebi("upload-image-status").value = "onerror";
+                    textarea.readOnly = false;
                     reject({"message": "网络错误"});
                 }
                 form_data.append("image", image_file);

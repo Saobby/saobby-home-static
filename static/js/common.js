@@ -204,6 +204,19 @@ function insert_into_textarea(text, textarea, select_text){
     }
 }
 
+function insert_into_textarea_position(text, textarea, start_pos, end_pos, select_text){
+    var old_text = textarea.value;
+    var new_text = old_text.substring(0, start_pos) + text + old_text.substring(end_pos, old_text.length);
+    textarea.value = new_text;
+    if (select_text){
+        textarea.setSelectionRange(start_pos, start_pos + text.length);
+        return [start_pos, start_pos + text.length];
+    }else{
+        textarea.setSelectionRange(start_pos + text.length, start_pos + text.length);
+        return [start_pos + text.length, start_pos + text.length];
+    }
+}
+
 function is_in_array(e, t) {
     for (var n = 0; n < e.length; n++)
         if (e[n] === t)
