@@ -1,4 +1,4 @@
-var domain = "https://midishow-vc.saobby.com";
+var domain = "https://midishow-vc-fast.saobby.com";
 
 function show_error_msg(msg){
     gebi("error-msg").innerHTML = msg;
