@@ -1,5 +1,6 @@
 gen_md_input();
 gebi("submit-btn-0").innerHTML = icon_with_text("check-white", "分享");
+gebi("retry-btn").innerHTML = icon_with_text("refresh-white", "再发一个");
 const domain = "http://127.0.0.1:14514";
 async function share_music(src_type){
     const detail = {};
@@ -34,14 +35,14 @@ async function share_music(src_type){
     set_btn_status(true);
     const rsp0 = await captcha_v3();
     if (rsp0.retcode){
-        result_span.innerText = "人机验证失败: "+rsp0.msg;
+        result_span.innerHTML = "人机验证失败: "+rsp0.msg;
         set_btn_status(false);
         return;
     }
     payload.captcha_token = rsp0.data.token;
     const rsp1 = await fetch_api(domain+"/api/share_music", payload);
     if (rsp1.retcode){
-        result_span.innerText = rsp1.msg;
+        result_span.innerHTML = rsp1.msg;
         set_btn_status(false);
         return;
     }

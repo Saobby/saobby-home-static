@@ -67,8 +67,10 @@
                 </div>
                 <div id="result-div" hidden>
                     <h2>提交成功</h2>
-                    <span>你的请求已在后台处理,可能需要十几秒。</span><br>
-                    <span>当前状态: <code id="status">正在等待</code></span>
+                    <span>你的请求<b>已在后台处理</b>,可能需要十几秒。</span><br>
+                    <i>如果你已经登录, 处理完成后你将在通知中心看到一条消息。</i><br>
+                    <span>当前状态: <code id="status">正在等待</code></span><br>
+                    <button id="retry-btn" type="button" onclick="window.location.href='/share_music';" class="wux-btn wux-btn-primary"></button>
                 </div>
                 <div id="emotion-bar"></div>
                 <div id="upload-image-progress-div"></div>
