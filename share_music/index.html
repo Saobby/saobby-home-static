@@ -51,17 +51,31 @@
                         <input class="wux-tab-item" type="radio" name="tab-src" id="tab-nmusic" checked>
                         <label class="wux-tab-item" for="tab-nmusic">网易云音乐</label>
                         <div class="wux-tab-content">
+                            <hr>
                             <span>音乐页面链接:</span>
                             <input id="nmusic-url-input" type="text" class="wux-form-input wux-form-input-md" placeholder="音乐页面链接, 例如: https://music.163.com/#/song?id=2708984802">
                             <span>描述/推荐理由(选填,支持markdown,200字以内):</span>
                             <div class="gen-md-input" input-id="desc-input-0" input-rows="8" input-placeholder="描述/推荐理由(选填,支持markdown,200字以内)"></div>
+                            <hr>
                             <button type="button" class="wux-btn wux-btn-primary" onclick="share_music(0);" id="submit-btn-0"></button>
                             <span id="result-0" class="result"></span>
                         </div>
                         <input class="wux-tab-item" type="radio" name="tab-src" id="tab-file">
                         <label class="wux-tab-item" for="tab-file">直接上传音频文件</label>
                         <div class="wux-tab-content">
-
+                            <hr>
+                            <span>请选择音乐文件:</span>
+                            <input class="wux-form-upload" type="file" id="music-file" accept="audio/*">
+                            <span>曲名(建议包含<b>歌手/作曲家</b>名):</span>
+                            <input id="music-name-input" type="text" class="wux-form-input wux-form-input-md" placeholder="曲名(建议包含歌手/作曲家名)">
+                            <span>音频来源(必填,支持markdown,2048字以内):</span>
+                            <div class="gen-md-input" input-id="src-input" input-rows="8" input-placeholder="音频来源(必填,支持markdown,2048字以内)"></div>
+                            <span>描述/推荐理由(选填,支持markdown,200字以内):</span>
+                            <div class="gen-md-input" input-id="desc-input-1" input-rows="8" input-placeholder="描述/推荐理由(选填,支持markdown,200字以内)"></div>
+                            <hr>
+                            <button type="button" class="wux-btn wux-btn-primary" onclick="share_music_file();" id="submit-btn-1"></button>
+                            <span id="result-1" class="result"></span>
+                            <progress class="wux-progress" id="upload-progress" value="0" max="1" hidden></progress>
                         </div>
                     </div>
                 </div>
