@@ -3,3 +3,4 @@
 package-lock.json
 package.json
 .venv
+v2/node_modules/
