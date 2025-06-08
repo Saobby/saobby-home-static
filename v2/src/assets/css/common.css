@@ -92,3 +92,11 @@
 .icon-btn{
     padding: 0px 4px !important;
 }
+.mc{
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+.tabler-icon{
+    transform: translateY(-0.07em);
+}

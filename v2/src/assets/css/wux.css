@@ -1,10 +1,10 @@
 @font-face {
-	font-family: 'consolas_'; 
-    src: url('/static/font/consolas.eot');
-    src: url('/static/font/consolas.eot#iefix') format('embedded-opentype'),
-         url('/static/font/consolas.woff') format('woff'),
-         url('/static/font/consolas.ttf') format('truetype'),
-         url('/static/font/consolas.svg') format('svg');
+	font-family: 'consolas_';
+    src: url('@/assets/font/consolas.eot');
+    src: url('@/assets/font/consolas.eot#iefix') format('embedded-opentype'),
+         url('@/assets/font/consolas.woff') format('woff'),
+         url('@/assets/font/consolas.ttf') format('truetype'),
+         url('@/assets/font/consolas.svg') format('svg');
     font-display: swap;
 }
 

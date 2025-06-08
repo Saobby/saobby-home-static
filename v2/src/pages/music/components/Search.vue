@@ -1,23 +1,39 @@
 <script setup>
+  import {IconPlus, IconSearch} from "@tabler/icons-vue"
+  import {ref, watch} from "vue";
+  const props = defineProps({
+    disabled: {type: Boolean, default: false}
+  });
+  const emit = defineEmits(["search"]);
+  const keyword = ref("");
+  const sort = ref("0");
+  const order = ref("0");
 
+  function search() {
+    emit("search", {
+      keyword: keyword.value,
+      sort: sort.value,
+      order: order.value
+    });
+  }
+  watch([sort, order], ()=>{
+    search();
+  });
 </script>
 
 <template>
-  <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 120px );display:inline-block;" placeholder="搜索">
-  <button type="button" class="wux-btn wux-btn-primary" id="search-btn" onclick="load_posts(0);"><img src="/static/image/icon/search-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">搜索</span></button><br>
+  <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 80px );display:inline-block;" placeholder="搜索" :disabled="disabled" v-model="keyword"/>
+  <button type="button" class="wux-btn wux-btn-primary mc simple" :disabled="disabled" @click="search()"><IconSearch width="16px" height="16px"/>搜索</button><br>
   <span>排序:</span>
-  <select class="wux-form-select" style="width:120px;" id="sort-by-select" onchange="load_posts(0);">
-    <option value="modify_time" selected>更新时间</option>
-    <option value="create_time">创建时间</option>
-    <option value="loves">点赞数</option>
-    <option value="views">查看数</option>
+  <select class="wux-form-select simple" style="width:120px;" :disabled="disabled" v-model="sort">
+    <option value="0" selected>更新时间</option>
+    <option value="1">点赞数</option>
   </select>
-  <select class="wux-form-select" style="width:80px;" id="sort-method-select" onchange="load_posts(0);">
+  <select class="wux-form-select simple" style="width:80px;" :disabled="disabled" v-model="order">
     <option value="0" selected>降序</option>
     <option value="1">升序</option>
   </select>
-  <button type="button" class="wux-btn wux-btn-primary" onclick="window.location='/create_post'"><img src="/static/image/icon/plus-white.svg" alt="" width="16px" height="16px" class="middle"><span class="middle">创建帖子</span></button>
-
+  <a href="/share_music"><button type="button" class="wux-btn wux-btn-primary mc simple"><IconPlus width="16px" height="16px" />分享音乐</button></a>
 </template>
 
 <style scoped>
