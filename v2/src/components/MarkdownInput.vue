@@ -2,6 +2,8 @@
 import { computed, ref } from 'vue';
 import { IconEdit, IconEye } from '@tabler/icons-vue';
 import { parseMd } from "@/assets/js/initMarked.js";
+import { emotionsPack } from '@/assets/js/emojis';
+import EmotionsBar from '@/components/EmotionsBar.vue';
 
 const props = defineProps({
     rows: {
@@ -34,4 +36,5 @@ function renderHtml(){
         <IconEdit width="16px" height="16px" />
         编辑
     </button>
+    <EmotionsBar :emotions="emotionsPack" :show="false"/>
 </template>

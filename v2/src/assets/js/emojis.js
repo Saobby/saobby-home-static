@@ -891,7 +891,7 @@ var pp_stickers = {
     "stk_pp_OnePlus_8": "/static/image/gi_pp/OnePlus_8.webp"
 };
 
-var emojis = ((emoji_packs) => {
+var emojis = ((emoji_packs) => {  // 合并所有emoji
     var ret = {};
     for (var i in emoji_packs){
         var pack = emoji_packs[i];
@@ -901,4 +901,29 @@ var emojis = ((emoji_packs) => {
     }
     return ret;
 })([bilibili_emojis, scratch_emojis, genshin_emojis, qq_emojis1, qq_emojis2, wechat_emojis1, wechat_emojis2, ppg_stickers, pp_stickers]);
-export { emojis };
+
+const emotionsPack = [];  // 按表情包整理,用于EmotionsBar.vue
+function addEmojis2Pack(emojis, type, packName){
+    let pack = [];
+    for (let name in emojis){
+        const url = emojis[name];
+        pack.push({
+            name: name,
+            url: url,
+            type: type
+        });
+    }
+    emotionsPack.push({
+        name: packName,
+        emojis: pack,
+        index: emotionsPack.length
+    });
+}
+addEmojis2Pack(bilibili_emojis, 0, "B站表情包");
+addEmojis2Pack({...wechat_emojis1, ...wechat_emojis2}, 0, "微信表情包");
+addEmojis2Pack(qq_emojis2, 0, "QQ表情包");
+addEmojis2Pack(qq_emojis1, 0, "QQ GIF");
+addEmojis2Pack(scratch_emojis, 0, "Scratch");
+addEmojis2Pack(ppg_stickers, 1, "HSR PPG");
+addEmojis2Pack(pp_stickers, 1, "GI PPG");
+export { emojis, emotionsPack };
