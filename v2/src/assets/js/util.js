@@ -160,3 +160,9 @@ export function check_logged_in(){
 export function rsc(e) {
     return e ? e.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;") : e;
 }
+export function gebi(eleid){
+    return document.getElementById(eleid);
+}
+export function gebcn(classname){
+    return document.getElementsByClassName(classname);
+}

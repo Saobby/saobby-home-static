@@ -100,3 +100,7 @@
 .tabler-icon{
     transform: translateY(-0.07em);
 }
+.marked-emoji-img{
+    width: 24px;
+    height: 24px;
+}
