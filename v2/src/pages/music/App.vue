@@ -4,6 +4,7 @@
   import PaginationButtons from "@/components/PaginationButtons.vue"
   import {ref, watch} from "vue";
   import {fetchMusicList} from "./music.js";
+  import MarkdownInput from "@/components/MarkdownInput.vue";
 
   const sort = ref("0");
   const order = ref("0");
@@ -56,6 +57,7 @@
       <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
       <li class="wux-breadcrumb-item">一起听歌</li>
     </ul>
+    <MarkdownInput placeholder="test"></MarkdownInput>
     <div class="wux-typo">
       <h2 class="mt">歌曲列表</h2>
       <Search :disabled="uiDisabled" @search="search"/>

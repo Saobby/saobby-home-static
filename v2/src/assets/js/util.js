@@ -157,3 +157,6 @@ export function check_logged_in(){
     }
     return false;
 }
+export function rsc(e) {
+    return e ? e.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;") : e;
+}
