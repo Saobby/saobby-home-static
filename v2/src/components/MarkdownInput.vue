@@ -24,9 +24,11 @@ function renderHtml(){
     html.value = parseMd(content.value);
 }
 
+const textareaRef = ref(null);
+
 </script>
 <template>
-    <textarea :rows="rows" :placeholder="fullPlaceholder" class="wux-form-input wux-form-input-md" v-if="!showPreview" v-model="content"></textarea>
+    <textarea ref="textareaRef" :rows="rows" :placeholder="fullPlaceholder" class="wux-form-input wux-form-input-md" v-if="!showPreview" v-model="content"></textarea>
     <div class="pre-like wux-typo" v-if="showPreview" v-html="html"></div>
     <button class="wux-btn wux-btn-primary wux-btn-outline mc" type="button" v-if="!showPreview" @click="showPreview = true; renderHtml()">
         <IconEye width="16px" height="16px" />
@@ -36,5 +38,5 @@ function renderHtml(){
         <IconEdit width="16px" height="16px" />
         编辑
     </button>
-    <EmotionsBar :emotions="emotionsPack" :show="false"/>
+    <EmotionsBar :emotions="emotionsPack" :inputRef="textareaRef"/>
 </template>

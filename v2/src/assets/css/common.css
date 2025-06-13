@@ -103,4 +103,5 @@
 .marked-emoji-img{
     width: 24px;
     height: 24px;
+    vertical-align:text-bottom;
 }
