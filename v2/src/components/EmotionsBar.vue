@@ -1,9 +1,10 @@
 <script setup lang="js">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { IconMoodHappy, IconX } from '@tabler/icons-vue';
 const props = defineProps({
     emotions: { type: Array },
-    inputRef: { type: Object } // 新增，接收输入框ref
+    inputRef: { type: Object }, // 新增，接收输入框ref
+    hidden: { type: Boolean, default: false }
 });
 // emotions: 
 // [ { index: xxx, name: xxx, emojis: [ { name: xxx, url: xxx, type: xxx } ] } ]
@@ -28,10 +29,15 @@ function insertEmoji(emojiName) {
     textarea.dispatchEvent(new Event("input")); // 触发input事件以更新绑定的值
     textarea.focus(); // 保持焦点在输入框
 }
+watch(()=>props.hidden, (hidden) => {
+    if (hidden){
+        show.value = false;
+    }
+});
 
 </script>
 <template>
-    <button @click="show=!show" class="wux-btn wux-btn-warning wux-btn-text wux-btn-md icon-btn simple"><IconMoodHappy width="24px" height="24px"/></button>
+    <button @click="show=!show" :hidden="hidden" class="wux-btn wux-btn-warning wux-btn-text wux-btn-md icon-btn simple"><IconMoodHappy width="24px" height="24px"/></button>
     <div style="position:fixed;top:calc(50vh - 175px);left:calc(50vw - 175px);width:350px;height:350px;background:#ffffff;z-index: 9999;" class="pre-like" v-if="show">
         <div style="width:100%;height:65px;overflow-y:hidden;overflow-x:auto;" class="wux-tab">
             <div style="white-space:nowrap;">

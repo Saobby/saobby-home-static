@@ -38,5 +38,5 @@ const textareaRef = ref(null);
         <IconEdit width="16px" height="16px" />
         编辑
     </button>
-    <EmotionsBar :emotions="emotionsPack" :inputRef="textareaRef"/>
+    <EmotionsBar :emotions="emotionsPack" :inputRef="textareaRef" :hidden="showPreview"/>
 </template>
