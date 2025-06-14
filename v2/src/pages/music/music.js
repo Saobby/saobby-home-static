@@ -1,5 +1,4 @@
 import {fetch_api} from "@/assets/js/util.js";
-import { parse } from "vue/compiler-sfc";
 const domain = import.meta.env.VITE_API_DOMAIN;
 
 export async function fetchMusicList(sort, order, pageIndex, keyword) {

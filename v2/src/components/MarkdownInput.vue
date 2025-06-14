@@ -4,6 +4,7 @@ import { IconEdit, IconEye } from '@tabler/icons-vue';
 import { parseMd } from "@/assets/js/initMarked.js";
 import { emotionsPack } from '@/assets/js/emojis';
 import EmotionsBar from '@/components/EmotionsBar.vue';
+import ImageUploader from '@/components/ImageUploader.vue';
 
 const props = defineProps({
     rows: {
@@ -28,8 +29,8 @@ const textareaRef = ref(null);
 
 </script>
 <template>
-    <textarea ref="textareaRef" :rows="rows" :placeholder="fullPlaceholder" class="wux-form-input wux-form-input-md" v-if="!showPreview" v-model="content"></textarea>
-    <div class="pre-like wux-typo" v-if="showPreview" v-html="html"></div>
+    <textarea ref="textareaRef" :rows="rows" :placeholder="fullPlaceholder" class="wux-form-input wux-form-input-md" :hidden="showPreview" v-model="content"></textarea>
+    <div class="pre-like wux-typo" :hidden="!showPreview" v-html="html"></div>
     <button class="wux-btn wux-btn-primary wux-btn-outline mc" type="button" v-if="!showPreview" @click="showPreview = true; renderHtml()">
         <IconEye width="16px" height="16px" />
         预览
@@ -38,5 +39,6 @@ const textareaRef = ref(null);
         <IconEdit width="16px" height="16px" />
         编辑
     </button>
-    <EmotionsBar :emotions="emotionsPack" :inputRef="textareaRef" :hidden="showPreview"/>
+    <EmotionsBar :emotions="emotionsPack" :inputRef="textareaRef"/>
+    <ImageUploader :inputRef="textareaRef"/>
 </template>

@@ -166,3 +166,24 @@ export function gebi(eleid){
 export function gebcn(classname){
     return document.getElementsByClassName(classname);
 }
+export function insertIntoTextarea(textarea, insertText) {
+    if (!textarea){
+        return;
+    }
+    const oldValue = textarea.value;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    textarea.value = oldValue.slice(0, start) + insertText + oldValue.slice(end);
+    textarea.selectionStart = textarea.selectionEnd = start + insertText.length; // 设置光标位置到插入的文本后面
+    textarea.dispatchEvent(new Event("input")); // 触发input事件以更新绑定的值
+    textarea.focus(); // 保持焦点在输入框
+}
+export function insertIntoTextareaPosition(textarea, insertText, startPos, endPos){
+    const oldText = textarea.value;
+    const newText = oldText.substring(0, startPos) + insertText + oldText.substring(endPos, oldText.length);
+    textarea.value = newText;
+    textarea.setSelectionRange(startPos + insertText.length, startPos + insertText.length);
+    textarea.dispatchEvent(new Event("input")); // 触发input事件以更新绑定的值
+    textarea.focus(); // 保持焦点在输入框
+    return [startPos + insertText.length, startPos + insertText.length];
+}
