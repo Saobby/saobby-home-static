@@ -13,6 +13,10 @@ const props = defineProps({
     }, 
     placeholder: {
         type: String
+    }, 
+    btnClass: {
+        type: String, 
+        default: ""
     }
 });
 const fullPlaceholder = computed(() => {
@@ -27,18 +31,31 @@ function renderHtml(){
 
 const textareaRef = ref(null);
 
+function getContent(){
+    return content.value;
+}
+function setContent(value){
+    content.value = value;
+}
+
+defineExpose({
+    getContent,
+    setContent
+});
+
 </script>
 <template>
     <textarea ref="textareaRef" :rows="rows" :placeholder="fullPlaceholder" class="wux-form-input wux-form-input-md" :hidden="showPreview" v-model="content"></textarea>
     <div class="pre-like wux-typo" :hidden="!showPreview" v-html="html"></div>
-    <button class="wux-btn wux-btn-primary wux-btn-outline mc" type="button" v-if="!showPreview" @click="showPreview = true; renderHtml()">
+    <button :class="'wux-btn wux-btn-primary wux-btn-outline mc '+btnClass" type="button" v-if="!showPreview" @click="showPreview = true; renderHtml()">
         <IconEye width="16px" height="16px" />
         预览
     </button>
-    <button class="wux-btn wux-btn-primary wux-btn-outline mc" type="button" v-if="showPreview" @click="showPreview = false">
+    <button :class="'wux-btn wux-btn-primary wux-btn-outline mc '+btnClass" type="button" v-if="showPreview" @click="showPreview = false">
         <IconEdit width="16px" height="16px" />
         编辑
     </button>
-    <EmotionsBar :emotions="emotionsPack" :inputRef="textareaRef"/>
-    <ImageUploader :inputRef="textareaRef"/>
+    <slot />
+    <EmotionsBar :emotions="emotionsPack" :inputRef="textareaRef" :btnClass="btnClass"/>
+    <ImageUploader :inputRef="textareaRef" :btnClass="btnClass"/>
 </template>

@@ -4,7 +4,8 @@ import { ref, watch } from 'vue';
 import { gen_captcha } from '@/assets/js/captcha.js';
 import { FormSubmitter, insertIntoTextareaPosition } from '@/assets/js/util.js';
 const props = defineProps({
-    inputRef: { type: Object }
+    inputRef: { type: Object },
+    btnClass: { type: String, default: "" }
 });
 const show = ref(false);
 const result = ref("");
@@ -109,7 +110,7 @@ async function selectFile(){
 </script>
 <template>
     <input @change="selectFile()" ref="fileInput" type="file" accept="image/*" hidden>
-    <button @click="fileInput.click();" type="button" class="wux-btn wux-btn-success wux-btn-md wux-btn-text icon-btn simple">
+    <button @click="fileInput.click();" type="button" :class="'wux-btn wux-btn-success wux-btn-text icon-btn simple '+btnClass">
         <IconPhotoUp width="24px" height="24px" />
     </button>
     <span class="result simple">{{ result }}</span>

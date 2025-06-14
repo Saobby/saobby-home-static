@@ -5,9 +5,7 @@
   import {likeMusic} from "../music.js";
 
   const props = defineProps({
-    musicList: {}, 
-    result: {type: String, default: ""},
-    showLoading: {type: Boolean, default: true}
+    musicList: {}
   });
   const emit = defineEmits(["play", "update"]);
   const statusMap = reactive({});
@@ -36,10 +34,7 @@
 <template>
   <div>
     <div class="centered" v-if="musicList.length===0">
-      <span class="gray" v-if="!showLoading">没有任何数据</span>
-      <span class="wux-loading" v-if="showLoading"></span>
-      <br>
-      <span class="result" v-if="result">{{ result }}</span>
+      <span class="gray">没有任何数据</span>
     </div>
     <div v-for="music in musicList" style="border-bottom: 2px solid #ddd;padding:12px 16px;">
       <a style="color:#000;" href="javascript:;" @click="emit('play', music.id)"><b style="font-size: 20px;">{{ music.name }}</b></a>
