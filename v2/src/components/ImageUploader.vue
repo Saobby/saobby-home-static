@@ -120,7 +120,6 @@ async function selectFile(){
         <span>上传进度:{{ Math.round(progress * 100) }}%</span>
         <br>
         <span class="result">{{ result }}</span>
-        <br>
         <button @click="cancel()" type="button" class="wux-btn wux-btn-primary wux-btn-outline right mc">
             <IconX width="16px" height="16px" />
             取消
