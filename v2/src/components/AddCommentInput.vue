@@ -55,17 +55,11 @@ const inputRef = ref(null);
 <template>
     <MarkdownInput ref="inputRef" :rows="rows" :placeholder="placeholder" :btnClass="btnClass">
         <slot />
-        <button @click="addComment()" :disabled="loading || !accessToken" class="wux-btn wux-btn-primary simple mc" type="button">
+        <button @click="addComment()" :disabled="loading || !accessToken" :class="'wux-btn wux-btn-primary simple mc '+btnClass" type="button">
             <span :hidden="loading" class="mc"><IconCheck width="16px" height="16px" />发表</span>
             <span :hidden="!loading" class="wux-loading"></span>
         </button>
     </MarkdownInput>
     <span class="result" v-html="result"></span>
-    <span v-if="!accessToken">
-        请先
-        <a href="/login" class="mc">
-            <IconLogin2 width="16px" height="16px" />
-            登录
-        </a>
-    </span>
+    <span v-if="!accessToken">请先<a href="/login" class="mc"><IconLogin2 width="16px" height="16px" />登录</a></span>
 </template>

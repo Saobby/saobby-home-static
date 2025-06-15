@@ -1,9 +1,9 @@
 <script setup lang="js">
 import { IconMailCheck, IconPencilCheck, IconClock, IconMessageReply, IconEdit, IconCheck, IconX, IconCornerDownRight } from '@tabler/icons-vue';
-import { ts2str } from '@/assets/js/util.js';
+import { ts2str, check_logged_in } from '@/assets/js/util.js';
 import MarkdownDisplay from './MarkdownDisplay.vue';
 import { reactive, watch } from 'vue';
-import MarkdownInput from './MarkdownInput.vue';
+import EditCommentInput from './EditCommentInput.vue';
 import AddCommentInput from './AddCommentInput.vue';
 const props = defineProps({
     comments: {
@@ -68,7 +68,7 @@ function updateComments() {
             <span v-if="comment.reply_to!==-1" class="gray mc"><IconCornerDownRight width="16px" height="16px"/>{{ `回复 #${comment.reply_to}` }}</span>
             <div :hidden="uiStatus[comment.cid]?.showEditWindow">
                 <MarkdownDisplay :showBtn="!comment.can_edit" :md="comment.content" btnClass="wux-btn-sm">
-                    <button @click="uiStatus[comment.cid].showReplyWindow=true" :disabled="uiStatus[comment.cid]?.showReplyWindow" class="wux-btn wux-btn-primary wux-btn-sm mc simple" type="button">
+                    <button @click="(()=>{if(!check_logged_in()){uiStatus[comment.cid].showReplyWindow=true}})()" :disabled="uiStatus[comment.cid]?.showReplyWindow" class="wux-btn wux-btn-primary wux-btn-sm mc simple" type="button">
                         <IconMessageReply width="16px" height="16px" />
                         回复
                     </button>
@@ -79,16 +79,12 @@ function updateComments() {
                 </MarkdownDisplay>
             </div>
             <div :hidden="!uiStatus[comment.cid]?.showEditWindow">
-                <MarkdownInput rows="5" :placeholder="`编辑 #${comment.cid} 最多 4096 字`" btnClass="wux-btn-sm">
+                <EditCommentInput :cid="comment.cid" :content="comment.content" @commentEdited="updateComments()" rows="5" :placeholder="`编辑 #${comment.cid} 最多 4096 字`" btnClass="wux-btn-sm">
                     <button @click="uiStatus[comment.cid].showEditWindow=false" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline simple mc" type="button">
                         <IconX width="16px" height="16px" />
                         取消
                     </button>
-                    <button class="wux-btn wux-btn-primary wux-btn-sm simple mc" type="button">
-                        <IconCheck width="16px" height="16px" />
-                        保存
-                    </button>
-                </MarkdownInput>
+                </EditCommentInput>
             </div>
         </div>
         <div :hidden="!uiStatus[comment.cid]?.showReplyWindow">
