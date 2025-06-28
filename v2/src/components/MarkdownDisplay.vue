@@ -10,6 +10,7 @@ const props = defineProps({
 })
 const showMd = ref(false);
 const html = computed(() => {
+    if (!props.md) return '';
     return parseMd(props.md);
 });
 </script>

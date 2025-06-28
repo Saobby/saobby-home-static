@@ -4,8 +4,8 @@
   import PaginationButtons from "@/components/PaginationButtons.vue"
   import {ref} from "vue";
   import {fetchMusicList} from "./music.js";
-  import MarkdownInput from "@/components/MarkdownInput.vue";
-  import CommentsSection from "@/components/CommentsSection.vue";
+  import MusicDetail from "./components/MusicDetail.vue";
+  import { IconX } from "@tabler/icons-vue";
 
   const sort = ref("0");
   const order = ref("0");
@@ -18,6 +18,8 @@
 
   const uiDisabled = ref(false);
   const status = ref("loading");
+  const mode = ref("list"); // 列表模式或详情模式
+  const detailMusicId = ref(0); // 详情模式下的音乐ID
 
   async function updateMusicList() {
     uiDisabled.value = true;
@@ -46,6 +48,10 @@
     pageIndex.value = index;
     updateMusicList();
   }
+  function showDetail(musicId) {
+    detailMusicId.value = musicId;
+    mode.value = "detail";
+  }
   updateMusicList();
 </script>
 
@@ -56,19 +62,28 @@
       <li class="wux-breadcrumb-item">一起听歌</li>
     </ul>
     <div class="wux-typo">
-      <CommentsSection :place-id="1111"></CommentsSection>
-      <h2 class="mt">歌曲列表</h2>
-      <Search :disabled="uiDisabled" @search="search"/>
-      <hr>
-      <div :hidden="status!=='showing'"><MusicList :music-list="musicList" @update="updateMusicList"/></div>
-      <div :hidden="status!=='loading'" class="centered">
-        <span class="wux-loading" /><br>
-        <span>歌曲列表加载中</span>
+      <div :hidden="mode!=='list'">
+        <h2 class="mt">歌曲列表</h2>
+        <Search :disabled="uiDisabled" @search="search"/>
+        <hr>
+        <div :hidden="status!=='showing'"><MusicList :music-list="musicList" @update="updateMusicList" @showDetail="showDetail"/></div>
+        <div :hidden="status!=='loading'" class="centered">
+          <span class="wux-loading" /><br>
+          <span>歌曲列表加载中</span>
+        </div>
+        <div :hidden="status!=='onerror'">
+          <span class="result" v-html="result"></span>
+        </div>
+        <PaginationButtons :page-index="pageIndex" :page-amount="pageAmount" btn-amount="7" :disabled="uiDisabled" @change-page="changePage"/>
       </div>
-      <div :hidden="status!=='onerror'">
-        <span class="result" v-html="result"></span>
+      <div :hidden="mode!=='detail'">
+        <h2 class="mt">歌曲详情
+          <button type="button" class="wux-btn wux-btn-lg wux-btn-primary wux-btn-text mc right" @click="mode='list'">
+            <IconX width="16px" height="16px"/>关闭
+          </button>
+        </h2>
+        <MusicDetail :music-id="detailMusicId"/>
       </div>
-      <PaginationButtons :page-index="pageIndex" :page-amount="pageAmount" btn-amount="7" :disabled="uiDisabled" @change-page="changePage"/>
     </div>
   </div>
 </template>

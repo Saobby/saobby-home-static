@@ -1,12 +1,12 @@
 <script setup lang="js">
 import PaginationButtons from './PaginationButtons.vue';
 import { fetch_api } from '@/assets/js/util.js';
-import { computed, onMounted, ref } from 'vue';
+import { computed, watch, ref } from 'vue';
 import CommentsList from './CommentsList.vue';
 import AddCommentInput from './AddCommentInput.vue';
 const props = defineProps({
     placeId: {type: Number}
-})
+});
 const pageIndex = ref(0);
 const pageAmount = ref(1);
 const comments = ref([]);
@@ -49,8 +49,11 @@ const parsedComments = computed(()=>{
     return p(comments.value, 0);
 });
 const uiDisabled = ref(false);
-onMounted(()=>{
-    updateComments();
+watch(() => props.placeId, () => {
+    if (props.placeId) {
+        pageIndex.value = 0;
+        updateComments();
+    }
 });
 
 </script>

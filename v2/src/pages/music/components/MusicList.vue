@@ -1,5 +1,5 @@
 <script setup lang="js">
-  import {IconUser, IconClock, IconThumbUp, IconPlayerPlay, IconThumbUpFilled} from "@tabler/icons-vue";
+  import {IconUser, IconClock, IconThumbUp, IconPlayerPlay, IconThumbUpFilled, IconInfoCircle} from "@tabler/icons-vue";
   import {ts2str, check_logged_in} from "@/assets/js/util.js";
   import { reactive, watch } from "vue";
   import {likeMusic} from "../music.js";
@@ -7,7 +7,7 @@
   const props = defineProps({
     musicList: {}
   });
-  const emit = defineEmits(["play", "update"]);
+  const emit = defineEmits(["play", "update", "showDetail"]);
   const statusMap = reactive({});
   async function likeMusic_(id, like){
     if (check_logged_in()){  // 检查是否登录，未登录自动跳转登录
@@ -48,6 +48,9 @@
         <IconThumbUp width="16px" height="16px" v-if="!music.liked"/>
         <IconThumbUpFilled width="16px" height="16px" v-if="music.liked"/>
         {{ music.liked ? "已赞" : "点赞" }}
+      </button>
+      <button type="button" class="wux-btn wux-btn-sm mc wux-btn-outline simple" @click="emit('showDetail', music.id)">
+        <IconInfoCircle width="16px" height="16px"/>详情
       </button>
       <span class="simple result" v-if="statusMap[music.id]?.result">{{ statusMap[music.id]?.result }}</span>
     </div>

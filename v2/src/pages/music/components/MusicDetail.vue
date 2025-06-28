@@ -1,0 +1,91 @@
+<script setup lang="js">
+import { reactive, ref, watch } from 'vue';
+import { fetch_api, ts2str } from '@/assets/js/util.js';
+import MarkdownDisplay from '@/components/MarkdownDisplay.vue';
+import { IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool } from '@tabler/icons-vue';
+import CommentsSection from '@/components/CommentsSection.vue';
+
+const props = defineProps({
+    musicId: { type: Number }
+});
+
+const musicInfo = reactive({});
+const status = ref("loading");
+const result = ref("");
+
+async function getMusicInfo(){
+    const payload = {
+        music_ids: [props.musicId]
+    };
+    if (localStorage.getItem('access-token')) {
+        payload.access_token = localStorage.getItem('access-token');
+    }
+    status.value = "loading";
+    result.value = "";
+    const rsp = await fetch_api(import.meta.env.VITE_API_DOMAIN+"/api/get_music_urls", payload);
+    if (rsp.retcode){
+        status.value = "onerror";
+        result.value = "音乐信息加载失败:"+rsp.msg;
+    }else{
+        status.value = "showing";
+        result.value = "";
+        Object.assign(musicInfo, rsp.data.urls[0]);
+    }
+}
+
+watch(
+    () => props.musicId,
+    (newId) => {
+        if (newId > 0) {
+            getMusicInfo();
+        }
+    }
+);
+
+</script>
+<template>
+    <div :hidden="status!=='loading'" class="centered">
+        <span class="wux-loading"></span>
+        <br>
+        <span>音乐加载中</span>
+    </div>
+    <div :hidden="status!=='onerror'" class="centered">
+        <span class="result" v-html="result"></span>
+    </div>
+    <div :hidden="status!=='showing'">
+        <div class="wux-row-md-3 same-height-container">
+            <div class="wux-col same-height-box">
+                <div>
+                    <img :src="musicInfo.cover_url" alt="音乐封面" width="100%">
+                </div>
+            </div>
+            <div class="wux-col same-height-box">
+                <div>
+                    <h3>{{ musicInfo.name }}</h3>
+                    <hr>
+                    <b class="mc"><IconVinyl width="16px" height="16px"/>来源</b><br>
+                    <MarkdownDisplay :md="musicInfo.src || '*暂无信息*'" btnClass="wux-btn-sm"></MarkdownDisplay>
+                    <hr>
+                    <b class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由</b><br>
+                    <MarkdownDisplay :md="musicInfo.desc || '*暂无信息*'" btnClass="wux-btn-sm"></MarkdownDisplay>
+                </div>
+            </div>
+            <div class="wux-col same-height-box">
+                <div>
+                    <h3>音乐信息</h3>
+                    <span class="mc" title="推荐用户"><IconUser width="16px" height="16px"/><span class="simple">{{ musicInfo.sharer_name || "匿名用户" }}</span></span><br>
+                    <span class="mc" title="推荐时间"><IconClock width="16px" height="16px"/><span class="simple">{{ ts2str(musicInfo.shared_at) }}</span></span><br>
+                    <span class="mc" title="来源"><IconVinyl width="16px" height="16px"/><span class="simple">来源: {{ ["网易云音乐", "文件上传"][musicInfo.src_type] }}</span></span><br>
+                    <span class="mc" title="通道数" v-if="musicInfo.channels"><IconMusic width="16px" height="16px"/><span class="simple">通道数: {{ musicInfo.channels }}</span></span><br v-if="musicInfo.channels">
+                    <span class="mc" title="采样频率" v-if="musicInfo.freq"><IconBrandSpeedtest width="16px" height="16px"/><span class="simple">采样频率: {{ musicInfo.freq }}Hz</span></span><br v-if="musicInfo.freq">
+                    <span class="mc" title="位深度" v-if="musicInfo.bit_depth"><IconStackFront width="16px" height="16px"/><span class="simple">位深度: {{ musicInfo.bit_depth }}bit</span></span><br v-if="musicInfo.bit_depth">
+                    <span class="mc" title="比特率" v-if="musicInfo.bit_rate"><IconWaveSawTool width="16px" height="16px"/><span class="simple">比特率: {{ musicInfo.bit_rate }}kbps</span></span><br v-if="musicInfo.bit_rate">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h2>评论区</h2>
+        <CommentsSection :placeId="musicInfo.comment_pid" />
+    </div>
+    
+</template>
