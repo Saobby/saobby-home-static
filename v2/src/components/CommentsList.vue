@@ -39,7 +39,8 @@ watch(()=>props.comments, (lst)=>{
     for (const comment of lst) {
         uiStatus[comment.cid] = {
             showReplyWindow: false,
-            showEditWindow: false
+            showEditWindow: false,
+            loadDraftN: 0
         };
     }
 });
@@ -68,7 +69,7 @@ function updateComments() {
             <span v-if="comment.reply_to!==-1" class="gray mc"><IconCornerDownRight width="16px" height="16px"/>{{ `回复 #${comment.reply_to}` }}</span>
             <div :hidden="uiStatus[comment.cid]?.showEditWindow">
                 <MarkdownDisplay :showBtn="!comment.can_edit" :md="comment.content" btnClass="wux-btn-sm">
-                    <button @click="(()=>{if(!check_logged_in()){uiStatus[comment.cid].showReplyWindow=true}})()" :disabled="uiStatus[comment.cid]?.showReplyWindow" class="wux-btn wux-btn-primary wux-btn-sm mc simple" type="button">
+                    <button @click="(()=>{if(!check_logged_in()){uiStatus[comment.cid].showReplyWindow=true;uiStatus[comment.cid].loadDraftN+=1;}})()" :disabled="uiStatus[comment.cid]?.showReplyWindow" class="wux-btn wux-btn-primary wux-btn-sm mc simple" type="button">
                         <IconMessageReply width="16px" height="16px" />
                         回复
                     </button>
@@ -88,7 +89,7 @@ function updateComments() {
             </div>
         </div>
         <div :hidden="!uiStatus[comment.cid]?.showReplyWindow">
-            <AddCommentInput @commentAdded="updateComments()" :placeId="placeId" :replyTo="comment.cid" :placeholder="`回复 #${comment.cid}, 最多 4096 字`">
+            <AddCommentInput :load-draft-n="uiStatus[comment.cid]?.loadDraftN" @commentAdded="updateComments()" :placeId="placeId" :replyTo="comment.cid" :placeholder="`回复 #${comment.cid}, 最多 4096 字`">
                 <button @click="uiStatus[comment.cid].showReplyWindow=false" class="wux-btn wux-btn-primary wux-btn-outline simple mc" type="button">
                     <IconX width="16px" height="16px" />
                     取消

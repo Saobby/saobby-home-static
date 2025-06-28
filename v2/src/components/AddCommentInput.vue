@@ -2,7 +2,7 @@
 import MarkdownInput from './MarkdownInput.vue';
 import { IconCheck, IconLogin2 } from '@tabler/icons-vue';
 import { fetch_api } from '@/assets/js/util.js';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { captcha } from '@/assets/js/captcha.js';
 
 const props = defineProps({
@@ -10,7 +10,8 @@ const props = defineProps({
     replyTo: { type: Number, default: -1 },
     rows: { type: Number, default: 5 },
     placeholder: { type: String, default: "" },
-    btnClass: { type: String, default: "" }
+    btnClass: { type: String, default: "" },
+    loadDraftN: { type: Number, default: 0 }
 });
 const emits = defineEmits(['commentAdded']);
 
@@ -51,9 +52,56 @@ async function addComment(){
 
 const inputRef = ref(null);
 
+async function saveDraft(){
+    const accessToken = localStorage.getItem("access-token");
+    if (!accessToken){
+        return;
+    }
+    const content = inputRef.value.getContent();
+    if (!content){
+        return;
+    }
+    if (window.lastSaveDraft && (Date.now() - window.lastSaveDraft < 2e3)){
+        return; // 防止频繁保存草稿
+    }
+    window.lastSaveDraft = Date.now();
+    const rsp = await fetch_api(import.meta.env.VITE_API_DOMAIN + "/api/save_comment_draft", {
+        access_token: accessToken,
+        content: content,
+        place_id: props.placeId,
+        reply_to: props.replyTo
+    });
+    if (rsp.retcode) {
+        result.value = "保存草稿失败:"+rsp.msg;
+    }
+}
+
+async function loadDraft() {
+    const accessToken = localStorage.getItem("access-token");
+    if (!accessToken){
+        return;
+    }
+    const rsp = await fetch_api(import.meta.env.VITE_API_DOMAIN + "/api/get_comment_draft", {
+        access_token: accessToken,
+        place_id: props.placeId,
+        reply_to: props.replyTo
+    });
+    if (rsp.retcode) {
+        result.value = "加载草稿失败:"+rsp.msg;
+    } else {
+        if (rsp.data.content){
+            inputRef.value.setContent(rsp.data.content);
+        }
+    }
+}
+
+watch(() => props.loadDraftN, (n) => {
+    loadDraft();
+});
+
 </script>
 <template>
-    <MarkdownInput ref="inputRef" :rows="rows" :placeholder="placeholder" :btnClass="btnClass">
+    <MarkdownInput @inputContent="saveDraft" ref="inputRef" :rows="rows" :placeholder="placeholder" :btnClass="btnClass">
         <slot />
         <button @click="addComment()" :disabled="loading || !accessToken" :class="'wux-btn wux-btn-primary simple mc '+btnClass" type="button">
             <span :hidden="loading" class="mc"><IconCheck width="16px" height="16px" />发表</span>

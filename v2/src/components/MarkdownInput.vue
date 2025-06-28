@@ -19,6 +19,7 @@ const props = defineProps({
         default: ""
     }
 });
+const emits = defineEmits(['inputContent']);  // 保存草稿用
 const fullPlaceholder = computed(() => {
     return props.placeholder + "\n提示:\n1. 支持Markdown语法、LaTeX语法\n2. 可直接粘贴图片到输入框，会自动上传\n3. 更多用法请见论坛置顶帖子";
 });
@@ -43,9 +44,13 @@ defineExpose({
     setContent
 });
 
+function emitInputContent() {
+    emits('inputContent');
+}
+
 </script>
 <template>
-    <textarea ref="textareaRef" :rows="rows" :placeholder="fullPlaceholder" class="wux-form-input wux-form-input-md" :hidden="showPreview" v-model="content"></textarea>
+    <textarea @focusout="emitInputContent" @input="emitInputContent" ref="textareaRef" :rows="rows" :placeholder="fullPlaceholder" class="wux-form-input wux-form-input-md" :hidden="showPreview" v-model="content"></textarea>
     <div class="pre-like wux-typo" :hidden="!showPreview" v-html="html"></div>
     <button :class="'wux-btn wux-btn-primary wux-btn-outline mc '+btnClass" type="button" v-if="!showPreview" @click="showPreview = true; renderHtml()">
         <IconEye width="16px" height="16px" />

@@ -53,12 +53,14 @@ watch(() => props.placeId, () => {
     if (props.placeId) {
         pageIndex.value = 0;
         updateComments();
+        loadDraftN.value += 1;  // 加载草稿
     }
 });
+const loadDraftN = ref(0);
 
 </script>
 <template>
-    <AddCommentInput :placeId="props.placeId" placeholder="请输入评论内容, 最多 4096 字" @commentAdded="pageIndex=0;updateComments()"/>
+    <AddCommentInput :load-draft-n="loadDraftN" :placeId="props.placeId" placeholder="请输入评论内容, 最多 4096 字" @commentAdded="pageIndex=0;updateComments()"/>
     <div :hidden="status!=='showing'">
         <CommentsList @updateComments="updateComments()" :placeId="placeId" :comments="parsedComments"/>
     </div>
