@@ -6,6 +6,8 @@
   import {fetchMusicList} from "./music.js";
   import MusicDetail from "./components/MusicDetail.vue";
   import { IconX } from "@tabler/icons-vue";
+  import { Vue3AudioPlayer } from '@codeniu/vue3-audio-player'
+  import '@codeniu/vue3-audio-player/dist/vue3-audio-player.css'
 
   const sort = ref("0");
   const order = ref("0");
@@ -63,7 +65,7 @@
       <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
       <li class="wux-breadcrumb-item">一起听歌</li>
     </ul>
-    <div class="wux-typo">
+    <div class="wux-typo" style="padding-bottom: 140px;">
       <div :hidden="mode!=='list'">
         <h2 class="mt">歌曲列表</h2>
         <Search :disabled="uiDisabled" @search="search"/>
@@ -86,10 +88,32 @@
         </h2>
         <MusicDetail :update-n="musicDetailUpdateN" :music-id="detailMusicId" @update="updateMusicList"/>
       </div>
+      <div class="fixed-bottom">
+        <Vue3AudioPlayer 
+          :progressInterval="50" 
+          themeColor="#5064e1"
+        ></Vue3AudioPlayer>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-
+  .fixed-bottom {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(245, 245, 247, 0.75);
+    z-index: 1000;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 32px 8px rgba(0,0,0,0.28);
+    border-top: 1.5px solid #bbb;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 12px 12px 0 0;
+    overflow: visible;
+  }
 </style>
