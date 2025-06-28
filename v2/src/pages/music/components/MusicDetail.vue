@@ -15,6 +15,7 @@ const emit = defineEmits(['play', 'update']);
 const musicInfo = reactive({});
 const status = ref("loading");
 const result = ref("");
+const showCover = ref(false);
 
 async function getMusicInfo(){
     const payload = {
@@ -33,6 +34,7 @@ async function getMusicInfo(){
         status.value = "showing";
         result.value = "";
         Object.assign(musicInfo, rsp.data.urls[0]);
+        showCover.value = false;
     }
 }
 
@@ -66,7 +68,11 @@ function emitPlay() {
         <div class="wux-row-md-3 same-height-container">
             <div class="wux-col same-height-box">
                 <div>
-                    <img :src="musicInfo.cover_url" alt="音乐封面" width="100%">
+                    <div class="centered" :hidden="showCover">
+                        <span class="wux-loading"></span><br>
+                        <span>音乐封面加载中</span>
+                    </div>
+                    <img :hidden="!showCover" @load="showCover=true;" :src="musicInfo.cover_url" alt="音乐封面" width="100%">
                 </div>
             </div>
             <div class="wux-col same-height-box">

@@ -28,7 +28,7 @@
       <span class="gray">没有任何数据</span>
     </div>
     <div v-for="music in musicList" style="border-bottom: 2px solid #ddd;padding:12px 16px;">
-      <a style="color:#000;" href="javascript:;" @click="emit('play', music.id)"><b style="font-size: 20px;">{{ music.name }}</b></a>
+      <a style="color:#000;" href="javascript:;" @click="emitPlay(music.id)"><b style="font-size: 20px;">{{ music.name }}</b></a>
       <br>
       <span class="mc"><IconUser width="16px" height="16px" />{{ music.sharer_name || "匿名用户" }}</span>
       <span class="mc gray simple"><IconClock width="16px" height="16px"/>{{ ts2str(music.shared_at) }}</span>
