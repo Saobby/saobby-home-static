@@ -187,3 +187,43 @@ export function insertIntoTextareaPosition(textarea, insertText, startPos, endPo
     textarea.focus(); // 保持焦点在输入框
     return [startPos + insertText.length, startPos + insertText.length];
 }
+export function getUrlArgs(){
+    const url = window.location.href;
+    let ret = {};
+    if (url.includes("?")){
+        const args = url.split("?").slice(1).join("?").split("&");
+        for (let index in args){
+            const arg = args[index];
+            if (arg.includes("=")){
+                const kv = arg.split("=");
+                ret[kv[0]] = kv.slice(1).join("=");
+            }else{
+                ret[arg] = null;
+            }
+        }
+    }
+    return ret;
+}
+export function setUrlArgs(args){
+    const url = window.location.href.split("?")[0];
+    const newArgs = [];
+    for (let key in args){
+        if (args[key] === null || args[key] === undefined){
+            newArgs.push(key);
+        }else{
+            newArgs.push(key + "=" + encodeURIComponent(args[key]));
+        }
+    }
+    window.history.pushState({}, '', url + "?" + newArgs.join("&"));
+}
+export function updateUrlArgs(args){
+    const oldArgs = getUrlArgs();
+    for (let key in args){
+        if (args[key] === undefined){
+            delete oldArgs[key];  // 设为 undefined 以删除该参数
+        }else{
+            oldArgs[key] = args[key];
+        }
+    }
+    setUrlArgs(oldArgs);
+}

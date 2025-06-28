@@ -56,7 +56,7 @@ function updateComments() {
         <span class="gray">没有任何评论</span>
     </div>
     <div v-for="comment in comments" :style="`position:relative;left:${20 * comment.lvl}px;`">
-        <div style="border-bottom: 2px solid #ddd;padding:12px 0px;">
+        <div :id="`comment-div-${comment.cid}`" style="border-bottom: 2px solid #ddd;padding:12px 0px;">
             <img :src="comment.avatar_url" alt="用户头像" width="32px" height="32px">
             <b style="position:relative;top:-17px;left:5px;">{{ comment.nickname || comment.username }}</b>
             <span style="color:#777777;position:relative;top:-17px;left:5px;" class="middle mc">

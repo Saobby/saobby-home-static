@@ -1,7 +1,7 @@
 <script setup lang="js">
 import PaginationButtons from './PaginationButtons.vue';
-import { fetch_api } from '@/assets/js/util.js';
-import { computed, watch, ref } from 'vue';
+import { fetch_api, getUrlArgs, gebi } from '@/assets/js/util.js';
+import { computed, watch, ref, nextTick } from 'vue';
 import CommentsList from './CommentsList.vue';
 import AddCommentInput from './AddCommentInput.vue';
 const props = defineProps({
@@ -13,6 +13,7 @@ const comments = ref([]);
 const result = ref("");
 const status = ref("loading");
 async function updateComments(){
+    const urlArgs = getUrlArgs();
     const payload = {
         amount_per_page: 8, 
         page_index: pageIndex.value,
@@ -20,6 +21,9 @@ async function updateComments(){
     }
     if (localStorage.getItem("access-token")){
         payload.access_token = localStorage.getItem("access-token");
+    }
+    if (urlArgs.comment_id){
+        payload.scroll_to = urlArgs.comment_id;
     }
     uiDisabled.value = true;
     const rsp = await fetch_api(import.meta.env.VITE_API_DOMAIN+"/api/get_comment", payload);
@@ -31,8 +35,16 @@ async function updateComments(){
         result.value = "";
         comments.value = rsp.data;
         pageAmount.value = rsp.comment_data.page_amount;
+        pageIndex.value = rsp.comment_data.page_index-1;
     }
     uiDisabled.value = false;
+    if (urlArgs.comment_id){
+        await nextTick();
+        const commentDiv = gebi(`comment-div-${urlArgs.comment_id}`);
+        if (commentDiv) {
+            commentDiv.scrollIntoView();
+        }
+    }
 }
 const parsedComments = computed(()=>{
     function p(commentsList, lvl){

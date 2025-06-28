@@ -2,12 +2,13 @@
   import Search from "./components/Search.vue"
   import MusicList from "./components/MusicList.vue"
   import PaginationButtons from "@/components/PaginationButtons.vue"
-  import {ref} from "vue";
+  import {onMounted, ref} from "vue";
   import {fetchMusicList} from "./music.js";
   import MusicDetail from "./components/MusicDetail.vue";
   import { IconX } from "@tabler/icons-vue";
   import { Vue3AudioPlayer } from '@codeniu/vue3-audio-player'
   import '@codeniu/vue3-audio-player/dist/vue3-audio-player.css'
+  import { getUrlArgs, setUrlArgs, updateUrlArgs } from "@/assets/js/util.js";
 
   const sort = ref("0");
   const order = ref("0");
@@ -55,8 +56,16 @@
     detailMusicId.value = musicId;
     mode.value = "detail";
     musicDetailUpdateN.value += 1;  // 强制更新音乐详情组件
+    updateUrlArgs({ music_id: musicId});
   }
   updateMusicList();
+  onMounted(() => {
+    const urlArgs = getUrlArgs();
+    if (urlArgs.music_id) {
+      showDetail(urlArgs.music_id);
+    }
+  });
+  
 </script>
 
 <template>
@@ -82,7 +91,7 @@
       </div>
       <div :hidden="mode!=='detail'">
         <h2 class="mt">歌曲详情
-          <button type="button" class="wux-btn wux-btn-lg wux-btn-primary wux-btn-text mc right" @click="mode='list'">
+          <button type="button" class="wux-btn wux-btn-lg wux-btn-primary wux-btn-text mc right" @click="mode='list';setUrlArgs({});">
             <IconX width="16px" height="16px"/>关闭
           </button>
         </h2>
