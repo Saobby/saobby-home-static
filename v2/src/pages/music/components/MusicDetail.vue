@@ -4,10 +4,13 @@ import { fetch_api, ts2str } from '@/assets/js/util.js';
 import MarkdownDisplay from '@/components/MarkdownDisplay.vue';
 import { IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool } from '@tabler/icons-vue';
 import CommentsSection from '@/components/CommentsSection.vue';
+import LikeMusicBtn from './LikeMusicBtn.vue';
 
 const props = defineProps({
-    musicId: { type: Number }
+    musicId: { type: Number },
+    updateN: {}
 });
+const emit = defineEmits(['play', 'update']);
 
 const musicInfo = reactive({});
 const status = ref("loading");
@@ -34,13 +37,17 @@ async function getMusicInfo(){
 }
 
 watch(
-    () => props.musicId,
-    (newId) => {
+    () => { return (props.musicId, props.updateN); },
+    (newId, n) => {
         if (newId > 0) {
             getMusicInfo();
         }
     }
 );
+
+function emitUpdate() {
+    emit("update");
+}
 
 </script>
 <template>
@@ -68,6 +75,8 @@ watch(
                     <hr>
                     <b class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由</b><br>
                     <MarkdownDisplay :md="musicInfo.desc || '*暂无信息*'" btnClass="wux-btn-sm"></MarkdownDisplay>
+                    <hr>
+                    <LikeMusicBtn v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
                 </div>
             </div>
             <div class="wux-col same-height-box">

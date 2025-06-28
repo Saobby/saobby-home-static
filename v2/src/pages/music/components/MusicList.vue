@@ -1,6 +1,6 @@
 <script setup lang="js">
   import {IconUser, IconClock, IconThumbUp, IconPlayerPlay, IconThumbUpFilled, IconInfoCircle} from "@tabler/icons-vue";
-  import {ts2str, check_logged_in} from "@/assets/js/util.js";
+  import {ts2str} from "@/assets/js/util.js";
   import { reactive, watch } from "vue";
   import LikeMusicBtn from "./LikeMusicBtn.vue";
 
@@ -30,7 +30,7 @@
       <span class="mc gray simple"><IconClock width="16px" height="16px"/>{{ ts2str(music.shared_at) }}</span>
       <br>
       <button type="button" class="wux-btn wux-btn-round icon-btn2 mc"><IconPlayerPlay width="24px" height="24px"/></button>
-      <LikeMusicBtn :origin-likes="music.likes" :origin-liked="music.liked" :music-id="music.id" btn-class="wux-btn-round wux-btn-text icon-btn2 sep"/>
+      <LikeMusicBtn v-model:likes="music.likes" v-model:liked="music.liked" :music-id="music.id" btn-class="wux-btn-round wux-btn-text icon-btn2 sep"/>
       <button type="button" class="wux-btn wux-btn-round wux-btn-text icon-btn2 mc sep" @click="emit('showDetail', music.id)">
         <IconInfoCircle stroke="1.5px" width="24px" height="24px"/>详情
       </button>

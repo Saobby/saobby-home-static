@@ -1,20 +1,29 @@
 <script setup lang="js">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { likeMusic } from '../music.js';
 import { IconThumbUp, IconThumbUpFilled } from '@tabler/icons-vue';
 import { check_logged_in } from '@/assets/js/util.js';
 const props = defineProps({
-    originLikes: { type: Number, default: 0 },
-    originLiked: { type: Boolean, default: false },
+    likes: { type: Number, default: 0 },
+    liked: { type: Boolean, default: false },
     musicId: { type: Number, default: 0 },
     btnClass: { type: String, default: "" }
 });
-const emit = defineEmits(["update"]);
+const emit = defineEmits(["update", "update:likes", "update:liked"]);
+
+function setLikes(newLikes) {
+    if (newLikes !== props.likes) {
+        emit("update:likes", newLikes);
+    }
+}
+function setLiked(newLiked) {
+    if (newLiked !== props.liked) {
+        emit("update:liked", newLiked);
+    }
+}
 
 const uiDisabled = ref(false);
 const result = ref("");
-const likes = ref(props.originLikes);
-const liked = ref(props.originLiked);
 
 async function likeMusic_(id, like){
     if (check_logged_in()){  // 检查是否登录，未登录自动跳转登录
@@ -25,8 +34,8 @@ async function likeMusic_(id, like){
     if (rsp.retcode) {
         result.value = "操作失败: " + rsp.msg;
     } else {
-        likes.value = rsp.data.likes;
-        liked.value = like;
+        setLikes(rsp.data.likes);
+        setLiked(like);
         emit("update");
     }
     uiDisabled.value = false;

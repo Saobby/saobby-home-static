@@ -18,8 +18,9 @@
 
   const uiDisabled = ref(false);
   const status = ref("loading");
-  const mode = ref("list"); // 列表模式或详情模式
-  const detailMusicId = ref(0); // 详情模式下的音乐ID
+  const mode = ref("list"); // list: 列表 detail: 详情
+  const detailMusicId = ref(0);
+  const musicDetailUpdateN = ref(0);
 
   async function updateMusicList() {
     uiDisabled.value = true;
@@ -51,6 +52,7 @@
   function showDetail(musicId) {
     detailMusicId.value = musicId;
     mode.value = "detail";
+    musicDetailUpdateN.value += 1;  // 强制更新音乐详情组件
   }
   updateMusicList();
 </script>
@@ -82,7 +84,7 @@
             <IconX width="16px" height="16px"/>关闭
           </button>
         </h2>
-        <MusicDetail :music-id="detailMusicId"/>
+        <MusicDetail :update-n="musicDetailUpdateN" :music-id="detailMusicId" @update="updateMusicList"/>
       </div>
     </div>
   </div>
