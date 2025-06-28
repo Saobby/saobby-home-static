@@ -2,7 +2,7 @@
 import { reactive, ref, watch } from 'vue';
 import { fetch_api, ts2str } from '@/assets/js/util.js';
 import MarkdownDisplay from '@/components/MarkdownDisplay.vue';
-import { IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool } from '@tabler/icons-vue';
+import { IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
 import CommentsSection from '@/components/CommentsSection.vue';
 import LikeMusicBtn from './LikeMusicBtn.vue';
 
@@ -48,6 +48,9 @@ watch(
 function emitUpdate() {
     emit("update");
 }
+function emitPlay() {
+    emit("play", musicInfo.id);
+}
 
 </script>
 <template>
@@ -76,7 +79,8 @@ function emitUpdate() {
                     <b class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由</b><br>
                     <MarkdownDisplay :md="musicInfo.desc || '*暂无信息*'" btnClass="wux-btn-sm"></MarkdownDisplay>
                     <hr>
-                    <LikeMusicBtn v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
+                    <button @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>播放</button>
+                    <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
                 </div>
             </div>
             <div class="wux-col same-height-box">
