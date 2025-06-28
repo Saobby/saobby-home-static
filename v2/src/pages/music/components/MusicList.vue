@@ -2,26 +2,13 @@
   import {IconUser, IconClock, IconThumbUp, IconPlayerPlay, IconThumbUpFilled, IconInfoCircle} from "@tabler/icons-vue";
   import {ts2str, check_logged_in} from "@/assets/js/util.js";
   import { reactive, watch } from "vue";
-  import {likeMusic} from "../music.js";
+  import LikeMusicBtn from "./LikeMusicBtn.vue";
 
   const props = defineProps({
     musicList: {}
   });
   const emit = defineEmits(["play", "update", "showDetail"]);
   const statusMap = reactive({});
-  async function likeMusic_(id, like){
-    if (check_logged_in()){  // 检查是否登录，未登录自动跳转登录
-      return;
-    }
-    statusMap[id] = {disabled: true};
-    const rsp = await likeMusic(id, like);
-    if (rsp.retcode) {
-      statusMap[id].result = "操作失败: " + rsp.msg;
-    } else {
-      emit("update");
-    }
-    statusMap[id].disabled = false;
-  }
   watch(
     ()=>props.musicList, 
     ()=>{
@@ -43,12 +30,8 @@
       <span class="mc gray simple"><IconClock width="16px" height="16px"/>{{ ts2str(music.shared_at) }}</span>
       <br>
       <button type="button" class="wux-btn wux-btn-round icon-btn2 mc"><IconPlayerPlay width="24px" height="24px"/></button>
-      <button type="button" class="wux-btn wux-btn-round wux-btn-text icon-btn2 mc wux-btn-outline sep" @click="likeMusic_(music.id, !music.liked)" :disabled="statusMap[music.id]?.disabled">
-        <IconThumbUp stroke="1.5px" width="24px" height="24px" v-if="!music.liked"/>
-        <IconThumbUpFilled stroke="1.5px" width="24px" height="24px" v-if="music.liked"/>
-        {{ music.likes }}
-      </button>
-      <button type="button" class="wux-btn wux-btn-round wux-btn-text icon-btn2 mc wux-btn-outline sep" @click="emit('showDetail', music.id)">
+      <LikeMusicBtn :origin-likes="music.likes" :origin-liked="music.liked" :music-id="music.id" btn-class="wux-btn-round wux-btn-text icon-btn2 sep"/>
+      <button type="button" class="wux-btn wux-btn-round wux-btn-text icon-btn2 mc sep" @click="emit('showDetail', music.id)">
         <IconInfoCircle stroke="1.5px" width="24px" height="24px"/>详情
       </button>
       <span class="simple result" v-if="statusMap[music.id]?.result">{{ statusMap[music.id]?.result }}</span>
