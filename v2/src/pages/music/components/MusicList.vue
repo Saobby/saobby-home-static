@@ -41,16 +41,15 @@
       <br>
       <span class="mc"><IconUser width="16px" height="16px" />{{ music.sharer_name || "匿名用户" }}</span>
       <span class="mc gray simple"><IconClock width="16px" height="16px"/>{{ ts2str(music.shared_at) }}</span>
-      <span class="mc gray simple"><IconThumbUp width="16px" height="16px"/>{{ music.likes }}</span>
       <br>
-      <button type="button" class="wux-btn wux-btn-sm mc"><IconPlayerPlay width="16px" height="16px"/>播放</button>
-      <button type="button" class="wux-btn wux-btn-sm mc wux-btn-outline simple" @click="likeMusic_(music.id, !music.liked)" :disabled="statusMap[music.id]?.disabled">
-        <IconThumbUp width="16px" height="16px" v-if="!music.liked"/>
-        <IconThumbUpFilled width="16px" height="16px" v-if="music.liked"/>
-        {{ music.liked ? "已赞" : "点赞" }}
+      <button type="button" class="wux-btn wux-btn-round icon-btn2 mc"><IconPlayerPlay width="24px" height="24px"/></button>
+      <button type="button" class="wux-btn wux-btn-round wux-btn-text icon-btn2 mc wux-btn-outline sep" @click="likeMusic_(music.id, !music.liked)" :disabled="statusMap[music.id]?.disabled">
+        <IconThumbUp stroke="1.5px" width="24px" height="24px" v-if="!music.liked"/>
+        <IconThumbUpFilled stroke="1.5px" width="24px" height="24px" v-if="music.liked"/>
+        {{ music.likes }}
       </button>
-      <button type="button" class="wux-btn wux-btn-sm mc wux-btn-outline simple" @click="emit('showDetail', music.id)">
-        <IconInfoCircle width="16px" height="16px"/>详情
+      <button type="button" class="wux-btn wux-btn-round wux-btn-text icon-btn2 mc wux-btn-outline sep" @click="emit('showDetail', music.id)">
+        <IconInfoCircle stroke="1.5px" width="24px" height="24px"/>详情
       </button>
       <span class="simple result" v-if="statusMap[music.id]?.result">{{ statusMap[music.id]?.result }}</span>
     </div>
