@@ -1,5 +1,5 @@
 <script setup>
-  import {IconPlus, IconSearch} from "@tabler/icons-vue"
+  import {IconSearch} from "@tabler/icons-vue"
   import {ref, watch} from "vue";
   const props = defineProps({
     disabled: {type: Boolean, default: false}
@@ -33,7 +33,7 @@
     <option value="0" selected>降序</option>
     <option value="1">升序</option>
   </select>
-  <a href="/share_music"><button type="button" class="wux-btn wux-btn-primary mc simple"><IconPlus width="16px" height="16px" />分享音乐</button></a>
+  <slot></slot>
 </template>
 
 <style scoped>
