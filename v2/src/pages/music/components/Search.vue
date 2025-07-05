@@ -1,6 +1,7 @@
 <script setup>
   import {IconSearch} from "@tabler/icons-vue"
   import {ref, watch} from "vue";
+  import BtnWithLoading from "@/components/BtnWithLoading.vue";
   const props = defineProps({
     disabled: {type: Boolean, default: false}
   });
@@ -23,7 +24,8 @@
 
 <template>
   <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 80px );display:inline-block;" placeholder="搜索" :disabled="disabled" v-model="keyword"/>
-  <button type="button" class="wux-btn wux-btn-primary mc simple" :disabled="disabled" @click="search()"><IconSearch width="16px" height="16px"/>搜索</button><br>
+  <BtnWithLoading @click="search()" :isLoading="disabled" btnClass="wux-btn-primary mc simple"><IconSearch width="16px" height="16px"/>搜索</BtnWithLoading>
+  <br>
   <span>排序:</span>
   <select class="wux-form-select simple" style="width:120px;" :disabled="disabled" v-model="sort">
     <option value="0" selected>更新时间</option>

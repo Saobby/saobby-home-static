@@ -9,6 +9,7 @@
   import { Vue3AudioPlayer } from '@codeniu/vue3-audio-player'
   import '@codeniu/vue3-audio-player/dist/vue3-audio-player.css'
   import { getUrlArgs, setUrlArgs, updateUrlArgs } from "@/assets/js/util.js";
+  import BtnWithLoading from "@/components/BtnWithLoading.vue";
 
   const sort = ref("0");
   const order = ref("0");
@@ -28,6 +29,8 @@
   const musicDetailUpdateN = ref(0);
   const playerRef = ref(null);
   const playerKey = ref(0);
+
+  const playAllBtnDisabled = ref(false);
 
   const playAllSort = ref(null);
   const playAllOrder = ref(null);
@@ -92,11 +95,13 @@
     playAllListIndex.value = 0;
     playAllPageAmount.value = 9999;
     playList.value = [];
+    playAllBtnDisabled.value = true;
 
     playMode.value = "all";
     await expandPlayList();
     playerKey.value += 1; // 重新挂载播放器,重置播放列表index
     await nextTick();
+    playAllBtnDisabled.value = false;
     playerRef.value.pause();
     playerRef.value.play();
   }
@@ -148,6 +153,13 @@
     }
     return true;
   }
+  async function befPlay(callback) {
+    if (playList.value.length === 0) {
+      callback(false);
+      return;
+    }
+    callback(true);
+  }
   
 </script>
 
@@ -162,7 +174,9 @@
         <h2 class="mt">歌曲列表</h2>
         <Search :disabled="uiDisabled" @search="search">
           <a href="/share_music"><button type="button" class="wux-btn wux-btn-primary mc simple"><IconPlus width="16px" height="16px" />分享音乐</button></a>
-          <button @click="playAll" type="button" class="wux-btn wux-btn-primary mc simple"><IconPlayerPlay width="16px" height="16px" />播放全部</button>
+          <BtnWithLoading :isLoading="playAllBtnDisabled" btnClass="wux-btn-primary mc simple" @click="playAll">
+            <IconPlayerPlay width="16px" height="16px" />播放全部
+          </BtnWithLoading>
         </Search>
         <hr>
         <div :hidden="status!=='showing'"><MusicList :music-list="musicList" @play="playSingle" @update="updateMusicList" @showDetail="showDetail"/></div>
@@ -173,7 +187,7 @@
         <div :hidden="status!=='onerror'">
           <span class="result" v-html="result"></span>
         </div>
-        <PaginationButtons :page-index="pageIndex" :page-amount="pageAmount" btn-amount="7" :disabled="uiDisabled" @change-page="changePage"/>
+        <PaginationButtons :page-index="pageIndex" :page-amount="pageAmount" :btn-amount="7" :disabled="uiDisabled" @change-page="changePage"/>
       </div>
       <div :hidden="mode!=='detail'">
         <h2 class="mt">歌曲详情
@@ -188,10 +202,12 @@
           ref="playerRef"
           :progressInterval="50" 
           themeColor="#5064e1"
+          mode="tl"
           :audioList="playList"
           :isLoop="false"
           :beforeNext="befNext"
           :beforePrev="befPrev"
+          :beforePlay="befPlay"
           @play-next="onPlayNext"
           :key="playerKey"
         ></Vue3AudioPlayer>
@@ -217,5 +233,8 @@
     -webkit-backdrop-filter: blur(16px);
     border-radius: 12px 12px 0 0;
     overflow: visible;
+  }
+  .tl-audio-player{
+    background: none !important;
   }
 </style>
