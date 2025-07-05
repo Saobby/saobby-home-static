@@ -2,7 +2,7 @@
   import Search from "./components/Search.vue"
   import MusicList from "./components/MusicList.vue"
   import PaginationButtons from "@/components/PaginationButtons.vue"
-  import {nextTick, onMounted, ref} from "vue";
+  import {computed, nextTick, onMounted, ref} from "vue";
   import {fetchMusicList, buildPlayList} from "./music.js";
   import MusicDetail from "./components/MusicDetail.vue";
   import { IconX, IconPlus, IconPlayerPlay } from "@tabler/icons-vue";
@@ -21,6 +21,12 @@
   const musicList = ref([]);
   const playList = ref([]);
   const playMode = ref("single"); // single: 播放单曲 all: 播放全部
+  const currentPlayingId = computed(()=>{
+    if (playList.value.length === 0 || !playerRef.value) {
+      return -1;
+    }
+    return playList.value[playerRef.value.currentPlayIndex].id;
+  });
 
   const uiDisabled = ref(false);
   const status = ref("loading");
@@ -179,7 +185,7 @@
           </BtnWithLoading>
         </Search>
         <hr>
-        <div :hidden="status!=='showing'"><MusicList :music-list="musicList" @play="playSingle" @update="updateMusicList" @showDetail="showDetail"/></div>
+        <div :hidden="status!=='showing'"><MusicList :currentPlayingId="currentPlayingId" :music-list="musicList" @play="playSingle" @update="updateMusicList" @showDetail="showDetail"/></div>
         <div :hidden="status!=='loading'" class="centered">
           <span class="wux-loading" /><br>
           <span>歌曲列表加载中</span>
@@ -195,7 +201,7 @@
             <IconX width="16px" height="16px"/>关闭
           </button>
         </h2>
-        <MusicDetail :update-n="musicDetailUpdateN" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList"/>
+        <MusicDetail :currentPlayingId="currentPlayingId" :update-n="musicDetailUpdateN" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList"/>
       </div>
       <div class="fixed-bottom">
         <Vue3AudioPlayer 

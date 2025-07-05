@@ -41,6 +41,7 @@ export async function buildPlayList(ids){
         for (let i = 0; i < rsp.data.urls.length; i++){
             const music = rsp.data.urls[i];
             urls.push({
+                id: music.id,
                 src: music.audio_url,
                 title: music.name
             });

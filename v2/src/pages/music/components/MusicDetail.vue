@@ -8,7 +8,8 @@ import LikeMusicBtn from './LikeMusicBtn.vue';
 
 const props = defineProps({
     musicId: { type: Number },
-    updateN: {}
+    updateN: {},
+    currentPlayingId: { type: Number, default: -1 }
 });
 const emit = defineEmits(['play', 'update']);
 
@@ -78,15 +79,15 @@ function emitPlay() {
             <div class="wux-col same-height-box">
                 <div>
                     <h3>{{ musicInfo.name }}</h3>
+                    <button :disabled="currentPlayingId===musicId" @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>{{ currentPlayingId===musicId?"正在播放":"播放" }}</button>
+                    <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
                     <hr>
+                    
                     <b class="mc"><IconVinyl width="16px" height="16px"/>来源</b><br>
                     <MarkdownDisplay :md="musicInfo.src || '*暂无信息*'" btnClass="wux-btn-sm"></MarkdownDisplay>
                     <hr>
                     <b class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由</b><br>
                     <MarkdownDisplay :md="musicInfo.desc || '*暂无信息*'" btnClass="wux-btn-sm"></MarkdownDisplay>
-                    <hr>
-                    <button @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>播放</button>
-                    <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
                 </div>
             </div>
             <div class="wux-col same-height-box">
