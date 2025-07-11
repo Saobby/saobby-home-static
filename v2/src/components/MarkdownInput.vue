@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { IconEdit, IconEye } from '@tabler/icons-vue';
 import { parseMd } from "@/assets/js/initMarked.js";
 import { emotionsPack } from '@/assets/js/emojis';
@@ -17,14 +17,18 @@ const props = defineProps({
     btnClass: {
         type: String, 
         default: ""
+    },
+    modelValue: {
+        type: String,
+        default: ''
     }
 });
-const emits = defineEmits(['inputContent']);  // 保存草稿用
+const emits = defineEmits(['inputContent', 'update:modelValue']);  // 保存草稿用
 const fullPlaceholder = computed(() => {
     return props.placeholder + "\n提示:\n1. 支持Markdown语法、LaTeX语法\n2. 可直接粘贴图片到输入框，会自动上传\n3. 更多用法请见论坛置顶帖子";
 });
 const showPreview = ref(false);
-const content = ref('');
+const content = ref(props.modelValue);
 const html = ref('');
 function renderHtml(){
     html.value = parseMd(content.value);
@@ -38,6 +42,14 @@ function getContent(){
 function setContent(value){
     content.value = value;
 }
+
+watch(() => props.modelValue, (newValue) => {
+    content.value = newValue;
+});
+
+watch(content, (newValue) => {
+    emits('update:modelValue', newValue);
+});
 
 defineExpose({
     getContent,

@@ -114,3 +114,9 @@
 .lleft{
     margin-left: .5em;
 }
+.music-tag {
+    margin: 2px;
+    padding: 0 7px;
+    cursor: pointer;
+    display: inline-block;
+}
