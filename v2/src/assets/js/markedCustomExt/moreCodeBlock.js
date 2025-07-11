@@ -6,16 +6,16 @@ export function codeBlockPlugin() {
         name: "customCodeBlock",
         level: "block",
         start(src) {
-          return src.match(/```(desmos|wrapper)/)?.index;
+          return src.match(/(`{3,}|~{3,})(desmos|wrapper)/)?.index;
         },
         tokenizer(src) {
-          const match = /^```(desmos|wrapper)\n([\s\S]*?)\n```/.exec(src);
+          const match = /^(`{3,}|~{3,})(desmos|wrapper)\n([\s\S]*?)\n\1/.exec(src);
           if (!match) return;
           return {
             type: "customCodeBlock",
             raw: match[0],
-            lang: match[1],
-            text: match[2]
+            lang: match[2],
+            text: match[3]
           };
         },
         renderer(token) {

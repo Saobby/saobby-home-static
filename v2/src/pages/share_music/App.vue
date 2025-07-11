@@ -1,6 +1,6 @@
 <script setup lang="js">
 import MarkdownInput from '@/components/MarkdownInput.vue';
-import { reactive, watch } from 'vue';
+import { reactive, watch, ref } from 'vue';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import { IconCheck, IconRefresh } from '@tabler/icons-vue';
 import TagSelect from '@/components/TagSelect.vue';
@@ -47,7 +47,7 @@ async function shareMusic(srcType) {
     status.value = 1;
 }
 
-const pollingProgressInterval = null;
+let pollingProgressInterval = null;
 const progress = ref("");
 watch(() => status.value, (newValue) => {
     switch (newValue) {
