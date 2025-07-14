@@ -73,6 +73,7 @@
     updateMusicList();
   }
   function showDetail(musicId) {
+    musicId = parseInt(musicId);
     detailMusicId.value = musicId;
     mode.value = "detail";
     musicDetailUpdateN.value += 1;  // 强制更新音乐详情组件
