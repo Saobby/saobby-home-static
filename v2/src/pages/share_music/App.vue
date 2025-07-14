@@ -4,14 +4,15 @@ import { reactive, watch, ref } from 'vue';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import { IconCheck, IconRefresh } from '@tabler/icons-vue';
 import TagSelect from '@/components/TagSelect.vue';
-import { shareMusicApi, queryProgressApi } from './share_music';
+import { shareMusicApi, queryProgressApi, shareMusicFileApi } from './share_music';
 
-const musicDetails = reactive({  // 除了直接文件上传以外的其他平台
+const musicDetails = reactive({
     0: {url: "", desc: "", tags: []},  // 网易云音乐
+    1: {name: "", src: "", desc: "", tags:[]}  // 文件上传
 });
 const results = reactive({
     0: {msg: "", isLoading: false},
-    1: {msg: "", isLoading: false}
+    1: {msg: "", isLoading: false, uploadProgress: 0}
 });
 const status = ref(0);  // 0:显示表单 1:显示进度
 const musicId = ref(0);
@@ -46,6 +47,43 @@ async function shareMusic(srcType) {
     musicId.value = rsp.data.musicId;
     status.value = 1;
 }
+async function shareMusicFile(){
+    const file = fileInputRef.value.files[0];
+    if (!file) {
+        results[1].msg = "请选择音乐文件";
+        return;
+    }
+    const details = musicDetails[1];
+    if (!details.name) {
+        results[1].msg = "曲名不能为空";
+        return;
+    }
+    if (!details.src) {
+        results[1].msg = "音频来源不能为空";
+        return;
+    }
+    if (details.desc.length > 200) {
+        results[1].msg = "描述/推荐理由不能超过200字";
+        return;
+    }
+    if (details.src.length > 2048) {
+        results[1].msg = "音频来源不能超过2048字";
+        return;
+    }
+    results[1].isLoading = true;
+    const rsp = await shareMusicFileApi(file, details.name, details.src, details.desc, details.tags, (p) => {
+        results[1].uploadProgress = p;
+        results[1].msg = `上传中(${Math.round(p*100)}%)`;
+    });
+    if (rsp.retcode) {
+        results[1].msg = rsp.msg;
+        results[1].isLoading = false;
+        return;
+    }
+    results[1].isLoading = false;
+    musicId.value = rsp.data.musicId;
+    status.value = 1;
+}
 
 let pollingProgressInterval = null;
 const progress = ref("");
@@ -71,7 +109,7 @@ watch(() => status.value, (newValue) => {
             break;
     }
 });
-
+const fileInputRef = ref(null);
 
 </script>
 
@@ -107,17 +145,20 @@ watch(() => status.value, (newValue) => {
                     <div class="wux-tab-content">
                         <hr>
                         <span>请选择音乐文件:</span>
-                        <input class="wux-form-upload" type="file" accept="audio/*">
+                        <input ref="fileInputRef" class="wux-form-upload" type="file" accept="audio/*">
                         <span>曲名(建议包含<b>歌手/作曲家</b>名):</span>
-                        <input type="text" class="wux-form-input wux-form-input-md" placeholder="曲名(建议包含歌手/作曲家名)">
+                        <input v-model="musicDetails[1].name" type="text" class="wux-form-input wux-form-input-md" placeholder="曲名(建议包含歌手/作曲家名)">
                         <span>音频来源(必填,支持markdown,2048字以内):</span>
-                        <markdown-input :rows="5" placeholder="音频来源,必填,2048字以内"></markdown-input>
+                        <markdown-input v-model="musicDetails[1].src" :rows="5" placeholder="音频来源,必填,2048字以内"></markdown-input>
                         <span>描述/推荐理由(选填,支持markdown,200字以内):</span>
-                        <markdown-input :rows="5" placeholder="描述/推荐理由,选填,200字以内"></markdown-input>
+                        <markdown-input v-model="musicDetails[1].desc" :rows="5" placeholder="描述/推荐理由,选填,200字以内"></markdown-input>
                         <hr>
-                        <btn-with-loading :is-loading="results[1].isLoading" btn-class="mc"><icon-check :width="16" :height="16" />分享</btn-with-loading>
+                        <span>音乐标签(选填,最多8个):</span><br>
+                        <tag-select v-model="musicDetails[1].tags"/>
+                        <hr>
+                        <btn-with-loading @click="shareMusicFile" :is-loading="results[1].isLoading" btn-class="mc"><icon-check :width="16" :height="16" />分享</btn-with-loading>
                         <span class="result simple">{{ results[1].msg }}</span>
-                        <progress class="wux-progress" value="0" max="1" hidden></progress>
+                        <progress :hidden="!results[1].isLoading" class="wux-progress" :value="results[1].uploadProgress" max="1"></progress>
                     </div>
                 </div>
             </div>
