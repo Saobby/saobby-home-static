@@ -8,7 +8,7 @@
   import { IconX, IconPlus, IconPlayerPlay } from "@tabler/icons-vue";
   import { Vue3AudioPlayer } from '@codeniu/vue3-audio-player'
   import '@codeniu/vue3-audio-player/dist/vue3-audio-player.css'
-  import { getUrlArgs, setUrlArgs, updateUrlArgs } from "@/assets/js/util.js";
+  import { getUrlArgs, updateUrlArgs } from "@/assets/js/util.js";
   import BtnWithLoading from "@/components/BtnWithLoading.vue";
 
   const sort = ref("0");
@@ -206,7 +206,7 @@
       </div>
       <div :hidden="mode!=='detail'">
         <h2 class="mt">歌曲详情
-          <button type="button" class="wux-btn wux-btn-lg wux-btn-primary wux-btn-text mc right" @click="mode='list';setUrlArgs({});">
+          <button type="button" class="wux-btn wux-btn-lg wux-btn-primary wux-btn-text mc right" @click="mode='list';updateUrlArgs({music_id: undefined, comment_id: undefined});">
             <IconX width="16px" height="16px"/>关闭
           </button>
         </h2>

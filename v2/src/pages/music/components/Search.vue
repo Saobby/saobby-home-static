@@ -1,8 +1,9 @@
 <script setup>
   import {IconSearch} from "@tabler/icons-vue"
-  import {ref, watch} from "vue";
+  import {onMounted, ref, watch} from "vue";
   import BtnWithLoading from "@/components/BtnWithLoading.vue";
   import TagSelect from "@/components/TagSelect.vue";
+  import { updateUrlArgs, getUrlArgs } from "@/assets/js/util";
   const props = defineProps({
     disabled: {type: Boolean, default: false}
   });
@@ -13,7 +14,17 @@
   const includedTags = ref([]);
   const excludedTags = ref([]);
 
+  const args = getUrlArgs();
+
   function search() {
+    const searchParams = {
+      sort: sort.value,
+      order: order.value,
+      keyword: keyword.value,
+      includedTags: JSON.stringify(includedTags.value),
+      excludedTags: JSON.stringify(excludedTags.value),
+    };
+    updateUrlArgs(searchParams);
     emit("search", {
       keyword: keyword.value,
       sort: sort.value,
@@ -24,6 +35,17 @@
   }
   watch([sort, order, includedTags, excludedTags], ()=>{
     search();
+  });
+  onMounted(()=>{
+    try{
+      if (args.sort) sort.value = args.sort;
+      if (args.order) order.value = args.order;
+      if (args.keyword) keyword.value = args.keyword;
+      if (args.includedTags) includedTags.value = JSON.parse(args.includedTags);
+      if (args.excludedTags) excludedTags.value = JSON.parse(args.excludedTags);
+    }catch (e) {
+      console.error("[Search] 搜索 queryString 解析失败", e);
+    }
   });
 </script>
 

@@ -196,9 +196,9 @@ export function getUrlArgs(){
             const arg = args[index];
             if (arg.includes("=")){
                 const kv = arg.split("=");
-                ret[kv[0]] = kv.slice(1).join("=");
+                ret[decodeURIComponent(kv[0])] = decodeURIComponent(kv.slice(1).join("="));
             }else{
-                ret[arg] = null;
+                ret[decodeURIComponent(arg)] = null;
             }
         }
     }
