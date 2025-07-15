@@ -55,3 +55,6 @@ export async function buildPlayList(ids){
         }
     }
 }
+export function jumpToSearchTag(tag){
+    window.location.href=`?includedTags=${encodeURIComponent(JSON.stringify([tag]))}`;
+}
