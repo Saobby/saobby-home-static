@@ -208,11 +208,18 @@ export function setUrlArgs(args){
     const url = window.location.href.split("?")[0];
     const newArgs = [];
     for (let key in args){
+        if (!key){
+            continue;
+        }
         if (args[key] === null || args[key] === undefined){
             newArgs.push(key);
         }else{
             newArgs.push(key + "=" + encodeURIComponent(args[key]));
         }
+    }
+    if (newArgs.length === 0){
+        window.history.pushState({}, '', url);
+        return;
     }
     window.history.pushState({}, '', url + "?" + newArgs.join("&"));
 }
