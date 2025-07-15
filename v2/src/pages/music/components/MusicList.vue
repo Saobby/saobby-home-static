@@ -33,8 +33,7 @@
     <div v-for="music in musicList" style="border-bottom: 2px solid #ddd;padding:12px 16px;">
       <a style="color:#000;" href="javascript:;" @click="emitPlay(music.id)"><b style="font-size: 20px;">{{ music.name }}</b></a>
       <br>
-      <span class="bt"><TagsDisplay @click="jumpToSearchTag" :tags="music.tags"/></span>
-      <br>
+      <span class="bt" :hidden="music.tags.length===0"><TagsDisplay @click="jumpToSearchTag" :tags="music.tags"/><br></span>
       <span class="mc"><IconUser width="16px" height="16px" />{{ music.sharer_name || "匿名用户" }}</span>
       <span class="mc gray lleft"><IconClock width="16px" height="16px"/>{{ ts2str(music.shared_at) }}</span>
       <br>

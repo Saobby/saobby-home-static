@@ -89,9 +89,11 @@ function emitPlay() {
                     <hr>
                     <b class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由</b><br>
                     <MarkdownDisplay :md="musicInfo.desc || '*暂无信息*'" btnClass="wux-btn-sm"></MarkdownDisplay>
-                    <hr>
-                    <b class="mc"><IconTag width="16px" height="16px"/>标签</b><br>
-                    <span class="bt"><TagsDisplay @click="jumpToSearchTag" :tags="musicInfo.tags"/></span>
+                    <div :hidden="musicInfo.tags?.length===0">
+                        <hr>
+                        <b class="mc"><IconTag width="16px" height="16px"/>标签</b><br>
+                        <span class="bt"><TagsDisplay @click="jumpToSearchTag" :tags="musicInfo.tags"/></span>
+                    </div>
                 </div>
             </div>
             <div class="wux-col same-height-box">
