@@ -37,7 +37,7 @@ function addTag(tag) {
         msg.value = "最多只能添加 8 个标签";
         return;
     }
-    tags.value.push(tag);
+    tags.value = [...tags.value, tag];  // 重新创建数组以触发响应式更新
     msg.value = "";
     newTag.value = "";
     showAddWindow.value = false;

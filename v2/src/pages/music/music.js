@@ -1,13 +1,15 @@
 import {fetch_api} from "@/assets/js/util.js";
 const domain = import.meta.env.VITE_API_DOMAIN;
 
-export async function fetchMusicList(sort, order, pageIndex, keyword, pageSize) {
+export async function fetchMusicList(sort, order, pageIndex, keyword, includedTags, excludedTags, pageSize) {
     const payload = {
         sort: parseInt(sort),
         order: parseInt(order),
         pg_index: pageIndex,
         pg_size: pageSize || 16,
-        keyword: keyword
+        keyword: keyword,
+        included_tags: includedTags,
+        excluded_tags: excludedTags
     }
     if (localStorage.getItem("access-token")) {
         payload.access_token = localStorage.getItem("access-token");

@@ -2,6 +2,7 @@
   import {IconSearch} from "@tabler/icons-vue"
   import {ref, watch} from "vue";
   import BtnWithLoading from "@/components/BtnWithLoading.vue";
+  import TagSelect from "@/components/TagSelect.vue";
   const props = defineProps({
     disabled: {type: Boolean, default: false}
   });
@@ -9,15 +10,19 @@
   const keyword = ref("");
   const sort = ref("0");
   const order = ref("0");
+  const includedTags = ref([]);
+  const excludedTags = ref([]);
 
   function search() {
     emit("search", {
       keyword: keyword.value,
       sort: sort.value,
-      order: order.value
+      order: order.value,
+      includedTags: includedTags.value,
+      excludedTags: excludedTags.value
     });
   }
-  watch([sort, order], ()=>{
+  watch([sort, order, includedTags, excludedTags], ()=>{
     search();
   });
 </script>
@@ -35,9 +40,23 @@
     <option value="0" selected>降序</option>
     <option value="1">升序</option>
   </select>
+  <br>
+  <span class="select-tags">
+    <span>包含标签:</span>
+    <TagSelect v-model="includedTags"/>
+  </span>
+  <br>
+  <span class="select-tags">
+    <span>排除标签:</span>
+    <TagSelect v-model="excludedTags"/>
+  </span>
+  <br>
   <slot></slot>
 </template>
 
 <style scoped>
-
+.select-tags {
+  display: inline-block;
+  margin-top: 5px;
+}
 </style>

@@ -14,6 +14,8 @@
   const sort = ref("0");
   const order = ref("0");
   const keyword = ref("");
+  const includedTags = ref([]);
+  const excludedTags = ref([]);
 
   const pageIndex = ref(0);
   const pageAmount = ref(0);
@@ -41,13 +43,15 @@
   const playAllSort = ref(null);
   const playAllOrder = ref(null);
   const playAllKeyword = ref(null);
+  const playAllIncludedTags = ref([]);
+  const playAllExcludedTags = ref([]);
   const playAllPageIndex = ref(null);
   const playAllPageAmount = ref(null);
   const playAllListIndex = ref(null);
 
   async function updateMusicList() {
     uiDisabled.value = true;
-    const rsp = await fetchMusicList(sort.value, order.value, pageIndex.value, keyword.value);
+    const rsp = await fetchMusicList(sort.value, order.value, pageIndex.value, keyword.value, includedTags.value, excludedTags.value);
     if (rsp.retcode){
       result.value = "加载歌曲列表失败: "+rsp.msg;
       musicList.value = [];
@@ -65,6 +69,8 @@
     sort.value = params.sort;
     order.value = params.order;
     keyword.value = params.keyword;
+    includedTags.value = params.includedTags;
+    excludedTags.value = params.excludedTags;
     pageIndex.value = 0; // 重置页码
     updateMusicList();
   }
@@ -98,6 +104,8 @@
     playAllSort.value = sort.value;
     playAllOrder.value = order.value;
     playAllKeyword.value = keyword.value;
+    playAllIncludedTags.value = includedTags.value;
+    playAllExcludedTags.value = excludedTags.value;
     playAllPageIndex.value = -1;
     playAllListIndex.value = 0;
     playAllPageAmount.value = 9999;
@@ -124,7 +132,7 @@
     if (playAllPageIndex.value >= playAllPageAmount.value - 1) {
       return;
     }
-    const rsp = await fetchMusicList(playAllSort.value, playAllOrder.value, playAllPageIndex.value+1, playAllKeyword.value, 10);
+    const rsp = await fetchMusicList(playAllSort.value, playAllOrder.value, playAllPageIndex.value+1, playAllKeyword.value, playAllIncludedTags.value, playAllExcludedTags.value, 10);
     if (rsp.retcode){
       return;
     }
@@ -180,10 +188,10 @@
       <div :hidden="mode!=='list'">
         <h2 class="mt">歌曲列表</h2>
         <Search :disabled="uiDisabled" @search="search">
-          <a href="/share_music"><button type="button" class="wux-btn wux-btn-primary mc simple"><IconPlus width="16px" height="16px" />分享音乐</button></a>
           <BtnWithLoading :isLoading="playAllBtnDisabled" btnClass="wux-btn-primary mc simple" @click="playAll">
             <IconPlayerPlay width="16px" height="16px" />播放全部
           </BtnWithLoading>
+          <a href="/share_music"><button type="button" class="wux-btn wux-btn-primary wux-btn-outline mc simple"><IconPlus width="16px" height="16px" />分享音乐</button></a>
         </Search>
         <hr>
         <div :hidden="status!=='showing'"><MusicList :currentPlayingId="currentPlayingId" :music-list="musicList" @play="playSingle" @update="updateMusicList" @showDetail="showDetail"/></div>
