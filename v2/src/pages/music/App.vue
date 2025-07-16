@@ -123,7 +123,8 @@
   async function setPlayList(ids){
     const rsp = await buildPlayList(ids);
     if (rsp.retcode){
-
+      result.value = "无法获取音频链接:" + rsp.msg;
+      status.value = "onerror";
     }else{
       playList.value = rsp.data;
     }
@@ -134,6 +135,8 @@
     }
     const rsp = await fetchMusicList(playAllSort.value, playAllOrder.value, playAllPageIndex.value+1, playAllKeyword.value, playAllIncludedTags.value, playAllExcludedTags.value, 10);
     if (rsp.retcode){
+      result.value = "无法获取音乐列表:" + rsp.msg;
+      status.value = "onerror";
       return;
     }
     playAllPageIndex.value = rsp.data.pg_index;
@@ -144,6 +147,8 @@
     }
     const rsp2 = await buildPlayList(ids);
     if (rsp2.retcode){
+      result.value = "无法获取音频链接:" + rsp2.msg;
+      status.value = "onerror";
       return;
     }
     playList.value = playList.value.concat(rsp2.data);
