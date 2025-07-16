@@ -34,7 +34,11 @@ marked.use(markedHighlight({
 }));
 marked.use(markedEmoji({
     emojis: emojis,
-    unicode: false
+    unicode: false,
+    renderer(token) {
+        const size = token.name.startsWith('stk_') ? '64px' : '24px';
+        return `<img style="vertical-align:text-bottom;" height="${size}" width="${size}" alt="${token.name}" src="${token.emoji}">`;
+    }
 }));
 marked.use({  // 转义html
     walkTokens(token) {
