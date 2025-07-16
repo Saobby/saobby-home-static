@@ -2,7 +2,7 @@
 import MarkdownInput from '@/components/MarkdownInput.vue';
 import { reactive, watch, ref } from 'vue';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
-import { IconCheck, IconRefresh } from '@tabler/icons-vue';
+import { IconCircleDashedCheck, IconCheck, IconRefresh, IconLink, IconFileDescription, IconTag, IconFile, IconLabel, IconFileDescriptionFilled } from '@tabler/icons-vue';
 import TagSelect from '@/components/TagSelect.vue';
 import { shareMusicApi, queryProgressApi, shareMusicFileApi } from './share_music';
 
@@ -129,12 +129,12 @@ const fileInputRef = ref(null);
                     <label class="wux-tab-item" for="tab-nmusic">网易云音乐</label>
                     <div class="wux-tab-content">
                         <hr>
-                        <span>音乐页面链接:</span>
+                        <span class="mc"><IconLink width="16px" height="16px" />音乐页面链接:</span>
                         <input v-model="musicDetails[0].url" type="text" class="wux-form-input wux-form-input-md" placeholder="音乐页面链接, 例如: https://music.163.com/#/song?id=2708984802">
-                        <span>描述/推荐理由(选填,支持markdown,200字以内):</span>
+                        <span class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由(选填,支持markdown,200字以内):</span>
                         <markdown-input v-model="musicDetails[0].desc" :rows="5" placeholder="描述/推荐理由, 选填, 200字以内"></markdown-input>
                         <hr>
-                        <span>音乐标签(选填,最多8个):</span><br>
+                        <span class="mc"><IconTag width="16px" height="16px"/>音乐标签(选填,最多8个):</span><br>
                         <tag-select v-model="musicDetails[0].tags" />
                         <hr>
                         <btn-with-loading @click="shareMusic(0)" :is-loading="results[0].isLoading" btn-class="mc"><icon-check :width="16" :height="16" />分享</btn-with-loading>
@@ -144,16 +144,16 @@ const fileInputRef = ref(null);
                     <label class="wux-tab-item" for="tab-file">直接上传音频文件</label>
                     <div class="wux-tab-content">
                         <hr>
-                        <span>请选择音乐文件:</span>
+                        <span class="mc"><IconFile width="16px" height="16px"/>请选择音乐文件:</span>
                         <input ref="fileInputRef" class="wux-form-upload" type="file" accept="audio/*">
-                        <span>曲名(建议包含<b>歌手/作曲家</b>名):</span>
+                        <span class="mc"><IconLabel width="16px" height="16px"/>曲名(建议包含<b>歌手/作曲家</b>名):</span>
                         <input v-model="musicDetails[1].name" type="text" class="wux-form-input wux-form-input-md" placeholder="曲名(建议包含歌手/作曲家名)">
-                        <span>音频来源(必填,支持markdown,2048字以内):</span>
-                        <markdown-input v-model="musicDetails[1].src" :rows="5" placeholder="音频来源,必填,2048字以内"></markdown-input>
-                        <span>描述/推荐理由(选填,支持markdown,200字以内):</span>
+                        <span class="mc"><IconFileDescription width="16px" height="16px"/>音频来源(必填,支持markdown,2048字以内):</span>
+                        <markdown-input v-model="musicDetails[1].src" :rows="5" placeholder="音频来源,必填,2048字以内"></markdown-input><br>
+                        <span class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由(选填,支持markdown,200字以内):</span>
                         <markdown-input v-model="musicDetails[1].desc" :rows="5" placeholder="描述/推荐理由,选填,200字以内"></markdown-input>
                         <hr>
-                        <span>音乐标签(选填,最多8个):</span><br>
+                        <span class="mc"><IconTag width="16px" height="16px"/>音乐标签(选填,最多8个):</span><br>
                         <tag-select v-model="musicDetails[1].tags"/>
                         <hr>
                         <btn-with-loading @click="shareMusicFile" :is-loading="results[1].isLoading" btn-class="mc"><icon-check :width="16" :height="16" />分享</btn-with-loading>
@@ -162,11 +162,14 @@ const fileInputRef = ref(null);
                     </div>
                 </div>
             </div>
-            <div :hidden="status !== 1">
-                <h2>提交成功</h2>
+            <div :hidden="status !== 1" class="centered">
+                <h2 class="mc" style="color:#00aa00"><IconCircleDashedCheck width="36px" height="36px" />提交成功</h2>
+                <hr>
                 <span>你的请求<b>已在后台处理</b>,可能需要十几秒。</span><br>
                 <i>如果你已经登录, 处理完成后你将在通知中心看到一条消息。</i><br>
+                <hr>
                 <span>当前状态: <code>{{ progress }}</code></span><br>
+                <hr>
                 <a href="/share_music"><button type="button" class="wux-btn wux-btn-primary mc"><icon-refresh :width="16" :height="16" />再分享一个</button></a>
             </div>
         </div>
