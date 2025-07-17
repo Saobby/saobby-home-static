@@ -2,7 +2,17 @@ import { marked } from "marked";
 import markedKatex from "marked-katex-extension";
 import "katex/dist/katex.min.css";
 import { markedHighlight } from "marked-highlight";
-import hljs from "highlight.js";
+import hljs from "highlight.js/lib/core";
+import python from "highlight.js/lib/languages/python";
+import javascript from "highlight.js/lib/languages/javascript";
+import cpp from "highlight.js/lib/languages/cpp";
+import java from "highlight.js/lib/languages/java";
+import markdown from "highlight.js/lib/languages/markdown";
+import xml from "highlight.js/lib/languages/xml";
+import css from "highlight.js/lib/languages/css";
+import json from "highlight.js/lib/languages/json";
+import shell from "highlight.js/lib/languages/shell";
+import rust from "highlight.js/lib/languages/rust";
 import "highlight.js/styles/github.css";
 import { emojis } from "@/assets/js/emojis.js";
 import { markedEmoji } from "marked-emoji";
@@ -12,6 +22,17 @@ import { codeBlockPlugin } from "@/assets/js/markedCustomExt/moreCodeBlock";
 import { gebi, gebcn, fetch_data } from "@/assets/js/util.js";
 import { tablePlugin } from "@/assets/js/markedCustomExt/moreTable.js";
 import { linkTargetPlugin } from "@/assets/js/markedCustomExt/moreLink.js";
+
+hljs.registerLanguage("python", python);
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("cpp", cpp);
+hljs.registerLanguage("java", java);
+hljs.registerLanguage("markdown", markdown);
+hljs.registerLanguage("xml", xml);
+hljs.registerLanguage("css", css);
+hljs.registerLanguage("json", json);
+hljs.registerLanguage("shell", shell);
+hljs.registerLanguage("rust", rust);
 
 window.desmos_exp = {};
 
