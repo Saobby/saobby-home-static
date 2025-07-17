@@ -1,0 +1,16 @@
+.scpc-element{
+    position:absolute;
+}
+.scpc-pre-like{
+    padding: 8px 12px;
+    font-size: 14px;
+    overflow-wrap: break-word;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+}
+.scpc-simple{
+    margin-left: 3px;
+}
+.scpc-result{
+    color: #aa0000;
+}

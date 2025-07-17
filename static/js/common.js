@@ -61,6 +61,83 @@ function fetch_api(endpoint, payload){
     });
 }
 
+class FormSubmitter {
+    constructor(url, form_data, is_rsp_json, onprogress) {
+        this.url = url;
+        this.form_data = form_data;
+        this.is_rsp_json = is_rsp_json;
+        this.onprogress = onprogress;
+    }
+
+    async send() {
+        return new Promise((resolve) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", this.url, true);
+
+            xhr.upload.onprogress = (event) => {
+                if (this.onprogress && event.lengthComputable) {
+                    this.onprogress(event.loaded / event.total);
+                }
+            };
+
+            xhr.onload = () => {
+                if (this.is_rsp_json){
+                    try{
+                        var rsp = JSON.parse(xhr.responseText);
+                    }catch(err){
+                        resolve({
+                            retcode: -1,
+                            msg: err,
+                            data: null
+                        });
+                    }
+                    let ret = {
+                        retcode: rsp.success?0:-2,
+                        msg: rsp.message,
+                        data: rsp.data
+                    };
+                    for (let key in rsp){
+                        if (!["success", "message"].includes(key) && ret[key] === undefined){
+                            ret[key] = rsp[key];
+                        }
+                    }
+                    resolve(ret);
+                }else{
+                    resolve({
+                        retcode: 0,
+                        data: xhr.responseText,
+                    });
+                }
+            };
+
+            xhr.onerror = () => {
+                resolve({
+                    retcode: -3,
+                    msg: "网络错误",
+                    data: null
+                });
+            };
+
+            xhr.onabort = () => {
+                resolve({
+                    retcode: -4,
+                    msg: "操作被用户取消",
+                    data: null
+                });
+            };
+
+            xhr.send(this.form_data);
+            this.xhr = xhr;
+        });
+    }
+
+    abort() {
+        if (this.xhr) {
+            this.xhr.abort();
+        }
+    }
+}
+
 function is_in(chr, str){
     for (var t in str){
         if (chr === str[t]){
