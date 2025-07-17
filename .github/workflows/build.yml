@@ -42,11 +42,10 @@ jobs:
     - name: "[v2] Place built files"
       working-directory: ./v2
       run: |
-        mv dist v2_
-        mv v2_ ..
+        mv dist/assets/ ..
+        mv dist/src/pages/*/ ..
         cd ..
         rm -rf v2
-        mv v2_ v2
 
     - name: Commit artifacts
       uses: stefanzweifel/git-auto-commit-action@v4
