@@ -1,4 +1,6 @@
 <script setup lang="js">
+// TODO: 完整测试后端
+// TODO: 各种跳转链接，放进环境变量
 import MarkdownInput from '@/components/MarkdownInput.vue';
 import { reactive, watch, ref } from 'vue';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';

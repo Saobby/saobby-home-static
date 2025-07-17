@@ -1,6 +1,8 @@
 // vite.config.js
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import babel from 'vite-plugin-babel'
+import legacy from '@vitejs/plugin-legacy'
 import path from 'path'
 import { glob } from 'glob'
 
@@ -14,11 +16,39 @@ function getPages() {
 }
 
 export default defineConfig({
-    plugins: [vue()],
+    plugins: [
+        vue(),
+        babel({
+            babelConfig: {
+                babelrc: true
+            }
+        }),
+        legacy({
+            targets: [
+                'chrome >= 49',
+                'firefox >= 50', 
+                'safari >= 11',
+                'edge >= 79',
+                'opera >= 36'
+            ],
+            additionalLegacyPolyfills: ['regenerator-runtime/runtime']
+        })
+    ],
     resolve: { alias: { '@': path.resolve(__dirname, 'src') } },
     build: {
         rollupOptions: {
             input: getPages()
+        },
+        minify: 'terser',
+        terserOptions: {
+            compress: {
+                drop_console: true,
+                drop_debugger: true,
+                pure_funcs: ['console.log']
+            },
+            format: {
+                comments: false
+            }
         }
     }
 })
