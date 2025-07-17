@@ -4,3 +4,6 @@ node_modules
 /package.json
 .venv
 v2/node_modules/
+.vscode
+__pycache__
+v2/dist

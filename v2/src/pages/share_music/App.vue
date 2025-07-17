@@ -119,7 +119,7 @@ const fileInputRef = ref(null);
     <div class="wux-container">
         <ul class="wux-breadcrumb">
             <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
-            <li class="wux-breadcrumb-item"><a href="/music">一起听歌</a></li>
+            <li class="wux-breadcrumb-item"><a :href="import.meta.env.VITE_MUSIC_PAGE_URL">一起听歌</a></li>
             <li class="wux-breadcrumb-item">分享音乐</li>
         </ul>
         <div class="wux-typo">
