@@ -113,6 +113,13 @@ watch(() => status.value, (newValue) => {
     }
 });
 const fileInputRef = ref(null);
+function autoFillName(){
+    const file = fileInputRef.value.files[0];
+    if (file) {
+        const name = file.name.replace(/\.[^.]+$/, "");  // 去掉文件扩展名
+        musicDetails[1].name = name;
+    }
+}
 
 </script>
 
@@ -148,7 +155,7 @@ const fileInputRef = ref(null);
                     <div class="wux-tab-content">
                         <hr>
                         <span class="mc"><IconFile width="16px" height="16px"/>请选择音乐文件:</span>
-                        <input ref="fileInputRef" class="wux-form-upload" type="file" accept="audio/*">
+                        <input @change="autoFillName" ref="fileInputRef" class="wux-form-upload" type="file" accept="audio/*">
                         <span class="mc"><IconLabel width="16px" height="16px"/>曲名(建议包含<b>歌手/作曲家</b>名):</span>
                         <input v-model="musicDetails[1].name" type="text" class="wux-form-input wux-form-input-md" placeholder="曲名(建议包含歌手/作曲家名)">
                         <span class="mc"><IconFileDescription width="16px" height="16px"/>音频来源(必填,支持markdown,32768字以内):</span>
