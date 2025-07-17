@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { IconMailCheck, IconPencilCheck, IconClock, IconMessageReply, IconEdit, IconCheck, IconX, IconCornerDownRight } from '@tabler/icons-vue';
+import { IconMailCheck, IconPencilCheck, IconClock, IconMessageReply, IconEdit, IconX, IconCornerDownRight } from '@tabler/icons-vue';
 import { ts2str, check_logged_in } from '@/assets/js/util.js';
 import MarkdownDisplay from './MarkdownDisplay.vue';
 import { reactive, watch } from 'vue';
@@ -56,7 +56,7 @@ function updateComments() {
         <span class="gray">没有任何评论</span>
     </div>
     <div v-for="comment in comments" :style="`position:relative;left:${20 * comment.lvl}px;`">
-        <div :id="`comment-div-${comment.cid}`" style="border-bottom: 2px solid #ddd;padding:12px 0px;">
+        <div :id="`comment-div-${comment.cid}`" style="border-bottom: 2px solid #ddd;padding:12px 0;">
             <img :src="comment.avatar_url" alt="用户头像" width="32px" height="32px">
             <b style="position:relative;top:-17px;left:5px;">{{ comment.nickname || comment.username }}</b>
             <span style="color:#777777;position:relative;top:-17px;left:5px;" class="middle mc">
@@ -80,7 +80,7 @@ function updateComments() {
                 </MarkdownDisplay>
             </div>
             <div :hidden="!uiStatus[comment.cid]?.showEditWindow">
-                <EditCommentInput :cid="comment.cid" :content="comment.content" @commentEdited="updateComments()" rows="5" :placeholder="`编辑 #${comment.cid} 最多 4096 字`" btnClass="wux-btn-sm">
+                <EditCommentInput :cid="comment.cid" :content="comment.content" @commentEdited="updateComments()" :rows="5" :placeholder="`编辑 #${comment.cid} 最多 4096 字`" btnClass="wux-btn-sm">
                     <button @click="uiStatus[comment.cid].showEditWindow=false" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline simple mc" type="button">
                         <IconX width="16px" height="16px" />
                         取消
