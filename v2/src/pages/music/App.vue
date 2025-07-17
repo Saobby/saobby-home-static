@@ -11,6 +11,8 @@
   import { getUrlArgs, updateUrlArgs } from "@/assets/js/util.js";
   import BtnWithLoading from "@/components/BtnWithLoading.vue";
 
+  const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
+
   const sort = ref("0");
   const order = ref("0");
   const keyword = ref("");
@@ -196,7 +198,7 @@
           <BtnWithLoading :isLoading="playAllBtnDisabled" btnClass="wux-btn-primary mc simple" @click="playAll">
             <IconPlayerPlay width="16px" height="16px" />播放全部
           </BtnWithLoading>
-          <a :href="import.meta.env.VITE_SHARE_MUSIC_PAGE_URL"><button type="button" class="wux-btn wux-btn-primary wux-btn-outline mc simple"><IconPlus width="16px" height="16px" />分享音乐</button></a>
+          <a :href="shareMusicPageUrl"><button type="button" class="wux-btn wux-btn-primary wux-btn-outline mc simple"><IconPlus width="16px" height="16px" />分享音乐</button></a>
         </Search>
         <hr>
         <div :hidden="status!=='showing'"><MusicList :currentPlayingId="currentPlayingId" :music-list="musicList" @play="playSingle" @update="updateMusicList" @showDetail="showDetail"/></div>

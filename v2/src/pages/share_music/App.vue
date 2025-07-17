@@ -1,12 +1,13 @@
 <script setup lang="js">
-// TODO: 完整测试后端
-// TODO: 各种跳转链接，放进环境变量
 import MarkdownInput from '@/components/MarkdownInput.vue';
 import { reactive, watch, ref } from 'vue';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import { IconCircleDashedCheck, IconCheck, IconRefresh, IconLink, IconFileDescription, IconTag, IconFile, IconLabel } from '@tabler/icons-vue';
 import TagSelect from '@/components/TagSelect.vue';
 import { shareMusicApi, queryProgressApi, shareMusicFileApi } from './share_music';
+
+const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
+const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
 
 const musicDetails = reactive({
     0: {url: "", desc: "", tags: []},  // 网易云音乐
@@ -119,7 +120,7 @@ const fileInputRef = ref(null);
     <div class="wux-container">
         <ul class="wux-breadcrumb">
             <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
-            <li class="wux-breadcrumb-item"><a :href="import.meta.env.VITE_MUSIC_PAGE_URL">一起听歌</a></li>
+            <li class="wux-breadcrumb-item"><a :href="musicPageUrl">一起听歌</a></li>
             <li class="wux-breadcrumb-item">分享音乐</li>
         </ul>
         <div class="wux-typo">
@@ -172,7 +173,7 @@ const fileInputRef = ref(null);
                 <hr>
                 <span>当前状态: <code>{{ progress }}</code></span><br>
                 <hr>
-                <a :href="import.meta.env.VITE_SHARE_MUSIC_PAGE_URL"><button type="button" class="wux-btn wux-btn-primary mc"><icon-refresh :width="16" :height="16" />再分享一个</button></a>
+                <a :href="shareMusicPageUrl"><button type="button" class="wux-btn wux-btn-primary mc"><icon-refresh :width="16" :height="16" />再分享一个</button></a>
             </div>
         </div>
     </div>
