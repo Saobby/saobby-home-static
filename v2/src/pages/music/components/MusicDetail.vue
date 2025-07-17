@@ -2,18 +2,20 @@
 import { reactive, ref, watch } from 'vue';
 import { fetch_api, ts2str } from '@/assets/js/util.js';
 import MarkdownDisplay from '@/components/MarkdownDisplay.vue';
-import { IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
+import { IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
 import CommentsSection from '@/components/CommentsSection.vue';
 import LikeMusicBtn from './LikeMusicBtn.vue';
 import TagsDisplay from '@/components/TagsDisplay.vue';
 import { jumpToSearchTag } from '../music.js';
+import BtnWithLoading from '@/components/BtnWithLoading.vue';
+import { deleteMusicApi } from '../music.js';
 
 const props = defineProps({
     musicId: { type: Number },
     updateN: {},
     currentPlayingId: { type: Number, default: -1 }
 });
-const emit = defineEmits(['play', 'update']);
+const emit = defineEmits(['play', 'update', 'close']);
 
 const musicInfo = reactive({});
 const status = ref("loading");
@@ -36,7 +38,13 @@ async function getMusicInfo(){
     }else{
         status.value = "showing";
         result.value = "";
-        Object.assign(musicInfo, rsp.data.urls[0]);
+        const data = rsp.data.urls[0];
+        if (!data){
+            status.value = "onerror";
+            result.value = "你要访问的音乐不存在";
+            return;
+        }
+        Object.assign(musicInfo, data);
         showCover.value = false;
     }
 }
@@ -55,6 +63,22 @@ function emitUpdate() {
 }
 function emitPlay() {
     emit("play", musicInfo.id);
+}
+
+const delBtnLoading = ref(false);
+async function deleteMusic() {
+    delBtnLoading.value = true;
+    const rsp = await deleteMusicApi(musicInfo.id);
+    if (rsp.retcode){
+        delBtnLoading.value = false;
+        status.value = "onerror";
+        result.value = "音乐删除失败:"+rsp.msg;
+        return;
+    }else{
+        delBtnLoading.value = false;
+        emitUpdate();
+        emit("close");
+    }
 }
 
 </script>
@@ -88,6 +112,9 @@ function emitPlay() {
                     <h3>{{ musicInfo.name }}</h3>
                     <button :disabled="currentPlayingId===musicId" @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>{{ currentPlayingId===musicId?"正在播放":"播放" }}</button>
                     <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
+                    <BtnWithLoading v-if="musicInfo.can_delete" @click="deleteMusic" btnClass="wux-btn-outline sep mc" :isLoading="delBtnLoading">
+                        <IconTrash width="24px" height="24px"/>删除
+                    </BtnWithLoading>
                     <hr>
                     <b class="mc"><IconVinyl width="16px" height="16px"/>来源</b><br>
                     <MarkdownDisplay :md="musicInfo.src || '*暂无信息*'" btnClass="wux-btn-sm"></MarkdownDisplay>

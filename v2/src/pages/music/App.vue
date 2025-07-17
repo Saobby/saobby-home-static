@@ -182,6 +182,10 @@
     }
     callback(true);
   }
+  function closeMusicDetail(){
+    mode.value = 'list';
+    updateUrlArgs({music_id: undefined, comment_id: undefined});
+  }
   
 </script>
 
@@ -213,11 +217,11 @@
       </div>
       <div :hidden="mode!=='detail'">
         <h2 class="mt">歌曲详情
-          <button type="button" class="wux-btn wux-btn-lg wux-btn-primary wux-btn-text mc right" @click="mode='list';updateUrlArgs({music_id: undefined, comment_id: undefined});">
+          <button type="button" class="wux-btn wux-btn-lg wux-btn-primary wux-btn-text mc right" @click="closeMusicDetail">
             <IconX width="16px" height="16px"/>关闭
           </button>
         </h2>
-        <MusicDetail :currentPlayingId="currentPlayingId" :update-n="musicDetailUpdateN" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList"/>
+        <MusicDetail :currentPlayingId="currentPlayingId" :update-n="musicDetailUpdateN" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList" @close="closeMusicDetail"/>
       </div>
       <div class="fixed-bottom">
         <Vue3AudioPlayer 

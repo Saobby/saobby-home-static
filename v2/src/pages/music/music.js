@@ -58,3 +58,10 @@ export async function buildPlayList(ids){
 export function jumpToSearchTag(tag){
     window.location.href=`?includedTags=${encodeURIComponent(JSON.stringify([tag]))}`;
 }
+export function deleteMusicApi(id) {
+    const payload = {
+        music_id: id,
+        access_token: localStorage.getItem("access-token")
+    }
+    return fetch_api(domain + "/api/delete_music", payload);
+}
