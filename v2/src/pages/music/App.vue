@@ -196,7 +196,7 @@
           <BtnWithLoading :isLoading="playAllBtnDisabled" btnClass="wux-btn-primary mc simple" @click="playAll">
             <IconPlayerPlay width="16px" height="16px" />播放全部
           </BtnWithLoading>
-          <a href="/share_music"><button type="button" class="wux-btn wux-btn-primary wux-btn-outline mc simple"><IconPlus width="16px" height="16px" />分享音乐</button></a>
+          <a :href="import.meta.env.VITE_SHARE_MUSIC_PAGE_URL"><button type="button" class="wux-btn wux-btn-primary wux-btn-outline mc simple"><IconPlus width="16px" height="16px" />分享音乐</button></a>
         </Search>
         <hr>
         <div :hidden="status!=='showing'"><MusicList :currentPlayingId="currentPlayingId" :music-list="musicList" @play="playSingle" @update="updateMusicList" @showDetail="showDetail"/></div>

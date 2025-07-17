@@ -4,7 +4,7 @@
 import MarkdownInput from '@/components/MarkdownInput.vue';
 import { reactive, watch, ref } from 'vue';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
-import { IconCircleDashedCheck, IconCheck, IconRefresh, IconLink, IconFileDescription, IconTag, IconFile, IconLabel, IconFileDescriptionFilled } from '@tabler/icons-vue';
+import { IconCircleDashedCheck, IconCheck, IconRefresh, IconLink, IconFileDescription, IconTag, IconFile, IconLabel } from '@tabler/icons-vue';
 import TagSelect from '@/components/TagSelect.vue';
 import { shareMusicApi, queryProgressApi, shareMusicFileApi } from './share_music';
 
@@ -102,7 +102,7 @@ watch(() => status.value, (newValue) => {
                 const rsp = await queryProgressApi(musicId.value);
                 progress.value = rsp.msg;
                 if (rsp.status === 0){
-                    window.location.href = `/music?music_id=${musicId.value}`;
+                    window.location.href = `${import.meta.env.VITE_MUSIC_PAGE_URL}?music_id=${musicId.value}`;
                     clearInterval(pollingProgressInterval);
                 }else if (rsp.status === 2){
                     clearInterval(pollingProgressInterval);
@@ -172,7 +172,7 @@ const fileInputRef = ref(null);
                 <hr>
                 <span>当前状态: <code>{{ progress }}</code></span><br>
                 <hr>
-                <a href="/share_music"><button type="button" class="wux-btn wux-btn-primary mc"><icon-refresh :width="16" :height="16" />再分享一个</button></a>
+                <a :href="import.meta.env.VITE_SHARE_MUSIC_PAGE_URL"><button type="button" class="wux-btn wux-btn-primary mc"><icon-refresh :width="16" :height="16" />再分享一个</button></a>
             </div>
         </div>
     </div>
