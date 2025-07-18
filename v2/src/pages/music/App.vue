@@ -2,7 +2,7 @@
   import Search from "./components/Search.vue"
   import MusicList from "./components/MusicList.vue"
   import PaginationButtons from "@/components/PaginationButtons.vue"
-  import {computed, nextTick, onMounted, ref} from "vue";
+  import {computed, nextTick, onMounted, onUnmounted, ref} from "vue";
   import {fetchMusicList, buildPlayList} from "./music.js";
   import MusicDetail from "./components/MusicDetail.vue";
   import { IconX, IconPlus, IconPlayerPlay } from "@tabler/icons-vue";
@@ -88,11 +88,27 @@
     updateUrlArgs({ music_id: musicId});
   }
   updateMusicList();
-  onMounted(() => {
+  function checkShowingDetail(){
     const urlArgs = getUrlArgs();
     if (urlArgs.music_id) {
       showDetail(urlArgs.music_id);
+      return true;
     }
+    return false;
+  }
+  onMounted(() => {
+    checkShowingDetail();
+    // 用户点浏览器前进/后退按钮引起url改变时更新页面状态
+    const handlePopState = (e) => {
+      const s = checkShowingDetail();
+      if (!s) {
+        closeMusicDetail();
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    onUnmounted(() => {
+      window.removeEventListener('popstate', handlePopState);
+    });
   });
   async function playSingle(id){
     playMode.value = "single";
