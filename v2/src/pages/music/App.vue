@@ -116,6 +116,12 @@
 
     playMode.value = "all";
     await expandPlayList();
+    if (playList.value.length === 0) {
+      result.value = "无法播放,因为播放列表是空的";
+      status.value = "onerror";
+      playAllBtnDisabled.value = false;
+      return;
+    }
     playerKey.value += 1; // 重新挂载播放器,重置播放列表index
     await nextTick();
     playAllBtnDisabled.value = false;
@@ -177,6 +183,7 @@
   }
   async function befPlay(callback) {
     if (playList.value.length === 0) {
+      playAll();
       callback(false);
       return;
     }
