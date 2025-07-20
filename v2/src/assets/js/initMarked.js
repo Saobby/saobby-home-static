@@ -13,6 +13,7 @@ import css from "highlight.js/lib/languages/css";
 import json from "highlight.js/lib/languages/json";
 import shell from "highlight.js/lib/languages/shell";
 import rust from "highlight.js/lib/languages/rust";
+import plaintext from "highlight.js/lib/languages/plaintext";
 import "highlight.js/styles/github.css";
 import { emojis } from "@/assets/js/emojis.js";
 import { markedEmoji } from "marked-emoji";
@@ -33,6 +34,7 @@ hljs.registerLanguage("css", css);
 hljs.registerLanguage("json", json);
 hljs.registerLanguage("shell", shell);
 hljs.registerLanguage("rust", rust);
+hljs.registerLanguage("plaintext", plaintext);
 
 window.desmos_exp = {};
 
