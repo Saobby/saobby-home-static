@@ -80,6 +80,10 @@
     }
     .same-height-box div {
         flex: 1 !important;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        min-width: 0;
     }
 }
 .bottom-line{
