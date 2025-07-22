@@ -95,14 +95,14 @@ async function deleteMusic() {
         <div class="wux-row-md-3 same-height-container">
             <div class="wux-col same-height-box">
                 <div>
-                    <div :hidden="!musicInfo.cover_url">
+                    <div :hidden="!musicInfo.cover_url" style="text-align: center;">
                         <div class="centered" :hidden="showCover">
                             <span class="wux-loading"></span><br>
                             <span>音乐封面加载中</span>
                         </div>
-                        <img :hidden="!showCover" @load="showCover=true;" :src="musicInfo.cover_url" alt="音乐封面" width="100%">
+                        <img class="cover-img" :hidden="!showCover" @load="showCover=true;" :src="musicInfo.cover_url" alt="音乐封面" width="100%">
                     </div>
-                    <div :hidden="musicInfo.cover_url" style="color:#777">
+                    <div class="no-cover-div" :hidden="musicInfo.cover_url" style="color:#777">
                         <IconMusic :stroke="1" width="100%" height="100%" />
                     </div>
                 </div>
@@ -148,3 +148,13 @@ async function deleteMusic() {
     </div>
     
 </template>
+<style scoped>
+@media (max-width: 1023px){
+    .no-cover-div {
+        display: none;
+    }
+}
+.cover-img{
+    max-width: 405px;
+}
+</style>
