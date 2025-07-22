@@ -2,7 +2,7 @@
 import { reactive, ref, watch } from 'vue';
 import { fetch_api, ts2str } from '@/assets/js/util.js';
 import MarkdownDisplay from '@/components/MarkdownDisplay.vue';
-import { IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
+import { IconDownload, IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
 import CommentsSection from '@/components/CommentsSection.vue';
 import LikeMusicBtn from './LikeMusicBtn.vue';
 import TagsDisplay from '@/components/TagsDisplay.vue';
@@ -112,6 +112,7 @@ async function deleteMusic() {
                     <h3>{{ musicInfo.name }}</h3>
                     <button :disabled="currentPlayingId===musicId" @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>{{ currentPlayingId===musicId?"正在播放":"播放" }}</button>
                     <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
+                    <a :href="musicInfo.audio_url" :download="musicInfo.name+'.mp3'"><button type="button" class="wux-btn mc wux-btn-outline sep"><IconDownload width="24px" height="24px"/>下载</button></a>
                     <BtnWithLoading v-if="musicInfo.can_delete" @click="deleteMusic" btnClass="wux-btn-outline sep mc" :isLoading="delBtnLoading">
                         <IconTrash width="24px" height="24px"/>删除
                     </BtnWithLoading>
