@@ -61,13 +61,17 @@ async function shareMusicFile(){
         results[1].msg = "暂不支持上传MIDI文件";
         return;
     }
-    if (file.size > 1024 * 1024 * 16) {
-        results[1].msg = "音乐文件允许的最大尺寸是16MB";
+    if (file.size > 1024 * 1024 * 64) {
+        results[1].msg = "音乐文件允许的最大尺寸是64MB";
         return;
     }
     const details = musicDetails[1];
     if (!details.name) {
         results[1].msg = "曲名不能为空";
+        return;
+    }
+    if (details.name.length > 64) {
+        results[1].msg = "曲名不能超过64字";
         return;
     }
     if (!details.src) {
