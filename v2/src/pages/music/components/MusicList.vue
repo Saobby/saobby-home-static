@@ -38,7 +38,7 @@
       <span class="mc"><IconUser width="16px" height="16px" />{{ music.sharer_name || "匿名用户" }}</span>
       <span class="mc gray lleft"><IconClock width="16px" height="16px"/>{{ ts2str(music.shared_at) }}</span>
       <br>
-      <button :disabled="music.id===currentPlayingId" @click="emitPlay(music.id)" type="button" :class="music.id!==currentPlayingId?'wux-btn wux-btn-round icon-btn2 mc':'wux-btn wux-btn-error wux-btn-round icon-btn2 mc'"><IconPlayerPlay width="24px" height="24px"/></button>
+      <button @click="emitPlay(music.id)" type="button" :class="music.id!==currentPlayingId?'wux-btn wux-btn-round icon-btn2 mc':'wux-btn wux-btn-error wux-btn-round icon-btn2 mc'"><IconPlayerPlay width="24px" height="24px"/></button>
       <LikeMusicBtn v-model:likes="music.likes" v-model:liked="music.liked" :music-id="music.id" btn-class="wux-btn-round wux-btn-text icon-btn2 sep"/>
       <button type="button" class="wux-btn wux-btn-round wux-btn-text icon-btn2 mc sep" @click="emit('showDetail', music.id)">
         <IconInfoCircle stroke="1.5px" width="24px" height="24px"/>详情
