@@ -9,35 +9,39 @@
   });
   const emit = defineEmits(["changePage"]);
   const indexes = computed(() => {
-    let ret = [];
-    ret.push({index: 0, show: "1"});
-    let index = props.pageIndex - (props.btnAmount - 1) / 2;
-    if (index < 1) {
-      index = 1;
-    }else{
-      ret[0].show = "«";
+    let from = props.pageIndex - Math.floor(props.btnAmount / 2);
+    let to = props.pageIndex + Math.floor(props.btnAmount / 2);
+    if (from < 0){
+      to += -from;
+      from = 0;
+    }else if (to >= props.pageAmount){
+      from -= (to - props.pageAmount + 1);
+      to = props.pageAmount - 1;
     }
-    for (let i = 0; i < props.btnAmount-2; i++) {
-      if (index >= props.pageAmount-1){
-        break;
+    if (from < 0){
+      from = 0;
+    }
+    if (to >= props.pageAmount){
+      to = props.pageAmount - 1;
+    }
+    let result = [];
+    for (let i = from; i <= to; i++) {
+      if (i === from && i !== 0){
+        result.push({index: 0, display: "«"});
+      }else if (i === to && i !== props.pageAmount - 1){
+        result.push({index: props.pageAmount - 1, display: "»"});
+      }else{
+        result.push({index: i, display: (i + 1).toString()});
       }
-        ret.push({index: index, show: (index+1).toString()});
-      index++;
     }
-    if (props.pageAmount >= 2){
-      ret.push({index: props.pageAmount-1, show: (props.pageAmount).toString()});
-      if (ret[ret.length-1].index !== ret[ret.length-2].index + 1){
-        ret[ret.length-1].show = "»";
-      }
-    }
-    return ret;
+    return result;
   });
 </script>
 
 <template>
   <div class="wux-btn-group">
     <button v-for="item in indexes" :class="item.index==pageIndex?'wux-btn':'wux-btn wux-btn-outline'" @click="emit('changePage', item.index)" :disabled="disabled">
-      {{ item.show }}
+      {{ item.display }}
     </button>
   </div>
   <span class="simple">第{{ pageIndex+1 }}/{{ pageAmount }}页</span>
