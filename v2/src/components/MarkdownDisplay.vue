@@ -6,7 +6,8 @@ const props = defineProps({
     show: {type: Boolean, default: true},
     showBtn: {type: Boolean, default: true},
     md: {type: String },
-    btnClass: {type: String, default: ''}
+    btnClass: {type: String, default: ''},
+    divClass: {type: String, default: ''}
 })
 const showMd = ref(false);
 const html = computed(() => {
@@ -16,8 +17,8 @@ const html = computed(() => {
 </script>
 <template>
     <div :hidden="!show">
-        <div class="pre-like-code" :hidden="!showMd">{{ md }}</div>
-        <div :hidden="showMd" v-html="html"></div>
+        <div :class="'pre-like-code '+divClass" :hidden="!showMd">{{ md }}</div>
+        <div :class="divClass" :hidden="showMd" v-html="html"></div>
         <slot />
         <button @click="showMd=true" v-if="!showMd" :hidden="!showBtn" :class="'wux-btn wux-btn-primary wux-btn-outline mc simple '+btnClass" type="button">
             <IconMarkdown width="16px" height="16px" />

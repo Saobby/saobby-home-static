@@ -18,6 +18,10 @@ const props = defineProps({
         type: String, 
         default: ""
     },
+    inputClass: {
+        type: String, 
+        default: ""
+    },
     modelValue: {
         type: String,
         default: ''
@@ -62,8 +66,8 @@ function emitInputContent() {
 
 </script>
 <template>
-    <textarea @focusout="emitInputContent" @input="emitInputContent" ref="textareaRef" :rows="rows" :placeholder="fullPlaceholder" class="wux-form-input wux-form-input-md" :hidden="showPreview" v-model="content"></textarea>
-    <div class="pre-like wux-typo" :hidden="!showPreview" v-html="html"></div>
+    <textarea @focusout="emitInputContent" @input="emitInputContent" ref="textareaRef" :rows="rows" :placeholder="fullPlaceholder" :class="'wux-form-input wux-form-input-md '+inputClass" :hidden="showPreview" v-model="content"></textarea>
+    <div :class="inputClass" class="pre-like wux-typo" :hidden="!showPreview" v-html="html"></div>
     <button :class="'wux-btn wux-btn-primary wux-btn-outline mc '+btnClass" type="button" v-if="!showPreview" @click="showPreview = true; renderHtml()">
         <IconEye width="16px" height="16px" />
         预览
