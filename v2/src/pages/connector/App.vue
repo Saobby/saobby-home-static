@@ -297,19 +297,39 @@ async function publishMessage() {
 </template>
 <style scoped>
 :deep(.broadcast-input) {
-    height: calc(100vh - 230px) !important;
+    @media (min-width: 1024px){
+        height: calc(100vh - 230px) !important;
+    }
+    @media (max-width: 1023px){
+        max-height: calc(100vh - 230px) !important;
+    }
     overflow-y: auto;
 }
 :deep(.broadcast-display) {
-    height: calc(100vh - 220px);
+    @media (min-width: 1024px){
+        height: calc(100vh - 220px) !important;
+    }
+    @media (max-width: 1023px){
+        max-height: calc(100vh - 220px) !important;
+    }
     overflow-y: auto;
 }
 :deep(.msg-box-receiver) {
-    height: calc(100vh - 230px);
+    @media (min-width: 1024px){
+        height: calc(100vh - 320px) !important;
+    }
+    @media (max-width: 1023px){
+        max-height: calc(100vh - 320px) !important;
+    }
     overflow-y: auto;
 }
 :deep(.msg-box-sender) {
-    height: calc(100vh - 320px);
+    @media (min-width: 1024px){
+        height: calc(100vh - 320px) !important;
+    }
+    @media (max-width: 1023px){
+        max-height: calc(100vh - 320px) !important;
+    }
     overflow-y: auto;
 }
 .qrcode-img{
