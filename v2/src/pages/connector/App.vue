@@ -7,6 +7,7 @@ import MarkdownInput from "@/components/MarkdownInput.vue";
 import { getUrlArgs, updateUrlArgs } from "@/assets/js/util.js";
 import MessagesDisplay from "./components/MessagesDisplay.vue";
 import MarkdownDisplay from "@/components/MarkdownDisplay.vue";
+import QRCode from "qrcode";
 
 const mode = ref(0);  // 0：欢迎界面 1: 接收者界面 2: 发送者界面 3: 加载界面 4: 发送者输入频道号
 
@@ -32,8 +33,26 @@ const channelId = ref("");
 const secret = ref("");
 
 const error = ref("");
+const qrCodeDataUrl = ref("");
 
 let interval = null;
+
+async function generateQRCode() {
+    try {
+        const url = `${import.meta.env.VITE_CONNECTOR_BASE_URL}${channelId.value}`;
+        const dataUrl = await QRCode.toDataURL(url, {
+            width: 256,
+            margin: 0,
+            color: {
+                dark: '#000',
+                light: '#fff'
+            }
+        });
+        qrCodeDataUrl.value = dataUrl;
+    } catch (error) {
+        console.error('无法生成频道二维码:', error);
+    }
+}
 
 async function init(){
     const args = getUrlArgs();
@@ -54,6 +73,7 @@ async function init(){
         }else{
             mode.value = 2;
         }
+        generateQRCode();
     }else{
         mode.value = 0;
     }
@@ -83,6 +103,7 @@ async function createChannel() {
     channelId.value = rsp.data.channel_id;
     secret.value = rsp.data.secret;
     updateUrlArgs({ channel_id: channelId.value, secret: secret.value });
+    generateQRCode();
 }
 async function publishBroadcast() {
     if (!broadcastContent.value){
@@ -132,6 +153,7 @@ async function joinChannel() {
     broadcastContent.value = rsp.data.broadcast;
     mode.value = 2;
     updateUrlArgs({ channel_id: channelId.value });
+    generateQRCode();
 }
 async function publishMessage() {
     if (!messageContent.value) {
@@ -209,6 +231,10 @@ async function publishMessage() {
                             <h2>加入频道</h2>
                             <span>频道号:</span><br>
                             <span style="font-size:45px;line-height: 45px;">{{ channelId.slice(0, 3)+" "+channelId.slice(3, 6) }}</span>
+                            <div v-if="qrCodeDataUrl" class="mt">
+                                <img class="qrcode-img" :src="qrCodeDataUrl" title="扫码加入频道" alt="扫码加入频道"/><br>
+                                <span class="gray">手机扫码加入频道</span>
+                            </div>
                         </div>
                     </div>
                     <div class="wux-col same-height-box">
@@ -238,6 +264,10 @@ async function publishMessage() {
                             <h2>加入频道</h2>
                             <span>频道号:</span><br>
                             <span style="font-size:45px;line-height: 45px;">{{ channelId.slice(0, 3)+" "+channelId.slice(3, 6) }}</span>
+                            <div v-if="qrCodeDataUrl" class="mt">
+                                <img class="qrcode-img" :src="qrCodeDataUrl" title="扫码加入频道" alt="扫码加入频道"/><br>
+                                <span class="gray">手机扫码加入频道</span>
+                            </div>
                         </div>
                     </div>
                     <div class="wux-col same-height-box">
@@ -281,5 +311,8 @@ async function publishMessage() {
 :deep(.msg-box-sender) {
     height: calc(100vh - 320px);
     overflow-y: auto;
+}
+.qrcode-img{
+    max-width: 256px;
 }
 </style>
