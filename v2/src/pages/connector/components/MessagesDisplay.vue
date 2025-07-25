@@ -4,15 +4,21 @@ const props = defineProps({
   messages: {
     type: Array,
     default: () => []
+  },
+  boxClass: {
+    type: String,
+    default: ''
   }
 });
 </script>
 <template>
+  <div :class="boxClass">
     <div v-for="msg in messages" class="msg-div">
-        <MarkdownDisplay :md="msg" btnClass="wux-btn-sm"></MarkdownDisplay>
+      <MarkdownDisplay :md="msg" btnClass="wux-btn-sm"></MarkdownDisplay>
     </div>
     <i v-if="messages.length === 0" class="gray">暂无消息</i>
     <hr v-if="messages.length === 0">
+  </div>
 </template>
 <style scoped>
 .msg-div {

@@ -214,7 +214,7 @@ async function publishMessage() {
                     <div class="wux-col same-height-box">
                         <div>
                             <h2>发布广播</h2>
-                            <MarkdownInput v-model="broadcastContent" placeholder="请输入广播内容,最多32768字">
+                            <MarkdownInput input-class="broadcast-input" :rows="5" v-model="broadcastContent" placeholder="请输入广播内容,最多32768字">
                                 <BtnWithLoading @click="publishBroadcast" btn-class="mc simple" :isLoading="broadcastBtnDisabled">
                                     <IconCheck width="16px" height="16px" />保存
                                 </BtnWithLoading>
@@ -225,7 +225,7 @@ async function publishMessage() {
                     <div class="wux-col same-height-box">
                         <div>
                             <h2>收到的消息</h2>
-                            <MessagesDisplay :messages="receivedContent" />
+                            <MessagesDisplay boxClass="msg-box-receiver" :messages="receivedContent" />
                         </div>
                     </div>
                 </div>
@@ -243,15 +243,15 @@ async function publishMessage() {
                     <div class="wux-col same-height-box">
                         <div>
                             <h2>广播内容</h2>
-                            <MarkdownDisplay :md="broadcastContent || '*暂无内容*'" btnClass="wux-btn-sm"></MarkdownDisplay>
+                            <MarkdownDisplay div-class="broadcast-display" :md="broadcastContent || '*暂无内容*'" btnClass="wux-btn-sm"></MarkdownDisplay>
                         </div>
                     </div>
                     <div class="wux-col same-height-box">
                         <div>
                             <h2>已发送的消息</h2>
-                            <MessagesDisplay :messages="receivedContent" />
+                            <MessagesDisplay boxClass="msg-box-sender" :messages="receivedContent" />
                             <div style="margin-top: 3px;">
-                                <MarkdownInput v-model="messageContent" placeholder="请输入要发送的消息,最多32768字">
+                                <MarkdownInput :rows="5" v-model="messageContent" placeholder="请输入要发送的消息,最多32768字">
                                     <BtnWithLoading @click="publishMessage" :is-loading="messageBtnDisabled" btn-class="mc simple">
                                         <IconCheck width="16px" height="16px" />发送
                                     </BtnWithLoading>
@@ -266,4 +266,20 @@ async function publishMessage() {
     </div>
 </template>
 <style scoped>
+:deep(.broadcast-input) {
+    height: calc(100vh - 230px) !important;
+    overflow-y: auto;
+}
+:deep(.broadcast-display) {
+    height: calc(100vh - 220px);
+    overflow-y: auto;
+}
+:deep(.msg-box-receiver) {
+    height: calc(100vh - 230px);
+    overflow-y: auto;
+}
+:deep(.msg-box-sender) {
+    height: calc(100vh - 320px);
+    overflow-y: auto;
+}
 </style>
