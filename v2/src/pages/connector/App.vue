@@ -7,7 +7,7 @@ import MarkdownInput from "@/components/MarkdownInput.vue";
 import { getUrlArgs, updateUrlArgs } from "@/assets/js/util.js";
 import MessagesDisplay from "./components/MessagesDisplay.vue";
 import MarkdownDisplay from "@/components/MarkdownDisplay.vue";
-import QRCode from "qrcode";
+import { toDataURL } from "qrcode";
 
 const mode = ref(0);  // 0：欢迎界面 1: 接收者界面 2: 发送者界面 3: 加载界面 4: 发送者输入频道号
 
@@ -40,7 +40,7 @@ let interval = null;
 async function generateQRCode() {
     try {
         const url = `${import.meta.env.VITE_CONNECTOR_BASE_URL}${channelId.value}`;
-        const dataUrl = await QRCode.toDataURL(url, {
+        const dataUrl = await toDataURL(url, {
             width: 256,
             margin: 0,
             color: {
