@@ -2,13 +2,13 @@
 import { reactive, ref, watch } from 'vue';
 import { fetch_api, ts2str } from '@/assets/js/util.js';
 import MarkdownDisplay from '@/components/MarkdownDisplay.vue';
-import { IconDownload, IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
+import { IconX, IconCheck, IconPencil, IconDownload, IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
 import CommentsSection from '@/components/CommentsSection.vue';
 import LikeMusicBtn from './LikeMusicBtn.vue';
 import TagsDisplay from '@/components/TagsDisplay.vue';
 import { jumpToSearchTag } from '../music.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
-import { deleteMusicApi } from '../music.js';
+import { deleteMusicApi, editMusicApi } from '../music.js';
 
 const props = defineProps({
     musicId: { type: Number },
@@ -46,6 +46,10 @@ async function getMusicInfo(){
         }
         Object.assign(musicInfo, data);
         showCover.value = false;
+        editContent.value[0] = musicInfo.name;
+        editContent.value[1] = musicInfo.src || "";
+        editContent.value[2] = musicInfo.desc || "";
+        editContent.value[3] = musicInfo.tags;
     }
 }
 
@@ -80,6 +84,32 @@ async function deleteMusic() {
         emit("close");
     }
 }
+const showEditInput = ref([false, false, false, false]);
+const editContent = ref(["", "", "", []]);
+const editIsLoading = ref([false, false, false, false]);
+const editResults = ref(["", "", "", ""]);
+async function editMusic(field){
+    const fieldNames = ["name", "src", "desc", "tags"];
+    if (editContent.value[field] === musicInfo[fieldNames[field]]){
+        editResults.value[field] = "你没有修改任何东西";
+        return;
+    }
+    if (field === 0 || field === 1){
+        if (editContent.value[field].length === 0){
+            editResults.value[field] = "内容不能为空";
+            return;
+        }
+    }
+    editIsLoading.value[field] = true;
+    const rsp = await editMusicApi(musicInfo.id, field, editContent.value[field]);
+    if (rsp.retcode){
+        editResults.value[field] = rsp.msg;
+    }else{
+        musicInfo[fieldNames[field]] = editContent.value[field];
+        showEditInput.value[field] = false;
+    }
+    editIsLoading.value[field] = false;
+}
 
 </script>
 <template>
@@ -109,7 +139,12 @@ async function deleteMusic() {
             </div>
             <div class="wux-col same-height-box">
                 <div>
-                    <h3>{{ musicInfo.name }}</h3>
+                    <h3 :hidden="showEditInput[0]">{{ musicInfo.name }}<button @click="showEditInput[0] = true;" :hidden="!musicInfo.can_edit || showEditInput[0]" type="button" class="wux-btn wux-btn-text wux-btn-sm icon-btn"><IconPencil width="24px" height="24px" /></button></h3>
+                    <input style="width: calc(100% - 90px);display:inline-block;" :hidden="!showEditInput[0]" class="wux-form-input" v-model="editContent[0]"></input>
+                    <button :hidden="!showEditInput[0]" @click="showEditInput[0] = false;" type="button" class="wux-btn wux-btn-outline icon-btn2 simple"><IconX width="24px" height="24px" /></button>
+                    <BtnWithLoading @click="editMusic(0)" :isLoading="editIsLoading[0]" :hidden="!showEditInput[0]" btnClass="wux-btn icon-btn2 simple"><IconCheck width="24px" height="24px" /></BtnWithLoading>
+                    <span class="result" :hidden="!showEditInput[0]" v-html="editResults[0]"></span>
+                    <br :hidden="!showEditInput[0]">
                     <button @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>{{ currentPlayingId===musicId?"正在播放":"播放" }}</button>
                     <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
                     <a :href="musicInfo.audio_url" :download="musicInfo.name+'.mp3'"><button type="button" class="wux-btn mc wux-btn-outline sep"><IconDownload width="24px" height="24px"/>下载</button></a>

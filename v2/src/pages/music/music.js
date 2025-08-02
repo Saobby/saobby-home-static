@@ -24,6 +24,15 @@ export async function likeMusic(id, like) {
     }
     return await fetch_api(domain + "/api/like_music", payload);
 }
+export async function editMusicApi(id, field, content){
+    const payload = {
+        music_id: id,
+        field: field,
+        content: content,
+        access_token: localStorage.getItem("access-token")
+    }
+    return await fetch_api(domain + "/api/edit_music", payload);
+}
 export async function buildPlayList(ids){
     const payload = {
         music_ids: ids
