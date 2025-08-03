@@ -64,7 +64,9 @@ watch (() => showAddWindow.value, (newValue) => {
 });
 </script>
 <template>
-    <TagsDisplay :tags="tags" @delete="tag => tags = tags.filter(t => t !== tag)" :showDelete="true" />
+    <span class="bt">
+        <TagsDisplay :tags="tags" @delete="tag => tags = tags.filter(t => t !== tag)" :showDelete="true" />
+    </span>
     <div class="wrapper">
         <button ref="plusBtnRef" @click="showAddWindow=true" :hidden="showAddWindow" type="button" class="wux-btn wux-btn-round mc icon-btn2 simple"><IconPlus :width="16" :height="16" /></button>
         <div ref="addWindowRef" :hidden="!showAddWindow" class="pre-like add-window">

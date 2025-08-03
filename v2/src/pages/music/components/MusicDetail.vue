@@ -10,6 +10,7 @@ import { jumpToSearchTag } from '../music.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import { deleteMusicApi, editMusicApi } from '../music.js';
 import MarkdownEdit from '@/components/MarkdownEdit.vue';
+import TagEdit from '@/components/TagEdit.vue';
 
 const props = defineProps({
     musicId: { type: Number },
@@ -85,10 +86,10 @@ async function deleteMusic() {
         emit("close");
     }
 }
-const showEditInput = ref([false, null, null, false]);
-const editContent = ref(["", null, null, []]);
-const editIsLoading = ref([false, null, null, false]);
-const editResults = ref(["", null, null, ""]);
+const showEditInput = ref([false, null, null, null]);
+const editContent = ref(["", null, null, null]);
+const editIsLoading = ref([false, null, null, null]);
+const editResults = ref(["", null, null, null]);
 async function editMusic(field){
     const fieldNames = ["name", "src", "desc", "tags"];
     if (editContent.value[field] === musicInfo[fieldNames[field]]){
@@ -126,7 +127,12 @@ async function editDesc(newDesc){
     }
     return await editMusicApi(musicInfo.id, 2, newDesc);
 }
-
+async function editTags(newTags){
+    if (JSON.stringify(newTags) === JSON.stringify(musicInfo.tags)){
+        return {retcode: 100, msg: "你没有修改任何东西"};
+    }
+    return await editMusicApi(musicInfo.id, 3, newTags);
+}
 </script>
 <template>
     <div :hidden="status!=='loading'" class="centered">
@@ -173,11 +179,9 @@ async function editDesc(newDesc){
                     <hr>
                     <b class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由</b><br>
                     <MarkdownEdit :edit="editDesc" :can-edit="musicInfo.can_edit" v-model="musicInfo.desc" display-default="*暂无信息*" btn-class="wux-btn-sm" placeholder="编辑描述/推荐理由, 200 字以内"></MarkdownEdit>
-                    <div :hidden="musicInfo.tags?.length===0">
-                        <hr>
-                        <b class="mc"><IconTag width="16px" height="16px"/>标签</b><br>
-                        <span class="bt"><TagsDisplay @click="jumpToSearchTag" :tags="musicInfo.tags"/></span>
-                    </div>
+                    <hr>
+                    <b class="mc"><IconTag width="16px" height="16px"/>标签</b><br>
+                    <span class="bt"><TagEdit @edited="emitUpdate" :edit="editTags" :can-edit="musicInfo.can_edit" v-model="musicInfo.tags" :clickTag="jumpToSearchTag" default-display="没有任何标签"/></span>
                 </div>
             </div>
             <div class="wux-col same-height-box">

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import MarkdownDisplay from './MarkdownDisplay.vue';
 import MarkdownInput from './MarkdownInput.vue';
 import BtnWithLoading from './BtnWithLoading.vue';
@@ -15,7 +15,7 @@ const props = defineProps({
     modelValue: { type: String, default: '' },
     displayDefault: { type: String, default: '' }
 });
-const emits = defineEmits(['update:modelValue']);
+const emits = defineEmits(['update:modelValue', "edited"]);
 const content = ref(props.modelValue);
 watch(() => props.modelValue, (newVal) => {
     content.value = newVal;
@@ -38,6 +38,7 @@ async function edit_(){
         result.value = "";
         content.value = editContent.value;
         showEdit.value = false;
+        emits("edited", editContent.value);
     }
     isLoading.value = false;
 }
