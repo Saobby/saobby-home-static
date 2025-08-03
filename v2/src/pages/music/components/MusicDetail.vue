@@ -11,6 +11,7 @@ import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import { deleteMusicApi, editMusicApi } from '../music.js';
 import MarkdownEdit from '@/components/MarkdownEdit.vue';
 import TagEdit from '@/components/TagEdit.vue';
+import TitleEdit from '@/components/TitleEdit.vue';
 
 const props = defineProps({
     musicId: { type: Number },
@@ -86,31 +87,14 @@ async function deleteMusic() {
         emit("close");
     }
 }
-const showEditInput = ref([false, null, null, null]);
-const editContent = ref(["", null, null, null]);
-const editIsLoading = ref([false, null, null, null]);
-const editResults = ref(["", null, null, null]);
-async function editMusic(field){
-    const fieldNames = ["name", "src", "desc", "tags"];
-    if (editContent.value[field] === musicInfo[fieldNames[field]]){
-        editResults.value[field] = "你没有修改任何东西";
-        return;
+async function editName(newName){
+    if (newName === musicInfo.name){
+        return {retcode: 100, msg: "你没有修改任何东西"};
     }
-    if (field === 0 || field === 1){
-        if (editContent.value[field].length === 0){
-            editResults.value[field] = "内容不能为空";
-            return;
-        }
+    if (!newName){
+        return {retcode: 101, msg: "内容不能为空"};
     }
-    editIsLoading.value[field] = true;
-    const rsp = await editMusicApi(musicInfo.id, field, editContent.value[field]);
-    if (rsp.retcode){
-        editResults.value[field] = rsp.msg;
-    }else{
-        musicInfo[fieldNames[field]] = editContent.value[field];
-        showEditInput.value[field] = false;
-    }
-    editIsLoading.value[field] = false;
+    return await editMusicApi(musicInfo.id, 0, newName);
 }
 async function editSrc(newSrc){
     if (newSrc === musicInfo.src){
@@ -161,12 +145,7 @@ async function editTags(newTags){
             </div>
             <div class="wux-col same-height-box">
                 <div>
-                    <h3 :hidden="showEditInput[0]">{{ musicInfo.name }}<button @click="showEditInput[0] = true;" :hidden="!musicInfo.can_edit || showEditInput[0]" type="button" class="wux-btn wux-btn-text wux-btn-sm icon-btn"><IconPencil width="24px" height="24px" /></button></h3>
-                    <input style="width: calc(100% - 90px);display:inline-block;" :hidden="!showEditInput[0]" class="wux-form-input" v-model="editContent[0]"></input>
-                    <button :hidden="!showEditInput[0]" @click="showEditInput[0] = false;" type="button" class="wux-btn wux-btn-outline icon-btn2 simple"><IconX width="24px" height="24px" /></button>
-                    <BtnWithLoading @click="editMusic(0)" :isLoading="editIsLoading[0]" :hidden="!showEditInput[0]" btnClass="wux-btn icon-btn2 simple"><IconCheck width="24px" height="24px" /></BtnWithLoading>
-                    <span class="result" :hidden="!showEditInput[0]" v-html="editResults[0]"></span>
-                    <br :hidden="!showEditInput[0]">
+                    <TitleEdit :can-edit="musicInfo.can_edit" :edit="editName" v-model="musicInfo.name"></TitleEdit>
                     <button @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>{{ currentPlayingId===musicId?"正在播放":"播放" }}</button>
                     <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
                     <a :href="musicInfo.audio_url" :download="musicInfo.name+'.mp3'"><button type="button" class="wux-btn mc wux-btn-outline sep"><IconDownload width="24px" height="24px"/>下载</button></a>
