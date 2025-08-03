@@ -64,23 +64,29 @@ watch (() => showAddWindow.value, (newValue) => {
 });
 </script>
 <template>
-    <span class="bt">
-        <TagsDisplay :tags="tags" @delete="tag => tags = tags.filter(t => t !== tag)" :showDelete="true" />
-    </span>
-    <div class="wrapper">
-        <button ref="plusBtnRef" @click="showAddWindow=true" :hidden="showAddWindow" type="button" class="wux-btn wux-btn-round mc icon-btn2 simple"><IconPlus :width="16" :height="16" /></button>
-        <div ref="addWindowRef" :hidden="!showAddWindow" class="pre-like add-window">
-            <input v-model="newTag" class="wux-form-input wux-form-input-md add-input" type="text" placeholder="输入标签,最多16字" @keyup.enter="addTag(newTag)">
-            <button @click="addTag(newTag)" type="button" class="wux-btn wux-btn-primary simple mc add-btn"><IconCheck :width="20" :height="20" /></button>
-            <TagsDisplay tag-class="music-tag" @click="addTag" :tags="choices" :showDelete="false"/>
-            <span class="result">{{ msg }}</span>
+    <div class="tag-select-container">
+        <div class="bt">
+            <TagsDisplay :tags="tags" @delete="tag => tags = tags.filter(t => t !== tag)" :showDelete="true" />
+        </div>
+        <div class="wrapper">
+            <button ref="plusBtnRef" @click="showAddWindow=true" :hidden="showAddWindow" type="button" class="wux-btn wux-btn-round mc icon-btn2 simple"><IconPlus :width="16" :height="16" /></button>
+            <slot />
+            <div ref="addWindowRef" :hidden="!showAddWindow" class="pre-like add-window">
+                <input v-model="newTag" class="wux-form-input wux-form-input-md add-input" type="text" placeholder="输入标签,最多16字" @keyup.enter="addTag(newTag)">
+                <button @click="addTag(newTag)" type="button" class="wux-btn wux-btn-primary simple mc add-btn"><IconCheck :width="20" :height="20" /></button>
+                <TagsDisplay tag-class="music-tag" @click="addTag" :tags="choices" :showDelete="false"/>
+                <span class="result">{{ msg }}</span>
+            </div>
         </div>
     </div>
 </template>
 <style scoped>
+.tag-select-container {
+    display: inline-block;
+}
 .add-window {
     position: absolute;
-    width: 200px;
+    width: 220px;
     max-height: 160px;
     background: white;
     border: 2px solid #ccc;
@@ -89,7 +95,7 @@ watch (() => showAddWindow.value, (newValue) => {
     z-index: 1000;
 }
 .add-input {
-    width: calc(100% - 45px);
+    width: calc(100% - 50px);
     display: inline-block;
 }
 .add-btn {

@@ -43,20 +43,35 @@ async function edit_(){
 }
 </script>
 <template>
-    <span class="bt" :hidden="showEdit">
-        <TagsDisplay :tags="tags" :show-delete="false" :tag-class="tagClass" :display-default="defaultDisplay" @click="clickTag"></TagsDisplay>
-    </span>
-    <button @click="showEdit = true" v-if="canEdit" :hidden="showEdit" :class="'wux-btn wux-btn-text icon-btn '+btnClass" type="button">
-        <IconPencil width="24px" height="24px" />
-    </button>
-    <span :hidden="!showEdit">
-        <TagSelect v-model="editTags" :choices="choices" />
-        <button @click="showEdit = false" :class="'wux-btn wux-btn-round wux-btn-outline simple mc icon-btn2 ' + btnClass" type="button">
-            <IconX width="16px" height="16px" />
+    <div class="tag-edit-container">
+        <div class="bt" :hidden="showEdit">
+            <TagsDisplay :tags="tags" :show-delete="false" :tag-class="tagClass" :display-default="defaultDisplay" @click="clickTag"></TagsDisplay>
+        </div>
+        <button @click="showEdit = true" v-if="canEdit" :hidden="showEdit" :class="'wux-btn wux-btn-text icon-btn '+btnClass" type="button">
+            <IconPencil width="24px" height="24px" />
         </button>
-        <BtnWithLoading :btn-class="'wux-btn-round simple mc icon-btn2 ' + btnClass" :loading="isLoading" @click="edit_">
-            <IconCheck width="15px" height="16px" />
-        </BtnWithLoading>
-        <span class="result simple" v-html="result"></span>
-    </span>
+        <div :hidden="!showEdit" class="edit-controls">
+            <TagSelect v-model="editTags" :choices="choices">
+                <button @click="showEdit = false" :class="'wux-btn wux-btn-round wux-btn-outline simple mc icon-btn2 ' + btnClass" type="button">
+                    <IconX width="16px" height="16px" />
+                </button>
+                <BtnWithLoading :btn-class="'wux-btn-round simple mc icon-btn2 ' + btnClass" :is-loading="isLoading" @click="edit_">
+                    <IconCheck width="15px" height="16px" />
+                </BtnWithLoading>
+                <span class="result simple" v-html="result"></span>
+            </TagSelect>
+        </div>
+    </div>
 </template>
+<style scoped>
+.tag-edit-container {
+    display: inline-block;
+    width: 100%;
+}
+.edit-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+}
+</style>
