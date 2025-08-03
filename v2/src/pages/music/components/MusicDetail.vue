@@ -9,6 +9,7 @@ import TagsDisplay from '@/components/TagsDisplay.vue';
 import { jumpToSearchTag } from '../music.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import { deleteMusicApi, editMusicApi } from '../music.js';
+import MarkdownEdit from '@/components/MarkdownEdit.vue';
 
 const props = defineProps({
     musicId: { type: Number },
@@ -84,10 +85,10 @@ async function deleteMusic() {
         emit("close");
     }
 }
-const showEditInput = ref([false, false, false, false]);
-const editContent = ref(["", "", "", []]);
-const editIsLoading = ref([false, false, false, false]);
-const editResults = ref(["", "", "", ""]);
+const showEditInput = ref([false, null, null, false]);
+const editContent = ref(["", null, null, []]);
+const editIsLoading = ref([false, null, null, false]);
+const editResults = ref(["", null, null, ""]);
 async function editMusic(field){
     const fieldNames = ["name", "src", "desc", "tags"];
     if (editContent.value[field] === musicInfo[fieldNames[field]]){
@@ -109,6 +110,21 @@ async function editMusic(field){
         showEditInput.value[field] = false;
     }
     editIsLoading.value[field] = false;
+}
+async function editSrc(newSrc){
+    if (newSrc === musicInfo.src){
+        return {retcode: 100, msg: "你没有修改任何东西"};
+    }
+    if (!newSrc){
+        return {retcode: 101, msg: "内容不能为空"};
+    }
+    return await editMusicApi(musicInfo.id, 1, newSrc);
+}
+async function editDesc(newDesc){
+    if (newDesc === musicInfo.desc){
+        return {retcode: 100, msg: "你没有修改任何东西"};
+    }
+    return await editMusicApi(musicInfo.id, 2, newDesc);
 }
 
 </script>
@@ -153,10 +169,10 @@ async function editMusic(field){
                     </BtnWithLoading>
                     <hr>
                     <b class="mc"><IconVinyl width="16px" height="16px"/>来源</b><br>
-                    <MarkdownDisplay :md="musicInfo.src || '*暂无信息*'" btnClass="wux-btn-sm"></MarkdownDisplay>
+                    <MarkdownEdit :edit="editSrc" :can-edit="musicInfo.can_edit" v-model="musicInfo.src" display-default="*暂无信息*" btn-class="wux-btn-sm" placeholder="编辑来源, 32768 字以内"></MarkdownEdit>
                     <hr>
                     <b class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由</b><br>
-                    <MarkdownDisplay :md="musicInfo.desc || '*暂无信息*'" btnClass="wux-btn-sm"></MarkdownDisplay>
+                    <MarkdownEdit :edit="editDesc" :can-edit="musicInfo.can_edit" v-model="musicInfo.desc" display-default="*暂无信息*" btn-class="wux-btn-sm" placeholder="编辑描述/推荐理由, 200 字以内"></MarkdownEdit>
                     <div :hidden="musicInfo.tags?.length===0">
                         <hr>
                         <b class="mc"><IconTag width="16px" height="16px"/>标签</b><br>
