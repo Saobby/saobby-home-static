@@ -47,10 +47,6 @@ async function getMusicInfo(){
         }
         Object.assign(musicInfo, data);
         showCover.value = false;
-        editContent.value[0] = musicInfo.name;
-        editContent.value[1] = musicInfo.src || "";
-        editContent.value[2] = musicInfo.desc || "";
-        editContent.value[3] = musicInfo.tags;
     }
 }
 
