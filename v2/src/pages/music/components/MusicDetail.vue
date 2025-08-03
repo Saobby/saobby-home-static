@@ -1,11 +1,9 @@
 <script setup lang="js">
 import { reactive, ref, watch } from 'vue';
 import { fetch_api, ts2str } from '@/assets/js/util.js';
-import MarkdownDisplay from '@/components/MarkdownDisplay.vue';
-import { IconX, IconCheck, IconPencil, IconDownload, IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
+import { IconDownload, IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
 import CommentsSection from '@/components/CommentsSection.vue';
 import LikeMusicBtn from './LikeMusicBtn.vue';
-import TagsDisplay from '@/components/TagsDisplay.vue';
 import { jumpToSearchTag } from '../music.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import { deleteMusicApi, editMusicApi } from '../music.js';
