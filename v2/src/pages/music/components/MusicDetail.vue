@@ -143,7 +143,7 @@ async function editTags(newTags){
             </div>
             <div class="wux-col same-height-box">
                 <div>
-                    <TitleEdit :can-edit="musicInfo.can_edit" :edit="editName" v-model="musicInfo.name"></TitleEdit>
+                    <TitleEdit @edited="emitUpdate" :can-edit="musicInfo.can_edit" :edit="editName" v-model="musicInfo.name"></TitleEdit>
                     <button @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>{{ currentPlayingId===musicId?"正在播放":"播放" }}</button>
                     <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
                     <a :href="musicInfo.audio_url" :download="musicInfo.name+'.mp3'"><button type="button" class="wux-btn mc wux-btn-outline sep"><IconDownload width="24px" height="24px"/>下载</button></a>
