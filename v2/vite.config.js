@@ -44,7 +44,19 @@ export default defineConfig({
             compress: {
                 drop_console: true,
                 drop_debugger: true,
-                pure_funcs: ['console.log']
+                pure_funcs: ['console.log'],
+                unsafe: true,
+                unsafe_comps: true,
+                unsafe_math: false,
+                unsafe_Function: false,
+                unsafe_proto: false,
+                unsafe_regexp: true
+            },
+            mangle: {
+                toplevel: true,
+                eval: true,
+                keep_fnames: false,
+                reserved: []
             },
             format: {
                 comments: false
