@@ -234,3 +234,9 @@ export function updateUrlArgs(args){
     }
     setUrlArgs(oldArgs);
 }
+export function is_in_array(e, t) {
+    for (var n = 0; n < e.length; n++)
+        if (e[n] === t)
+            return true;
+    return false
+}
