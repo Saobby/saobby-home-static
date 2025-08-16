@@ -46,6 +46,12 @@ export default defineConfig({
                 drop_debugger: true,
                 pure_funcs: ['console.log']
             },
+            mangle: {
+                toplevel: true,
+                eval: true,
+                keep_fnames: false,
+                reserved: []
+            },
             format: {
                 comments: false
             }

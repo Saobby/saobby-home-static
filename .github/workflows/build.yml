@@ -46,6 +46,7 @@ jobs:
         mv dist/src/pages/*/ ..
         cd ..
         rm -rf v2
+        mv home/index.html .
 
     - name: Commit artifacts
       uses: stefanzweifel/git-auto-commit-action@v4

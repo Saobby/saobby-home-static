@@ -129,3 +129,9 @@
     margin-top: 4px;
     margin-bottom: 4px;
 }
+.mc2 svg{
+    vertical-align: middle;
+}
+.mc2 span{
+    vertical-align: middle;
+}

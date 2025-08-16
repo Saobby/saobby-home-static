@@ -5,7 +5,8 @@ import { computed, watch, ref, nextTick } from 'vue';
 import CommentsList from './CommentsList.vue';
 import AddCommentInput from './AddCommentInput.vue';
 const props = defineProps({
-    placeId: {type: Number}
+    placeId: {type: Number},
+    showAddCommentWindow: {type: Boolean, default: true}
 });
 const pageIndex = ref(0);
 const pageAmount = ref(1);
@@ -25,6 +26,9 @@ async function updateComments(){
     if (urlArgs.comment_id){
         payload.scroll_to = urlArgs.comment_id;
     }
+    if (urlArgs.scroll_to){
+        payload.scroll_to = urlArgs.scroll_to;
+    }
     uiDisabled.value = true;
     const rsp = await fetch_api(import.meta.env.VITE_API_DOMAIN+"/api/get_comment", payload);
     if (rsp.retcode){
@@ -38,11 +42,15 @@ async function updateComments(){
         pageIndex.value = rsp.comment_data.page_index-1;
     }
     uiDisabled.value = false;
-    if (urlArgs.comment_id){
+    if (payload.scroll_to){
         await nextTick();
-        const commentDiv = gebi(`comment-div-${urlArgs.comment_id}`);
+        const commentDiv = gebi(`comment-div-${payload.scroll_to}`);
         if (commentDiv) {
-            commentDiv.scrollIntoView();
+            setTimeout(() => {
+                commentDiv.scrollIntoView({
+                    behavior: "smooth"
+                });
+            }, 100);
         }
     }
 }
@@ -69,10 +77,14 @@ watch(() => props.placeId, () => {
     }
 });
 const loadDraftN = ref(0);
+defineExpose({updateComments});
 
 </script>
 <template>
-    <AddCommentInput :load-draft-n="loadDraftN" :placeId="props.placeId" placeholder="请输入评论内容, 最多 4096 字" @commentAdded="pageIndex=0;updateComments()"/>
+    <div :hidden="!showAddCommentWindow">
+        <AddCommentInput :load-draft-n="loadDraftN" :placeId="props.placeId" placeholder="请输入评论内容, 最多 4096 字" @commentAdded="pageIndex=0;updateComments()"/>
+    </div>
+    <slot></slot>
     <div :hidden="status!=='showing'">
         <CommentsList @updateComments="updateComments()" :placeId="placeId" :comments="parsedComments"/>
     </div>
