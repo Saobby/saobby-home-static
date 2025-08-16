@@ -25,7 +25,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
-    "@babel/preset-env": "^7.28.0",
+    "@babel/plugin-transform-unicode-property-regex": "^7.27.1",
+    "@babel/preset-env": "^7.28.3",
     "@vitejs/plugin-legacy": "^6.0.1",
     "@vitejs/plugin-vue": "^5.2.3",
     "glob": "^11.0.2",
