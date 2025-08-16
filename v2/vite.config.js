@@ -1,10 +1,10 @@
-// vite.config.js
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import babel from 'vite-plugin-babel'
 import legacy from '@vitejs/plugin-legacy'
 import path from 'path'
 import { glob } from 'glob'
+import babelRollup from '@rollup/plugin-babel'
 
 function getPages() {
     const entries = {}
@@ -38,7 +38,19 @@ export default defineConfig({
     resolve: { alias: { '@': path.resolve(__dirname, 'src') } },
     build: {
         rollupOptions: {
-            input: getPages()
+            input: getPages(),
+            plugins: [
+                babelRollup({
+                    include: ['node_modules/**', 'src/**/*'],
+                    babelHelpers: 'bundled',
+                    extensions: ['.js', '.mjs', '.cjs', '.jsx', '.ts', '.tsx', '.vue'],
+                    babelrc: false,
+                    configFile: false,
+                    plugins: [
+                        ['@babel/plugin-transform-unicode-property-regex', { useUnicodeFlag: false }]
+                    ]
+                })
+            ]
         },
         minify: 'terser',
         terserOptions: {
