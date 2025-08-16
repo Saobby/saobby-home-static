@@ -38,7 +38,7 @@ function insertEmoji(emojiName) {
                 </span>
             </div>
         </div>
-        <div style="height:calc(100% - 130px);overflow-y:auto;line-height:40px;margin-top:10px;margin-bottom:10px;">
+        <div style="height:calc(100% - 130px);overflow-y:auto;line-height:40px;margin-top:10px;margin-bottom:10px;" :key="selectedPack">
             <span v-for="emoji in emotions[selectedPack].emojis">
                 <a href="javascript:;" style="padding:8px;" v-if="emoji.type === 1" @click="insertEmoji(emoji.name);show=!show;">
                     <img height="64px" :alt="emoji.name" :src="emoji.url" :title="emoji.name">
