@@ -240,3 +240,18 @@ export function is_in_array(e, t) {
             return true;
     return false
 }
+export function get_element_abs_pos_center(el) {
+    if (!el) return null;
+
+    const rect = el.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2 + window.scrollX;
+    const centerY = rect.top + rect.height / 2 + window.scrollY;
+
+    return { x: centerX, y: centerY };
+}
+export function gen_randint(a, b) {
+    return Math.floor(Math.random() * (b - a + 1)) + a;
+}
+export function gen_continuous_random(a, b){
+    return Math.random() * (b - a) + a;
+}

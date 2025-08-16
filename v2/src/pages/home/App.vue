@@ -4,6 +4,7 @@ import CommentsSection from '@/components/CommentsSection.vue';
 import { onMounted, ref } from 'vue';
 import { is_in_array, getUrlArgs, fetch_api } from '@/assets/js/util';
 import BirthdayNotice from './components/BirthdayNotice.vue';
+import CheckInBox from './components/CheckInBox.vue';
 const domain = import.meta.env.VITE_API_DOMAIN;
 
 const commentPlaceId = ref(114514);
@@ -141,31 +142,7 @@ onMounted(async () => {
                 <div class="wux-card wux-card-flat">
                     <div class="wux-card-body">
                         <h2 class="mc2"><IconClover width="32px" height="32px"/><span>签到</span></h2>
-                        <div class="centered">
-                            <div hidden>
-                                <img src="@/assets/image/particle/tera.webp">
-                                <img src="@/assets/image/particle/cat.webp">
-                                <img src="@/assets/image/particle/giga.webp">
-                                <img src="@/assets/image/particle/gobo.webp">
-                                <img src="@/assets/image/particle/nano.webp">
-                                <img src="@/assets/image/particle/pico.webp">
-                            </div>
-                            <div id="loading-div">
-                                <span class="wux-loading"></span><br>
-                                <span class="result" id="check-in-loading-result"></span>
-                            </div>
-                            <div id="show-date-div" hidden>
-                                <span style="font-size: 20px">今天是</span><br>
-                                <span style="color: #4050b4; font-size: 48px;" id="date">--/--</span><br>
-                                <button class="wux-btn wux-btn-primary mc2" type="button" onclick="check_in().then();" id="check-in-btn"><IconClover width="16px" height="16px"/><span>签到</span></button><br>
-                                <span class="result" id="check-in-result"></span>
-                            </div>
-                            <div id="show-fortune-div" hidden>
-                                <span style="font-size: 20px">今日运势</span><br>
-                                <span style="color: #f59632; font-size: 48px;" id="fortune"></span><br>
-                                <span>你已连续签到<b id="check-in-combo"></b>天</span>
-                            </div>
-                        </div>
+                        <CheckInBox />
                     </div>
                 </div>
             </div>
