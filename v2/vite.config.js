@@ -31,7 +31,8 @@ export default defineConfig({
                 'edge >= 79',
                 'opera >= 36'
             ],
-            additionalLegacyPolyfills: ['regenerator-runtime/runtime']
+            additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
+            modernPolyfills: true
         })
     ],
     resolve: { alias: { '@': path.resolve(__dirname, 'src') } },
