@@ -40,6 +40,7 @@ async function updateComments(){
         comments.value = rsp.data;
         pageAmount.value = rsp.comment_data.page_amount;
         pageIndex.value = rsp.comment_data.page_index-1;
+        updateCommentsListN.value += 1;  // 重新挂载评论列表组件
     }
     uiDisabled.value = false;
     if (payload.scroll_to){
@@ -78,6 +79,7 @@ watch(() => props.placeId, () => {
 });
 const loadDraftN = ref(0);
 defineExpose({updateComments});
+const updateCommentsListN = ref(0);
 
 </script>
 <template>
@@ -86,7 +88,7 @@ defineExpose({updateComments});
     </div>
     <slot></slot>
     <div :hidden="status!=='showing'" style="width: 100%; overflow: auto;">
-        <CommentsList @updateComments="updateComments()" :placeId="placeId" :comments="parsedComments"/>
+        <CommentsList :key="updateCommentsListN" @updateComments="updateComments()" :placeId="placeId" :comments="parsedComments"/>
     </div>
     <div :hidden="status!=='loading'" class="centered">
         <span class="wux-loading" /><br>
