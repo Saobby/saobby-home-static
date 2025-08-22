@@ -85,7 +85,7 @@ defineExpose({updateComments});
         <AddCommentInput :load-draft-n="loadDraftN" :placeId="props.placeId" placeholder="请输入评论内容, 最多 4096 字" @commentAdded="pageIndex=0;updateComments()"/>
     </div>
     <slot></slot>
-    <div :hidden="status!=='showing'">
+    <div :hidden="status!=='showing'" style="width: 100%; overflow: auto;">
         <CommentsList @updateComments="updateComments()" :placeId="placeId" :comments="parsedComments"/>
     </div>
     <div :hidden="status!=='loading'" class="centered">
