@@ -2,7 +2,7 @@
 import { IconMailCheck, IconPencilCheck, IconClock, IconMessageReply, IconEdit, IconX, IconCornerDownRight } from '@tabler/icons-vue';
 import { ts2str, check_logged_in } from '@/assets/js/util.js';
 import MarkdownDisplay from './MarkdownDisplay.vue';
-import { reactive, watch } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 import EditCommentInput from './EditCommentInput.vue';
 import AddCommentInput from './AddCommentInput.vue';
 const props = defineProps({
@@ -34,15 +34,21 @@ comments: [
 const emits = defineEmits(["updateComments"]);
 
 const uiStatus = reactive({});
-watch(()=>props.comments, (lst)=>{
+function initUiStatus(comments) {
     uiStatus.value = {};
-    for (const comment of lst) {
+    for (const comment of comments) {
         uiStatus[comment.cid] = {
             showReplyWindow: false,
             showEditWindow: false,
             loadDraftN: 0
         };
     }
+}
+watch(()=>props.comments, (lst)=>{
+    initUiStatus(lst);
+});
+onMounted(()=>{
+    initUiStatus(props.comments);
 });
 
 function updateComments() {
