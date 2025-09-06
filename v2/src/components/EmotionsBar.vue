@@ -33,15 +33,6 @@ function onTabWheel(e) {
   el.scrollLeft += delta;
 }
 
-watch(show, (value) => {
-  if (value) {
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-  }
-});
 </script>
 <template>
     <button @click="show=!show" :class="'wux-btn wux-btn-warning wux-btn-text icon-btn simple '+btnClass"><IconMoodHappy width="24px" height="24px"/></button>
