@@ -1,7 +1,8 @@
 <script setup lang="js">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { IconMoodHappy, IconX } from '@tabler/icons-vue';
 import { insertIntoTextarea } from '@/assets/js/util.js';
+import PopupBackdrop from "@/components/PopupBackdrop.vue";
 const props = defineProps({
     emotions: { type: Array },
     inputRef: { type: Object },
@@ -24,11 +25,29 @@ function insertEmoji(emojiName) {
     insertIntoTextarea(textarea, `:${emojiName}:`);
 }
 
+const tabRef = ref(null);
+function onTabWheel(e) {
+  const el = tabRef.value;
+  if (!el) return;
+  const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+  el.scrollLeft += delta;
+}
+
+watch(show, (value) => {
+  if (value) {
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
+});
 </script>
 <template>
     <button @click="show=!show" :class="'wux-btn wux-btn-warning wux-btn-text icon-btn simple '+btnClass"><IconMoodHappy width="24px" height="24px"/></button>
+    <PopupBackdrop v-if="show" class="emoji-backdrop" @click="show=false" @wheel.prevent @touchmove.prevent></PopupBackdrop>
     <div style="position:fixed;top:calc(50vh - 175px);left:calc(50vw - 175px);width:350px;height:350px;background:#ffffff;z-index: 9999;" class="pre-like" v-if="show">
-        <div style="width:100%;height:65px;overflow-y:hidden;overflow-x:auto;" class="wux-tab">
+        <div style="width:100%;height:65px;overflow-y:hidden;overflow-x:auto;" class="wux-tab" ref="tabRef" @wheel.prevent="onTabWheel">
             <div style="white-space:nowrap;">
                 <span v-for="pack in emotions">
                     <input class="wux-tab-item" type="radio" :name="name" :checked="selectedPack===pack.index" :id="name+'-'+pack.index" @click="selectedPack=pack.index"/>
