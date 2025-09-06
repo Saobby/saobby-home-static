@@ -17,8 +17,8 @@ const html = computed(() => {
 </script>
 <template>
     <div :hidden="!show">
-        <div :class="'pre-like-code '+divClass" :hidden="!showMd">{{ md }}</div>
-        <div :class="divClass" :hidden="showMd" v-html="html"></div>
+        <div :class="'pre-like-code '+divClass" :hidden="!showMd" class="margin">{{ md }}</div>
+        <div :class="divClass" :hidden="showMd" v-html="html"  class="margin"></div>
         <slot />
         <button @click="showMd=true" v-if="!showMd" :hidden="!showBtn" :class="'wux-btn wux-btn-primary wux-btn-outline mc simple '+btnClass" type="button">
             <IconMarkdown width="16px" height="16px" />
@@ -30,3 +30,11 @@ const html = computed(() => {
         </button>
     </div>
 </template>
+
+<style scoped>
+.margin {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
+</style>

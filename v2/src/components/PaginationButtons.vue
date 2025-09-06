@@ -44,7 +44,7 @@
       {{ item.display }}
     </button>
   </div>
-  <span class="simple">第{{ pageIndex+1 }}/{{ pageAmount }}页</span>
+  <span class="simple" style="margin-left: 20px;">第{{ pageIndex+1 }}/{{ pageAmount }}页</span>
 </template>
 
 <style scoped>

@@ -50,7 +50,15 @@
 </script>
 
 <template>
-  <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 80px );display:inline-block;" placeholder="搜索" :disabled="disabled" v-model="keyword"/>
+  <input
+      type="text"
+      class="wux-form-input wux-form-input-md"
+      style="width:calc( 100% - 80px );display:inline-block;"
+      placeholder="搜索"
+      :disabled="disabled"
+      v-model="keyword"
+      @keyup.enter="search()"
+  />
   <BtnWithLoading @click="search()" :isLoading="disabled" btnClass="wux-btn-primary mc simple"><IconSearch width="16px" height="16px"/>搜索</BtnWithLoading>
   <br>
   <span>排序:</span>
