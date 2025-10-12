@@ -261,7 +261,7 @@ async function render_trend_chart() {
     };
     chart.setOption(option);
     set_chart_status(false);
-    const resize_observer = new ResizeObserver(() => {
+    const resize_observer = new ResizeObserver.ResizeObserver(() => {
         chart.resize();
     });
     resize_observer.observe(chart_dom);
@@ -368,7 +368,7 @@ async function render_visit_time_chart() {
     
     chart.setOption(option);
     set_chart_status(false);
-    const resize_observer = new ResizeObserver(() => {
+    const resize_observer = new ResizeObserver.ResizeObserver(() => {
         chart.resize();
     });
     resize_observer.observe(chart_dom);
@@ -480,7 +480,7 @@ async function render_browser_stat_chart() {
     
     chart.setOption(option);
     set_chart_status(false);
-    const resize_observer = new ResizeObserver(() => {
+    const resize_observer = new ResizeObserver.ResizeObserver(() => {
         chart.resize();
     });
     resize_observer.observe(chart_dom);
@@ -592,7 +592,7 @@ async function render_device_stat_chart() {
     
     chart.setOption(option);
     set_chart_status(false);
-    const resize_observer = new ResizeObserver(() => {
+    const resize_observer = new ResizeObserver.ResizeObserver(() => {
         chart.resize();
     });
     resize_observer.observe(chart_dom);
@@ -704,7 +704,7 @@ async function render_os_stat_chart() {
     
     chart.setOption(option);
     set_chart_status(false);
-    const resize_observer = new ResizeObserver(() => {
+    const resize_observer = new ResizeObserver.ResizeObserver(() => {
         chart.resize();
     });
     resize_observer.observe(chart_dom);
@@ -838,7 +838,7 @@ async function render_ip_location_chart() {
 
     chart.setOption(option);
     set_chart_status(false);
-    const resize_observer = new ResizeObserver(() => {
+    const resize_observer = new ResizeObserver.ResizeObserver(() => {
         chart.resize();
     });
     resize_observer.observe(chart_dom);
