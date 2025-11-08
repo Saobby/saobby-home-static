@@ -44,7 +44,7 @@ async function download(){
 async function load_midi_player(){
     await load_script("/static/js/midi_player.js");
     gebi("midi-player-div").innerHTML = `
-    <midi-player src="" sound-font="https://soundfont-fast.saobby.com/midi" id="midi-player"></midi-player>
+    <midi-player src="" sound-font="https://sfe.saobby.com/midi" id="midi-player"></midi-player>
     <midi-visualizer type="piano-roll" id="midi-visualizer"></midi-visualizer>
     `;
     gebi("midi-visualizer").config = {
