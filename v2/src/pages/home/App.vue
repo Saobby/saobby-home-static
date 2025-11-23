@@ -5,6 +5,7 @@ import { onMounted, ref } from 'vue';
 import { is_in_array, getUrlArgs, fetch_api } from '@/assets/js/util';
 import BirthdayNotice from './components/BirthdayNotice.vue';
 import CheckInBox from './components/CheckInBox.vue';
+import Folder from "@/components/Folder.vue";
 const domain = import.meta.env.VITE_API_DOMAIN;
 
 const commentPlaceId = ref(114514);
@@ -52,7 +53,8 @@ onMounted(async () => {
                 <div class="wux-card wux-card-flat">
                     <div class="wux-card-body">
                         <h2 class="mc2"><IconAddressBook width="32px" height="32px"/><span>联系方式</span></h2>
-                        <ul>
+                        <ul style="margin-bottom: 0">
+                            <li><span text-color="#FF8686" style="--attr-custom-text-color:#FF8686;">推荐使用以下方式联系</span></li>
                             <li class="mc2">
                                 <IconMail width="16px" height="16px"/>
                                 <span class="simple"><b><a href="mailto:s@saobby.com" target="_blank" @click="copyText('s@saobby.com');">s@saobby.com</a></b></span>
@@ -62,22 +64,29 @@ onMounted(async () => {
                                 <span class="simple"><b><a href="https://t.me/stguable" target="_blank">@stguable</a></b></span>
                             </li>
                             <li class="mc2">
-                                <IconBrandQq width="16px" height="16px" class="qq-icon"/>
-                                <span class="simple"><b @click="copyText('3569602435');">3569602435</b><span text-color="#FF8686" style="--attr-custom-text-color:#FF8686;">(请务必备注添加原因)</span></span>
-                            </li>
-                            <li class="mc2">
-                                <IconBrandWechat width="16px" height="16px"/>
-                                <span class="simple"><b @click="copyText('chen2008chen0808');">chen2008chen0808</b><span text-color="#FF8686" style="--attr-custom-text-color:#FF8686;">(几乎不上微信)</span></span>
-                            </li>
-                            <li class="mc2">
                                 <IconBrandGithub width="16px" height="16px"/>
                                 <span class="simple"><b><a href="https://github.com/Saobby" target="_blank">Saobby</a></b></span>
                             </li>
-                            <li class="mc2">
-                                <IconBrandBilibili width="16px" height="16px"/>
-                                <span class="simple"><b><a href="https://space.bilibili.com/1896864189" target="_blank" class="wux-btn-text">Saobby</a></b></span>
-                            </li>
                         </ul>
+                        <Folder a-style="margin-left:15px;" unfold-text="不常用联系方式" fold-text="不常用联系方式">
+                            <ul>
+                                <li>
+                                    <span text-color="#FF8686" style="--attr-custom-text-color:#FF8686;">以下通讯软件很少登录，不推荐使用</span>
+                                </li>
+                                <li class="mc2">
+                                    <IconBrandQq width="16px" height="16px" class="qq-icon"/>
+                                    <span class="simple"><b @click="copyText('3569602435');">3569602435</b><span text-color="#FF8686" style="--attr-custom-text-color:#FF8686;">(请备注添加原因)</span></span>
+                                </li>
+                                <li class="mc2">
+                                    <IconBrandWechat width="16px" height="16px"/>
+                                    <span class="simple"><b @click="copyText('chen2008chen0808');">chen2008chen0808</b><span text-color="#FF8686" style="--attr-custom-text-color:#FF8686;">(请备注添加原因)</span></span>
+                                </li>
+                                <li class="mc2">
+                                    <IconBrandBilibili width="16px" height="16px"/>
+                                    <span class="simple"><b><a href="https://space.bilibili.com/1896864189" target="_blank" class="wux-btn-text">Saobby</a></b></span>
+                                </li>
+                            </ul>
+                        </Folder>
                     </div>
                 </div>
             </div>
@@ -200,12 +209,12 @@ onMounted(async () => {
 </template>
 <style lang="css" scoped>
 .wux-card-body h2{
-    margin-top: 0px;
+    margin-top: 0;
     margin-left: 12px;
     margin-bottom: 8px;
 }
 .wux-col {
-    padding: 0px 4px;
+    padding: 0 4px;
 }
 [hidden] {
     display: none !important;
