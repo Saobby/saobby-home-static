@@ -51,15 +51,18 @@ async function updateComments(){
     }
     uiDisabled.value = false;
     if (payload.scroll_to){
-        await nextTick();
-        const commentDiv = gebi(`comment-div-${payload.scroll_to}`);
-        if (commentDiv) {
-            setTimeout(() => {
-                commentDiv.scrollIntoView({
-                    behavior: "smooth"
-                });
-            }, 100);
-        }
+        await scrollToComment(payload.scroll_to);
+    }
+}
+async function scrollToComment(commentId){
+    await nextTick();
+    const commentDiv = gebi(`comment-div-${commentId}`);
+    if (commentDiv) {
+        setTimeout(() => {
+            commentDiv.scrollIntoView({
+                behavior: "smooth"
+            });
+        }, 100);
     }
 }
 const parsedComments = computed(()=>{
@@ -95,7 +98,7 @@ const updateCommentsListN = ref(0);
     </div>
     <slot></slot>
     <div :hidden="status!=='showing'" style="width: 100%; overflow: auto;">
-        <CommentsList :key="updateCommentsListN" @updateComments="updateComments()" :placeId="placeId" :comments="parsedComments"/>
+        <CommentsList :key="updateCommentsListN" @updateComments="updateComments()" @scrollToComment="scrollToComment" :placeId="placeId" :comments="parsedComments"/>
     </div>
     <div :hidden="status!=='loading'" class="centered">
         <span class="wux-loading" /><br>

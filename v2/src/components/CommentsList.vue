@@ -31,7 +31,7 @@ comments: [
     }
 ]
  */
-const emits = defineEmits(["updateComments"]);
+const emits = defineEmits(["updateComments", "scrollToComment"]);
 
 const uiStatus = reactive({});
 function initUiStatus(comments) {
@@ -72,7 +72,7 @@ function updateComments() {
                 <span class="lleft">{{ `#${comment.cid}` }}</span>
             </span>
             <br>
-            <span v-if="comment.reply_to!==-1" class="gray mc"><IconCornerDownRight width="16px" height="16px"/>{{ `回复 #${comment.reply_to}` }}</span>
+            <span v-if="comment.reply_to!==-1" class="gray mc"><IconCornerDownRight width="16px" height="16px"/>回复&nbsp;<a class="gray" href="javascript:" @click="emits('scrollToComment', comment.reply_to)">#{{ comment.reply_to }}</a></span>
             <div :hidden="uiStatus[comment.cid]?.showEditWindow">
                 <MarkdownDisplay :showBtn="!comment.can_edit" :md="comment.content" btnClass="wux-btn-sm">
                     <i class="gray" v-if="comment.is_read !== null">{{ comment.is_read ? `已读(${ts2str(comment.read_time)})` : '未读' }}</i><br v-if="comment.is_read !== null">

@@ -28,3 +28,6 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# 开发环境的环境变量的更改没必要提交到repo
+.env.development
