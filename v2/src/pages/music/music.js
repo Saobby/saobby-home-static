@@ -54,7 +54,8 @@ export async function buildPlayList(ids){
             urls.push({
                 id: music.id,
                 src: music.audio_url,
-                title: music.name
+                title: music.name,
+                type: music.version === 2 ? "m3u8text": "default"
             });
         }
         return {

@@ -6,8 +6,8 @@
   import {fetchMusicList, buildPlayList} from "./music.js";
   import MusicDetail from "./components/MusicDetail.vue";
   import { IconX, IconPlus, IconPlayerPlay } from "@tabler/icons-vue";
-  import { Vue3AudioPlayer } from '@codeniu/vue3-audio-player'
-  import '@codeniu/vue3-audio-player/dist/vue3-audio-player.css'
+  import { Vue3AudioPlayer } from '@saobby/vue3-audio-player'
+  import '@saobby/vue3-audio-player/dist/vue3-audio-player.css'
   import { getUrlArgs, updateUrlArgs } from "@/assets/js/util.js";
   import BtnWithLoading from "@/components/BtnWithLoading.vue";
 
