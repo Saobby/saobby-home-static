@@ -184,7 +184,6 @@
       }
     }
   }
-
   async function befNext(){
     if (playMode.value === "all") {
       playAllListIndex.value += 1;
