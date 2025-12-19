@@ -142,7 +142,7 @@ async function editTags(newTags){
                     <TitleEdit @edited="emitUpdate" :can-edit="musicInfo.can_edit" :edit="editName" v-model="musicInfo.name"></TitleEdit>
                     <button @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>{{ currentPlayingId===musicId?"正在播放":"播放" }}</button>
                     <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
-                    <a :href="musicInfo.audio_url" :download="musicInfo.name+'.mp3'"><button type="button" class="wux-btn mc wux-btn-outline sep"><IconDownload width="24px" height="24px"/>下载</button></a>
+                    <a :href="musicInfo.version === 1 ? musicInfo.audio_url: ''" :download="musicInfo.name+'.mp3'"><button :disabled="musicInfo.version === 2" type="button" class="wux-btn mc wux-btn-outline sep"><IconDownload width="24px" height="24px"/>下载</button></a>
                     <BtnWithLoading v-if="musicInfo.can_delete" @click="deleteMusic" btnClass="wux-btn-outline sep mc" :isLoading="delBtnLoading">
                         <IconTrash width="24px" height="24px"/>删除
                     </BtnWithLoading>
