@@ -55,9 +55,9 @@ export default defineConfig({
         minify: 'terser',
         terserOptions: {
             compress: {
-                drop_console: false,
+                drop_console: true,
                 drop_debugger: true,
-                pure_funcs: []
+                pure_funcs: ['console.log']
             },
             mangle: {
                 toplevel: true,

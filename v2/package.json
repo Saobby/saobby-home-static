@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@saobby/vue3-audio-player": "git+https://github.com/Saobby/vue3-audio-player.git",
+    "@saobby/vue3-audio-player": "git+https://github.com/Saobby/vue3-audio-player.git#50ed9151619a27818400346dc9df4841253f0fbe",
     "@tabler/core": "^1.3.2",
     "@tabler/icons-vue": "^3.34.0",
     "core-js": "^3.44.0",
