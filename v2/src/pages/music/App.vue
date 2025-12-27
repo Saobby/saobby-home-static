@@ -2,12 +2,11 @@
   import Search from "./components/Search.vue"
   import MusicList from "./components/MusicList.vue"
   import PaginationButtons from "@/components/PaginationButtons.vue"
-  import {computed, nextTick, onMounted, onUnmounted, ref} from "vue";
-  import {fetchMusicList, buildPlayList} from "./music.js";
+  import {computed, onMounted, onUnmounted, ref} from "vue";
+  import {fetchMusicList} from "./music.js";
   import MusicDetail from "./components/MusicDetail.vue";
   import { IconX, IconPlus, IconPlayerPlay } from "@tabler/icons-vue";
-  import { Vue3AudioPlayer } from '@saobby/vue3-audio-player'
-  import '@saobby/vue3-audio-player/dist/vue3-audio-player.css'
+  import AudioPlayer from "./components/AudioPlayer.vue";
   import { getUrlArgs, updateUrlArgs } from "@/assets/js/util.js";
   import BtnWithLoading from "@/components/BtnWithLoading.vue";
 
@@ -38,7 +37,6 @@
   const detailMusicId = ref(0);
   const musicDetailUpdateN = ref(0);
   const playerRef = ref(null);
-  const playerKey = ref(0);
 
   const playAllBtnDisabled = ref(false);
 
@@ -47,9 +45,6 @@
   const playAllKeyword = ref(null);
   const playAllIncludedTags = ref([]);
   const playAllExcludedTags = ref([]);
-  const playAllPageIndex = ref(null);
-  const playAllPageAmount = ref(null);
-  const playAllListIndex = ref(null);
 
   async function updateMusicList() {
     uiDisabled.value = true;
@@ -112,11 +107,7 @@
   });
   async function playSingle(id){
     playMode.value = "single";
-    await setPlayList([id]);
-    playerKey.value += 1; // 重新挂载播放器,重置播放列表index
-    await nextTick();
-    playerRef.value.pause();
-    playerRef.value.play();
+    await playerRef.value.playSingle(id);
   }
   async function playAll() {
     playAllSort.value = sort.value;
@@ -124,88 +115,9 @@
     playAllKeyword.value = keyword.value;
     playAllIncludedTags.value = includedTags.value;
     playAllExcludedTags.value = excludedTags.value;
-    playAllPageIndex.value = -1;
-    playAllListIndex.value = 0;
-    playAllPageAmount.value = 9999;
-    playList.value = [];
-    playAllBtnDisabled.value = true;
 
-    playMode.value = "all";
-    await expandPlayList();
-    if (playList.value.length === 0) {
-      result.value = "无法播放,因为播放列表是空的";
-      status.value = "onerror";
-      playAllBtnDisabled.value = false;
-      return;
-    }
-    playerKey.value += 1; // 重新挂载播放器,重置播放列表index
-    await nextTick();
-    playAllBtnDisabled.value = false;
-    playerRef.value.pause();
-    playerRef.value.play();
   }
-  async function setPlayList(ids){
-    const rsp = await buildPlayList(ids);
-    if (rsp.retcode){
-      result.value = "无法获取音频链接:" + rsp.msg;
-      status.value = "onerror";
-    }else{
-      playList.value = rsp.data;
-    }
-  }
-  async function expandPlayList(){
-    if (playAllPageIndex.value >= playAllPageAmount.value - 1) {
-      return;
-    }
-    const rsp = await fetchMusicList(playAllSort.value, playAllOrder.value, playAllPageIndex.value+1, playAllKeyword.value, playAllIncludedTags.value, playAllExcludedTags.value, 10);
-    if (rsp.retcode){
-      result.value = "无法获取音乐列表:" + rsp.msg;
-      status.value = "onerror";
-      return;
-    }
-    playAllPageIndex.value = rsp.data.pg_index;
-    playAllPageAmount.value = rsp.data.pg_amount;
-    let ids = [];
-    for (let i=0; i<rsp.data.list.length; i++){
-      ids.push(rsp.data.list[i].id);
-    }
-    const rsp2 = await buildPlayList(ids);
-    if (rsp2.retcode){
-      result.value = "无法获取音频链接:" + rsp2.msg;
-      status.value = "onerror";
-      return;
-    }
-    playList.value = playList.value.concat(rsp2.data);
-  }
-  async function onPlayNext(){
-    if (playMode.value === "all") {
-      if (playAllListIndex.value >= playList.value.length - 1) {
-        await expandPlayList();
-      }
-    }
-  }
-  async function befNext(){
-    if (playMode.value === "all") {
-      playAllListIndex.value += 1;
-    }else if (playMode.value === "single") {
-      playerRef.value.pause();
-    }
-    return true;
-  }
-  async function befPrev(){
-    if (playMode.value === "all") {
-      playAllListIndex.value -= 1;
-    }
-    return true;
-  }
-  async function befPlay(callback) {
-    if (playList.value.length === 0) {
-      playAll();
-      callback(false);
-      return;
-    }
-    callback(true);
-  }
+
   function closeMusicDetail(){
     mode.value = 'list';
     updateUrlArgs({music_id: undefined, comment_id: undefined});
@@ -248,19 +160,7 @@
         <MusicDetail :currentPlayingId="currentPlayingId" :update-n="musicDetailUpdateN" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList" @close="closeMusicDetail"/>
       </div>
       <div class="fixed-bottom">
-        <Vue3AudioPlayer 
-          ref="playerRef"
-          :progressInterval="50" 
-          themeColor="#5064e1"
-          mode="tl"
-          :audioList="playList"
-          :isLoop="false"
-          :beforeNext="befNext"
-          :beforePrev="befPrev"
-          :beforePlay="befPlay"
-          @play-next="onPlayNext"
-          :key="playerKey"
-        ></Vue3AudioPlayer>
+          <AudioPlayer ref="playerRef"></AudioPlayer>
       </div>
     </div>
   </div>
@@ -283,8 +183,5 @@
     -webkit-backdrop-filter: blur(16px);
     border-radius: 12px 12px 0 0;
     overflow: visible;
-  }
-  .tl-audio-player{
-    background: none !important;
   }
 </style>
