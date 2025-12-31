@@ -108,6 +108,11 @@
       playAllBtnDisabled.value = false;
       playerUiDisabled.value = false;
   }
+  function handlePlayerError(msg){
+      result.value = "播放器发生错误: "+msg;
+      musicList.value = [];
+      status.value = "onerror";
+  }
 
   function closeMusicDetail(){
     mode.value = 'list';
@@ -151,7 +156,7 @@
         <MusicDetail :currentPlayingId="currentPlayingId" :update-n="musicDetailUpdateN" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList" @close="closeMusicDetail"/>
       </div>
       <div class="fixed-bottom">
-          <AudioPlayer :disable-ui="playerUiDisabled" initial-title="点击播放按钮以播放" @request-play="playAll" ref="playerRef"></AudioPlayer>
+          <AudioPlayer @error="handlePlayerError" :disable-ui="playerUiDisabled" initial-title="点击播放按钮以播放" @request-play="playAll" ref="playerRef"></AudioPlayer>
       </div>
     </div>
   </div>

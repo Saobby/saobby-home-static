@@ -7,7 +7,7 @@ const props = defineProps({
     initialTitle: {type: String, default: '未知歌曲'},
     disableUi: {type: Boolean, default: false},
 });
-const emit = defineEmits(["requestPlay"]);
+const emit = defineEmits(["requestPlay", "error"]);
 
 const audio = ref(null);
 let hls = null;
@@ -185,6 +185,7 @@ async function handlePlay(musicType, src, musicTitle) {
 
 function handleError(msg){
     console.error(msg);
+    emit("error", msg);
 }
 
 function resetPlaylist(){
