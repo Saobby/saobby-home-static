@@ -102,6 +102,9 @@
 .icon-btn2{
     padding: 8px 8px !important;
 }
+.icon-btn3{
+    padding: 10px 10px !important;
+}
 .mc{
     display: inline-flex;
     align-items: center;

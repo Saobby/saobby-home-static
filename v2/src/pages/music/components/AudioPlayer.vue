@@ -2,6 +2,7 @@
 import {nextTick, onBeforeUnmount, onMounted, ref, reactive, computed} from "vue"
 import Hls from "hls.js"
 import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
+import {IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled, IconVolume} from "@tabler/icons-vue";
 
 const props = defineProps({
     initialTitle: {type: String, default: '未知歌曲'},
@@ -343,8 +344,10 @@ function onFinishPlaying(){
         <audio ref="audio" />
         <div class="controls-row">
             <button :disabled="uiDisabled || (!canPrev)" @click="prevMusic">⏮</button>
-            <button :disabled="uiDisabled" @click="togglePlay">
-                {{ isAudioLoading ? "♻": (isPlaying ? "⏸" : "▶") }}
+            <button :disabled="uiDisabled" @click="togglePlay" class="wux-btn wux-btn-round icon-btn3 mc" type="button">
+                <span style="width: 24px; height: 24px" v-if="isAudioLoading" class="wux-loading"></span>
+                <IconPlayerPauseFilled width="24px" height="24px" v-if="(!isAudioLoading) && isPlaying"/>
+                <IconPlayerPlayFilled width="24px" height="24px" v-if="(!isAudioLoading) && (!isPlaying)"/>
             </button>
             <button :disabled="uiDisabled || (!canNext)" @click="nextMusic">⏭</button>
             <button @click="toggleCycle">
