@@ -155,7 +155,7 @@
         </h2>
         <MusicDetail :currentPlayingId="currentPlayingId" :update-n="musicDetailUpdateN" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList" @close="closeMusicDetail"/>
       </div>
-      <div class="fixed-bottom">
+      <div>
           <AudioPlayer @error="handlePlayerError" :disable-ui="playerUiDisabled" initial-title="点击播放按钮以播放" @request-play="playAll" ref="playerRef"></AudioPlayer>
       </div>
     </div>
@@ -163,21 +163,5 @@
 </template>
 
 <style scoped>
-  .fixed-bottom {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(245, 245, 247, 0.75);
-    z-index: 1000;
-    max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 0 32px 8px rgba(0,0,0,0.28);
-    border-top: 1.5px solid #bbb;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 12px 12px 0 0;
-    overflow: visible;
-  }
+
 </style>

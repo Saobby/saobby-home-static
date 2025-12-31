@@ -415,8 +415,18 @@ function onFinishPlaying(){
     left: 0;
     right: 0;
     bottom: 0;
-    background: white;
-    padding: 10px;
+    padding: 8px 14px 8px 14px;
+    background: rgba(245, 245, 247, 0.75);
+    z-index: 1000;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 32px 8px rgba(0,0,0,0.28);
+    border-top: 1.5px solid #bbb;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 12px 12px 0 0;
+    overflow: visible;
 }
 
 .controls-row {
