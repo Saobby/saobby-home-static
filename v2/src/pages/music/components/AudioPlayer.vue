@@ -19,6 +19,7 @@ const currentTime = ref(0);
 const duration = ref(0);
 const volume = ref(1);
 
+// 以下为控件处理函数
 function togglePlay() {
     if (!audio.value) return;
     if (isPlaying.value) {
@@ -64,12 +65,6 @@ function onSeek() {
     audio.value.currentTime = currentTime.value;
 }
 
-function onEnd(){
-    if (playMode === "list"){
-        nextMusic().then();
-    }
-}
-
 function formatTime(t) {
     if (!t || isNaN(t)) return "00:00";
     const m = Math.floor(t / 60);
@@ -83,6 +78,7 @@ onMounted(() => {
     audio.value.volume = volume.value;
 });
 
+// 以下为播放器基本API
 async function getMusicUrls(ids){
     let requireFetch = [];
     for (const id of ids){
@@ -149,6 +145,16 @@ function handleError(msg){
     console.error(msg);
 }
 
+defineExpose({
+    playSingle,
+    playAll
+})
+
+onBeforeUnmount(() => {
+    destroyHls();
+});
+
+// 以下为单曲播放逻辑实现
 async function playSingle(musicId) {
     playMode = "single";
     const rsp = await getMusicUrls([musicId]);
@@ -161,6 +167,23 @@ async function playSingle(musicId) {
         musicInfo.audio_url,
         musicInfo.name
     );
+}
+
+// 以下为列表播放逻辑实现
+async function playAll(sort, order, keyword, includedTags, excludedTags){
+    playMode = "list";
+    searchArgs = {
+        sort: sort,
+        order: order,
+        keyword: keyword,
+        includedTags: includedTags,
+        excludedTags: excludedTags,
+        pageSize: 10,
+        pageIndex: 0,
+        pageAmount: 114514
+    }
+    await expandPlaylist();
+    await nextMusic();
 }
 
 async function expandPlaylist(){
@@ -214,30 +237,11 @@ async function prevMusic(){
     await startPlay();
 }
 
-async function playAll(sort, order, keyword, includedTags, excludedTags){
-    playMode = "list";
-    searchArgs = {
-        sort: sort,
-        order: order,
-        keyword: keyword,
-        includedTags: includedTags,
-        excludedTags: excludedTags,
-        pageSize: 10,
-        pageIndex: 0,
-        pageAmount: 114514
+function onEnd(){
+    if (playMode === "list"){
+        nextMusic().then();
     }
-    await expandPlaylist();
-    await nextMusic();
 }
-
-defineExpose({
-    playSingle,
-    playAll
-})
-
-onBeforeUnmount(() => {
-    destroyHls();
-});
 
 </script>
 

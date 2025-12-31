@@ -2,7 +2,7 @@
   import Search from "./components/Search.vue"
   import MusicList from "./components/MusicList.vue"
   import PaginationButtons from "@/components/PaginationButtons.vue"
-  import {computed, onMounted, onUnmounted, ref} from "vue";
+  import {onMounted, onUnmounted, ref} from "vue";
   import {fetchMusicList} from "./music.js";
   import MusicDetail from "./components/MusicDetail.vue";
   import { IconX, IconPlus, IconPlayerPlay } from "@tabler/icons-vue";
@@ -92,7 +92,7 @@
     });
   });
   async function playSingle(id){
-    await playerRef.value.playSingle(id);
+      await playerRef.value.playSingle(id);
   }
   async function playAll() {
       await playerRef.value.playAll(sort.value, order.value, keyword.value, includedTags.value, excludedTags.value);
