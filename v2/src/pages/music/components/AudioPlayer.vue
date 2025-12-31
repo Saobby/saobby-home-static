@@ -1,5 +1,5 @@
 <script setup lang="js">
-import {nextTick, onBeforeUnmount, onMounted, ref, reactive} from "vue"
+import {nextTick, onBeforeUnmount, onMounted, ref, reactive, computed} from "vue"
 import Hls from "hls.js"
 import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
 
@@ -26,6 +26,10 @@ const currentTime = ref(0);
 const duration = ref(0);
 const volume = ref(1);
 const isCycle = ref(false);  // 是否单曲播放
+const setUiDisabled = ref(false);
+const uiDisabled = computed(() => {
+    return setUiDisabled.value || props.disableUi;
+});
 
 // 以下为控件处理函数
 function togglePlay() {
@@ -280,11 +284,11 @@ function onEnd(){
             @ended="onEnd"
         />
         <div class="controls-row">
-            <button>⏮</button>
-            <button @click="togglePlay">
+            <button :disabled="uiDisabled">⏮</button>
+            <button :disabled="uiDisabled" @click="togglePlay">
                 {{ isPlaying ? "⏸" : "▶" }}
             </button>
-            <button>⏭</button>
+            <button :disabled="uiDisabled">⏭</button>
             <button @click="toggleCycle">
                 {{ isCycle ? "♻": "=" }}
             </button>
@@ -317,6 +321,7 @@ function onEnd(){
                     step="0.1"
                     v-model.number="currentTime"
                     @input="onSeek"
+                    :readonly="uiDisabled"
                 />
 
                 <div class="time-row">

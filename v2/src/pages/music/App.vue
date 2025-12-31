@@ -37,6 +37,7 @@
   });
 
   const playAllBtnDisabled = ref(false);
+  const playerUiDisabled = ref(false);
 
   async function updateMusicList() {
     uiDisabled.value = true;
@@ -102,8 +103,10 @@
   }
   async function playAll() {
       playAllBtnDisabled.value = true;
+      playerUiDisabled.value = true;
       await playerRef.value.playAll(sort.value, order.value, keyword.value, includedTags.value, excludedTags.value);
       playAllBtnDisabled.value = false;
+      playerUiDisabled.value = false;
   }
 
   function closeMusicDetail(){
@@ -148,7 +151,7 @@
         <MusicDetail :currentPlayingId="currentPlayingId" :update-n="musicDetailUpdateN" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList" @close="closeMusicDetail"/>
       </div>
       <div class="fixed-bottom">
-          <AudioPlayer initial-title="点击播放按钮以播放" @request-play="playAll" ref="playerRef"></AudioPlayer>
+          <AudioPlayer :disable-ui="playerUiDisabled" initial-title="点击播放按钮以播放" @request-play="playAll" ref="playerRef"></AudioPlayer>
       </div>
     </div>
   </div>
