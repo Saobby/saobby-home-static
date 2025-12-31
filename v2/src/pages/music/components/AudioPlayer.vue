@@ -68,6 +68,7 @@ function pause(){
     if (!audio.value) return;
     audio.value.pause();
     isPlaying.value = false;
+    isAudioLoading.value = false;
 }
 
 function toggleVolume() {
@@ -342,7 +343,7 @@ function onFinishPlaying(){
         <div class="controls-row">
             <button :disabled="uiDisabled || (!canPrev)" @click="prevMusic">⏮</button>
             <button :disabled="uiDisabled" @click="togglePlay">
-                {{ isPlaying ? "⏸" : "▶" }}
+                {{ isAudioLoading ? "♻": (isPlaying ? "⏸" : "▶") }}
             </button>
             <button :disabled="uiDisabled || (!canNext)" @click="nextMusic">⏭</button>
             <button @click="toggleCycle">
