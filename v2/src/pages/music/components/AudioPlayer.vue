@@ -165,10 +165,16 @@ function handleError(msg){
     console.error(msg);
 }
 
+function resetPlaylist(){
+    playList.value = [];
+    playIndex.value = -1;
+}
+
 defineExpose({
     playSingle,
     playAll,
     currentPlayingId,
+    resetPlaylist,
 })
 
 onBeforeUnmount(() => {
@@ -194,6 +200,7 @@ async function playSingle(musicId) {
 // 以下为列表播放逻辑实现
 async function playAll(sort, order, keyword, includedTags, excludedTags){
     playMode.value = "list";
+    resetPlaylist();
     searchArgs.value = {
         sort: sort,
         order: order,
