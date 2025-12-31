@@ -98,6 +98,15 @@ function onVolumeChange() {
 
 function onTimeUpdate() {
     currentTime.value = audio.value.currentTime;
+    if ("mediaSession" in navigator) {
+        if (audio.value.duration){
+            navigator.mediaSession.setPositionState({
+                duration: audio.value.duration,
+                playbackRate: audio.value.playbackRate,
+                position: audio.value.currentTime
+            });
+        }
+    }
 }
 
 function onLoadedMetadata() {
@@ -192,6 +201,11 @@ async function handlePlay(musicType, src, musicTitle) {
     await nextTick();
     play();
     title.value = musicTitle;
+    if ("mediaSession" in navigator){
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: musicTitle,
+        });
+    }
 }
 
 function handleError(msg){
@@ -220,6 +234,14 @@ function onError(){
     isAudioLoading.value = false;
 }
 
+function onPlay(){
+    navigator.mediaSession.playbackState = "playing";
+}
+
+function onPause(){
+    navigator.mediaSession.playbackState = "paused";
+}
+
 defineExpose({
     playSingle,
     playAll,
@@ -234,6 +256,34 @@ onMounted(() => {
     audio.value.addEventListener("timeupdate", onTimeUpdate);
     audio.value.addEventListener("loadedmetadata", onLoadedMetadata);
     audio.value.addEventListener("ended", onFinishPlaying);
+    if ("mediaSession" in navigator){
+        navigator.mediaSession.setActionHandler("play", () => {
+            play();
+        });
+        navigator.mediaSession.setActionHandler("pause", () => {
+            pause();
+        });
+        navigator.mediaSession.setActionHandler("previoustrack", () => {
+            prevMusic();
+        });
+        navigator.mediaSession.setActionHandler("nexttrack", () => {
+            nextMusic();
+        });
+        navigator.mediaSession.setActionHandler("seekto", (details) => {
+            if (details.fastSeek && "fastSeek" in audio.value) {
+                audio.value.fastSeek(details.seekTime);
+            } else {
+                audio.value.currentTime = details.seekTime;
+            }
+            navigator.mediaSession.setPositionState({
+                duration: audio.value.duration,
+                playbackRate: audio.value.playbackRate,
+                position: details.seekTime
+            });
+        });
+        audio.value.addEventListener("play", onPlay);
+        audio.value.addEventListener("pause", onPause);
+    }
 });
 
 onBeforeUnmount(() => {
@@ -245,6 +295,14 @@ onBeforeUnmount(() => {
     audio.value.removeEventListener("timeupdate", onTimeUpdate);
     audio.value.removeEventListener("loadedmetadata", onLoadedMetadata);
     audio.value.removeEventListener("ended", onFinishPlaying);
+    if ("mediaSession" in navigator){
+        navigator.mediaSession.setActionHandler("play", null);
+        navigator.mediaSession.setActionHandler("pause", null);
+        navigator.mediaSession.setActionHandler("previoustrack", null);
+        navigator.mediaSession.setActionHandler("nexttrack", null);
+        audio.value.removeEventListener("play", onPlay);
+        audio.value.removeEventListener("pause", onPause);
+    }
     revokeAllBlob();
 });
 
@@ -320,7 +378,7 @@ async function startPlay(){
 }
 
 async function nextMusic(){
-    if (playIndex.value >= playList.value.length - 1) return;
+    if (!canNext.value) return;
     if (playIndex.value === playList.value.length - 2){
         expandPlaylist().then();  // 准备开始播放列表中的最后一曲时加载后面的播放列表
     }
@@ -329,7 +387,7 @@ async function nextMusic(){
 }
 
 async function prevMusic(){
-    if (playIndex.value <= 0) return;
+    if (!canPrev.value) return;
     playIndex.value--;
     await startPlay();
 }
