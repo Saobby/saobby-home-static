@@ -42,6 +42,7 @@ const canPrev = computed(() => {
     }
     return playIndex.value > 0;
 });
+const isAudioLoading = ref(false);
 
 // 以下为控件处理函数
 function togglePlay() {
@@ -51,11 +52,10 @@ function togglePlay() {
         return;
     }
     if (isPlaying.value) {
-        audio.value.pause();
+        pause();
     } else {
-        audio.value.play();
+        play();
     }
-    isPlaying.value = !isPlaying.value;
 }
 
 function play(){
@@ -139,6 +139,15 @@ async function getMusicUrls(ids){
     return ret;
 }
 
+function revokeAllBlob(){
+    Object.keys(musicInfoCache).forEach(key => {
+        const val = musicInfoCache[key];
+        if (val.version === 2){
+            URL.revokeObjectURL(val.audio_url);
+        }
+    });
+}
+
 function destroyHls(){
     if (hls){
         hls.detachMedia();
@@ -182,15 +191,48 @@ function resetPlaylist(){
     playIndex.value = -1;
 }
 
+function onWaiting(){
+    isAudioLoading.value = true;
+}
+
+function onPlaying(){
+    isAudioLoading.value = false;
+}
+
+function onEnded(){
+    isAudioLoading.value = false;
+}
+
+function onError(){
+    isAudioLoading.value = false;
+}
+
 defineExpose({
     playSingle,
     playAll,
-    currentPlayingId,
-    resetPlaylist,
+    currentPlayingId
 })
+
+onMounted(() => {
+    audio.value.addEventListener("waiting", onWaiting);
+    audio.value.addEventListener("playing", onPlaying);
+    audio.value.addEventListener("ended", onEnded);
+    audio.value.addEventListener("error", onError);
+    audio.value.addEventListener("timeupdate", onTimeUpdate);
+    audio.value.addEventListener("loadedmetadata", onLoadedMetadata);
+    audio.value.addEventListener("ended", onFinishPlaying);
+});
 
 onBeforeUnmount(() => {
     destroyHls();
+    audio.value.removeEventListener("waiting", onWaiting);
+    audio.value.removeEventListener("playing", onPlaying);
+    audio.value.removeEventListener("ended", onEnded);
+    audio.value.removeEventListener("error", onError);
+    audio.value.removeEventListener("timeupdate", onTimeUpdate);
+    audio.value.removeEventListener("loadedmetadata", onLoadedMetadata);
+    audio.value.removeEventListener("ended", onFinishPlaying);
+    revokeAllBlob();
 });
 
 // 以下为单曲播放逻辑实现
@@ -279,7 +321,7 @@ async function prevMusic(){
     await startPlay();
 }
 
-function onEnd(){
+function onFinishPlaying(){
     if (isCycle.value){
         audio.value.currentTime = 0;
         audio.value.play();
@@ -296,12 +338,7 @@ function onEnd(){
 
 <template>
     <div class="player-container">
-        <audio
-            ref="audio"
-            @timeupdate="onTimeUpdate"
-            @loadedmetadata="onLoadedMetadata"
-            @ended="onEnd"
-        />
+        <audio ref="audio" />
         <div class="controls-row">
             <button :disabled="uiDisabled || (!canPrev)" @click="prevMusic">⏮</button>
             <button :disabled="uiDisabled" @click="togglePlay">
