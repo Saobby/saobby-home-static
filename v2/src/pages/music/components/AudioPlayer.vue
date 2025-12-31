@@ -1,5 +1,5 @@
 <script setup lang="js">
-import {nextTick, onBeforeUnmount, onMounted, ref, computed, reactive} from "vue"
+import {nextTick, onBeforeUnmount, onMounted, ref, reactive} from "vue"
 import Hls from "hls.js"
 import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
 
@@ -19,6 +19,7 @@ const showVolume = ref(false);
 const currentTime = ref(0);
 const duration = ref(0);
 const volume = ref(1);
+const isCycle = ref(false);  // 是否单曲播放
 
 // 以下为控件处理函数
 function togglePlay() {
@@ -45,6 +46,10 @@ function pause(){
 
 function toggleVolume() {
     showVolume.value = !showVolume.value;
+}
+
+function toggleCycle(){
+    isCycle.value = !isCycle.value;
 }
 
 function onVolumeChange() {
@@ -242,9 +247,16 @@ async function prevMusic(){
 }
 
 function onEnd(){
+    if (isCycle.value){
+        audio.value.currentTime = 0;
+        audio.value.play();
+        return;
+    }
     if (playMode.value === "list"){
         nextMusic().then();
+        return;
     }
+    isPlaying.value = false;
 }
 
 </script>
@@ -263,7 +275,9 @@ function onEnd(){
                 {{ isPlaying ? "⏸" : "▶" }}
             </button>
             <button>⏭</button>
-            <button>🔁</button>
+            <button @click="toggleCycle">
+                {{ isCycle ? "♻": "=" }}
+            </button>
 
             <div class="volume-wrapper">
                 <button @click="toggleVolume">🔊</button>
