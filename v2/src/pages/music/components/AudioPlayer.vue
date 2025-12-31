@@ -13,7 +13,7 @@ const audio = ref(null);
 let hls = null;
 let musicInfoCache = {};
 
-const playMode = ref(null);
+const playMode = ref(null); // single或list
 const playList = ref([]);
 const playIndex = ref(-1);
 const searchArgs = reactive({});
@@ -29,6 +29,18 @@ const isCycle = ref(false);  // 是否单曲播放
 const setUiDisabled = ref(false);
 const uiDisabled = computed(() => {
     return setUiDisabled.value || props.disableUi;
+});
+const canNext = computed(() => {
+    if (playMode.value === "single") {
+        return false;
+    }
+    return playIndex.value < playList.value.length - 1;
+});
+const canPrev = computed(() => {
+    if (playMode.value === "single") {
+        return false;
+    }
+    return playIndex.value > 0;
 });
 
 // 以下为控件处理函数
@@ -291,11 +303,11 @@ function onEnd(){
             @ended="onEnd"
         />
         <div class="controls-row">
-            <button :disabled="uiDisabled">⏮</button>
+            <button :disabled="uiDisabled || (!canPrev)" @click="prevMusic">⏮</button>
             <button :disabled="uiDisabled" @click="togglePlay">
                 {{ isPlaying ? "⏸" : "▶" }}
             </button>
-            <button :disabled="uiDisabled">⏭</button>
+            <button :disabled="uiDisabled || (!canNext)" @click="nextMusic">⏭</button>
             <button @click="toggleCycle">
                 {{ isCycle ? "♻": "=" }}
             </button>
