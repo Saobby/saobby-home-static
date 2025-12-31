@@ -3,6 +3,12 @@ import {nextTick, onBeforeUnmount, onMounted, ref, reactive} from "vue"
 import Hls from "hls.js"
 import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
 
+const props = defineProps({
+    initialTitle: {type: String, default: '未知歌曲'},
+    disableUi: {type: Boolean, default: false},
+});
+const emit = defineEmits(["requestPlay"]);
+
 const audio = ref(null);
 let hls = null;
 let musicInfoCache = {};
@@ -13,7 +19,7 @@ const playIndex = ref(-1);
 const searchArgs = reactive({});
 const currentPlayingId = ref(0);
 
-const title = ref("未知歌曲");
+const title = ref(props.initialTitle);
 const isPlaying = ref(false);
 const showVolume = ref(false);
 const currentTime = ref(0);
@@ -24,6 +30,10 @@ const isCycle = ref(false);  // 是否单曲播放
 // 以下为控件处理函数
 function togglePlay() {
     if (!audio.value) return;
+    if (currentPlayingId.value === 0) {
+        emit("requestPlay");
+        return;
+    }
     if (isPlaying.value) {
         audio.value.pause();
     } else {

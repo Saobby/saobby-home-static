@@ -148,7 +148,7 @@
         <MusicDetail :currentPlayingId="currentPlayingId" :update-n="musicDetailUpdateN" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList" @close="closeMusicDetail"/>
       </div>
       <div class="fixed-bottom">
-          <AudioPlayer ref="playerRef"></AudioPlayer>
+          <AudioPlayer initial-title="点击播放按钮以播放" @request-play="playAll" ref="playerRef"></AudioPlayer>
       </div>
     </div>
   </div>
