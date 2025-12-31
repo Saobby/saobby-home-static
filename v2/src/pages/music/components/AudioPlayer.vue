@@ -31,6 +31,13 @@ const setUiDisabled = ref(false);
 const uiDisabled = computed(() => {
     return setUiDisabled.value || props.disableUi;
 });
+const progressBarStyle = computed(() => {
+    let percentage = 0;
+    if (duration.value !== 0){
+        percentage = (currentTime.value / duration.value) * 100;
+    }
+    return `background: linear-gradient(to right, #5064e1 0%, #5064e1 ${percentage}%, #e5e5e5 ${percentage}%, #e5e5e5 100%);`;
+});
 const canNext = computed(() => {
     if (playMode.value === "single") {
         return false;
@@ -354,9 +361,9 @@ function onFinishPlaying(){
             <button :disabled="uiDisabled || (!canNext)" @click="nextMusic" title="下一曲" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
                 <IconPlayerTrackNextFilled width="26px" height="26px"/>
             </button>
-            <button @click="toggleCycle" :title="isCycle ? '列表播放': '单曲循环'" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
-                <IconRefresh v-if="!isCycle" width="26px" height="26px"/>
-                <IconRefreshOff v-if="isCycle" width="26px" height="26px"/>
+            <button @click="toggleCycle" :title="isCycle ? '切换为列表播放': '切换为单曲循环'" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
+                <IconRefresh v-if="isCycle" width="26px" height="26px"/>
+                <IconRefreshOff v-if="!isCycle" width="26px" height="26px"/>
             </button>
 
             <div class="volume-wrapper">
@@ -382,7 +389,7 @@ function onFinishPlaying(){
                 </div>
 
                 <input
-                    class="progress"
+                    class="progress wux-form-range"
                     type="range"
                     min="0"
                     :max="duration"
@@ -390,11 +397,12 @@ function onFinishPlaying(){
                     v-model.number="currentTime"
                     @input="onSeek"
                     :readonly="uiDisabled"
+                    :style="progressBarStyle"
                 />
 
                 <div class="time-row">
-                    <span>{{ formatTime(currentTime) }}</span>
-                    <span>{{ formatTime(duration) }}</span>
+                    <span class="gray">{{ formatTime(currentTime) }}</span>
+                    <span class="gray">{{ formatTime(duration) }}</span>
                 </div>
             </div>
         </div>
@@ -444,6 +452,10 @@ function onFinishPlaying(){
 
 .progress {
     width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    --form-range-track-background: #00000000;
+    border-radius: 999px;
 }
 
 .time-row {
