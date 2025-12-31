@@ -2,7 +2,7 @@
   import Search from "./components/Search.vue"
   import MusicList from "./components/MusicList.vue"
   import PaginationButtons from "@/components/PaginationButtons.vue"
-  import {onMounted, onUnmounted, ref} from "vue";
+  import {computed, onMounted, onUnmounted, ref} from "vue";
   import {fetchMusicList} from "./music.js";
   import MusicDetail from "./components/MusicDetail.vue";
   import { IconX, IconPlus, IconPlayerPlay } from "@tabler/icons-vue";
@@ -29,6 +29,12 @@
   const detailMusicId = ref(0);
   const musicDetailUpdateN = ref(0);
   const playerRef = ref(null);
+  const currentPlayingId = computed(() => {
+      if (!playerRef.value){
+          return 0;
+      }
+      return playerRef.value.currentPlayingId;
+  });
 
   const playAllBtnDisabled = ref(false);
 

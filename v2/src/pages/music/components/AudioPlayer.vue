@@ -1,5 +1,5 @@
 <script setup lang="js">
-import {nextTick, onBeforeUnmount, onMounted, ref} from "vue"
+import {nextTick, onBeforeUnmount, onMounted, ref, computed, reactive} from "vue"
 import Hls from "hls.js"
 import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
 
@@ -7,10 +7,11 @@ const audio = ref(null);
 let hls = null;
 let musicInfoCache = {};
 
-let playMode = null;
-let playList = [];
-let playIndex = -1;
-let searchArgs = {};
+const playMode = ref(null);
+const playList = ref([]);
+const playIndex = ref(-1);
+const searchArgs = reactive({});
+const currentPlayingId = ref(0);
 
 const title = ref("未知歌曲");
 const isPlaying = ref(false);
@@ -147,7 +148,8 @@ function handleError(msg){
 
 defineExpose({
     playSingle,
-    playAll
+    playAll,
+    currentPlayingId,
 })
 
 onBeforeUnmount(() => {
@@ -156,7 +158,8 @@ onBeforeUnmount(() => {
 
 // 以下为单曲播放逻辑实现
 async function playSingle(musicId) {
-    playMode = "single";
+    playMode.value = "single";
+    currentPlayingId.value = musicId;
     const rsp = await getMusicUrls([musicId]);
     if (!rsp){
         return;
@@ -171,8 +174,8 @@ async function playSingle(musicId) {
 
 // 以下为列表播放逻辑实现
 async function playAll(sort, order, keyword, includedTags, excludedTags){
-    playMode = "list";
-    searchArgs = {
+    playMode.value = "list";
+    searchArgs.value = {
         sort: sort,
         order: order,
         keyword: keyword,
@@ -188,31 +191,32 @@ async function playAll(sort, order, keyword, includedTags, excludedTags){
 
 async function expandPlaylist(){
     const rsp = await fetchMusicListApi(
-        searchArgs.sort,
-        searchArgs.order,
-        searchArgs.pageIndex,
-        searchArgs.keyword,
-        searchArgs.includedTags,
-        searchArgs.excludedTags,
-        searchArgs.pageSize
+        searchArgs.value.sort,
+        searchArgs.value.order,
+        searchArgs.value.pageIndex,
+        searchArgs.value.keyword,
+        searchArgs.value.includedTags,
+        searchArgs.value.excludedTags,
+        searchArgs.value.pageSize
     )
     if (rsp.retcode){
         handleError("无法加载播放列表: "+rsp.msg);
         return;
     }
-    searchArgs.pageAmount = rsp.data.pg_amount;
-    searchArgs.pageIndex += 1;
+    searchArgs.value.pageAmount = rsp.data.pg_amount;
+    searchArgs.value.pageIndex += 1;
     const list = rsp.data.list;
     let newIds = [];
     for (const i of list){
         newIds.push(i.id);
     }
     await getMusicUrls(newIds);  // 预先加载并缓存音频链接
-    playList = playList.concat(newIds);
+    playList.value = playList.value.concat(newIds);
 }
 
 async function startPlay(){
-    const musicId = playList[playIndex];
+    const musicId = playList.value[playIndex.value];
+    currentPlayingId.value = musicId;
     const rsp = await getMusicUrls([musicId]);
     const musicInfo = rsp[0];
     await handlePlay(
@@ -223,22 +227,22 @@ async function startPlay(){
 }
 
 async function nextMusic(){
-    if (playIndex >= playList.length - 1) return;
-    if (playIndex === playList.length - 2){
+    if (playIndex.value >= playList.value.length - 1) return;
+    if (playIndex.value === playList.value.length - 2){
         expandPlaylist().then();  // 准备开始播放列表中的最后一曲时加载后面的播放列表
     }
-    playIndex++;
+    playIndex.value++;
     await startPlay();
 }
 
 async function prevMusic(){
-    if (playIndex <= 0) return;
-    playIndex--;
+    if (playIndex.value <= 0) return;
+    playIndex.value--;
     await startPlay();
 }
 
 function onEnd(){
-    if (playMode === "list"){
+    if (playMode.value === "list"){
         nextMusic().then();
     }
 }
