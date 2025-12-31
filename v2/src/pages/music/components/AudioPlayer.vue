@@ -38,6 +38,9 @@ const progressBarStyle = computed(() => {
     }
     return `background: linear-gradient(to right, #5064e1 0%, #5064e1 ${percentage}%, #e5e5e5 ${percentage}%, #e5e5e5 100%);`;
 });
+const volumeBarStyle = computed(() => {
+    return `background: linear-gradient(to right, #5064e1 0%, #5064e1 ${volume.value * 100}%, #e5e5e5 ${volume.value * 100}%, #e5e5e5 100%);`;
+});
 const canNext = computed(() => {
     if (playMode.value === "single") {
         return false;
@@ -378,7 +381,8 @@ function onFinishPlaying(){
                         step="0.01"
                         v-model.number="volume"
                         @input="onVolumeChange"
-                        orient="vertical"
+                        class="progress wux-form-range"
+                        :style="volumeBarStyle"
                     />
                 </div>
             </div>
@@ -443,9 +447,16 @@ function onFinishPlaying(){
 
 .volume-slider {
     position: absolute;
-    bottom: 40px;
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
+    width: 100px;
+    padding: 8px 14px 8px 14px;
+    background: rgba(245, 245, 247, 1);
+    z-index: 1099;
+    box-shadow: 0 0 32px 8px rgba(0,0,0,0.28);
+    border: 1.5px solid #bbb;
+    border-radius: 12px 12px 12px 12px;
 }
 
 .progress-area {
