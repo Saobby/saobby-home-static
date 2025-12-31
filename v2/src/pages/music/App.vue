@@ -22,14 +22,6 @@
   const pageAmount = ref(0);
   const result = ref("正在加载歌曲列表");
   const musicList = ref([]);
-  const playList = ref([]);
-  const playMode = ref("single"); // single: 播放单曲 all: 播放全部
-  const currentPlayingId = computed(()=>{
-    if (playList.value.length === 0 || !playerRef.value) {
-      return -1;
-    }
-    return playList.value[playerRef.value.currentPlayIndex].id;
-  });
 
   const uiDisabled = ref(false);
   const status = ref("loading");
@@ -39,12 +31,6 @@
   const playerRef = ref(null);
 
   const playAllBtnDisabled = ref(false);
-
-  const playAllSort = ref(null);
-  const playAllOrder = ref(null);
-  const playAllKeyword = ref(null);
-  const playAllIncludedTags = ref([]);
-  const playAllExcludedTags = ref([]);
 
   async function updateMusicList() {
     uiDisabled.value = true;
@@ -106,16 +92,10 @@
     });
   });
   async function playSingle(id){
-    playMode.value = "single";
     await playerRef.value.playSingle(id);
   }
   async function playAll() {
-    playAllSort.value = sort.value;
-    playAllOrder.value = order.value;
-    playAllKeyword.value = keyword.value;
-    playAllIncludedTags.value = includedTags.value;
-    playAllExcludedTags.value = excludedTags.value;
-
+      await playerRef.value.playAll(sort.value, order.value, keyword.value, includedTags.value, excludedTags.value);
   }
 
   function closeMusicDetail(){

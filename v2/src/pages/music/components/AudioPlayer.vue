@@ -1,11 +1,16 @@
 <script setup lang="js">
 import {nextTick, onBeforeUnmount, onMounted, ref} from "vue"
 import Hls from "hls.js"
-import {getMusicUrlsApi} from "../musicWebApi.js";
+import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
 
 const audio = ref(null);
 let hls = null;
 let musicInfoCache = {};
+
+let playMode = null;
+let playList = [];
+let playIndex = -1;
+let searchArgs = {};
 
 const title = ref("未知歌曲");
 const isPlaying = ref(false);
@@ -59,6 +64,12 @@ function onSeek() {
     audio.value.currentTime = currentTime.value;
 }
 
+function onEnd(){
+    if (playMode === "list"){
+        nextMusic().then();
+    }
+}
+
 function formatTime(t) {
     if (!t || isNaN(t)) return "00:00";
     const m = Math.floor(t / 60);
@@ -82,7 +93,7 @@ async function getMusicUrls(ids){
     if (requireFetch.length > 0){
         const rsp = await getMusicUrlsApi(requireFetch);
         if (rsp.retcode){
-            showErrorMsg(rsp.msg);
+            handleError("无法获取音频文件 url: "+rsp.msg);
             return;
         }
         for (const i of rsp.data.urls){
@@ -134,12 +145,17 @@ async function handlePlay(musicType, src, musicTitle) {
     title.value = musicTitle;
 }
 
-function showErrorMsg(msg){
+function handleError(msg){
     console.error(msg);
 }
 
 async function playSingle(musicId) {
-    const musicInfo = (await getMusicUrls([musicId]))[0];
+    playMode = "single";
+    const rsp = await getMusicUrls([musicId]);
+    if (!rsp){
+        return;
+    }
+    const musicInfo = rsp[0];
     await handlePlay(
         musicInfo.version === 2 ? "m3u8": "default",
         musicInfo.audio_url,
@@ -147,8 +163,76 @@ async function playSingle(musicId) {
     );
 }
 
+async function expandPlaylist(){
+    const rsp = await fetchMusicListApi(
+        searchArgs.sort,
+        searchArgs.order,
+        searchArgs.pageIndex,
+        searchArgs.keyword,
+        searchArgs.includedTags,
+        searchArgs.excludedTags,
+        searchArgs.pageSize
+    )
+    if (rsp.retcode){
+        handleError("无法加载播放列表: "+rsp.msg);
+        return;
+    }
+    searchArgs.pageAmount = rsp.data.pg_amount;
+    searchArgs.pageIndex += 1;
+    const list = rsp.data.list;
+    let newIds = [];
+    for (const i of list){
+        newIds.push(i.id);
+    }
+    await getMusicUrls(newIds);  // 预先加载并缓存音频链接
+    playList = playList.concat(newIds);
+}
+
+async function startPlay(){
+    const musicId = playList[playIndex];
+    const rsp = await getMusicUrls([musicId]);
+    const musicInfo = rsp[0];
+    await handlePlay(
+        musicInfo.version === 2 ? "m3u8": "default",
+        musicInfo.audio_url,
+        musicInfo.name
+    );
+}
+
+async function nextMusic(){
+    if (playIndex >= playList.length - 1) return;
+    if (playIndex === playList.length - 2){
+        expandPlaylist().then();  // 准备开始播放列表中的最后一曲时加载后面的播放列表
+    }
+    playIndex++;
+    await startPlay();
+}
+
+async function prevMusic(){
+    if (playIndex <= 0) return;
+    playIndex--;
+    await startPlay();
+}
+
+async function playAll(sort, order, keyword, includedTags, excludedTags){
+    playMode = "list";
+    searchArgs = {
+        sort: sort,
+        order: order,
+        keyword: keyword,
+        includedTags: includedTags,
+        excludedTags: excludedTags,
+        pageSize: 10,
+        pageIndex: 0,
+        pageAmount: 114514
+    }
+    await expandPlaylist();
+    await nextMusic();
+}
+
 defineExpose({
     playSingle,
+    playAll
 })
 
 onBeforeUnmount(() => {
@@ -163,6 +247,7 @@ onBeforeUnmount(() => {
             ref="audio"
             @timeupdate="onTimeUpdate"
             @loadedmetadata="onLoadedMetadata"
+            @ended="onEnd"
         />
         <div class="controls-row">
             <button>⏮</button>
