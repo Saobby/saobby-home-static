@@ -101,7 +101,9 @@
       await playerRef.value.playSingle(id);
   }
   async function playAll() {
+      playAllBtnDisabled.value = true;
       await playerRef.value.playAll(sort.value, order.value, keyword.value, includedTags.value, excludedTags.value);
+      playAllBtnDisabled.value = false;
   }
 
   function closeMusicDetail(){
