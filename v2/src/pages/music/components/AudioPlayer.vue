@@ -411,42 +411,47 @@ function onFinishPlaying(){
     <div class="player-container">
         <audio ref="audio" />
         <div class="controls-row">
-            <button :disabled="uiDisabled || (!canPrev)" @click="prevMusic" title="上一曲" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
-                <IconPlayerTrackPrevFilled width="26px" height="26px"/>
-            </button>
-            <button :disabled="uiDisabled" @click="togglePlay" :title="isPlaying ? '暂停': '播放'" class="wux-btn wux-btn-round icon-btn3 mc" type="button">
-                <span style="width: 24px; height: 24px" v-if="isAudioLoading" class="wux-loading"></span>
-                <IconPlayerPauseFilled width="24px" height="24px" v-if="(!isAudioLoading) && isPlaying"/>
-                <IconPlayerPlayFilled width="24px" height="24px" v-if="(!isAudioLoading) && (!isPlaying)"/>
-            </button>
-            <button :disabled="uiDisabled || (!canNext)" @click="nextMusic" title="下一曲" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
-                <IconPlayerTrackNextFilled width="26px" height="26px"/>
-            </button>
-            <button @click="toggleCycle" :title="isCycle ? '切换为列表播放': '切换为单曲循环'" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
-                <IconRefresh v-if="isCycle" width="26px" height="26px"/>
-                <IconRefreshOff v-if="!isCycle" width="26px" height="26px"/>
-            </button>
+            <div class="title-mobile">
+                {{ title }}
+            </div>
 
-            <div class="volume-wrapper">
-                <button @click="toggleVolume" title="音量调节" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
-                    <IconVolume width="26px" height="26px"/>
+            <div class="button-group">
+                <button :disabled="uiDisabled || (!canPrev)" @click="prevMusic" title="上一曲" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
+                    <IconPlayerTrackPrevFilled width="26px" height="26px"/>
                 </button>
-                <div v-if="showVolume" class="volume-slider">
-                    <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.01"
-                        v-model.number="volume"
-                        @input="onVolumeChange"
-                        class="progress wux-form-range"
-                        :style="volumeBarStyle"
-                    />
+                <button :disabled="uiDisabled" @click="togglePlay" :title="isPlaying ? '暂停': '播放'" class="wux-btn wux-btn-round icon-btn3 mc" type="button">
+                    <span style="width: 24px; height: 24px" v-if="isAudioLoading" class="wux-loading"></span>
+                    <IconPlayerPauseFilled width="24px" height="24px" v-if="(!isAudioLoading) && isPlaying"/>
+                    <IconPlayerPlayFilled width="24px" height="24px" v-if="(!isAudioLoading) && (!isPlaying)"/>
+                </button>
+                <button :disabled="uiDisabled || (!canNext)" @click="nextMusic" title="下一曲" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
+                    <IconPlayerTrackNextFilled width="26px" height="26px"/>
+                </button>
+                <button @click="toggleCycle" :title="isCycle ? '切换为列表播放': '切换为单曲循环'" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
+                    <IconRefresh v-if="isCycle" width="26px" height="26px"/>
+                    <IconRefreshOff v-if="!isCycle" width="26px" height="26px"/>
+                </button>
+                <div class="volume-wrapper">
+                    <button @click="toggleVolume" title="音量调节" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
+                        <IconVolume width="26px" height="26px"/>
+                    </button>
+                    <div v-if="showVolume" class="volume-slider">
+                        <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.01"
+                            v-model.number="volume"
+                            @input="onVolumeChange"
+                            class="progress wux-form-range"
+                            :style="volumeBarStyle"
+                        />
+                    </div>
                 </div>
             </div>
 
             <div class="progress-area">
-                <div class="title">
+                <div class="title title-desktop">
                     {{ title }}
                 </div>
 
@@ -492,9 +497,25 @@ function onFinishPlaying(){
 }
 
 .controls-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 8px;
+}
+
+.button-group {
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
+}
+
+.title-mobile {
+    display: none;
+}
+
+.title-desktop {
+    display: block;
 }
 
 .volume-wrapper {
@@ -542,4 +563,34 @@ function onFinishPlaying(){
     justify-content: space-between;
     font-size: 12px;
 }
+
+@media (max-width: 600px) {
+    .controls-row {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        gap: 0;
+    }
+
+    .progress-area {
+        margin-left: 0;
+        margin-top: 6px;
+    }
+
+    .title-mobile {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    .title-desktop {
+        display: none;
+    }
+
+    .button-group {
+        justify-content: center;
+    }
+}
+
 </style>
