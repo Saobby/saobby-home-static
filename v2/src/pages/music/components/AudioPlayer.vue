@@ -1,6 +1,5 @@
 <script setup lang="js">
 import {nextTick, onBeforeUnmount, onMounted, ref, reactive, computed} from "vue"
-import Hls from "hls.js"
 import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
 import {IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled, IconVolume, IconRefresh, IconRefreshOff} from "@tabler/icons-vue";
 
@@ -177,7 +176,10 @@ function destroyHls(){
     }
 }
 
-function setUpHls(m3u8Url){
+async function setUpHls(m3u8Url){
+    isAudioLoading.value = true;
+    const {default: Hls} = await import("hls.js");
+    isAudioLoading.value = false;
     if (Hls.isSupported()){
         destroyHls();
         hls = new Hls();
@@ -195,7 +197,7 @@ async function handlePlay(musicType, src, musicTitle) {
             audio.value.src = src;
             break;
         case "m3u8":
-            setUpHls(src);
+            await setUpHls(src);
             break;
     }
     await nextTick();
