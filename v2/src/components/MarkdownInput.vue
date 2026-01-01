@@ -1,7 +1,6 @@
 <script setup lang="js">
 import { computed, ref, watch } from 'vue';
 import { IconEdit, IconEye } from '@tabler/icons-vue';
-import { parseMd } from "@/assets/js/initMarked.js";
 import { emotionsPack } from '@/assets/js/emojis';
 import EmotionsBar from '@/components/EmotionsBar.vue';
 import ImageUploader from '@/components/ImageUploader.vue';
@@ -34,7 +33,9 @@ const fullPlaceholder = computed(() => {
 const showPreview = ref(false);
 const content = ref(props.modelValue);
 const html = ref('');
-function renderHtml(){
+async function renderHtml(){
+    html.value = "加载中...";
+    const { parseMd } = await import("@/assets/js/initMarked.js");
     html.value = parseMd(content.value);
 }
 
@@ -68,7 +69,7 @@ function emitInputContent() {
 <template>
     <textarea @focusout="emitInputContent" @input="emitInputContent" ref="textareaRef" :rows="rows" :placeholder="fullPlaceholder" :class="'wux-form-input wux-form-input-md '+inputClass" :hidden="showPreview" v-model="content"></textarea>
     <div :class="inputClass" class="pre-like wux-typo" :hidden="!showPreview" v-html="html"></div>
-    <button :class="'wux-btn wux-btn-primary wux-btn-outline mc '+btnClass" type="button" v-if="!showPreview" @click="showPreview = true; renderHtml()">
+    <button :class="'wux-btn wux-btn-primary wux-btn-outline mc '+btnClass" type="button" v-if="!showPreview" @click="showPreview = true; renderHtml().then()">
         <IconEye width="16px" height="16px" />
         预览
     </button>

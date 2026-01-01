@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { reactive, ref, watch } from 'vue';
+import {onMounted, reactive, ref, watch} from 'vue';
 import { fetch_api, ts2str } from '@/assets/js/util.js';
 import { IconDownload, IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
 import CommentsSection from '@/components/CommentsSection.vue';
@@ -13,10 +13,13 @@ import TitleEdit from '@/components/TitleEdit.vue';
 
 const props = defineProps({
     musicId: { type: Number },
-    updateN: {},
     currentPlayingId: { type: Number, default: -1 }
 });
 const emit = defineEmits(['play', 'update', 'close']);
+
+defineExpose({
+    getMusicInfo
+});
 
 const musicInfo = reactive({});
 const status = ref("loading");
@@ -51,13 +54,18 @@ async function getMusicInfo(){
 }
 
 watch(
-    () => { return (props.musicId, props.updateN); },
+    () => { return (props.musicId); },
     (newId, n) => {
         if (newId > 0) {
             getMusicInfo();
         }
     }
 );
+onMounted(async () => {
+    if (props.musicId > 0){
+        await getMusicInfo();
+    }
+});
 
 function emitUpdate() {
     emit("update");

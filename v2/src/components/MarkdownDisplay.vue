@@ -1,6 +1,5 @@
 <script setup lang="js">
-import { parseMd } from '@/assets/js/initMarked.js';
-import { computed, ref } from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import { IconMarkdown } from '@tabler/icons-vue';
 const props = defineProps({
     show: {type: Boolean, default: true},
@@ -10,9 +9,21 @@ const props = defineProps({
     divClass: {type: String, default: ''}
 })
 const showMd = ref(false);
+const mdParser = ref(null);
 const html = computed(() => {
     if (!props.md) return '';
-    return parseMd(props.md);
+    if (!mdParser.value){
+        return "Markdown 解析器加载中...";
+    }
+    return mdParser.value(props.md);
+});
+async function loadMdParser(){
+    if (mdParser.value) return;
+    const mod = await import("@/assets/js/initMarked.js");
+    mdParser.value = mod.parseMd;
+}
+onMounted(async () => {
+    await loadMdParser();
 });
 </script>
 <template>

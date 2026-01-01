@@ -27,7 +27,6 @@
   const status = ref("loading");
   const mode = ref("list"); // list: 列表 detail: 详情
   const detailMusicId = ref(0);
-  const musicDetailUpdateN = ref(0);
   const playerRef = ref(null);
   const currentPlayingId = computed(() => {
       if (!playerRef.value){
@@ -72,7 +71,6 @@
     musicId = parseInt(musicId);
     detailMusicId.value = musicId;
     mode.value = "detail";
-    musicDetailUpdateN.value += 1;  // 强制更新音乐详情组件
     updateUrlArgs({ music_id: musicId});
   }
   updateMusicList();
@@ -147,13 +145,14 @@
         </div>
         <PaginationButtons :page-index="pageIndex" :page-amount="pageAmount" :btn-amount="7" :disabled="uiDisabled" @change-page="changePage"/>
       </div>
-      <div :hidden="mode!=='detail'">
+      <div v-if="mode==='detail'">
+<!--          每次打开详情都会重新挂载MusicDetail，就不用每次强制刷新-->
         <h2 class="mt">歌曲详情
           <button type="button" class="wux-btn wux-btn-lg wux-btn-primary wux-btn-text mc right" @click="closeMusicDetail">
             <IconX width="16px" height="16px"/>关闭
           </button>
         </h2>
-        <MusicDetail :currentPlayingId="currentPlayingId" :update-n="musicDetailUpdateN" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList" @close="closeMusicDetail"/>
+        <MusicDetail :currentPlayingId="currentPlayingId" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList" @close="closeMusicDetail"/>
       </div>
       <div>
           <AudioPlayer @error="handlePlayerError" :disable-ui="playerUiDisabled" initial-title="点击播放按钮以播放" @request-play="playAll" ref="playerRef"></AudioPlayer>
