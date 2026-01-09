@@ -2,64 +2,23 @@
 import MarkdownInput from '@/components/MarkdownInput.vue';
 import { reactive, watch, ref } from 'vue';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
-import { IconCircleDashedCheck, IconCheck, IconRefresh, IconLink, IconFileDescription, IconTag, IconFile, IconLabel } from '@tabler/icons-vue';
+import { IconCircleDashedCheck, IconCheck, IconRefresh, IconFileDescription, IconTag, IconFile, IconLabel } from '@tabler/icons-vue';
 import TagSelect from '@/components/TagSelect.vue';
-import { shareMusicApi, queryProgressApi, shareMusicFileApi } from './share_music';
+import { queryProgressApi, shareMusicFileApi } from './share_music';
 
 const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
 const aboutMusicPageUrl = import.meta.env.VITE_ABOUT_MUSIC_PAGE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
 
 const musicDetails = reactive({
-    0: {url: "", desc: "", tags: []},  // 网易云音乐
     1: {name: "", src: "", desc: "", tags:[]},  // 文件上传
-    2: {url: "", desc: "", tags: []},  // 塞壬唱片
 });
 const results = reactive({
-    0: {msg: "", isLoading: false},
     1: {msg: "", isLoading: false, uploadProgress: 0},
-    2: {msg: "", isLoading: false}
 });
 const status = ref(0);  // 0:显示表单 1:显示进度
 const musicId = ref(0);
-async function shareMusic(srcType) {
-    const details = musicDetails[srcType];
-    if (!details.url) {
-        results[srcType].msg = "音乐页面链接不能为空";
-        return;
-    }
-    if (details.desc.length > 200) {
-        results[srcType].msg = "描述/推荐理由不能超过200字";
-        return;
-    }
-    const reqDetail = {};
-    switch (srcType) {
-        case 0:  // 网易云音乐
-            if (!(new RegExp("^https://music\\.163\\.com/#/song\\?id=\\d+$")).test(details.url)){
-                results[srcType].msg = "链接格式错误";
-                return;
-            }
-            reqDetail.music_id = details.url.split("=")[1];
-            break;
-        case 2:  // 塞壬唱片
-            if (!(new RegExp("^https://monster-siren\\.hypergryph\\.com/(m/)?music/\\d+$")).test(details.url)){
-                results[srcType].msg = "链接格式错误";
-                return;
-            }
-            reqDetail.music_id = details.url.split("/").pop();
-            break;
-    }
-    results[srcType].isLoading = true;
-    const rsp = await shareMusicApi(srcType, reqDetail, details.desc, details.tags);
-    if (rsp.retcode){
-        results[srcType].msg = rsp.msg;
-        results[srcType].isLoading = false;
-        return;
-    }
-    results[srcType].isLoading = false;
-    musicId.value = rsp.data.musicId;
-    status.value = 1;
-}
+
 async function shareMusicFile(){
     const file = fileInputRef.value.files[0];
     if (!file) {
@@ -156,25 +115,9 @@ function autoFillName(){
         <div class="wux-typo">
             <div :hidden="status !== 0">
                 <h2 class="mt">分享音乐</h2>
-                <span>请选择音乐平台</span>
                 <div class="wux-tab">
-                    <input class="wux-tab-item" type="radio" name="tab-src" id="tab-nmusic" checked>
-                    <label class="wux-tab-item" for="tab-nmusic">网易云音乐</label>
-                    <div class="wux-tab-content">
-                        <hr>
-                        <span class="mc"><IconLink width="16px" height="16px" />音乐页面链接:</span>
-                        <input v-model="musicDetails[0].url" type="text" class="wux-form-input wux-form-input-md" placeholder="音乐页面链接, 例如: https://music.163.com/#/song?id=2708984802">
-                        <span class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由(选填,支持markdown,200字以内):</span>
-                        <markdown-input v-model="musicDetails[0].desc" :rows="5" placeholder="描述/推荐理由, 选填, 200字以内"></markdown-input>
-                        <hr>
-                        <span class="mc"><IconTag width="16px" height="16px"/>音乐标签(选填,最多8个):</span><br>
-                        <tag-select v-model="musicDetails[0].tags" />
-                        <hr>
-                        <btn-with-loading @click="shareMusic(0)" :is-loading="results[0].isLoading" btn-class="mc"><icon-check :width="16" :height="16" />分享</btn-with-loading>
-                        <span class="result simple">{{ results[0].msg }}</span>
-                    </div>
-                    <input class="wux-tab-item" type="radio" name="tab-src" id="tab-file">
-                    <label class="wux-tab-item" for="tab-file">直接上传音频文件</label>
+                    <input class="wux-tab-item" type="radio" name="tab-src" id="tab-file" checked>
+                    <label class="wux-tab-item" for="tab-file">上传音频文件</label>
                     <div class="wux-tab-content">
                         <hr>
                         <span class="mc"><IconFile width="16px" height="16px"/>请选择音乐文件:</span>
@@ -192,21 +135,6 @@ function autoFillName(){
                         <btn-with-loading @click="shareMusicFile" :is-loading="results[1].isLoading" btn-class="mc"><icon-check :width="16" :height="16" />分享</btn-with-loading>
                         <span class="result simple">{{ results[1].msg }}</span>
                         <progress :hidden="!results[1].isLoading" class="wux-progress" :value="results[1].uploadProgress" max="1"></progress>
-                    </div>
-                    <input class="wux-tab-item" type="radio" name="tab-src" id="tab-ms">
-                    <label class="wux-tab-item" for="tab-ms">塞壬唱片</label>
-                    <div class="wux-tab-content">
-                        <hr>
-                        <span class="mc"><IconLink width="16px" height="16px" />音乐页面链接:</span>
-                        <input v-model="musicDetails[2].url" type="text" class="wux-form-input wux-form-input-md" placeholder="音乐页面链接, 例如: https://monster-siren.hypergryph.com/music/514518">
-                        <span class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由(选填,支持markdown,200字以内):</span>
-                        <markdown-input v-model="musicDetails[2].desc" :rows="5" placeholder="描述/推荐理由, 选填, 200字以内"></markdown-input>
-                        <hr>
-                        <span class="mc"><IconTag width="16px" height="16px"/>音乐标签(选填,最多8个):</span><br>
-                        <tag-select v-model="musicDetails[2].tags" />
-                        <hr>
-                        <btn-with-loading @click="shareMusic(2)" :is-loading="results[2].isLoading" btn-class="mc"><icon-check :width="16" :height="16" />分享</btn-with-loading>
-                        <span class="result simple">{{ results[2].msg }}</span>
                     </div>
                 </div>
                 <hr>

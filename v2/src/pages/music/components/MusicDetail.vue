@@ -171,7 +171,7 @@ async function editTags(newTags){
                     <span class="mc" title="推荐用户"><IconUser width="16px" height="16px"/><span class="simple">{{ musicInfo.sharer_name || "匿名用户" }}</span></span><br>
                     <span class="mc" title="推荐时间"><IconClock width="16px" height="16px"/><span class="simple">{{ ts2str(musicInfo.shared_at) }}</span></span><br>
                     <span class="mc" title="来源"><IconVinyl width="16px" height="16px"/><span class="simple">来源: {{ ["网易云音乐", "文件上传", "塞壬唱片"][musicInfo.src_type] }}</span></span><br>
-                    <span class="gray" v-if="musicInfo.bit_rate > 320"><i>提示:以下为音乐平台或用户上传的源文件信息,音乐分发时最大比特率将被限制为 320kpbs</i></span><br v-if="musicInfo.bit_rate > 320">
+                    <span class="gray" v-if="musicInfo.bit_rate > 320"><i>提示:以下为用户上传的源文件信息,音乐分发时最大比特率将被限制为 320kpbs</i></span><br v-if="musicInfo.bit_rate > 320">
                     <span class="mc" title="通道数" v-if="musicInfo.channels"><IconMusic width="16px" height="16px"/><span class="simple">通道数: {{ musicInfo.channels }}</span></span><br v-if="musicInfo.channels">
                     <span class="mc" title="采样频率" v-if="musicInfo.freq"><IconBrandSpeedtest width="16px" height="16px"/><span class="simple">采样频率: {{ musicInfo.freq }}Hz</span></span><br v-if="musicInfo.freq">
                     <span class="mc" title="位深度" v-if="musicInfo.bit_depth"><IconStackFront width="16px" height="16px"/><span class="simple">位深度: {{ musicInfo.bit_depth }}bit</span></span><br v-if="musicInfo.bit_depth">
