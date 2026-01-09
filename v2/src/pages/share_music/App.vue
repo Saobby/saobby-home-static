@@ -7,6 +7,7 @@ import TagSelect from '@/components/TagSelect.vue';
 import { shareMusicApi, queryProgressApi, shareMusicFileApi } from './share_music';
 
 const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
+const aboutMusicPageUrl = import.meta.env.VITE_ABOUT_MUSIC_PAGE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
 
 const musicDetails = reactive({
@@ -208,6 +209,8 @@ function autoFillName(){
                         <span class="result simple">{{ results[2].msg }}</span>
                     </div>
                 </div>
+                <hr>
+                <a target="_blank" :href="aboutMusicPageUrl" class="gray">关于此项目</a>
             </div>
             <div :hidden="status !== 1" class="centered">
                 <h2 class="mc" style="color:#00aa00"><IconCircleDashedCheck width="36px" height="36px" />提交成功</h2>

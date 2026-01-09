@@ -11,6 +11,7 @@
   import BtnWithLoading from "@/components/BtnWithLoading.vue";
 
   const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
+  const aboutMusicPageUrl = import.meta.env.VITE_ABOUT_MUSIC_PAGE_URL;
 
   const sort = ref("0");
   const order = ref("0");
@@ -144,6 +145,8 @@
           <span class="result" v-html="result"></span>
         </div>
         <PaginationButtons :page-index="pageIndex" :page-amount="pageAmount" :btn-amount="7" :disabled="uiDisabled" @change-page="changePage"/>
+          <br>
+        <a target="_blank" :href="aboutMusicPageUrl" class="gray">关于此项目</a>
       </div>
       <div v-if="mode==='detail'">
 <!--          每次打开详情都会重新挂载MusicDetail，就不用每次强制刷新-->
