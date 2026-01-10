@@ -2,7 +2,7 @@
 import MarkdownInput from './MarkdownInput.vue';
 import { IconCheck, IconLogin2 } from '@tabler/icons-vue';
 import { fetch_api } from '@/assets/js/util.js';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { captcha } from '@/assets/js/captcha.js';
 
 const props = defineProps({
@@ -10,8 +10,7 @@ const props = defineProps({
     replyTo: { type: Number, default: -1 },
     rows: { type: Number, default: 5 },
     placeholder: { type: String, default: "" },
-    btnClass: { type: String, default: "" },
-    loadDraftN: { type: Number, default: 0 }
+    btnClass: { type: String, default: "" }
 });
 const emits = defineEmits(['commentAdded']);
 
@@ -76,14 +75,14 @@ async function saveDraft(){
     }
 }
 
-async function loadDraft() {
+async function loadDraft(placeId) {
     const accessToken = localStorage.getItem("access-token");
     if (!accessToken){
         return;
     }
     const rsp = await fetch_api(import.meta.env.VITE_API_DOMAIN + "/api/get_comment_draft", {
         access_token: accessToken,
-        place_id: props.placeId,
+        place_id: placeId || props.placeId,
         reply_to: props.replyTo
     });
     if (rsp.retcode) {
@@ -95,9 +94,9 @@ async function loadDraft() {
     }
 }
 
-watch(() => props.loadDraftN, (n) => {
-    loadDraft();
-});
+defineExpose({
+    loadDraft
+})
 
 </script>
 <template>

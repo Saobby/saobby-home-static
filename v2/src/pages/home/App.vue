@@ -29,7 +29,8 @@ onMounted(()=>{
         }
     })();
     if (commentPlaceId.value === 114514) {
-        commentsSessionRef.value.updateComments();
+        commentsSessionRef.value.updateComments().then();
+        commentsSessionRef.value.loadDraft().then();
     }
 });
 const showAddCommentWindow = ref(false);

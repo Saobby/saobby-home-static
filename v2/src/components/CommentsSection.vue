@@ -79,22 +79,25 @@ const parsedComments = computed(()=>{
     }
     return p(comments.value, 0);
 });
+async function loadDraft(placeId){
+    await commentInputRef.value.loadDraft(placeId);
+}
 const uiDisabled = ref(false);
-watch(() => props.placeId, () => {
-    if (props.placeId) {
+watch(() => props.placeId, (newPlaceId) => {
+    if (newPlaceId) {
         pageIndex.value = 0;
-        updateComments();
-        loadDraftN.value += 1;  // 加载草稿
+        updateComments().then();
+        loadDraft(newPlaceId).then();
     }
 });
-const loadDraftN = ref(0);
-defineExpose({updateComments});
+const commentInputRef = ref(null);
+defineExpose({updateComments, loadDraft});
 const updateCommentsListN = ref(0);
 
 </script>
 <template>
     <div :hidden="!showAddCommentWindow">
-        <AddCommentInput :load-draft-n="loadDraftN" :placeId="props.placeId" placeholder="请输入评论内容, 最多 4096 字" @commentAdded="pageIndex=0;updateComments()"/>
+        <AddCommentInput ref="commentInputRef" :placeId="props.placeId" placeholder="请输入评论内容, 最多 4096 字" @commentAdded="pageIndex=0;updateComments()"/>
     </div>
     <slot></slot>
     <div :hidden="status!=='showing'" style="width: 100%; overflow: auto;">

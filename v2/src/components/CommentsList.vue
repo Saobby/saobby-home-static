@@ -2,7 +2,7 @@
 import { IconMailCheck, IconPencilCheck, IconClock, IconMessageReply, IconEdit, IconX, IconCornerDownRight } from '@tabler/icons-vue';
 import { ts2str, check_logged_in } from '@/assets/js/util.js';
 import MarkdownDisplay from './MarkdownDisplay.vue';
-import { onMounted, reactive, watch } from 'vue';
+import {onBeforeMount, ref, watch} from 'vue';
 import EditCommentInput from './EditCommentInput.vue';
 import AddCommentInput from './AddCommentInput.vue';
 const props = defineProps({
@@ -33,21 +33,21 @@ comments: [
  */
 const emits = defineEmits(["updateComments", "scrollToComment"]);
 
-const uiStatus = reactive({});
+const uiStatus = ref({});
 function initUiStatus(comments) {
     uiStatus.value = {};
     for (const comment of comments) {
-        uiStatus[comment.cid] = {
+        uiStatus.value[comment.cid] = {
             showReplyWindow: false,
             showEditWindow: false,
-            loadDraftN: 0
+            commentInputRef: null
         };
     }
 }
 watch(()=>props.comments, (lst)=>{
     initUiStatus(lst);
 });
-onMounted(()=>{
+onBeforeMount(()=>{
     initUiStatus(props.comments);
 });
 
@@ -76,7 +76,7 @@ function updateComments() {
             <div :hidden="uiStatus[comment.cid]?.showEditWindow">
                 <MarkdownDisplay :showBtn="!comment.can_edit" :md="comment.content" btnClass="wux-btn-sm">
                     <i class="gray" v-if="comment.is_read !== null">{{ comment.is_read ? `已读(${ts2str(comment.read_time)})` : '未读' }}</i><br v-if="comment.is_read !== null">
-                    <button @click="(()=>{if(!check_logged_in()){uiStatus[comment.cid].showReplyWindow=true;uiStatus[comment.cid].loadDraftN+=1;}})()" :disabled="uiStatus[comment.cid]?.showReplyWindow" class="wux-btn wux-btn-primary wux-btn-sm mc simple" type="button">
+                    <button @click="(()=>{if(!check_logged_in()){uiStatus[comment.cid].showReplyWindow=true;uiStatus[comment.cid].commentInputRef.loadDraft().then();}})()" :disabled="uiStatus[comment.cid]?.showReplyWindow" class="wux-btn wux-btn-primary wux-btn-sm mc simple" type="button">
                         <IconMessageReply width="16px" height="16px" />
                         回复
                     </button>
@@ -96,7 +96,7 @@ function updateComments() {
             </div>
         </div>
         <div :hidden="!uiStatus[comment.cid]?.showReplyWindow">
-            <AddCommentInput :load-draft-n="uiStatus[comment.cid]?.loadDraftN" @commentAdded="updateComments()" :placeId="placeId" :replyTo="comment.cid" :placeholder="`回复 #${comment.cid}, 最多 4096 字`">
+            <AddCommentInput :ref="e => {uiStatus[comment.cid].commentInputRef = e}" @commentAdded="updateComments()" :placeId="placeId" :replyTo="comment.cid" :placeholder="`回复 #${comment.cid}, 最多 4096 字`">
                 <button @click="uiStatus[comment.cid].showReplyWindow=false" class="wux-btn wux-btn-primary wux-btn-outline simple mc" type="button">
                     <IconX width="16px" height="16px" />
                     取消
