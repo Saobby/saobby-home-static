@@ -7,6 +7,7 @@ import BirthdayNotice from './components/BirthdayNotice.vue';
 import CheckInBox from './components/CheckInBox.vue';
 import Folder from "@/components/Folder.vue";
 const domain = import.meta.env.VITE_API_DOMAIN;
+const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
 const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
 
@@ -190,7 +191,7 @@ onMounted(async () => {
                     <div class="wux-card-body">
                         <h2 class="mc2"><IconMessage width="32px" height="32px"/><span>评论区</span></h2>
                         <button class="wux-btn wux-btn-primary mc2" @click="showAddCommentWindow = !showAddCommentWindow;" type="button"><IconMessagePlus width="16px" height="16px"/><span>发表评论</span></button>
-                        <a href="/?114514"><button class="wux-btn wux-btn-primary wux-btn-outline mc2 simple" :hidden="commentOnly" type="button"><IconMessage width="16px" height="16px"/><span>主评论区</span></button></a>
+                        <a :href="homePageUrl+'?114514'"><button class="wux-btn wux-btn-primary wux-btn-outline mc2 simple" :hidden="commentOnly" type="button"><IconMessage width="16px" height="16px"/><span>主评论区</span></button></a>
                         <CommentsSection :show-add-comment-window="showAddCommentWindow" ref="commentsSessionRef" :place-id="commentPlaceId">
                             <hr>
                             <span :hidden="commentOnly" class="mc2"><IconBell width="16px" height="16px"/><span>绑定电子邮箱，有回复时发邮件提醒你 <a href="/bind_email">立即绑定</a></span><br></span>

@@ -6,6 +6,7 @@ import { IconCircleDashedCheck, IconCheck, IconRefresh, IconFileDescription, Ico
 import TagSelect from '@/components/TagSelect.vue';
 import { queryProgressApi, shareMusicFileApi } from './share_music';
 
+const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
 const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
 const aboutMusicPageUrl = import.meta.env.VITE_ABOUT_MUSIC_PAGE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
@@ -108,7 +109,7 @@ function autoFillName(){
 <template>
     <div class="wux-container">
         <ul class="wux-breadcrumb">
-            <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
+            <li class="wux-breadcrumb-item"><a :href="homePageUrl">主页</a></li>
             <li class="wux-breadcrumb-item"><a :href="musicPageUrl">一起听歌</a></li>
             <li class="wux-breadcrumb-item">分享音乐</li>
         </ul>

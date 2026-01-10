@@ -9,6 +9,8 @@ import MessagesDisplay from "./components/MessagesDisplay.vue";
 import MarkdownDisplay from "@/components/MarkdownDisplay.vue";
 import { toDataURL } from "qrcode";
 
+const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
+
 const mode = ref(0);  // 0：欢迎界面 1: 接收者界面 2: 发送者界面 3: 加载界面 4: 发送者输入频道号
 
 const createResult = ref("");
@@ -174,7 +176,7 @@ async function publishMessage() {
 <template>
     <div class="wux-container">
         <ul class="wux-breadcrumb">
-            <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
+            <li class="wux-breadcrumb-item"><a :href="homePageUrl">主页</a></li>
             <li class="wux-breadcrumb-item">多设备图文互传</li>
         </ul>
         <div class="wux-typo">

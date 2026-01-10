@@ -10,6 +10,7 @@
   import { getUrlArgs, updateUrlArgs } from "@/assets/js/util.js";
   import BtnWithLoading from "@/components/BtnWithLoading.vue";
 
+  const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
   const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
   const aboutMusicPageUrl = import.meta.env.VITE_ABOUT_MUSIC_PAGE_URL;
 
@@ -123,7 +124,7 @@
 <template>
   <div class="wux-container">
     <ul class="wux-breadcrumb">
-      <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
+      <li class="wux-breadcrumb-item"><a :href="homePageUrl">主页</a></li>
       <li class="wux-breadcrumb-item">一起听歌</li>
     </ul>
     <div class="wux-typo" style="padding-bottom: 140px;">

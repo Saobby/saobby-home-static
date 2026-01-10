@@ -1,4 +1,5 @@
 <script setup lang="js">
+const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
 
 </script>
@@ -6,7 +7,7 @@ const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
 <template>
     <div class="wux-container">
         <ul class="wux-breadcrumb">
-            <li class="wux-breadcrumb-item"><a href="/">主页</a></li>
+            <li class="wux-breadcrumb-item"><a :href="homePageUrl">主页</a></li>
             <li class="wux-breadcrumb-item"><a :href="musicPageUrl">一起听歌</a></li>
             <li class="wux-breadcrumb-item">关于一起听歌</li>
         </ul>
