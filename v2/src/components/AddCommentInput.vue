@@ -2,7 +2,7 @@
 import MarkdownInput from './MarkdownInput.vue';
 import { IconCheck, IconLogin2 } from '@tabler/icons-vue';
 import { fetch_api } from '@/assets/js/util.js';
-import { ref } from 'vue';
+import {onBeforeUnmount, ref} from 'vue';
 import { captcha } from '@/assets/js/captcha.js';
 
 const props = defineProps({
@@ -16,6 +16,9 @@ const emits = defineEmits(['commentAdded']);
 
 const result = ref("");
 const loading = ref(false);
+let isDirty = false;
+let lastSavedContent = null;
+let saveDraftInterval = null;
 const accessToken = localStorage.getItem("access-token");
 
 async function addComment(){
@@ -52,6 +55,7 @@ async function addComment(){
 const inputRef = ref(null);
 
 async function saveDraft(){
+    if (!isDirty) return;
     const accessToken = localStorage.getItem("access-token");
     if (!accessToken){
         return;
@@ -60,10 +64,6 @@ async function saveDraft(){
     if (!content){
         return;
     }
-    if (window.lastSaveDraft && (Date.now() - window.lastSaveDraft < 2e3)){
-        return; // 防止频繁保存草稿
-    }
-    window.lastSaveDraft = Date.now();
     const rsp = await fetch_api(import.meta.env.VITE_API_DOMAIN + "/api/save_comment_draft", {
         access_token: accessToken,
         content: content,
@@ -72,6 +72,9 @@ async function saveDraft(){
     });
     if (rsp.retcode) {
         result.value = "保存草稿失败:"+rsp.msg;
+    }else{
+        isDirty = false;
+        lastSavedContent = content;
     }
 }
 
@@ -96,11 +99,32 @@ async function loadDraft(placeId) {
 
 defineExpose({
     loadDraft
-})
+});
+
+// 只有用户输入过一次内容，才初始化 setInterval
+function initSaveDraft(){
+    if (saveDraftInterval !== null) return;
+    saveDraftInterval = window.setInterval(
+        saveDraft,
+        2e3
+    );
+}
+
+onBeforeUnmount(() => {
+    if (saveDraftInterval !== null) {
+      window.clearInterval(saveDraftInterval);
+    }
+});
+
+function setDirty(){
+    if (inputRef.value.getContent() !== lastSavedContent){
+        isDirty = true;
+    }
+}
 
 </script>
 <template>
-    <MarkdownInput @inputContent="saveDraft" ref="inputRef" :rows="rows" :placeholder="placeholder" :btnClass="btnClass">
+    <MarkdownInput @inputContent="initSaveDraft();setDirty();" ref="inputRef" :rows="rows" :placeholder="placeholder" :btnClass="btnClass">
         <slot />
         <button @click="addComment()" :disabled="loading || !accessToken" :class="'wux-btn wux-btn-primary simple mc '+btnClass" type="button">
             <span :hidden="loading" class="mc"><IconCheck width="16px" height="16px" />发表</span>
