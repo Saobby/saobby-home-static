@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { IconMoodHappy, IconX } from '@tabler/icons-vue';
 import { insertIntoTextarea } from '@/assets/js/util.js';
 import PopupBackdrop from "@/components/PopupBackdrop.vue";

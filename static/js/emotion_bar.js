@@ -88,11 +88,11 @@ var emotionBar = (function (){
     for (var i in wechat_emojis2){
         wechat.push([i, wechat_emojis2[i]]);
     }
-    for (var i in ppg_stickers){
-        ppg.push([i, ppg_stickers[i]]);
-    }
-    for (var i in pp_stickers){
-        pp.push([i, pp_stickers[i]]);
-    }
-    emotionBar.init([["B站表情包", bilibili], ["微信表情包", wechat], ["QQ表情包", qq2], ["QQ GIF", qq], ["Scratch", scratch], ["HSR PPG", ppg], ["GI PP", pp]]);
+    // for (var i in ppg_stickers){
+    //     ppg.push([i, ppg_stickers[i]]);
+    // }
+    // for (var i in pp_stickers){
+    //     pp.push([i, pp_stickers[i]]);
+    // }
+    emotionBar.init([["B站表情包", bilibili], ["微信表情包", wechat], ["QQ表情包", qq2], ["QQ GIF", qq], ["Scratch", scratch]]);
 })();

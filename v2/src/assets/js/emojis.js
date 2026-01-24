@@ -924,6 +924,6 @@ addEmojis2Pack({...wechat_emojis1, ...wechat_emojis2}, 0, "微信表情包");
 addEmojis2Pack(qq_emojis2, 0, "QQ表情包");
 addEmojis2Pack(qq_emojis1, 0, "QQ GIF");
 addEmojis2Pack(scratch_emojis, 0, "Scratch");
-addEmojis2Pack(ppg_stickers, 1, "HSR PPG");
-addEmojis2Pack(pp_stickers, 1, "GI PPG");
+// addEmojis2Pack(ppg_stickers, 1, "HSR PPG");
+// addEmojis2Pack(pp_stickers, 1, "GI PPG");
 export { emojis, emotionsPack };
