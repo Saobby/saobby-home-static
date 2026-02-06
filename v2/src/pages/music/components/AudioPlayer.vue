@@ -13,6 +13,10 @@ const audio = ref(null);
 let hls = null;
 let musicInfoCache = {};
 
+let audioCtx = null;
+let audioCtxSrc = null;
+let audioCtxGainNode = null;
+
 const playMode = ref(null); // single或list
 const playList = ref([]);
 const playIndex = ref(-1);
@@ -190,7 +194,15 @@ async function setUpHls(m3u8Url){
     }
 }
 
-async function handlePlay(musicType, src, musicTitle) {
+function setGain(gain, time){
+    const now = audioCtx.currentTime;
+    audioCtxGainNode.gain.cancelScheduledValues(now);
+    audioCtxGainNode.gain.setValueAtTime(audioCtxGainNode.gain.value, now);
+    audioCtxGainNode.gain.linearRampToValueAtTime(gain, now + time);
+}
+
+async function handlePlay(musicType, src, musicTitle, gain) {
+    await audioCtx.resume();
     switch (musicType){
         case "default":
             destroyHls();
@@ -201,6 +213,7 @@ async function handlePlay(musicType, src, musicTitle) {
             break;
     }
     await nextTick();
+    setGain(gain || 1.0, 30e-3);
     play();
     title.value = musicTitle;
     if ("mediaSession" in navigator){
@@ -286,6 +299,10 @@ onMounted(() => {
         audio.value.addEventListener("play", onPlay);
         audio.value.addEventListener("pause", onPause);
     }
+    audioCtx = new AudioContext();
+    audioCtxSrc = audioCtx.createMediaElementSource(audio.value);
+    audioCtxGainNode = audioCtx.createGain();
+    audioCtxSrc.connect(audioCtxGainNode).connect(audioCtx.destination);
 });
 
 onBeforeUnmount(() => {
@@ -306,6 +323,10 @@ onBeforeUnmount(() => {
         audio.value.removeEventListener("pause", onPause);
     }
     revokeAllBlob();
+    audioCtx.close();
+    audioCtx = null;
+    audioCtxSrc = null;
+    audioCtxGainNode = null;
 });
 
 // 以下为单曲播放逻辑实现
@@ -320,7 +341,8 @@ async function playSingle(musicId) {
     await handlePlay(
         musicInfo.version === 2 ? "m3u8": "default",
         musicInfo.audio_url,
-        musicInfo.name
+        musicInfo.name,
+        musicInfo.gain
     );
 }
 
@@ -375,7 +397,8 @@ async function startPlay(){
     await handlePlay(
         musicInfo.version === 2 ? "m3u8": "default",
         musicInfo.audio_url,
-        musicInfo.name
+        musicInfo.name,
+        musicInfo.gain
     );
 }
 
