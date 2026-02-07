@@ -203,6 +203,7 @@ function setGain(gain, time){
 
 async function handlePlay(musicType, src, musicTitle, gain) {
     await audioCtx.resume();
+    audio.value.crossOrigin = "anonymous";
     switch (musicType){
         case "default":
             destroyHls();
