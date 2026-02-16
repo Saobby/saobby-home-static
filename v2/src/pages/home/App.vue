@@ -126,7 +126,6 @@ onMounted(async () => {
                             <li><a href="https://brume.top/" target="_blank">春树暮云的博客</a></li>
                             <li><a href="https://wangzhaohan2910.github.io/" target="_blank">wangzhaohan2910的博客</a></li>
                             <li><a href="https://huhuweb.qzz.io/" target="_blank">Huhu的思绪矩阵</a></li>
-                            <li><a href="https://www.zhengddzz.com/" target="_blank">zhengddzz的主页</a></li>
                             <li><a href="https://www.xuzhoulab.cn/" target="_blank">虚舟实验室</a></li>
                         </ul>
                     </div>
