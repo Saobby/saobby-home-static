@@ -118,15 +118,15 @@ onMounted(async () => {
                     <div class="wux-card-body">
                         <h2 class="mc2"><IconLink width="32px" height="32px"/><span>友情链接</span></h2>
                         <ul>
-                            <li><a href="https://nekomoe.tw/" target="_blank">Bob的主页</a></li>
-                            <li>Nights的<a href="https://axopl.com/" target="_blank">蝾螈池</a>|<a href="https://sparklejs.axolotlpower.com/" target="_blank">小游戏</a></li>
-                            <li><a href="https://blog.yang1120.com/" target="_blank">氧化某人的博客</a></li>
-                            <li><a href="https://axolotlpower.com/" target="_blank">AxolotlPower</a></li>
-                            <li><a href="https://sqy419.axolotlpower.com/" target="_blank">SQY的个人网站</a></li>
-                            <li><a href="https://brume.top/" target="_blank">春树暮云的博客</a></li>
-                            <li><a href="https://wangzhaohan2910.github.io/" target="_blank">wangzhaohan2910的博客</a></li>
-                            <li><a href="https://huhuweb.qzz.io/" target="_blank">Huhu的思绪矩阵</a></li>
-                            <li><a href="https://www.xuzhoulab.cn/" target="_blank">虚舟实验室</a></li>
+                            <li><a href="https://nekomoe.tw/" target="_blank" rel="noopener">Bob的主页</a></li>
+                            <li>Nights的<a href="https://axopl.com/" target="_blank" rel="noopener">蝾螈池</a>|<a href="https://sparklejs.axolotlpower.com/" target="_blank">小游戏</a></li>
+                            <li><a href="https://blog.yang1120.com/" target="_blank" rel="noopener">氧化某人的博客</a></li>
+                            <li><a href="https://axolotlpower.com/" target="_blank" rel="noopener">AxolotlPower</a></li>
+                            <li><a href="https://sqy419.axolotlpower.com/" target="_blank" rel="noopener">SQY的个人网站</a></li>
+                            <li><a href="https://brume.top/" target="_blank" rel="noopener">春树暮云的博客</a></li>
+                            <li><a href="https://wangzhaohan2910.github.io/" target="_blank" rel="noopener">wangzhaohan2910的博客</a></li>
+                            <li><a href="https://huhuweb.qzz.io/" target="_blank" rel="noopener">Huhu的思绪矩阵</a></li>
+                            <li><a href="https://www.xuzhoulab.cn/" target="_blank" rel="noopener">虚舟实验室</a></li>
                         </ul>
                     </div>
                 </div>
