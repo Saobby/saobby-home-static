@@ -76,3 +76,11 @@ export function deleteMusicApi(id) {
     }
     return fetch_api(domain + "/api/delete_music", payload);
 }
+export function setVisibilityApi(id, visibility){
+    const payload = {
+        music_id: id,
+        access_token: localStorage.getItem("access-token"),
+        visibility: visibility
+    }
+    return fetch_api(domain + "/api/set_music_visibility", payload);
+}

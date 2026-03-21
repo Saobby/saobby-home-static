@@ -1,12 +1,12 @@
 <script setup lang="js">
 import {onMounted, reactive, ref, watch} from 'vue';
 import { fetch_api, ts2str } from '@/assets/js/util.js';
-import { IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
+import { IconEyeOff, IconEye, IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
 import CommentsSection from '@/components/CommentsSection.vue';
 import LikeMusicBtn from './LikeMusicBtn.vue';
 import { jumpToSearchTag } from '../music.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
-import { deleteMusicApi, editMusicApi } from '../music.js';
+import { deleteMusicApi, editMusicApi, setVisibilityApi } from '../music.js';
 import MarkdownEdit from '@/components/MarkdownEdit.vue';
 import TagEdit from '@/components/TagEdit.vue';
 import TitleEdit from '@/components/TitleEdit.vue';
@@ -129,6 +129,27 @@ async function editTags(newTags){
     }
     return await editMusicApi(musicInfo.id, 3, newTags);
 }
+const setVisibilityBtnLoading = ref(false);
+async function setVisibility(visibility){
+    if (!visibility){
+        const r = confirm("你确定要把这个曲目设为公开吗？该操作不可逆。");
+        if (!r){
+            return;
+        }
+    }
+    setVisibilityBtnLoading.value = true;
+    const rsp = await setVisibilityApi(musicInfo.id, visibility);
+    if (rsp.retcode){
+        setVisibilityBtnLoading.value = false;
+        status.value = "onerror";
+        result.value = "设置可见性失败:"+rsp.msg;
+        return;
+    }else{
+        setVisibilityBtnLoading.value = false;
+        emitUpdate();
+        emit("close");
+    }
+}
 </script>
 <template>
     <div :hidden="status!=='loading'" class="centered">
@@ -162,6 +183,12 @@ async function editTags(newTags){
                     <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
                     <BtnWithLoading v-if="musicInfo.can_delete" @click="deleteMusic" btnClass="wux-btn-outline sep mc" :isLoading="delBtnLoading">
                         <IconTrash width="24px" height="24px"/>删除
+                    </BtnWithLoading>
+                    <BtnWithLoading v-if="musicInfo.can_set_private" @click="setVisibility(true)" btnClass="wux-btn-outline sep mc" :isLoading="setVisibilityBtnLoading">
+                        <IconEyeOff width="24px" height="24px"/>设为私有
+                    </BtnWithLoading>
+                    <BtnWithLoading v-if="musicInfo.can_set_public" @click="setVisibility(false)" btnClass="wux-btn-outline sep mc" :isLoading="setVisibilityBtnLoading">
+                        <IconEye width="24px" height="24px"/>设为公开
                     </BtnWithLoading>
                     <hr>
                     <b class="mc"><IconVinyl width="16px" height="16px"/>来源</b><br>
