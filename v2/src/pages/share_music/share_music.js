@@ -2,13 +2,14 @@ import { captcha } from "@/assets/js/captcha";
 import { fetch_api, FormSubmitter } from "@/assets/js/util";
 const domain = import.meta.env.VITE_API_DOMAIN;
 
-export async function shareMusicFileApi(file, name, src, desc, tags, onprogressCallback) {
+export async function shareMusicFileApi(file, name, src, desc, tags, isPrivate, onprogressCallback) {
     const formData = new FormData;
     formData.append("audio", file);
     formData.append("name", name);
     formData.append("src", src);
     formData.append("desc", desc);
     formData.append("tags", JSON.stringify(tags));
+    formData.append("is_private", isPrivate);
     if (localStorage.getItem("access-token")){
         formData.append("access_token", localStorage.getItem("access-token"));
     }
@@ -27,7 +28,7 @@ export async function shareMusicFileApi(file, name, src, desc, tags, onprogressC
     if (rsp1.retcode){
         return { retcode: rsp1.retcode, msg: rsp1.msg };
     }
-    return { retcode: 0, msg: "分享成功", data: {musicId: rsp1.data.id} };
+    return { retcode: 0, msg: rsp1.msg, data: {musicId: rsp1.data.id, retType: rsp1.data.ret_type} };
 }
 export async function queryProgressApi(music_id){
     const rsp0 = await fetch_api(domain+"/api/query_music_status", {

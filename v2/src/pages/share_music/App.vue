@@ -2,7 +2,7 @@
 import MarkdownInput from '@/components/MarkdownInput.vue';
 import { reactive, watch, ref } from 'vue';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
-import { IconCircleDashedCheck, IconCheck, IconRefresh, IconFileDescription, IconTag, IconFile, IconLabel } from '@tabler/icons-vue';
+import { IconEye, IconCircleDashedCheck, IconCheck, IconRefresh, IconFileDescription, IconTag, IconFile, IconLabel } from '@tabler/icons-vue';
 import TagSelect from '@/components/TagSelect.vue';
 import { queryProgressApi, shareMusicFileApi } from './share_music';
 
@@ -11,8 +11,10 @@ const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
 const aboutMusicPageUrl = import.meta.env.VITE_ABOUT_MUSIC_PAGE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
 
+const loggedIn = localStorage.getItem("access-token");
+
 const musicDetails = reactive({
-    1: {name: "", src: "", desc: "", tags:[]},  // 文件上传
+    1: {name: "", src: "", desc: "", tags:[], isPrivate: "0"},  // 文件上传
 });
 const results = reactive({
     1: {msg: "", isLoading: false, uploadProgress: 0},
@@ -20,8 +22,11 @@ const results = reactive({
 const status = ref(0);  // 0:显示表单 1:显示进度
 const musicId = ref(0);
 
+const existedId = ref(null);
+
 async function shareMusicFile(){
     const file = fileInputRef.value.files[0];
+    existedId.value = null;
     if (!file) {
         results[1].msg = "请选择音乐文件";
         return;
@@ -57,7 +62,7 @@ async function shareMusicFile(){
         return;
     }
     results[1].isLoading = true;
-    const rsp = await shareMusicFileApi(file, details.name, details.src, details.desc, details.tags, (p) => {
+    const rsp = await shareMusicFileApi(file, details.name, details.src, details.desc, details.tags, details.isPrivate, (p) => {
         results[1].uploadProgress = p;
         results[1].msg = `上传中(${Math.round(p*100)}%)`;
     });
@@ -67,8 +72,19 @@ async function shareMusicFile(){
         return;
     }
     results[1].isLoading = false;
-    musicId.value = rsp.data.musicId;
-    status.value = 1;
+    switch (rsp.data.retType){
+        case 0:
+            musicId.value = rsp.data.musicId;
+            status.value = 1;
+            break;
+        case 1:
+            window.location.href = musicPageUrl+`?music_id=${rsp.data.musicId}`;
+            break;
+        case 2:
+            results[1].msg = rsp.msg;
+            existedId.value = rsp.data.musicId;
+            break;
+    }
 }
 
 let pollingProgressInterval = null;
@@ -133,8 +149,16 @@ function autoFillName(){
                         <span class="mc"><IconTag width="16px" height="16px"/>音乐标签(选填,最多8个):</span><br>
                         <tag-select v-model="musicDetails[1].tags"/>
                         <hr>
-                        <btn-with-loading @click="shareMusicFile" :is-loading="results[1].isLoading" btn-class="mc"><icon-check :width="16" :height="16" />分享</btn-with-loading>
-                        <span class="result simple">{{ results[1].msg }}</span>
+                        <span class="mc"><IconEye width="16px" height="16px" />可见性:</span><br>
+                        <label><input type="radio" class="wux-form-radios" name="visibility" value="0" v-model="musicDetails[1].isPrivate" :disabled="!loggedIn">公开</label>
+                        <label style="margin-left: 5px;"><input type="radio" class="wux-form-radios" name="visibility" value="1" v-model="musicDetails[1].isPrivate" :disabled="!loggedIn">私有</label><br>
+                        <span class="gray">公开: 你分享的音乐将会在“一起听歌”列表中公开显示。</span><br>
+                        <span class="gray">私有: 你分享的音乐只有你自己可见。你可以创建分享链接来把音乐分享给其他人。</span><br>
+                        <i class="gray" :hidden="loggedIn">只有<a href="/login">登录</a>的用户可以将音乐设置为私有。</i>
+                        <hr>
+                        <btn-with-loading @click="shareMusicFile" :is-loading="results[1].isLoading" btn-class="mc"><icon-check :width="16" :height="16" />分享</btn-with-loading><br>
+                        <span class="result simple" :hidden="!results[1].msg">{{ results[1].msg }}</span>
+                        <a target="_blank" class="simple" :href="musicPageUrl+'?music_id='+existedId" :hidden="!existedId"><button type="button" class="wux-btn wux-btn-sm"><span class="mc"><IconEye width="16px" height="16px" />查看</span></button></a>
                         <progress :hidden="!results[1].isLoading" class="wux-progress" :value="results[1].uploadProgress" max="1"></progress>
                     </div>
                 </div>
