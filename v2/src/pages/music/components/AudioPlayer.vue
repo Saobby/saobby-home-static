@@ -135,7 +135,7 @@ onMounted(() => {
 });
 
 // 以下为播放器基本API
-async function getMusicUrls(ids){
+async function getMusicUrls(ids, signs){
     let requireFetch = [];
     for (const id of ids){
         if (!musicInfoCache[id]){
@@ -143,7 +143,7 @@ async function getMusicUrls(ids){
         }
     }
     if (requireFetch.length > 0){
-        const rsp = await getMusicUrlsApi(requireFetch);
+        const rsp = await getMusicUrlsApi(requireFetch, signs);
         if (rsp.retcode){
             handleError("无法获取音频文件 url: "+rsp.msg);
             return;
@@ -331,10 +331,14 @@ onBeforeUnmount(() => {
 });
 
 // 以下为单曲播放逻辑实现
-async function playSingle(musicId) {
+async function playSingle(musicId, sign) {
     playMode.value = "single";
     currentPlayingId.value = musicId;
-    const rsp = await getMusicUrls([musicId]);
+    const signs = {};
+    if (sign) {
+        signs[musicId] = sign;
+    }
+    const rsp = await getMusicUrls([musicId], signs);
     if (!rsp){
         return;
     }
@@ -348,7 +352,7 @@ async function playSingle(musicId) {
 }
 
 // 以下为列表播放逻辑实现
-async function playAll(sort, order, keyword, includedTags, excludedTags){
+async function playAll(sort, order, keyword, includedTags, excludedTags, filter){
     playMode.value = "list";
     resetPlaylist();
     searchArgs.value = {
@@ -357,6 +361,7 @@ async function playAll(sort, order, keyword, includedTags, excludedTags){
         keyword: keyword,
         includedTags: includedTags,
         excludedTags: excludedTags,
+        filter: filter,
         pageSize: 10,
         pageIndex: 0,
         pageAmount: 114514
@@ -373,7 +378,8 @@ async function expandPlaylist(){
         searchArgs.value.keyword,
         searchArgs.value.includedTags,
         searchArgs.value.excludedTags,
-        searchArgs.value.pageSize
+        searchArgs.value.filter,
+        searchArgs.value.pageSize,
     )
     if (rsp.retcode){
         handleError("无法加载播放列表: "+rsp.msg);

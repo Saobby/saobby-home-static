@@ -1,7 +1,7 @@
 <script setup lang="js">
 import {onMounted, reactive, ref, watch} from 'vue';
 import { fetch_api, ts2str } from '@/assets/js/util.js';
-import { IconDownload, IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
+import { IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
 import CommentsSection from '@/components/CommentsSection.vue';
 import LikeMusicBtn from './LikeMusicBtn.vue';
 import { jumpToSearchTag } from '../music.js';
@@ -13,7 +13,9 @@ import TitleEdit from '@/components/TitleEdit.vue';
 
 const props = defineProps({
     musicId: { type: Number },
-    currentPlayingId: { type: Number, default: -1 }
+    currentPlayingId: { type: Number, default: -1 },
+    expiry: { type: Number, default: null },
+    sign: { type: String, default: null }
 });
 const emit = defineEmits(['play', 'update', 'close']);
 
@@ -28,8 +30,12 @@ const showCover = ref(false);
 
 async function getMusicInfo(){
     const payload = {
-        music_ids: [props.musicId]
+        music_ids: [props.musicId],
+        signs: {}
     };
+    if (props.sign){
+        payload.signs[props.musicId] = {expiry: props.expiry, sign: props.sign};
+    }
     if (localStorage.getItem('access-token')) {
         payload.access_token = localStorage.getItem('access-token');
     }
@@ -71,7 +77,11 @@ function emitUpdate() {
     emit("update");
 }
 function emitPlay() {
-    emit("play", musicInfo.id);
+    if (props.sign){
+        emit("play", musicInfo.id, {expiry: props.expiry, sign: props.sign});
+    }else{
+        emit("play", musicInfo.id);
+    }
 }
 
 const delBtnLoading = ref(false);
