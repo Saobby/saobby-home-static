@@ -19,6 +19,7 @@
   const keyword = ref("");
   const includedTags = ref([]);
   const excludedTags = ref([]);
+  const filter = ref("0");
 
   const pageIndex = ref(0);
   const pageAmount = ref(0);
@@ -42,7 +43,7 @@
 
   async function updateMusicList() {
     uiDisabled.value = true;
-    const rsp = await fetchMusicList(sort.value, order.value, pageIndex.value, keyword.value, includedTags.value, excludedTags.value);
+    const rsp = await fetchMusicList(sort.value, order.value, pageIndex.value, keyword.value, includedTags.value, excludedTags.value, filter.value);
     if (rsp.retcode){
       result.value = "加载歌曲列表失败: "+rsp.msg;
       musicList.value = [];
@@ -62,6 +63,7 @@
     keyword.value = params.keyword;
     includedTags.value = params.includedTags;
     excludedTags.value = params.excludedTags;
+    filter.value = params.filter;
     pageIndex.value = 0; // 重置页码
     updateMusicList();
   }
