@@ -44,10 +44,18 @@ export async function getMusicUrlsApi(ids, signs){
     }
     return await fetch_api(domain + "/api/get_music_urls", payload);
 }
-export function deleteMusicApi(id) {
+export async function deleteMusicApi(id) {
     const payload = {
         music_id: id,
         access_token: localStorage.getItem("access-token")
     }
-    return fetch_api(domain + "/api/delete_music", payload);
+    return await fetch_api(domain + "/api/delete_music", payload);
+}
+export async function genShareLinkApi(id, tbe){
+    const payload = {
+        music_id: id,
+        access_token: localStorage.getItem("access-token"),
+        tbe: parseInt(tbe)
+    }
+    return await fetch_api(domain + "/api/gen_share_link", payload);
 }
