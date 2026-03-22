@@ -19,6 +19,7 @@
   const keyword = ref("");
   const includedTags = ref([]);
   const excludedTags = ref([]);
+  const filter = ref("0");
 
   const pageIndex = ref(0);
   const pageAmount = ref(0);
@@ -29,6 +30,8 @@
   const status = ref("loading");
   const mode = ref("list"); // list: 列表 detail: 详情
   const detailMusicId = ref(0);
+  const detailExpiry = ref(null);
+  const detailSign = ref(null);
   const playerRef = ref(null);
   const currentPlayingId = computed(() => {
       if (!playerRef.value){
@@ -42,7 +45,7 @@
 
   async function updateMusicList() {
     uiDisabled.value = true;
-    const rsp = await fetchMusicList(sort.value, order.value, pageIndex.value, keyword.value, includedTags.value, excludedTags.value);
+    const rsp = await fetchMusicList(sort.value, order.value, pageIndex.value, keyword.value, includedTags.value, excludedTags.value, filter.value);
     if (rsp.retcode){
       result.value = "加载歌曲列表失败: "+rsp.msg;
       musicList.value = [];
@@ -62,6 +65,7 @@
     keyword.value = params.keyword;
     includedTags.value = params.includedTags;
     excludedTags.value = params.excludedTags;
+    filter.value = params.filter;
     pageIndex.value = 0; // 重置页码
     updateMusicList();
   }
@@ -69,17 +73,19 @@
     pageIndex.value = index;
     updateMusicList();
   }
-  function showDetail(musicId) {
+  function showDetail(musicId, expiry, sign) {
     musicId = parseInt(musicId);
     detailMusicId.value = musicId;
+    detailExpiry.value = expiry;
+    detailSign.value = sign;
     mode.value = "detail";
-    updateUrlArgs({ music_id: musicId});
+    updateUrlArgs({ music_id: musicId, expiry: expiry, sign: sign });
   }
   updateMusicList();
   function checkShowingDetail(){
     const urlArgs = getUrlArgs();
     if (urlArgs.music_id) {
-      showDetail(urlArgs.music_id);
+      showDetail(urlArgs.music_id, urlArgs.expiry, urlArgs.sign);
       return true;
     }
     return false;
@@ -98,13 +104,13 @@
       window.removeEventListener('popstate', handlePopState);
     });
   });
-  async function playSingle(id){
-      await playerRef.value.playSingle(id);
+  async function playSingle(id, sign){
+      await playerRef.value.playSingle(id, sign);
   }
   async function playAll() {
       playAllBtnDisabled.value = true;
       playerUiDisabled.value = true;
-      await playerRef.value.playAll(sort.value, order.value, keyword.value, includedTags.value, excludedTags.value);
+      await playerRef.value.playAll(sort.value, order.value, keyword.value, includedTags.value, excludedTags.value, filter.value);
       playAllBtnDisabled.value = false;
       playerUiDisabled.value = false;
   }
@@ -116,7 +122,7 @@
 
   function closeMusicDetail(){
     mode.value = 'list';
-    updateUrlArgs({music_id: undefined, comment_id: undefined});
+    updateUrlArgs({music_id: undefined, comment_id: undefined, expiry: undefined, sign: undefined});
   }
   
 </script>
@@ -156,7 +162,7 @@
             <IconX width="16px" height="16px"/>关闭
           </button>
         </h2>
-        <MusicDetail :currentPlayingId="currentPlayingId" :music-id="detailMusicId" @play="playSingle" @update="updateMusicList" @close="closeMusicDetail"/>
+        <MusicDetail :currentPlayingId="currentPlayingId" :music-id="detailMusicId" :expiry="detailExpiry" :sign="detailSign" @play="playSingle" @update="updateMusicList" @close="closeMusicDetail"/>
       </div>
       <div>
           <AudioPlayer @error="handlePlayerError" :disable-ui="playerUiDisabled" initial-title="点击播放按钮以播放" @request-play="playAll" ref="playerRef"></AudioPlayer>

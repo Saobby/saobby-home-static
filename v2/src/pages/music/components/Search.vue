@@ -13,27 +13,32 @@
   const order = ref("0");
   const includedTags = ref([]);
   const excludedTags = ref([]);
+  const filter = ref("0");
+
+  const loggedIn = localStorage.getItem("access-token");
 
   const args = getUrlArgs();
 
   function search() {
     const searchParams = {
-      sort: sort.value,
-      order: order.value,
-      keyword: keyword.value,
-      includedTags: JSON.stringify(includedTags.value),
-      excludedTags: JSON.stringify(excludedTags.value),
+        sort: sort.value,
+        order: order.value,
+        keyword: keyword.value,
+        includedTags: JSON.stringify(includedTags.value),
+        excludedTags: JSON.stringify(excludedTags.value),
+        filter: filter.value,
     };
     updateUrlArgs(searchParams);
     emit("search", {
-      keyword: keyword.value,
-      sort: sort.value,
-      order: order.value,
-      includedTags: includedTags.value,
-      excludedTags: excludedTags.value
+        keyword: keyword.value,
+        sort: sort.value,
+        order: order.value,
+        includedTags: includedTags.value,
+        excludedTags: excludedTags.value,
+        filter: filter.value,
     });
   }
-  watch([sort, order, includedTags, excludedTags], ()=>{
+  watch([sort, order, includedTags, excludedTags, filter], ()=>{
     search();
   });
   onMounted(()=>{
@@ -43,6 +48,7 @@
       if (args.keyword) keyword.value = args.keyword;
       if (args.includedTags) includedTags.value = JSON.parse(args.includedTags);
       if (args.excludedTags) excludedTags.value = JSON.parse(args.excludedTags);
+      if (args.filter) filter.value = loggedIn? args.filter: "0";
     }catch (e) {
       console.error("[Search] 搜索 queryString 解析失败", e);
     }
@@ -71,6 +77,14 @@
     <option value="1">升序</option>
   </select>
   <br>
+    <span>筛选:</span>
+    <select class="wux-form-select simple" style="width:200px;margin-top: 4px;" :disabled="disabled || !loggedIn" v-model="filter">
+        <option value="0" selected>全部</option>
+        <option value="1">我上传的</option>
+        <option value="2">我点赞的</option>
+        <option value="3">我上传的或我点赞的</option>
+    </select>
+    <br>
   <span class="select-tags">
     <span>包含标签:</span>
     <TagSelect v-model="includedTags"/>

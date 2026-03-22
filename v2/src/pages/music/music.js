@@ -1,7 +1,7 @@
 import {fetch_api} from "@/assets/js/util.js";
 const domain = import.meta.env.VITE_API_DOMAIN;
 
-export async function fetchMusicList(sort, order, pageIndex, keyword, includedTags, excludedTags, pageSize) {
+export async function fetchMusicList(sort, order, pageIndex, keyword, includedTags, excludedTags, filter, pageSize) {
     const payload = {
         sort: parseInt(sort),
         order: parseInt(order),
@@ -9,7 +9,8 @@ export async function fetchMusicList(sort, order, pageIndex, keyword, includedTa
         pg_size: pageSize || 16,
         keyword: keyword,
         included_tags: includedTags,
-        excluded_tags: excludedTags
+        excluded_tags: excludedTags,
+        filter: parseInt(filter)
     }
     if (localStorage.getItem("access-token")) {
         payload.access_token = localStorage.getItem("access-token");
@@ -74,4 +75,12 @@ export function deleteMusicApi(id) {
         access_token: localStorage.getItem("access-token")
     }
     return fetch_api(domain + "/api/delete_music", payload);
+}
+export function setVisibilityApi(id, visibility){
+    const payload = {
+        music_id: id,
+        access_token: localStorage.getItem("access-token"),
+        visibility: visibility
+    }
+    return fetch_api(domain + "/api/set_music_visibility", payload);
 }

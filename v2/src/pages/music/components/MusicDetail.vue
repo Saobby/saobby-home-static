@@ -1,19 +1,43 @@
 <script setup lang="js">
 import {onMounted, reactive, ref, watch} from 'vue';
 import { fetch_api, ts2str } from '@/assets/js/util.js';
-import { IconDownload, IconTrash, IconTag, IconVinyl, IconFileDescription, IconUser, IconClock, IconMusic, IconBrandSpeedtest, IconStackFront, IconWaveSawTool, IconPlayerPlay } from '@tabler/icons-vue';
+import {
+    IconEyeOff,
+    IconEye,
+    IconTrash,
+    IconTag,
+    IconVinyl,
+    IconFileDescription,
+    IconUser,
+    IconClock,
+    IconMusic,
+    IconBrandSpeedtest,
+    IconStackFront,
+    IconWaveSawTool,
+    IconPlayerPlay,
+    IconX,
+    IconShare
+} from '@tabler/icons-vue';
 import CommentsSection from '@/components/CommentsSection.vue';
 import LikeMusicBtn from './LikeMusicBtn.vue';
 import { jumpToSearchTag } from '../music.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
-import { deleteMusicApi, editMusicApi } from '../music.js';
+import { deleteMusicApi, editMusicApi, setVisibilityApi } from '../music.js';
 import MarkdownEdit from '@/components/MarkdownEdit.vue';
 import TagEdit from '@/components/TagEdit.vue';
 import TitleEdit from '@/components/TitleEdit.vue';
+import PopupBackdrop from "@/components/PopupBackdrop.vue";
+import TextDisplayWithCopy from "@/components/TextDisplayWithCopy.vue";
+import CreateShareLink from "@/pages/music/components/CreateShareLink.vue";
+
+const siteUrl = import.meta.env.VITE_SITE_URL;
+const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
 
 const props = defineProps({
     musicId: { type: Number },
-    currentPlayingId: { type: Number, default: -1 }
+    currentPlayingId: { type: Number, default: -1 },
+    expiry: { type: Number, default: null },
+    sign: { type: String, default: null }
 });
 const emit = defineEmits(['play', 'update', 'close']);
 
@@ -26,10 +50,16 @@ const status = ref("loading");
 const result = ref("");
 const showCover = ref(false);
 
+const showShareWindow = ref(false);
+
 async function getMusicInfo(){
     const payload = {
-        music_ids: [props.musicId]
+        music_ids: [props.musicId],
+        signs: {}
     };
+    if (props.sign){
+        payload.signs[props.musicId] = {expiry: props.expiry, sign: props.sign};
+    }
     if (localStorage.getItem('access-token')) {
         payload.access_token = localStorage.getItem('access-token');
     }
@@ -71,7 +101,11 @@ function emitUpdate() {
     emit("update");
 }
 function emitPlay() {
-    emit("play", musicInfo.id);
+    if (props.sign){
+        emit("play", musicInfo.id, {expiry: props.expiry, sign: props.sign});
+    }else{
+        emit("play", musicInfo.id);
+    }
 }
 
 const delBtnLoading = ref(false);
@@ -119,6 +153,29 @@ async function editTags(newTags){
     }
     return await editMusicApi(musicInfo.id, 3, newTags);
 }
+const setVisibilityBtnLoading = ref(false);
+async function setVisibility(visibility){
+    if (!visibility){
+        const r = confirm("你确定要把这个曲目设为公开吗？该操作不可逆。");
+        if (!r){
+            return;
+        }
+    }
+    setVisibilityBtnLoading.value = true;
+    const rsp = await setVisibilityApi(musicInfo.id, visibility);
+    if (rsp.retcode){
+        setVisibilityBtnLoading.value = false;
+        status.value = "onerror";
+        result.value = "设置可见性失败:"+rsp.msg;
+        return;
+    }else{
+        setVisibilityBtnLoading.value = false;
+        emitUpdate();
+        emit("close");
+    }
+}
+
+const shareExpiry = ref(null);
 </script>
 <template>
     <div :hidden="status!=='loading'" class="centered">
@@ -150,8 +207,15 @@ async function editTags(newTags){
                     <TitleEdit @edited="emitUpdate" :can-edit="musicInfo.can_edit" :edit="editName" v-model="musicInfo.name"></TitleEdit>
                     <button @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>{{ currentPlayingId===musicId?"正在播放":"播放" }}</button>
                     <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
+                    <button type="button" class="wux-btn wux-btn-outline sep mc" @click="showShareWindow=true;" :disabled="showShareWindow"><IconShare width="24px" height="24px"/>分享</button>
                     <BtnWithLoading v-if="musicInfo.can_delete" @click="deleteMusic" btnClass="wux-btn-outline sep mc" :isLoading="delBtnLoading">
                         <IconTrash width="24px" height="24px"/>删除
+                    </BtnWithLoading>
+                    <BtnWithLoading v-if="musicInfo.can_set_private" @click="setVisibility(true)" btnClass="wux-btn-outline sep mc" :isLoading="setVisibilityBtnLoading">
+                        <IconEyeOff width="24px" height="24px"/>设为私有
+                    </BtnWithLoading>
+                    <BtnWithLoading v-if="musicInfo.can_set_public" @click="setVisibility(false)" btnClass="wux-btn-outline sep mc" :isLoading="setVisibilityBtnLoading">
+                        <IconEye width="24px" height="24px"/>设为公开
                     </BtnWithLoading>
                     <hr>
                     <b class="mc"><IconVinyl width="16px" height="16px"/>来源</b><br>
@@ -176,6 +240,27 @@ async function editTags(newTags){
                     <span class="mc" title="比特率" v-if="musicInfo.bit_rate"><IconWaveSawTool width="16px" height="16px"/><span class="simple">比特率: {{ musicInfo.bit_rate }}kbps</span></span><br v-if="musicInfo.bit_rate">
                 </div>
             </div>
+            <div :hidden="!showShareWindow">
+                <PopupBackdrop />
+                <div class="pre-like share-window">
+                    <button @click="showShareWindow=false;" type="button" class="wux-btn wux-btn-text icon-btn2" style="position: absolute; left: 290px; top: 10px"><IconX width="30px" height="30px" /></button>
+                    <h2 style="margin-top: 4px;">分享此页面</h2>
+                    <div v-if="!musicInfo.is_private">
+                        <span>此页面永久链接:</span><br>
+                        <TextDisplayWithCopy :value="siteUrl+musicPageUrl+'?music_id='+musicId" />
+                    </div>
+                    <div v-if="musicInfo.is_private">
+                        <div v-if="sign">
+                            <span>分享链接({{ ts2str(expiry) }}过期):</span><br>
+                            <TextDisplayWithCopy :value="siteUrl+musicPageUrl+'?music_id='+musicId+'&expiry='+expiry+'&sign='+sign" />
+                        </div>
+                        <div v-if="musicInfo.can_share">
+                            <span>创建分享链接:</span><br>
+                            <CreateShareLink :musicId="musicId" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <hr>
         <h2>评论区</h2>
@@ -191,5 +276,18 @@ async function editTags(newTags){
 }
 .cover-img{
     max-width: 405px;
+}
+.share-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    background: white;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    white-space: normal;
+    z-index: 114514;
 }
 </style>
