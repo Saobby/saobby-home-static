@@ -96,6 +96,7 @@ function toggleCycle(){
 function onVolumeChange() {
     if (audio.value) {
         audio.value.volume = volume.value;
+        localStorage["audioPlayerVolume"] = volume.value;
     }
 }
 
@@ -131,6 +132,9 @@ function formatTime(t) {
 }
 
 onMounted(() => {
+    if (localStorage["audioPlayerVolume"]){
+        volume.value = localStorage["audioPlayerVolume"];
+    }
     audio.value.volume = volume.value;
 });
 
