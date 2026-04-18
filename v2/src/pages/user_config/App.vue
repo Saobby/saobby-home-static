@@ -1,8 +1,9 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import NotificationSettings from './components/NotificationSettings.vue';
 import BindEmailForm from './components/BindEmailForm.vue';
 import AvatarUploader from './components/AvatarUploader.vue';
+import Logout from "./components/Logout.vue";
 import { check_logged_in } from '@/assets/js/util';
 const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
 
@@ -10,7 +11,6 @@ onMounted(()=>{
     check_logged_in();
 });
 
-const activeTab = ref('notifications');
 </script>
 
 <template>
@@ -35,6 +35,11 @@ const activeTab = ref('notifications');
                 <label class="wux-tab-item" for="tab-set-avatar">设置头像</label>
                 <div class="wux-tab-content">
                     <avatar-uploader />
+                </div>
+                <input class="wux-tab-item" type="radio" name="tab-user-config" id="tab-logout">
+                <label class="wux-tab-item" for="tab-logout">退出登录</label>
+                <div class="wux-tab-content">
+                    <logout />
                 </div>
             </div>
         </div>

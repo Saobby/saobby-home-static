@@ -6,6 +6,7 @@ import { IconUpload, IconCheck } from "@tabler/icons-vue";
 import BtnWithLoading from "@/components/BtnWithLoading.vue";
 
 const domain = import.meta.env.VITE_API_DOMAIN;
+const imageUploadUrl = import.meta.env.VITE_IMAGE_UPLOAD_API_URL;
 
 const fileRef = ref(null);
 const avatarUrl = ref('');
@@ -36,7 +37,7 @@ async function uploadAvatar(){
     const form = new FormData();
     form.append('image', file);
     form.append('captcha_token', captchaToken);
-    const submitter = new FormSubmitter('https://image.saobby.com/api/upload_image', form, true, (p)=>{
+    const submitter = new FormSubmitter(imageUploadUrl, form, true, (p)=>{
         uploadProgress.value = p;
         uploadResult.value = `上传中(${Math.round(p*100)}%)`;
     });

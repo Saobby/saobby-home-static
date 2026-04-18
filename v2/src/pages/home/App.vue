@@ -10,6 +10,7 @@ const domain = import.meta.env.VITE_API_DOMAIN;
 const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
 const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
+const userConfigPageUrl = import.meta.env.VITE_USER_CONFIG_PAGE_URL;
 
 const commentPlaceId = ref(114514);
 const commentOnly = ref(false);
@@ -175,7 +176,7 @@ onMounted(async () => {
                                 <a href="/bind_email"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconLink width="20px" height="20px"/><span>绑定电子邮箱</span></button></a>
                             </div>
                             <div class="wux-col">
-                                <a href="/user_config"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconSettings width="20px" height="20px"/><span>用户设置</span></button></a>
+                                <a :href="userConfigPageUrl"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconSettings width="20px" height="20px"/><span>用户设置</span></button></a>
                             </div>
                         </div>
                     </div>
