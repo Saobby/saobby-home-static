@@ -21,6 +21,7 @@ function load_post(){
             post_data = rep.data;
             gebi("author").innerHTML = rsc(rep.data.author);
             gebi("post-title").innerHTML = rsc(rep.data.title);
+            document.title = rep.data.title+"-查看帖子-Saobby论坛";
             gebi("title-input").value = rep.data.title;
             gebi("html").innerHTML = marked.parse(rep.data.content);
             gebi("markdown").innerHTML = rsc(rep.data.content);
