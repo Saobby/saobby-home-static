@@ -24,22 +24,22 @@ onMounted(()=>{
                 <input class="wux-tab-item" type="radio" name="tab-user-config" id="tab-notifications" checked>
                 <label class="wux-tab-item" for="tab-notifications">通知设置</label>
                 <div class="wux-tab-content">
-                    <notification-settings />
+                    <NotificationSettings />
                 </div>
                 <input class="wux-tab-item" type="radio" name="tab-user-config" id="tab-bind-email">
                 <label class="wux-tab-item" for="tab-bind-email">绑定电子邮箱</label>
                 <div class="wux-tab-content">
-                    <bind-email-form />
+                    <BindEmailForm />
                 </div>
                 <input class="wux-tab-item" type="radio" name="tab-user-config" id="tab-set-avatar">
                 <label class="wux-tab-item" for="tab-set-avatar">设置头像</label>
                 <div class="wux-tab-content">
-                    <avatar-uploader />
+                    <AvatarUploader />
                 </div>
                 <input class="wux-tab-item" type="radio" name="tab-user-config" id="tab-logout">
                 <label class="wux-tab-item" for="tab-logout">退出登录</label>
                 <div class="wux-tab-content">
-                    <logout />
+                    <Logout />
                 </div>
             </div>
         </div>
