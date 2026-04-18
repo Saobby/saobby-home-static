@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { FormSubmitter, fetch_api } from '@/assets/js/util';
 import { captcha } from "@/assets/js/captcha";
-import {IconUpload, IconCheck} from "@tabler/icons-vue";
+import { IconUpload, IconCheck } from "@tabler/icons-vue";
 import BtnWithLoading from "@/components/BtnWithLoading.vue";
 
 const domain = import.meta.env.VITE_API_DOMAIN;

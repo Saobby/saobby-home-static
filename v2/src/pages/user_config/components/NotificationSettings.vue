@@ -1,8 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { fetch_api } from '@/assets/js/util';
-import {IconCheck} from "@tabler/icons-vue";
-const domain = import.meta.env.VITE_API_DOMAIN || 'https://comments.saobby.com';
+import { IconCheck } from "@tabler/icons-vue";
+import BtnWithLoading from "@/components/BtnWithLoading.vue";
+
+const domain = import.meta.env.VITE_API_DOMAIN;
 
 const loading = ref(false);
 const result = ref('');
@@ -15,26 +17,22 @@ const config = ref({
     do_music_replies_notice: false
 });
 
-function setInputsDisabled(status){
-    loading.value = status;
-}
-
 async function saveNotificationConfig(){
-    setInputsDisabled(true);
+    loading.value = true;
     const payload = { access_token: localStorage.getItem('access-token'), user_config: config.value };
     const rsp = await fetch_api(domain + '/api/set_user_config', payload);
     result.value = rsp.retcode ? rsp.msg : '操作成功';
-    setInputsDisabled(false);
+    loading.value = false;
 }
 
 async function loadNotificationConfig(){
-    setInputsDisabled(true);
+    loading.value = true;
     const rsp = await fetch_api(domain + '/api/get_user_config', { access_token: localStorage.getItem('access-token') });
     if (rsp.retcode){
         result.value = '无法加载用户配置,请刷新页面后重试。错误消息:' + rsp.msg;
     }else{
         Object.assign(config.value, rsp.data);
-        setInputsDisabled(false);
+        loading.value = false;
     }
 }
 
@@ -53,12 +51,8 @@ onMounted(()=>{
         <label><input type="checkbox" class="wux-form-checks" v-model="config.do_post_loves_notice" :disabled="loading"> 有人点赞你的帖子</label><br>
         <label><input type="checkbox" class="wux-form-checks" v-model="config.do_post_operates_notice" :disabled="loading"> 有人操作你的帖子(置顶/关闭/删除,仅管理员可操作)</label><br>
         <label><input type="checkbox" class="wux-form-checks" v-model="config.do_music_replies_notice" :disabled="loading"> 有人在你分享的音乐下留言</label><br><br>
-        <button class="wux-btn wux-btn-primary mc" type="button" @click="saveNotificationConfig" :disabled="loading"><IconCheck width="16px" height="16px"/>保存</button>
-        <span class="result">{{ result }}</span>
+        <BtnWithLoading btn-class="wux-btn-primary mc" :is-loading="loading" @click="saveNotificationConfig"><IconCheck width="16px" height="16px"/>保存</BtnWithLoading>
+        <span class="result simple">{{ result }}</span>
     </div>
 </template>
-
-<style scoped>
-.result{ margin-left: 12px; }
-</style>
 
