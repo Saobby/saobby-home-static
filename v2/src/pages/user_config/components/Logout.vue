@@ -33,7 +33,3 @@ async function logout(){
     <BtnWithLoading btn-class="mc" :is-loading="loading" @click="logout"><IconLogout width="16px" height="16px"/>退出登录</BtnWithLoading>
     <span class="result simple">{{ result }}</span>
 </template>
-
-<style scoped>
-
-</style>
