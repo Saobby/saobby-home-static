@@ -69,16 +69,13 @@ async function setAvatar(){
         <p>上传头像或者设置头像图片链接，图片最大 16MB</p>
         <input ref="fileRef" class="wux-form-upload" type="file" accept="image/*">
         <BtnWithLoading :is-loading="uploadLoading" btn-class="wux-btn-primary mc" @click="uploadAvatar"><IconUpload width="16px" height="16px"/><span class="middle">上传</span></BtnWithLoading>
-        <span class="result">{{ uploadResult }}</span><br>
+        <span class="result simple">{{ uploadResult }}</span><br>
         <progress class="wux-progress" :value="uploadProgress" max="1" v-if="uploadProgress"></progress><br v-if="uploadProgress">
         <img :src="preview" alt="头像" id="avatar_img" width="32" height="32" v-if="preview"><br v-if="preview">
+        <br>
         <input class="wux-form-input wux-form-input-md" placeholder="头像链接" type="text" v-model="avatarUrl">
         <BtnWithLoading :is-loading="setLoading" btn-class="wux-btn-primary mc" @click="setAvatar"><IconCheck width="16px" height="16px"/><span class="middle">保存</span></BtnWithLoading>
-        <span class="result">{{ setResult }}</span>
+        <span class="result simple">{{ setResult }}</span>
     </div>
 </template>
-
-<style scoped>
-.result{ margin-left:12px }
-</style>
 
