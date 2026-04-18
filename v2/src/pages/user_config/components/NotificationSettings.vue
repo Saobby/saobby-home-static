@@ -28,11 +28,11 @@ async function saveNotificationConfig(){
 async function loadNotificationConfig(){
     loading.value = true;
     const rsp = await fetch_api(domain + '/api/get_user_config', { access_token: localStorage.getItem('access-token') });
+    loading.value = false;
     if (rsp.retcode){
         result.value = '无法加载用户配置,请刷新页面后重试。错误消息:' + rsp.msg;
     }else{
         Object.assign(config.value, rsp.data);
-        loading.value = false;
     }
 }
 
