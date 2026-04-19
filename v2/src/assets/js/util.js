@@ -152,7 +152,7 @@ export function ts2str(e) {
 export function check_logged_in(){
     if (localStorage.getItem("access-token") === null){
         localStorage.login_redirect = window.location.href;
-        window.location = "/login";
+        window.location = import.meta.env.VITE_LOGIN_PAGE_URL;
         return true;
     }
     return false;

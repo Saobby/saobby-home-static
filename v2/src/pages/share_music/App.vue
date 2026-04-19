@@ -10,6 +10,7 @@ const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
 const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
 const aboutMusicPageUrl = import.meta.env.VITE_ABOUT_MUSIC_PAGE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
+const loginPageUrl = import.meta.env.VITE_LOGIN_PAGE_URL;
 
 const loggedIn = localStorage.getItem("access-token");
 
@@ -154,7 +155,7 @@ function autoFillName(){
                         <label style="margin-left: 5px;"><input type="radio" class="wux-form-radios" name="visibility" value="1" v-model="musicDetails[1].isPrivate" :disabled="!loggedIn">私有</label><br>
                         <span class="gray">公开: 你分享的音乐将会在“一起听歌”列表中公开显示。</span><br>
                         <span class="gray">私有: 你分享的音乐只有你自己可见。你可以创建分享链接来把音乐分享给其他人。</span><br>
-                        <i class="gray" :hidden="loggedIn">只有<a href="/login">登录</a>的用户可以将音乐设置为私有。</i>
+                        <i class="gray" :hidden="loggedIn">只有<a :href="loginPageUrl">登录</a>的用户可以将音乐设置为私有。</i>
                         <hr>
                         <btn-with-loading @click="shareMusicFile" :is-loading="results[1].isLoading" btn-class="mc"><icon-check :width="16" :height="16" />分享</btn-with-loading><br>
                         <span class="result simple" :hidden="!results[1].msg">{{ results[1].msg }}</span>

@@ -5,6 +5,8 @@ import { fetch_api } from '@/assets/js/util.js';
 import {onBeforeUnmount, ref} from 'vue';
 import { captcha } from '@/assets/js/captcha.js';
 
+const loginPageUrl = import.meta.env.VITE_LOGIN_PAGE_URL;
+
 const props = defineProps({
     placeId: { type: Number },
     replyTo: { type: Number, default: -1 },
@@ -132,5 +134,5 @@ function setDirty(){
         </button>
     </MarkdownInput>
     <span class="result" v-html="result"></span>
-    <span v-if="!accessToken">请先<a href="/login" class="mc"><IconLogin2 width="16px" height="16px" />登录</a></span>
+    <span v-if="!accessToken">请先<a :href="loginPageUrl" class="mc"><IconLogin2 width="16px" height="16px" />登录</a></span>
 </template>
