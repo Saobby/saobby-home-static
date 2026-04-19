@@ -11,6 +11,14 @@ const props = defineProps({
     },
     placeId: {
         type: Number
+    },
+    expiry: {
+        type: Number,
+        default: null
+    },
+    sign: {
+        type: String,
+        default: null
     }
 });
 /*
@@ -87,7 +95,7 @@ function updateComments() {
                 </MarkdownDisplay>
             </div>
             <div :hidden="!uiStatus[comment.cid]?.showEditWindow">
-                <EditCommentInput :cid="comment.cid" :content="comment.content" @commentEdited="updateComments()" :rows="5" :placeholder="`编辑 #${comment.cid} 最多 4096 字`" btnClass="wux-btn-sm">
+                <EditCommentInput :cid="comment.cid" :content="comment.content" :expiry="props.expiry" :sign="props.sign" @commentEdited="updateComments()" :rows="5" :placeholder="`编辑 #${comment.cid} 最多 4096 字`" btnClass="wux-btn-sm">
                     <button @click="uiStatus[comment.cid].showEditWindow=false" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-outline simple mc" type="button">
                         <IconX width="16px" height="16px" />
                         取消
@@ -96,7 +104,7 @@ function updateComments() {
             </div>
         </div>
         <div :hidden="!uiStatus[comment.cid]?.showReplyWindow">
-            <AddCommentInput :ref="e => {uiStatus[comment.cid].commentInputRef = e}" @commentAdded="updateComments()" :placeId="placeId" :replyTo="comment.cid" :placeholder="`回复 #${comment.cid}, 最多 4096 字`">
+            <AddCommentInput :ref="e => {uiStatus[comment.cid].commentInputRef = e}" :expiry="props.expiry" :sign="props.sign" @commentAdded="updateComments()" :placeId="placeId" :replyTo="comment.cid" :placeholder="`回复 #${comment.cid}, 最多 4096 字`">
                 <button @click="uiStatus[comment.cid].showReplyWindow=false" class="wux-btn wux-btn-primary wux-btn-outline simple mc" type="button">
                     <IconX width="16px" height="16px" />
                     取消

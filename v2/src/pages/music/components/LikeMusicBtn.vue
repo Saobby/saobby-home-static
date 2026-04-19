@@ -7,7 +7,9 @@ const props = defineProps({
     likes: { type: Number, default: 0 },
     liked: { type: Boolean, default: false },
     musicId: { type: Number, default: 0 },
-    btnClass: { type: String, default: "" }
+    btnClass: { type: String, default: "" },
+    expiry: { type: Number, default: null },
+    sign: { type: String, default: null },
 });
 const emit = defineEmits(["update", "update:likes", "update:liked"]);
 
@@ -30,7 +32,7 @@ async function likeMusic_(id, like){
         return;
     }
     uiDisabled.value = true;
-    const rsp = await likeMusic(id, like);
+    const rsp = await likeMusic(id, like, props.expiry, props.sign);
     if (rsp.retcode) {
         result.value = "操作失败: " + rsp.msg;
     } else {

@@ -17,11 +17,15 @@ export async function fetchMusicList(sort, order, pageIndex, keyword, includedTa
     }
     return await fetch_api(domain + "/api/list_music", payload);
 }
-export async function likeMusic(id, like) {
+export async function likeMusic(id, like, expiry, sign) {
     const payload = {
         music_id: id,
         like: like, 
         access_token: localStorage.getItem("access-token")
+    }
+    if (expiry && sign){
+        payload.expiry = expiry;
+        payload.sign = sign;
     }
     return await fetch_api(domain + "/api/like_music", payload);
 }

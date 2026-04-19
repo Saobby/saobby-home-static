@@ -206,7 +206,7 @@ const shareExpiry = ref(null);
                 <div>
                     <TitleEdit @edited="emitUpdate" :can-edit="musicInfo.can_edit" :edit="editName" v-model="musicInfo.name"></TitleEdit>
                     <button @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>{{ currentPlayingId===musicId?"正在播放":"播放" }}</button>
-                    <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" @update="emitUpdate"/>
+                    <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" :expiry="props.expiry" :sign="props.sign" @update="emitUpdate"/>
                     <button type="button" class="wux-btn wux-btn-outline sep mc" @click="showShareWindow=true;" :disabled="showShareWindow"><IconShare width="24px" height="24px"/>分享</button>
                     <BtnWithLoading v-if="musicInfo.can_delete" @click="deleteMusic" btnClass="wux-btn-outline sep mc" :isLoading="delBtnLoading">
                         <IconTrash width="24px" height="24px"/>删除
@@ -264,7 +264,7 @@ const shareExpiry = ref(null);
         </div>
         <hr>
         <h2>评论区</h2>
-        <CommentsSection :placeId="musicInfo.comment_pid" />
+        <CommentsSection :placeId="musicInfo.comment_pid" :expiry="props.expiry" :sign="props.sign" />
     </div>
     
 </template>

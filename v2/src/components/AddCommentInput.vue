@@ -12,7 +12,9 @@ const props = defineProps({
     replyTo: { type: Number, default: -1 },
     rows: { type: Number, default: 5 },
     placeholder: { type: String, default: "" },
-    btnClass: { type: String, default: "" }
+    btnClass: { type: String, default: "" },
+    expiry: { type: Number, default: null },
+    sign: { type: String, default: null }
 });
 const emits = defineEmits(['commentAdded']);
 
@@ -42,6 +44,10 @@ async function addComment(){
         content: content,
         place_id: props.placeId,
         reply_to: props.replyTo
+    }
+    if (props.sign && props.expiry){
+        payload.expiry = props.expiry;
+        payload.sign = props.sign;
     }
     const rsp1 = await fetch_api(import.meta.env.VITE_API_DOMAIN + "/api/post_comment", payload);
     if (rsp1.retcode) {

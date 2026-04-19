@@ -6,7 +6,9 @@ import CommentsList from './CommentsList.vue';
 import AddCommentInput from './AddCommentInput.vue';
 const props = defineProps({
     placeId: {type: Number},
-    showAddCommentWindow: {type: Boolean, default: true}
+    showAddCommentWindow: {type: Boolean, default: true},
+    expiry: {type: Number, default: null},
+    sign: {type: String, default: null},
 });
 const pageIndex = ref(0);
 const pageAmount = ref(1);
@@ -35,6 +37,10 @@ async function updateComments(){
     if (scrollTo.value){
         payload.scroll_to = scrollTo.value;
         scrollTo.value = null;
+    }
+    if (props.sign && props.expiry){
+        payload.expiry = props.expiry;
+        payload.sign = props.sign;
     }
     uiDisabled.value = true;
     const rsp = await fetch_api(import.meta.env.VITE_API_DOMAIN+"/api/get_comment", payload);
@@ -97,11 +103,11 @@ const updateCommentsListN = ref(0);
 </script>
 <template>
     <div :hidden="!showAddCommentWindow">
-        <AddCommentInput ref="commentInputRef" :placeId="props.placeId" placeholder="请输入评论内容, 最多 4096 字" @commentAdded="pageIndex=0;updateComments()"/>
+        <AddCommentInput ref="commentInputRef" :placeId="props.placeId" :expiry="props.expiry" :sign="props.sign" placeholder="请输入评论内容, 最多 4096 字" @commentAdded="pageIndex=0;updateComments()"/>
     </div>
     <slot></slot>
     <div :hidden="status!=='showing'" style="width: 100%; overflow: auto;">
-        <CommentsList :key="updateCommentsListN" @updateComments="updateComments()" @scrollToComment="scrollToComment" :placeId="placeId" :comments="parsedComments"/>
+        <CommentsList :key="updateCommentsListN" @updateComments="updateComments()" @scrollToComment="scrollToComment" :placeId="placeId" :comments="parsedComments" :expiry="props.expiry" :sign="props.sign"/>
     </div>
     <div :hidden="status!=='loading'" class="centered">
         <span class="wux-loading" /><br>

@@ -1,6 +1,6 @@
 <script setup lang="js">
 import MarkdownInput from './MarkdownInput.vue';
-import { IconCheck, IconLogin2 } from '@tabler/icons-vue';
+import { IconCheck } from '@tabler/icons-vue';
 import { fetch_api } from '@/assets/js/util.js';
 import { watch, ref } from 'vue';
 
@@ -9,7 +9,9 @@ const props = defineProps({
     content: { type: String, default: "" },
     rows: { type: Number, default: 5 },
     placeholder: { type: String, default: "" },
-    btnClass: { type: String, default: "" }
+    btnClass: { type: String, default: "" },
+    expiry: { type: Number, default: null },
+    sign: { type: String, default: null }
 });
 const emits = defineEmits(['commentEdited']);
 
@@ -32,6 +34,10 @@ async function editComment(){
         access_token: accessToken,
         content: newContent,
         cid: props.cid
+    }
+    if (props.sign && props.expiry){
+        payload.expiry = props.expiry;
+        payload.sign = props.sign;
     }
     const rsp = await fetch_api(import.meta.env.VITE_API_DOMAIN + "/api/edit_comment", payload);
     if (rsp.retcode) {
