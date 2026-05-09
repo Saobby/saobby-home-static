@@ -8,12 +8,7 @@ import {
     IconTag,
     IconVinyl,
     IconFileDescription,
-    IconUser,
-    IconClock,
     IconMusic,
-    IconBrandSpeedtest,
-    IconStackFront,
-    IconWaveSawTool,
     IconPlayerPlay,
     IconX,
     IconShare
@@ -187,8 +182,8 @@ const shareExpiry = ref(null);
         <span class="result" v-html="result"></span>
     </div>
     <div :hidden="status!=='showing'">
-        <div class="wux-row-md-3 same-height-container">
-            <div class="wux-col same-height-box">
+        <div class="detail-container same-height-container">
+            <div class="detail-cover-col same-height-box">
                 <div>
                     <div :hidden="!musicInfo.cover_url" style="text-align: center;">
                         <div class="centered" :hidden="showCover">
@@ -202,7 +197,7 @@ const shareExpiry = ref(null);
                     </div>
                 </div>
             </div>
-            <div class="wux-col same-height-box">
+            <div class="detail-desc-col same-height-box">
                 <div>
                     <TitleEdit @edited="emitUpdate" :can-edit="musicInfo.can_edit" :edit="editName" v-model="musicInfo.name"></TitleEdit>
                     <button @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>{{ currentPlayingId===musicId?"正在播放":"播放" }}</button>
@@ -226,18 +221,6 @@ const shareExpiry = ref(null);
                     <hr>
                     <b class="mc"><IconTag width="16px" height="16px"/>标签</b><br>
                     <span class="bt"><TagEdit @edited="emitUpdate" :edit="editTags" :can-edit="musicInfo.can_edit" v-model="musicInfo.tags" :clickTag="jumpToSearchTag" default-display="没有任何标签"/></span>
-                </div>
-            </div>
-            <div class="wux-col same-height-box">
-                <div>
-                    <h3>音乐信息</h3>
-                    <span class="mc" title="推荐用户"><IconUser width="16px" height="16px"/><span class="simple">{{ musicInfo.sharer_name || "匿名用户" }}</span></span><br>
-                    <span class="mc" title="推荐时间"><IconClock width="16px" height="16px"/><span class="simple">{{ ts2str(musicInfo.shared_at) }}</span></span><br>
-                    <span class="gray" v-if="musicInfo.bit_rate > 320"><i>提示:以下为用户上传的源文件信息,音乐分发时最大比特率将被限制为 256kbps AAC</i></span><br v-if="musicInfo.bit_rate > 320">
-                    <span class="mc" title="通道数" v-if="musicInfo.channels"><IconMusic width="16px" height="16px"/><span class="simple">通道数: {{ musicInfo.channels }}</span></span><br v-if="musicInfo.channels">
-                    <span class="mc" title="采样频率" v-if="musicInfo.freq"><IconBrandSpeedtest width="16px" height="16px"/><span class="simple">采样频率: {{ musicInfo.freq }}Hz</span></span><br v-if="musicInfo.freq">
-                    <span class="mc" title="位深度" v-if="musicInfo.bit_depth"><IconStackFront width="16px" height="16px"/><span class="simple">位深度: {{ musicInfo.bit_depth }}bit</span></span><br v-if="musicInfo.bit_depth">
-                    <span class="mc" title="比特率" v-if="musicInfo.bit_rate"><IconWaveSawTool width="16px" height="16px"/><span class="simple">比特率: {{ musicInfo.bit_rate }}kbps</span></span><br v-if="musicInfo.bit_rate">
                 </div>
             </div>
             <div :hidden="!showShareWindow">
@@ -289,5 +272,38 @@ const shareExpiry = ref(null);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     white-space: normal;
     z-index: 114514;
+}
+@media (min-width: 1024px){
+    .detail-container{
+        display: flex;
+        margin-right: -8px;
+        margin-left: -8px;
+    }
+    .detail-cover-col{
+        flex: 1;
+        float: left;
+        width: 33.33%;
+        position: relative;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        display: block;
+        min-height: 1px;
+        padding-right: 8px;
+        padding-left: 8px;
+        margin-bottom: 8px;
+    }
+    .detail-desc-col{
+        flex: 2;
+        float: left;
+        width: 66.67%;
+        position: relative;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        display: block;
+        min-height: 1px;
+        padding-right: 8px;
+        padding-left: 8px;
+        margin-bottom: 8px;
+    }
 }
 </style>
