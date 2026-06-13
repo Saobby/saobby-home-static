@@ -300,10 +300,13 @@
                                         <div class="wux-card-body">
                                             <h2 class="thin">放置计数器</h2>
                                             <span>将下面的图片放置在<b>需要计数的网页</b>:</span>
-                                            <textarea id="markdown-code" class="wux-form-input wux-form-input-md mt" readonly></textarea>
+                                            <input id="markdown-code" class="wux-form-input wux-form-input-md" readonly>
                                             <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('markdown-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 Markdown 代码</span></button>
-                                            <textarea id="html-code" class="wux-form-input wux-form-input-md mt" readonly></textarea>
-                                            <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('html-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 HTML 代码</span></button>
+                                            <input id="html-code" class="wux-form-input wux-form-input-md" readonly>
+                                            <button type="button" class="wux-btn wux-btn-primary" onclick="copy_text(gebi('html-code').value, this);"><img src="/static/image/icon/copy-white.svg" alt="" width="16" height="16" class="middle"><span class="middle">复制 HTML 代码</span></button><br>
+                                            <hr>
+                                            <span><b>或者</b>在用户打开要计数的页面时，通过 JS 发送一个 GET 请求。响应的 JSON 中将包含访问量和 IP 数。<code>(图片和 API 选一个使用即可)</code></span>
+                                            <input id="api-url" class="wux-form-input wux-form-input-md" readonly>
                                         </div>
                                     </div>
                                 </div>
