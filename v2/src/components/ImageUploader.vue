@@ -3,6 +3,7 @@ import { IconPhotoUp, IconX } from '@tabler/icons-vue';
 import { ref, watch } from 'vue';
 import { gen_captcha } from '@/assets/js/captcha.js';
 import { FormSubmitter, insertIntoTextareaPosition } from '@/assets/js/util.js';
+import PopupBackdrop from "@/components/PopupBackdrop.vue";
 const props = defineProps({
     inputRef: { type: Object },
     btnClass: { type: String, default: "" }
@@ -114,6 +115,7 @@ async function selectFile(){
         <IconPhotoUp width="24px" height="24px" />
     </button>
     <span class="result simple">{{ result }}</span>
+    <PopupBackdrop v-if="show"/>
     <div :hidden="!show" style="position:fixed;top:calc(50vh - 90px);left:calc(50vw - 200px);width:400px;height:180px;background:#ffffff;white-space:normal;z-index:114514;" class="pre-like">
         <h2>正在上传图片...</h2>
         <progress class="wux-progress" :value="progress" max="1"></progress>
