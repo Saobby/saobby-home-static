@@ -1,5 +1,5 @@
 <script setup lang="js">
-import {nextTick, onBeforeUnmount, onMounted, ref, reactive, computed} from "vue"
+import {nextTick, onBeforeUnmount, onMounted, ref, reactive, computed, watch} from "vue"
 import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
 import {IconRepeat, IconRepeatOnce, IconRepeatOff, IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled, IconVolume} from "@tabler/icons-vue";
 
@@ -29,7 +29,7 @@ const showVolume = ref(false);
 const currentTime = ref(0);
 const duration = ref(0);
 const volume = ref(1);
-const isCycle = ref(false);  // 是否单曲播放
+const cycleMode = ref(0);  // 0: 不循环  1: 列表循环  2: 单曲循环
 const setUiDisabled = ref(false);
 const uiDisabled = computed(() => {
     return setUiDisabled.value || props.disableUi;
@@ -48,13 +48,33 @@ const canNext = computed(() => {
     if (playMode.value === "single") {
         return false;
     }
-    return playIndex.value < playList.value.length - 1;
+    if (playList.value.length === 0) {
+        return false;
+    }
+    if (cycleMode.value === 1){  // 列表循环
+        return !(playIndex.value+1 < playList.value.length && playList.value[playIndex.value+1] === null);
+    }else{
+        return playIndex.value+1 < playList.value.length;
+    }
 });
 const canPrev = computed(() => {
     if (playMode.value === "single") {
         return false;
     }
-    return playIndex.value > 0;
+    if (playList.value.length === 0) {
+        return false;
+    }
+    if (cycleMode.value === 1){
+        if (playIndex.value === 0 && playList.value[playList.value.length-1] === null){
+            return false;
+        }
+        if (playIndex.value-1 >= 0 && playList.value[playIndex.value-1] === null) {
+            return false;
+        }
+        return true;
+    }else{
+        return playIndex.value > 0;
+    }
 });
 const isAudioLoading = ref(false);
 
@@ -90,7 +110,7 @@ function toggleVolume() {
 }
 
 function toggleCycle(){
-    isCycle.value = !isCycle.value;
+    cycleMode.value = (cycleMode.value + 1) % 3;
 }
 
 function onVolumeChange() {
@@ -370,15 +390,16 @@ async function playAll(sort, order, keyword, includedTags, excludedTags, filter)
         pageIndex: 0,
         pageAmount: 114514
     }
-    await expandPlaylist();
+    await fillPlaylist(0);
     await nextMusic();
 }
 
-async function expandPlaylist(){
+
+async function fetchPage(pageIndex){
     const rsp = await fetchMusicListApi(
         searchArgs.value.sort,
         searchArgs.value.order,
-        searchArgs.value.pageIndex,
+        pageIndex,
         searchArgs.value.keyword,
         searchArgs.value.includedTags,
         searchArgs.value.excludedTags,
@@ -389,15 +410,34 @@ async function expandPlaylist(){
         handleError("无法加载播放列表: "+rsp.msg);
         return;
     }
-    searchArgs.value.pageAmount = rsp.data.pg_amount;
-    searchArgs.value.pageIndex += 1;
     const list = rsp.data.list;
     let newIds = [];
     for (const i of list){
         newIds.push(i.id);
     }
     await getMusicUrls(newIds);  // 预先加载并缓存音频链接
-    playList.value = playList.value.concat(newIds);
+    return {
+        pageIndex: rsp.data.pg_index,
+        pageAmount: rsp.data.pg_amount,
+        pageSize: rsp.data.pg_size,
+        total: rsp.data.total,
+        ids: newIds
+    };
+}
+
+async function fillPlaylist(requiredIndex){
+    const requiredPageIndex = Math.floor(requiredIndex / searchArgs.value.pageSize);
+    const rsp = await fetchPage(requiredPageIndex);
+    const delta = rsp.total - playList.value.length;
+    if (delta > 0){
+        for (let i = 0; i < delta; i++){
+            playList.value.unshift(null);
+        }
+    }
+    const startIndex = rsp.pageIndex * rsp.pageSize;
+    for (let j = 0; j < rsp.ids.length; j++){
+        playList.value[startIndex+j] = rsp.ids[j];
+    }
 }
 
 async function startPlay(){
@@ -415,21 +455,24 @@ async function startPlay(){
 
 async function nextMusic(){
     if (!canNext.value) return;
-    if (playIndex.value === playList.value.length - 2){
-        expandPlaylist().then();  // 准备开始播放列表中的最后一曲时加载后面的播放列表
-    }
     playIndex.value++;
+    if (playIndex.value >= playList.value.length){
+        playIndex.value = 0;
+    }
     await startPlay();
 }
 
 async function prevMusic(){
     if (!canPrev.value) return;
     playIndex.value--;
+    if (playIndex.value < 0){
+        playIndex.value = playList.value.length - 1;
+    }
     await startPlay();
 }
 
 function onFinishPlaying(){
-    if (isCycle.value){
+    if (cycleMode.value === 2){
         audio.value.currentTime = 0;
         audio.value.play();
         return;
@@ -440,6 +483,18 @@ function onFinishPlaying(){
     }
     isPlaying.value = false;
 }
+
+watch(() => (playIndex.value), (newIndex) => {
+    if (newIndex+1 < playList.value.length && playList.value[newIndex+1] === null){
+        fillPlaylist(newIndex+1).then();
+    }
+    if (newIndex === 0 && playList.value[playList.value.length-1] === null){
+        fillPlaylist(playList.value.length-1).then();
+    }
+    if (newIndex-1 >= 0 && playList.value[newIndex-1] === null){
+        fillPlaylist(newIndex-1).then();
+    }
+});
 
 </script>
 
@@ -463,9 +518,10 @@ function onFinishPlaying(){
                 <button :disabled="uiDisabled || (!canNext)" @click="nextMusic" title="下一曲" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
                     <IconPlayerTrackNextFilled width="26px" height="26px"/>
                 </button>
-                <button @click="toggleCycle" :title="isCycle ? '切换为列表播放': '切换为单曲循环'" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
-                    <IconRepeatOnce v-if="isCycle" width="26px" height="26px"/>
-                    <IconRepeatOff v-if="!isCycle" width="26px" height="26px"/>
+                <button @click="toggleCycle" :title="['切换为列表循环', '切换为单曲循环', '切换为列表播放'][cycleMode]" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
+                    <IconRepeatOff v-if="cycleMode === 0" width="26px" height="26px"/>
+                    <IconRepeat v-if="cycleMode === 1" width="26px" height="26px"/>
+                    <IconRepeatOnce v-if="cycleMode === 2" width="26px" height="26px"/>
                 </button>
                 <div class="volume-wrapper">
                     <button @click="toggleVolume" title="音量调节" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
