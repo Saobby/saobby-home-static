@@ -1,7 +1,7 @@
 <script setup lang="js">
 import {nextTick, onBeforeUnmount, onMounted, ref, reactive, computed} from "vue"
 import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
-import {IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled, IconVolume, IconRefresh, IconRefreshOff} from "@tabler/icons-vue";
+import {IconRepeat, IconRepeatOnce, IconRepeatOff, IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled, IconVolume} from "@tabler/icons-vue";
 
 const props = defineProps({
     initialTitle: {type: String, default: '未知歌曲'},
@@ -464,8 +464,8 @@ function onFinishPlaying(){
                     <IconPlayerTrackNextFilled width="26px" height="26px"/>
                 </button>
                 <button @click="toggleCycle" :title="isCycle ? '切换为列表播放': '切换为单曲循环'" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
-                    <IconRefresh v-if="isCycle" width="26px" height="26px"/>
-                    <IconRefreshOff v-if="!isCycle" width="26px" height="26px"/>
+                    <IconRepeatOnce v-if="isCycle" width="26px" height="26px"/>
+                    <IconRepeatOff v-if="!isCycle" width="26px" height="26px"/>
                 </button>
                 <div class="volume-wrapper">
                     <button @click="toggleVolume" title="音量调节" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
