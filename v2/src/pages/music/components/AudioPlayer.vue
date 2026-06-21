@@ -111,6 +111,7 @@ function toggleVolume() {
 
 function toggleCycle(){
     cycleMode.value = (cycleMode.value + 1) % 3;
+    localStorage["audioPlayerCycle"] = cycleMode.value;
 }
 
 function onVolumeChange() {
@@ -156,6 +157,9 @@ onMounted(() => {
         volume.value = localStorage["audioPlayerVolume"];
     }
     audio.value.volume = volume.value;
+    if (localStorage["audioPlayerCycle"]){
+        cycleMode.value = parseInt(localStorage["audioPlayerCycle"]);
+    }
 });
 
 // 以下为播放器基本API
