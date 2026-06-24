@@ -144,6 +144,9 @@
 .comments-card{
     border: 3px solid #f1f1f1;
 }
+.spoilers-bg{
+    background: #000;
+}
 @media not (prefers-color-scheme: dark) {
     .wux-card.wux-card-flat.comments-card {
         background: transparent;
@@ -187,6 +190,9 @@
     .comments-card{
         border-color: #333;
     }
+    .spoilers-bg{
+        background: #f2f2f2;
+    }
 }
 body[dark-mode] .pre-like,
 body[dark-mode] .pre-like-code{
@@ -215,4 +221,7 @@ body[dark-mode] .wux-typo a.music-title-link:hover {
 }
 body[dark-mode] .comments-card{
     border-color: #333;
+}
+.spoilers-bg[dark-mode]{
+    background: #f2f2f2;
 }

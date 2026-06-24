@@ -58,7 +58,7 @@ function switch_wrapper(id, vis){
         }else if (e === "[x]"){
             return '<input class="wux-form-checks" type="checkbox" checked disabled>';
         }else if (e.match(/^(黑幕|剧透):.+$/)){
-            return `<span style="background-color:#000;cursor:pointer;" title="剧透内容,点击显示 Spoilers.Click to reveal" onclick="this.style.backgroundColor='rgba(255, 255, 255, 0)';this.title='';this.style.cursor='text';">${e.slice(3)}</span>`;
+            return `<span class="spoilers-bg" style="cursor:pointer;" title="剧透内容,点击显示 Spoilers.Click to reveal" onclick="this.style.backgroundColor='rgba(255, 255, 255, 0)';this.title='';this.style.cursor='text';">${e.slice(3)}</span>`;
         }
         var t;
         return e.match(/^网易云音乐:\d+$/) ? (t = Math.random(),
