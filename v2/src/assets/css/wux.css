@@ -371,7 +371,21 @@ template {
 	height: 10px;
 	margin-bottom: .8em;
 	border: none;
-	border-bottom: 1px solid #ccc
+	border-bottom: 1px solid var(--hr-color)
+}
+
+:root{
+	--hr-color: #ccc
+}
+
+:root[dark-mode]{
+	--hr-color: #444
+}
+
+@media (prefers-color-scheme: dark) {
+	:root{
+		--hr-color: #444
+	}
 }
 
 .wux-typo pre {
