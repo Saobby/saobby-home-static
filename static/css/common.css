@@ -92,6 +92,20 @@
 .icon-btn{
     padding: 0px 4px !important;
 }
+.wux-typo a:not(.wux-btn) .post-list-title,
+.wux-typo a:not(.wux-btn):hover .post-list-title{
+    color: #000;
+}
+@media (prefers-color-scheme: dark) {
+    .wux-typo a:not(.wux-btn) .post-list-title,
+    .wux-typo a:not(.wux-btn):hover .post-list-title{
+        color: white;
+    }
+}
+body[dark-mode] .wux-typo a:not(.wux-btn) .post-list-title,
+body[dark-mode] .wux-typo a:not(.wux-btn):hover .post-list-title{
+    color: white;
+}
 @media (prefers-color-scheme: dark) {
     .pre-like,
     .pre-like-code{
