@@ -6,6 +6,10 @@ function chartTextColor(){
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "#fcfcfc" : "#333333";
 }
 
+function chartTooltipBgColor(){
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "#242424" : "#ffffff";
+}
+
 async function login() {
     function set_btn_status(status){
         gebi("login-btn").disabled = status;
@@ -197,7 +201,11 @@ async function render_trend_chart() {
     const option = {
         tooltip: {
             trigger: "axis",
-            axisPointer: { type: "shadow" }
+            axisPointer: { type: "shadow" },
+            textStyle: {
+                color: chartTextColor()
+            },
+            backgroundColor: chartTooltipBgColor()
         },
         legend: {
             data: ["访问量", "独立IP数"],
@@ -299,7 +307,11 @@ async function render_visit_time_chart() {
             trigger: "axis",
             axisPointer: {
                 type: "shadow"
-            }
+            },
+            textStyle: {
+                color: chartTextColor()
+            },
+            backgroundColor: chartTooltipBgColor()
         },
         legend: {
             data: ["访问量", "独立IP数"],
@@ -442,7 +454,11 @@ async function render_browser_stat_chart() {
                 return `${browser}<br/>` + 
                        `独立IP数: ${ips} (${ip_percent}%)<br/>` +
                        `访问次数: ${visits} (${visit_percent}%)`;
-            }
+            },
+            textStyle: {
+                color: chartTextColor()
+            },
+            backgroundColor: chartTooltipBgColor()
         },
         legend: {
             orient: "horizontal",
@@ -557,7 +573,11 @@ async function render_device_stat_chart() {
                 return `${device}<br/>` + 
                        `独立IP数: ${ips} (${ip_percent}%)<br/>` +
                        `访问次数: ${visits} (${visit_percent}%)`;
-            }
+            },
+            textStyle: {
+                color: chartTextColor()
+            },
+            backgroundColor: chartTooltipBgColor()
         },
         legend: {
             orient: "horizontal",
@@ -672,7 +692,11 @@ async function render_os_stat_chart() {
                 return `${os}<br/>` + 
                        `独立IP数: ${ips} (${ip_percent}%)<br/>` +
                        `访问次数: ${visits} (${visit_percent}%)`;
-            }
+            },
+            textStyle: {
+                color: chartTextColor()
+            },
+            backgroundColor: chartTooltipBgColor()
         },
         legend: {
             orient: "horizontal",
@@ -814,7 +838,11 @@ async function render_ip_location_chart() {
                 const visits = countries_visits[country_name];
                 const ips = countries_ips[country_name];
                 return `${country_name}<br/>访问量: ${visits}<br/>独立IP数: ${ips}`;
-            }
+            },
+            textStyle: {
+                color: chartTextColor()
+            },
+            backgroundColor: chartTooltipBgColor()
         },
         visualMap: [
             {
