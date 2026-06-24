@@ -344,7 +344,10 @@ class SaobbyCaptchaV3{
         <div id="SCV3-cover-${this.#id}" class="SCV3-cover">
             <div id="SCV3-window-${this.#id}" class="SCV3-window SCV3-centered">
                 <span class="SCV3-top">请<b class="SCV3-result">依次</b>点击:</span>
-                <img width="129px" height="30px" class="SCV3-on-top SCV3-img" id="SCV3-tip-img-${this.#id}" draggable="false">
+                <picture>
+                    <source type="image/webp" id="SCV3-tip-img-${this.#id}">
+                    <img width="129px" height="30px" class="SCV3-on-top SCV3-img" draggable="false" id="SCV3-tip-img-jpg-${this.#id}">
+                </picture>
                 <div class="SCV3-challenge-img-div" id="SCV3-challenge-div-${this.#id}">
                     <img width="300" height="225" class="SCV3-img" id="SCV3-challenge-img-${this.#id}" draggable="false">
                     ${(()=>{
@@ -369,6 +372,7 @@ class SaobbyCaptchaV3{
             cover: this.#gebi(`SCV3-cover-${this.#id}`),
             closeButton: this.#gebi(`SCV3-close-btn-${this.#id}`),
             tipImage: this.#gebi(`SCV3-tip-img-${this.#id}`),
+            tipImageJpg: this.#gebi(`SCV3-tip-img-jpg-${this.#id}`),
             challengeImage: this.#gebi(`SCV3-challenge-img-${this.#id}`),
             challengeDiv: this.#gebi(`SCV3-challenge-div-${this.#id}`),
             result: this.#gebi(`SCV3-result-${this.#id}`),
@@ -461,7 +465,8 @@ class SaobbyCaptchaV3{
                 this.#verifyResult.result = response;
                 return {retcode: 999};
             }
-            this.#elements.tipImage.src = response.data.tip;
+            this.#elements.tipImage.srcset = response.data.tip;
+            this.#elements.tipImageJpg.src = response.data.tip_jpg;
             this.#elements.challengeImage.src = response.data.challenge;
             this.#challengeId = response.data.id;
             this.#setButtonHTML(this.#elements.refreshButton);
