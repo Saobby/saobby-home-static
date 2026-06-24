@@ -39,10 +39,10 @@ const progressBarStyle = computed(() => {
     if (duration.value !== 0){
         percentage = (currentTime.value / duration.value) * 100;
     }
-    return `background: linear-gradient(to right, #5064e1 0%, #5064e1 ${percentage}%, #e5e5e5 ${percentage}%, #e5e5e5 100%);`;
+    return `background: linear-gradient(to right, var(--player-progress-fill) 0%, var(--player-progress-fill) ${percentage}%, var(--player-progress-track) ${percentage}%, var(--player-progress-track) 100%);`;
 });
 const volumeBarStyle = computed(() => {
-    return `background: linear-gradient(to right, #5064e1 0%, #5064e1 ${volume.value * 100}%, #e5e5e5 ${volume.value * 100}%, #e5e5e5 100%);`;
+    return `background: linear-gradient(to right, var(--player-progress-fill) 0%, var(--player-progress-fill) ${volume.value * 100}%, var(--player-progress-track) ${volume.value * 100}%, var(--player-progress-track) 100%);`;
 });
 const canNext = computed(() => {
     if (playMode.value === "single") {
@@ -564,8 +564,8 @@ watch(() => (playIndex.value), (newIndex) => {
                 />
 
                 <div class="time-row">
-                    <span class="gray">{{ formatTime(currentTime) }}</span>
-                    <span class="gray">{{ formatTime(duration) }}</span>
+                    <span class="time-text">{{ formatTime(currentTime) }}</span>
+                    <span class="time-text">{{ formatTime(duration) }}</span>
                 </div>
             </div>
         </div>
@@ -574,22 +574,49 @@ watch(() => (playIndex.value), (newIndex) => {
 
 <style scoped>
 .player-container {
+    --player-progress-fill: #5064e1;
+    --player-progress-track: #e5e5e5;
+    --player-bg: rgba(245, 245, 247, 0.75);
+    --player-border: #bbb;
+    --player-text: #121212;
+    --player-text-muted: #555;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     padding: 8px 14px 8px 14px;
-    background: rgba(245, 245, 247, 0.75);
+    background: var(--player-bg);
+    color: var(--player-text);
     z-index: 1000;
     max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0 0 32px 8px rgba(0,0,0,0.28);
-    border-top: 1.5px solid #bbb;
+    border-top: 1.5px solid var(--player-border);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-radius: 12px 12px 0 0;
     overflow: visible;
+}
+
+@media (prefers-color-scheme: dark) {
+    .player-container {
+        --player-progress-fill: #7383e7;
+        --player-progress-track: #444;
+        --player-bg: rgba(24, 24, 24, 0.92);
+        --player-border: #444;
+        --player-text: #fcfcfc;
+        --player-text-muted: #bbb;
+    }
+}
+
+body[dark-mode] .player-container {
+    --player-progress-fill: #7383e7;
+    --player-progress-track: #444;
+    --player-bg: rgba(24, 24, 24, 0.92);
+    --player-border: #444;
+    --player-text: #fcfcfc;
+    --player-text-muted: #bbb;
 }
 
 .controls-row {
@@ -627,10 +654,10 @@ watch(() => (playIndex.value), (newIndex) => {
     transform: translateX(-50%);
     width: 100px;
     padding: 8px 14px 8px 14px;
-    background: rgba(245, 245, 247, 1);
+    background: var(--player-bg);
     z-index: 1099;
     box-shadow: 0 0 32px 8px rgba(0,0,0,0.28);
-    border: 1.5px solid #bbb;
+    border: 1.5px solid var(--player-border);
     border-radius: 12px 12px 12px 12px;
 }
 
@@ -644,6 +671,12 @@ watch(() => (playIndex.value), (newIndex) => {
 
 .title {
     text-align: left;
+    color: var(--player-text);
+    font-weight: 500;
+}
+
+.time-text {
+    color: var(--player-text-muted);
 }
 
 .progress {

@@ -138,3 +138,57 @@
 .mc2 span{
     vertical-align: middle;
 }
+.popup-panel{
+    background: #ffffff;
+}
+.music-title-link{
+    color: #000;
+}
+.comments-card{
+    background-color: transparent;
+    border: 3px solid #f1f1f1;
+}
+@media (prefers-color-scheme: dark) {
+    .pre-like,
+    .pre-like-code{
+        border-color: #555;
+        background-color: #242424;
+        color: #f2f2f2;
+    }
+    .bottom-line{
+        border-bottom-color: #444;
+    }
+    .gray{
+        color: #aaa !important;
+    }
+    .popup-panel{
+        background: #242424;
+    }
+    .music-title-link{
+        color: #f2f2f2;
+    }
+    .comments-card{
+        border-color: #333;
+    }
+}
+body[dark-mode] .pre-like,
+body[dark-mode] .pre-like-code{
+    border-color: #555;
+    background-color: #242424;
+    color: #f2f2f2;
+}
+body[dark-mode] .bottom-line{
+    border-bottom-color: #444;
+}
+body[dark-mode] .gray{
+    color: #aaa !important;
+}
+body[dark-mode] .popup-panel{
+    background: #242424;
+}
+body[dark-mode] .music-title-link{
+    color: #f2f2f2;
+}
+body[dark-mode] .comments-card{
+    border-color: #333;
+}

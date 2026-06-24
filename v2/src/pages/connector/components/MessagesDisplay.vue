@@ -25,4 +25,12 @@ const props = defineProps({
   border-bottom: 2px solid #ddd;
   padding:12px 0px;
 }
+@media (prefers-color-scheme: dark) {
+  .msg-div {
+    border-bottom-color: #444;
+  }
+}
+body[dark-mode] .msg-div {
+  border-bottom-color: #444;
+}
 </style>

@@ -14,7 +14,7 @@ import json from "highlight.js/lib/languages/json";
 import shell from "highlight.js/lib/languages/shell";
 import rust from "highlight.js/lib/languages/rust";
 import plaintext from "highlight.js/lib/languages/plaintext";
-import "highlight.js/styles/github.css";
+import "@/assets/css/hljs-themes.css";
 import { emojis } from "@/assets/js/emojis.js";
 import { markedEmoji } from "marked-emoji";
 import { mediaPlugin } from "@/assets/js/markedCustomExt/moreMedia.js";

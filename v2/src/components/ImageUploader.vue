@@ -116,7 +116,7 @@ async function selectFile(){
     </button>
     <span class="result simple">{{ result }}</span>
     <PopupBackdrop v-if="show"/>
-    <div :hidden="!show" style="position:fixed;top:calc(50vh - 90px);left:calc(50vw - 200px);width:400px;height:180px;background:#ffffff;white-space:normal;z-index:114514;" class="pre-like">
+    <div :hidden="!show" style="position:fixed;top:calc(50vh - 90px);left:calc(50vw - 200px);width:400px;height:180px;white-space:normal;z-index:114514;" class="pre-like popup-panel">
         <h2>正在上传图片...</h2>
         <progress class="wux-progress" :value="progress" max="1"></progress>
         <span>上传进度:{{ Math.round(progress * 100) }}%</span>

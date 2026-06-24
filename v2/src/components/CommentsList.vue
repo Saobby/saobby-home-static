@@ -70,10 +70,10 @@ function updateComments() {
         <span class="gray">没有任何评论</span>
     </div>
     <div v-for="comment in comments" :style="`position:relative;left:${20 * comment.lvl}px;`">
-        <div :id="`comment-div-${comment.cid}`" style="border-bottom: 2px solid #ddd;padding:12px 0;">
+        <div :id="`comment-div-${comment.cid}`" class="bottom-line" style="padding-left: 0; padding-right: 0;">
             <img :src="comment.avatar_url" alt="用户头像" width="32px" height="32px">
             <b style="position:relative;top:-17px;left:5px;">{{ comment.nickname || comment.username }}</b>
-            <span style="color:#777777;position:relative;top:-17px;left:5px;" class="middle mc">
+            <span style="position:relative;top:-17px;left:5px;" class="middle mc gray">
                 <span v-if="comment.is_email_checked" title="(已绑定电子邮箱)" class="mc lleft"><IconMailCheck width="16px" height="16px" /></span>
                 <span v-if="comment.modify_time" class="lleft mc" title="(已编辑)"><IconPencilCheck width="16px" height="16px"/></span>
                 <span :title="comment.modify_time?'编辑时间':'发表时间'" class="mc lleft"><IconClock width="16px" height="16px" />{{ ts2str(comment.modify_time || comment.timestamp) }}</span>

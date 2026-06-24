@@ -187,7 +187,7 @@ onMounted(async () => {
 <!--            <div class="wux-alert wux-alert-warning mb">2025-1-31 16:30 GMT+8 由于服务器刚刚更换IP, DNS记录更新有延迟, 这两天部分地区可能出现无法访问部分服务的问题</div>-->
         <div class="wux-row-md-1">
             <div class="wux-col">
-                <div class="wux-card wux-card-flat" style="background-color:#00000000; border: 3px solid #f1f1f1;">
+                <div class="wux-card wux-card-flat comments-card">
                     <div class="wux-card-body">
                         <h2 class="mc2"><IconMessage width="32px" height="32px"/><span>评论区</span></h2>
                         <button class="wux-btn wux-btn-primary mc2" @click="showAddCommentWindow = !showAddCommentWindow;" type="button"><IconMessagePlus width="16px" height="16px"/><span>发表评论</span></button>
