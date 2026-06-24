@@ -393,7 +393,7 @@ template {
 	font-size: 14px;
 	white-space: pre-wrap;
 	overflow-wrap: break-word;
-	border: 2px solid #ccc;
+	border: 2px solid var(--hr-color);
 	border-radius: 12px;
 	-webkit-overflow-scrolling: touch
 }
