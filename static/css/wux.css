@@ -29,7 +29,16 @@ body {
 
 body[dark-mode] {
 	background-color: #121212;
-	color: #fcfcfc
+	color: #fcfcfc;
+	color-scheme: dark
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #121212;
+		color: #fcfcfc;
+		color-scheme: dark
+	}
 }
 
 *,*:before,*:after {
@@ -1271,7 +1280,7 @@ float-clear:before,float-clear:after {
 	--alert-icon-color-light: #999999
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--alert-background-color-primary: #7383e7;
 		--alert-background-color-secondary: #b383f3;
@@ -1448,7 +1457,7 @@ float-clear:before,float-clear:after {
 	--badge-text-color: #FFFFFF
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--badge-background-color: #FF4444;
 		--badge-text-color: #FFFFFF
@@ -1487,7 +1496,7 @@ float-clear:before,float-clear:after {
 	--breadcrumb-item-link-color: #4050b4
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--breadcrumb-background-color: transparent;
 		--breadcrumb-border: none;
@@ -1546,7 +1555,7 @@ float-clear:before,float-clear:after {
 	--blankslate-icon-border-radius: 12px
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--blankslate-title-text-color: #FCFCFC;
 		--blankslate-subtitle-text-color: #666666
@@ -1641,7 +1650,7 @@ float-clear:before,float-clear:after {
 	--button-font-size-xl: 18px
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--button-fab-shadow: 1px 1px 4px 1px #000000;
 		--button-fab-hover-shadow: 1px 1px 6px 2px #000000;
@@ -2286,7 +2295,7 @@ float-clear:before,float-clear:after {
 	--card-flat-border: none
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--card-border-color: rgb(200, 200, 200);
 		--card-background-color: #242424;
@@ -2384,7 +2393,7 @@ float-clear:before,float-clear:after {
 	--collapse-body-text-color: #121212
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--collapse-header-background-color: #161616;
 		--collapse-header-border: none;
@@ -2456,7 +2465,7 @@ details.wux-collapse[open] summary {
 	--dialog-footer-group-float: right
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--dialog-background-color: #121212;
 		--dialog-border: none;
@@ -2562,7 +2571,7 @@ details.wux-collapse[open] summary {
 	--dropdown-menu-divider-margin: 0
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--dropdown-menu-background: #121212;
 		--dropdown-menu-border: 2px solid #AAAAAA;
@@ -2662,7 +2671,7 @@ details.wux-collapse[open] summary {
 	--form-checks-checked-shadow: none
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--form-checks-border-color: #ABABAB;
 		--form-checks-hover-background-color: transparent;
@@ -2759,7 +2768,7 @@ details.wux-collapse[open] summary {
 	--form-input-border-radius-xl: 16px
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--form-input-background: #121212;
 		--form-input-border-color: #AAAAAA;
@@ -2908,7 +2917,7 @@ details.wux-collapse[open] summary {
 	--form-radios-checked-shadow: none
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--form-radios-border-color: #ABABAB;
 		--form-radios-hover-background-color: transparent;
@@ -2972,7 +2981,7 @@ details.wux-collapse[open] summary {
 	--form-range-thumb-focus-shadow: 0 0 0 4px #4050b4
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--form-range-thumb-background: #96a2ed;
 		--form-range-thumb-border: none;
@@ -3070,7 +3079,7 @@ details.wux-collapse[open] summary {
 	--form-select-focus-shadow: 0 0 6px #DDDDDD
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--form-select-background-color: #121212;
 		--form-select-border-color: #CCCCCC;
@@ -3135,7 +3144,7 @@ details.wux-collapse[open] summary {
 	--form-upload-button-hover-color: white
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--form-upload-border: none;
 		--form-upload-hover-shadow: none;
@@ -3243,7 +3252,7 @@ details.wux-collapse[open] summary {
 	--header-option-bold-text-color: white
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--header-background: transparent;
 		--header-text-color: #96a2ed;
@@ -3432,7 +3441,7 @@ details.wux-collapse[open] summary {
 	--jumbotron-button-group-margin-y: 60px
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--jumbotron-background: transparent;
 		--jumbotron-title-text-color: #FCFCFC;
@@ -3505,7 +3514,7 @@ details.wux-collapse[open] summary {
 	--list-item-focus-text-color: white
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--list-border: 2px solid #888888;
 		--list-item-background: #121212;
@@ -3619,7 +3628,7 @@ details.wux-collapse[open] summary {
 	--progress-line-color: rgb(80, 100, 225)
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--progress-background-color: #121212;
 		--progress-border-color: #888888;
@@ -3678,7 +3687,7 @@ details.wux-collapse[open] summary {
 	--search-focus-shadow: 0 0 6px #DDDDDD
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--search-border-color: #AAAAAA;
 		--search-background-color: #121212;
@@ -3762,13 +3771,13 @@ details.wux-collapse[open] summary {
 	--tab-content-margin: 12px
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--tab-item-background: transparent;
 		--tab-item-border: none;
 		--tab-item-text-color: #FCFCFC;
 		--tab-item-focus-background: transparent;
-		--tab-item-focus-border-color: rgb(80, 100, 225);
+		--tab-item-focus-border-color: #7383e7;
 		--tab-item-focus-text-color: #96a2ed
 	}
 }[dark-mode] {
@@ -3776,7 +3785,7 @@ details.wux-collapse[open] summary {
 	--tab-item-border: none;
 	--tab-item-text-color: #FCFCFC;
 	--tab-item-focus-background: transparent;
-	--tab-item-focus-border-color: rgb(80, 100, 225);
+	--tab-item-focus-border-color: #7383e7;
 	--tab-item-focus-text-color: #96a2ed
 }
 
@@ -3797,6 +3806,8 @@ details.wux-collapse[open] summary {
 	display: inline-block;
 	padding: var(--tab-item-padding);
 	position: relative;
+	isolation: isolate;
+	z-index: 0;
 	transition: var(--global-animation-speed);
 	-webkit-transition: var(--global-animation-speed);
 	user-select: none;
@@ -3865,7 +3876,7 @@ details.wux-collapse[open] summary {
 	--tables-row-margin: 4px
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--tables-background-color: #121212;
 		--tables-border: 2px solid #AAAAAA;
@@ -3988,7 +3999,7 @@ details.wux-collapse[open] summary {
 	--tag-text-color-light: #3d3d3d
 }
 
-@media(refers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--tag-background-color-primary: #96a2ed;
 		--tag-background-color-secondary: #c6a2f6;

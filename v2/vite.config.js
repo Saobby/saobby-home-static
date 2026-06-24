@@ -15,8 +15,21 @@ function getPages() {
     return entries
 }
 
+const DARK_MODE_CRITICAL_CSS = `<style>@media (prefers-color-scheme: dark){html,body{background-color:#121212;color:#fcfcfc;color-scheme:dark}}</style>`
+const DARK_MODE_CRITICAL_SCRIPT = `<script>(function(){if(window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.style.backgroundColor="#121212";document.documentElement.style.colorScheme="dark";document.addEventListener("DOMContentLoaded",function(){document.body&&document.body.setAttribute("dark-mode","true")})}})();<\/script>`
+
+function injectDarkModeCriticalAssets() {
+    return {
+        name: 'inject-dark-mode-critical-assets',
+        transformIndexHtml(html) {
+            return html.replace('<head>', `<head>\n        ${DARK_MODE_CRITICAL_CSS}\n        ${DARK_MODE_CRITICAL_SCRIPT}`)
+        }
+    }
+}
+
 export default defineConfig({
     plugins: [
+        injectDarkModeCriticalAssets(),
         vue(),
         babel({
             babelConfig: {

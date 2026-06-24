@@ -42,12 +42,13 @@ let interval = null;
 async function generateQRCode() {
     try {
         const url = `${import.meta.env.VITE_CONNECTOR_BASE_URL}${channelId.value}`;
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const dataUrl = await toDataURL(url, {
             width: 256,
             margin: 0,
             color: {
-                dark: '#000',
-                light: '#fff'
+                dark: isDark ? '#f2f2f2' : '#000',
+                light: isDark ? '#242424' : '#fff'
             }
         });
         qrCodeDataUrl.value = dataUrl;

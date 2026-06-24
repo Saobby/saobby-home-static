@@ -2,6 +2,10 @@ let domain = "https://w.saobby.com";
 let access_token = get_url_args().access_token;
 let tab = "overview";
 
+function chartTextColor(){
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "#fcfcfc" : "#333333";
+}
+
 async function login() {
     function set_btn_status(status){
         gebi("login-btn").disabled = status;
@@ -197,7 +201,10 @@ async function render_trend_chart() {
         },
         legend: {
             data: ["访问量", "独立IP数"],
-            top: "0%"
+            top: "0%",
+            textStyle: {
+                color: chartTextColor()
+            }
         },
         grid: {
             left: "3%",
@@ -296,7 +303,10 @@ async function render_visit_time_chart() {
         },
         legend: {
             data: ["访问量", "独立IP数"],
-            top: "0%"
+            top: "0%",
+            textStyle: {
+                color: chartTextColor()
+            }
         },
         grid: {
             left: "3%",
@@ -437,7 +447,10 @@ async function render_browser_stat_chart() {
         legend: {
             orient: "horizontal",
             top: "top",
-            left: "center"
+            left: "center",
+            textStyle: {
+                color: chartTextColor()
+            }
         },
         series: [
             {
@@ -549,7 +562,10 @@ async function render_device_stat_chart() {
         legend: {
             orient: "horizontal",
             top: "top",
-            left: "center"
+            left: "center",
+            textStyle: {
+                color: chartTextColor()
+            }
         },
         series: [
             {
@@ -661,7 +677,10 @@ async function render_os_stat_chart() {
         legend: {
             orient: "horizontal",
             top: "top",
-            left: "center"
+            left: "center",
+            textStyle: {
+                color: chartTextColor()
+            }
         },
         series: [
             {
@@ -788,7 +807,6 @@ async function render_ip_location_chart() {
     }
 
     const option = {
-        backgroundColor: "#ffffff",
         tooltip: {
             trigger: "item",
             formatter: (params) => {
@@ -805,6 +823,9 @@ async function render_ip_location_chart() {
                 max: max_visits,
                 text: ["访问量"],
                 calculable: true,
+                textStyle: {
+                    color: chartTextColor()
+                },
                 inRange: {
                     color: ["#e0f3f8", "#5064e1"]
                 },

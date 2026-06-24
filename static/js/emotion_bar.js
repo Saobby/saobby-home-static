@@ -35,7 +35,7 @@ var emotionBar = (function (){
             }
             emotions_html += `</div>`;
         }
-        var bar_html = `<div id="emotion-bar-div" style="position:fixed;top:calc(50vh - 175px);left:calc(50vw - 175px);width:350px;height:350px;background:#ffffff;" class="pre-like" hidden>${select_pack_html}${emotions_html}<button class="wux-btn wux-btn-primary wux-btn-outline" type="button", onclick="emotionBar.close();">${icon_with_text("x-primary", "关闭")}</button></div>`;
+        var bar_html = `<div id="emotion-bar-div" style="position:fixed;top:calc(50vh - 175px);left:calc(50vw - 175px);width:350px;height:350px;" class="pre-like" hidden>${select_pack_html}${emotions_html}<button class="wux-btn wux-btn-primary wux-btn-outline" type="button", onclick="emotionBar.close();">${icon_with_text("x-primary", "关闭")}</button></div>`;
         gebi("emotion-bar").innerHTML = bar_html;
     };
     ret.show = (target) => {

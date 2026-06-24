@@ -37,7 +37,7 @@ function onTabWheel(e) {
 <template>
     <button @click="show=!show" :class="'wux-btn wux-btn-warning wux-btn-text icon-btn simple '+btnClass"><IconMoodHappy width="24px" height="24px"/></button>
     <PopupBackdrop v-if="show" class="emoji-backdrop" @click="show=false" @wheel.prevent @touchmove.prevent></PopupBackdrop>
-    <div style="position:fixed;top:calc(50vh - 175px);left:calc(50vw - 175px);width:350px;height:350px;background:#ffffff;z-index: 9999;" class="pre-like" v-if="show">
+    <div style="position:fixed;top:calc(50vh - 175px);left:calc(50vw - 175px);width:350px;height:350px;z-index: 9999;" class="pre-like popup-panel" v-if="show">
         <div style="width:100%;height:65px;overflow-y:hidden;overflow-x:auto;" class="wux-tab" ref="tabRef" @wheel.prevent="onTabWheel">
             <div style="white-space:nowrap;">
                 <span v-for="pack in emotions">

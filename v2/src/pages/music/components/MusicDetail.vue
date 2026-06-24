@@ -192,7 +192,7 @@ const shareExpiry = ref(null);
                         </div>
                         <img class="cover-img" :hidden="!showCover" @load="showCover=true;" :src="musicInfo.cover_url" alt="音乐封面" width="100%">
                     </div>
-                    <div class="no-cover-div" :hidden="musicInfo.cover_url" style="color:#777">
+                    <div class="no-cover-div gray" :hidden="musicInfo.cover_url">
                         <IconMusic :stroke="1" width="100%" height="100%" />
                     </div>
                 </div>
@@ -272,6 +272,16 @@ const shareExpiry = ref(null);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     white-space: normal;
     z-index: 114514;
+}
+@media (prefers-color-scheme: dark) {
+    .share-window {
+        background: #242424;
+        border-color: #555;
+    }
+}
+body[dark-mode] .share-window {
+    background: #242424;
+    border-color: #555;
 }
 @media (min-width: 1024px){
     .detail-container{

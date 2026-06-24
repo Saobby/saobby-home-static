@@ -307,6 +307,34 @@ class SaobbyCaptchaV3{
             vertical-align: middle;
             display: inline-block;
         }
+        @media (prefers-color-scheme: dark) {
+            .SCV3-window,
+            .SCV3-trigger{
+                background-color: #242424;
+                border-color: #555;
+                color: #f2f2f2;
+            }
+            .SCV3-number-mark{
+                background-color: #242424;
+                border-color: #555;
+            }
+            .SCV3-button-text:hover{
+                background-color: #333;
+            }
+        }
+        body[dark-mode] .SCV3-window,
+        body[dark-mode] .SCV3-trigger{
+            background-color: #242424;
+            border-color: #555;
+            color: #f2f2f2;
+        }
+        body[dark-mode] .SCV3-number-mark{
+            background-color: #242424;
+            border-color: #555;
+        }
+        body[dark-mode] .SCV3-button-text:hover{
+            background-color: #333;
+        }
         </style>
         <div id="SCV3-trigger-${this.#id}"${this.showTrigger ? "" : " hidden"}>
             <div class="SCV3-trigger" id="SCV3-trigger-div-${this.#id}">

@@ -30,8 +30,8 @@
     <div class="centered" v-if="musicList.length===0">
       <span class="gray">没有任何数据</span>
     </div>
-    <div v-for="music in musicList" style="border-bottom: 2px solid #ddd;padding:12px 16px;">
-        <span class="wux-tag wux-tag-error" v-if="music.is_private">私有</span><a style="color:#000;" href="javascript:;" @click="emitPlay(music.id)"><b style="font-size: 20px;">{{ music.name }}</b></a>
+    <div v-for="music in musicList" class="bottom-line">
+        <span class="wux-tag wux-tag-error" v-if="music.is_private">私有</span><a class="music-title-link" href="javascript:;" @click="emitPlay(music.id)"><b style="font-size: 20px;">{{ music.name }}</b></a>
       <br>
       <span class="bt" :hidden="music.tags.length===0"><TagsDisplay @click="jumpToSearchTag" :tags="music.tags"/></span>
       <br :hidden="music.tags.length===0">

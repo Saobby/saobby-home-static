@@ -94,6 +94,16 @@ watch (() => showAddWindow.value, (newValue) => {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     z-index: 1000;
 }
+@media (prefers-color-scheme: dark) {
+    .add-window {
+        background: #242424;
+        border-color: #555;
+    }
+}
+body[dark-mode] .add-window {
+    background: #242424;
+    border-color: #555;
+}
 .add-input {
     width: calc(100% - 50px);
     display: inline-block;
