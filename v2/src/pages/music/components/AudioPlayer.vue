@@ -1,7 +1,8 @@
 <script setup lang="js">
 import {nextTick, onBeforeUnmount, onMounted, ref, reactive, computed, watch} from "vue"
 import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
-import {IconRepeat, IconRepeatOnce, IconRepeatOff, IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled, IconVolume} from "@tabler/icons-vue";
+import {IconArrowsShuffle, IconRepeat, IconRepeatOnce, IconRepeatOff, IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled, IconVolume} from "@tabler/icons-vue";
+import {shuffle} from "@/assets/js/util.js";
 
 const props = defineProps({
     initialTitle: {type: String, default: '未知歌曲'},
@@ -19,6 +20,7 @@ let audioCtxGainNode = null;
 
 const playMode = ref(null); // single或list
 const playList = ref([]);
+const randomIndex = ref([]);
 const playIndex = ref(-1);
 const searchArgs = reactive({});
 const currentPlayingId = ref(0);
@@ -29,7 +31,7 @@ const showVolume = ref(false);
 const currentTime = ref(0);
 const duration = ref(0);
 const volume = ref(1);
-const cycleMode = ref(0);  // 0: 不循环  1: 列表循环  2: 单曲循环
+const cycleMode = ref(0);  // 0: 不循环  1: 列表循环  2: 单曲循环  3: 随机播放
 const setUiDisabled = ref(false);
 const uiDisabled = computed(() => {
     return setUiDisabled.value || props.disableUi;
@@ -51,10 +53,30 @@ const canNext = computed(() => {
     if (playList.value.length === 0) {
         return false;
     }
-    if (cycleMode.value === 1){  // 列表循环
-        return !(playIndex.value+1 < playList.value.length && playList.value[playIndex.value+1] === null);
+    if (cycleMode.value === 1) {  // 列表循环
+        if (playIndex.value === playList.value.length - 1 && playList.value[0] === null) {
+            return false;
+        }
+        if (playIndex.value < playList.value.length - 1 && playList.value[playIndex.value + 1] === null) {
+            return false;
+        }
+        return true;
+    }else if (cycleMode.value === 3) {  // 随机播放
+        if (playIndex.value === playList.value.length - 1){
+            return false;
+        }
+        if (playList.value[randomIndex.value[playIndex.value + 1]] === null) {
+            return false;
+        }
+        return true;
     }else{
-        return playIndex.value+1 < playList.value.length;
+        if (playIndex.value === playList.value.length - 1){
+            return false;
+        }
+        if (playList.value[playIndex.value + 1] === null) {
+            return false;
+        }
+        return true;
     }
 });
 const canPrev = computed(() => {
@@ -64,16 +86,30 @@ const canPrev = computed(() => {
     if (playList.value.length === 0) {
         return false;
     }
-    if (cycleMode.value === 1){
-        if (playIndex.value === 0 && playList.value[playList.value.length-1] === null){
+    if (cycleMode.value === 1) {  // 列表循环
+        if (playIndex.value === 0 && playList.value[playList.value.length - 1] === null) {
             return false;
         }
-        if (playIndex.value-1 >= 0 && playList.value[playIndex.value-1] === null) {
+        if (playIndex.value > 0 && playList.value[playIndex.value - 1] === null) {
+            return false;
+        }
+        return true;
+    }else if (cycleMode.value === 3) {  // 随机播放
+        if (playIndex.value === 0){
+            return false;
+        }
+        if (playList.value[randomIndex.value[playIndex.value - 1]] === null) {
             return false;
         }
         return true;
     }else{
-        return playIndex.value > 0;
+        if (playIndex.value === 0){
+            return false;
+        }
+        if (playList.value[playIndex.value - 1] === null) {
+            return false;
+        }
+        return true;
     }
 });
 const isAudioLoading = ref(false);
@@ -110,7 +146,7 @@ function toggleVolume() {
 }
 
 function toggleCycle(){
-    cycleMode.value = (cycleMode.value + 1) % 3;
+    cycleMode.value = (cycleMode.value + 1) % 4;
     localStorage["audioPlayerCycle"] = cycleMode.value;
 }
 
@@ -260,6 +296,7 @@ function handleError(msg){
 function resetPlaylist(){
     playList.value = [];
     playIndex.value = -1;
+    randomIndex.value = [];
 }
 
 function onWaiting(){
@@ -395,6 +432,9 @@ async function playAll(sort, order, keyword, includedTags, excludedTags, filter)
         pageAmount: 114514
     }
     await fillPlaylist(0);
+    if (cycleMode.value === 3){
+        await fillPlaylist(randomIndex.value[0]);
+    }
     await nextMusic();
 }
 
@@ -437,6 +477,11 @@ async function fillPlaylist(requiredIndex){
         for (let i = 0; i < delta; i++){
             playList.value.unshift(null);
         }
+        randomIndex.value = [];
+        for (let m = 0; m < rsp.total; m++){
+            randomIndex.value.push(m);
+        }
+        shuffle(randomIndex.value);
     }
     const startIndex = rsp.pageIndex * rsp.pageSize;
     for (let j = 0; j < rsp.ids.length; j++){
@@ -445,7 +490,7 @@ async function fillPlaylist(requiredIndex){
 }
 
 async function startPlay(){
-    const musicId = playList.value[playIndex.value];
+    const musicId = playList.value[cycleMode.value === 3 ? randomIndex.value[playIndex.value] : playIndex.value];
     currentPlayingId.value = musicId;
     const rsp = await getMusicUrls([musicId]);
     const musicInfo = rsp[0];
@@ -489,14 +534,26 @@ function onFinishPlaying(){
 }
 
 watch(() => (playIndex.value), (newIndex) => {
-    if (newIndex+1 < playList.value.length && playList.value[newIndex+1] === null){
-        fillPlaylist(newIndex+1).then();
-    }
-    if (newIndex === 0 && playList.value[playList.value.length-1] === null){
-        fillPlaylist(playList.value.length-1).then();
-    }
-    if (newIndex-1 >= 0 && playList.value[newIndex-1] === null){
-        fillPlaylist(newIndex-1).then();
+    if (cycleMode.value === 3){
+        if (newIndex+1 < playList.value.length && playList.value[randomIndex.value[newIndex+1]] === null){
+            fillPlaylist(randomIndex.value[newIndex+1]).then();
+        }
+        if (newIndex === 0 && playList.value[randomIndex.value[playList.value.length-1]] === null){
+            fillPlaylist(randomIndex.value[playList.value.length-1]).then();
+        }
+        if (newIndex-1 >= 0 && playList.value[randomIndex.value[newIndex-1]] === null){
+            fillPlaylist(randomIndex.value[newIndex-1]).then();
+        }
+    }else{
+        if (newIndex+1 < playList.value.length && playList.value[newIndex+1] === null){
+            fillPlaylist(newIndex+1).then();
+        }
+        if (newIndex === 0 && playList.value[playList.value.length-1] === null){
+            fillPlaylist(playList.value.length-1).then();
+        }
+        if (newIndex-1 >= 0 && playList.value[newIndex-1] === null){
+            fillPlaylist(newIndex-1).then();
+        }
     }
 });
 
@@ -526,6 +583,7 @@ watch(() => (playIndex.value), (newIndex) => {
                     <IconRepeatOff v-if="cycleMode === 0" width="26px" height="26px"/>
                     <IconRepeat v-if="cycleMode === 1" width="26px" height="26px"/>
                     <IconRepeatOnce v-if="cycleMode === 2" width="26px" height="26px"/>
+                    <IconArrowsShuffle v-if="cycleMode === 3" width="26px" height="26px"/>
                 </button>
                 <div class="volume-wrapper">
                     <button @click="toggleVolume" title="音量调节" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
