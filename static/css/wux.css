@@ -219,7 +219,16 @@ template {
 }
 
 .wux-typo pre,.wux-typo code,.wux-typo kbd,.wux-typo samp,.wux-typo pre tt {
-	font-family: "consolas_","Fira Code",Consola,"JetBrainsMono","Roboto Mono","Ubuntu Mono",Monospace,Courier
+	font-family:
+		"consolas_",
+		"Fira Code",
+		"Consolas",
+		"JetBrainsMono",
+		"Roboto Mono",
+		"Ubuntu Mono",
+		Monospace,
+		Courier,
+		monospace;
 }
 
 .wux-typo figcaption {
@@ -4143,5 +4152,13 @@ details.wux-collapse[open] summary {
 	right: 105%
 }/*# sourceMappingURL=wux.css.map */
 .wux-container {
-	font-family: "consolas_", "Consolas", "Menlo", "Courier New", monospace;
+	font-family:
+		"consolas_",
+		"Consolas",
+		"Menlo",
+		"Courier New",
+		"PingFang SC",
+        "Microsoft YaHei",
+        "Noto Sans SC",
+        sans-serif;
 }
