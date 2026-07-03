@@ -147,5 +147,5 @@ var pasteToUpload = (function(api_url){
     }
     
     return returns;
-})("https://image.saobby.com/api/upload_image");
+})("https://picbed-v3.saobby.com/api/upload_image");
 pasteToUpload.init();

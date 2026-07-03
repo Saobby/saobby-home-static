@@ -23,7 +23,7 @@ async function upload_avatar() {
     set_btn_html(gebi("upload-btn"), "正在上传");
     var form_data = new FormData;
     var http = new XMLHttpRequest;
-    http.open("post", "https://image.saobby.com/api/upload_image", true);
+    http.open("post", "https://picbed-v3.saobby.com/api/upload_image", true);
     http.onreadystatechange = function(){
         if (this.readyState === 4){
             var ret = JSON.parse(this.responseText);
