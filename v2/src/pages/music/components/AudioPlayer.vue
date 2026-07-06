@@ -265,7 +265,7 @@ function setGain(gain, time){
     audioCtxGainNode.gain.linearRampToValueAtTime(gain, now + time);
 }
 
-async function handlePlay(musicType, src, musicTitle, gain) {
+async function handlePlay(musicType, src, musicTitle, gain, coverUrl) {
     await audioCtx.resume();
     audio.value.crossOrigin = "anonymous";
     switch (musicType){
@@ -282,9 +282,16 @@ async function handlePlay(musicType, src, musicTitle, gain) {
     play();
     title.value = musicTitle;
     if ("mediaSession" in navigator){
-        navigator.mediaSession.metadata = new MediaMetadata({
-            title: musicTitle,
-        });
+        if (coverUrl){
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: musicTitle,
+                artwork: [{src: coverUrl}]
+            });
+        }else{
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: musicTitle,
+            });
+        }
     }
 }
 
@@ -412,7 +419,8 @@ async function playSingle(musicId, sign) {
         musicInfo.version === 2 ? "m3u8": "default",
         musicInfo.audio_url,
         musicInfo.name,
-        musicInfo.gain
+        musicInfo.gain,
+        musicInfo.cover_url
     );
 }
 
@@ -498,7 +506,8 @@ async function startPlay(){
         musicInfo.version === 2 ? "m3u8": "default",
         musicInfo.audio_url,
         musicInfo.name,
-        musicInfo.gain
+        musicInfo.gain,
+        musicInfo.cover_url
     );
 }
 
