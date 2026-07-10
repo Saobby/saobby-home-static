@@ -1,14 +1,14 @@
 <script setup lang="js">
 import {nextTick, onBeforeUnmount, onMounted, ref, reactive, computed, watch} from "vue"
 import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
-import {IconArrowsShuffle, IconRepeat, IconRepeatOnce, IconRepeatOff, IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled, IconVolume} from "@tabler/icons-vue";
+import {IconInfoCircle, IconArrowsShuffle, IconRepeat, IconRepeatOnce, IconRepeatOff, IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled, IconVolume} from "@tabler/icons-vue";
 import {shuffle} from "@/assets/js/util.js";
 
 const props = defineProps({
     initialTitle: {type: String, default: '未知歌曲'},
     disableUi: {type: Boolean, default: false},
 });
-const emit = defineEmits(["requestPlay", "error"]);
+const emit = defineEmits(["requestPlay", "error", "showDetail"]);
 
 const audio = ref(null);
 let hls = null;
@@ -188,6 +188,15 @@ function formatTime(t) {
         .padStart(2, "0")}`;
 }
 
+function showDetail(){
+    const sign = musicInfoCache[currentPlayingId.value].sign;
+    if (sign) {
+        emit("showDetail", currentPlayingId.value, sign.expiry, sign.sign);
+    }else{
+        emit("showDetail", currentPlayingId.value);
+    }
+}
+
 onMounted(() => {
     if (localStorage["audioPlayerVolume"]){
         volume.value = localStorage["audioPlayerVolume"];
@@ -214,6 +223,9 @@ async function getMusicUrls(ids, signs){
         }
         for (const i of rsp.data.urls){
             musicInfoCache[i.id] = i;
+            if (signs && signs[i.id]){
+                musicInfoCache[i.id].sign = signs[i.id];
+            }
             if (i.version === 2){
                 const blob = new Blob([i.audio_url], {type: "application/vnd.apple.mpegurl"});
                 musicInfoCache[i.id].audio_url = URL.createObjectURL(blob);
@@ -611,6 +623,9 @@ watch(() => (playIndex.value), (newIndex) => {
                         />
                     </div>
                 </div>
+                <button :disabled="currentPlayingId===0" @click="showDetail" class="wux-btn wux-btn-round wux-btn-text icon-btn mc" type="button">
+                    <IconInfoCircle width="26px" height="26px"/>
+                </button>
             </div>
 
             <div class="progress-area">

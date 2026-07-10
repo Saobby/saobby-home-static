@@ -124,6 +124,18 @@
     mode.value = 'list';
     updateUrlArgs({music_id: undefined, comment_id: undefined, expiry: undefined, sign: undefined});
   }
+
+  function handleRequestPlay(){
+      if (mode.value === 'list'){
+          playAll();
+      }else{
+          if (detailSign.value && detailExpiry.value){
+              playSingle(detailMusicId.value, {sign: detailSign.value, expiry: detailExpiry.value});
+          }else{
+              playSingle(detailMusicId.value);
+          }
+      }
+  }
   
 </script>
 
@@ -165,7 +177,7 @@
         <MusicDetail :currentPlayingId="currentPlayingId" :music-id="detailMusicId" :expiry="detailExpiry" :sign="detailSign" @play="playSingle" @update="updateMusicList" @close="closeMusicDetail"/>
       </div>
       <div>
-          <AudioPlayer @error="handlePlayerError" :disable-ui="playerUiDisabled" initial-title="点击播放按钮以播放" @request-play="playAll" ref="playerRef"></AudioPlayer>
+          <AudioPlayer @show-detail="showDetail" @error="handlePlayerError" :disable-ui="playerUiDisabled" initial-title="点击播放按钮以播放" @request-play="handleRequestPlay" ref="playerRef"></AudioPlayer>
       </div>
     </div>
   </div>
