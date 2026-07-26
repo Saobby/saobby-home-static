@@ -18,6 +18,8 @@ let audioCtx = null;
 let audioCtxSrc = null;
 let audioCtxGainNode = null;
 
+const isApplePlatform = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
+
 const playMode = ref(null); // single或list
 const playList = ref([]);
 const randomIndex = ref([]);
@@ -231,11 +233,17 @@ async function getMusicUrls(ids, signs){
                 musicInfoCache[i.id].audio_url = URL.createObjectURL(blob);
             }else if (i.version === 3){
                 let masterM3u8 = i.audio_url;
-                for (let j = 0; j < i.m3u8s.length; j++) {
-                    const blob1 = new Blob([i.m3u8s[j][1]], {type: "application/vnd.apple.mpegurl"});
-                    const url1 = URL.createObjectURL(blob1);
-                    musicInfoCache[i.id].m3u8s[j][1] = url1;
-                    masterM3u8 = masterM3u8.replaceAll(`[m3u8link_${i.m3u8s[j][0]}]`, url1);
+                if (!isApplePlatform){
+                    for (let j = 0; j < i.m3u8s.length; j++) {
+                        const blob1 = new Blob([i.m3u8s[j][1]], {type: "application/vnd.apple.mpegurl"});
+                        const url1 = URL.createObjectURL(blob1);
+                        musicInfoCache[i.id].m3u8s[j][1] = url1;
+                        masterM3u8 = masterM3u8.replaceAll(`[m3u8link_${i.m3u8s[j][0]}]`, url1);
+                    }
+                }else{  // 苹果平台不支持master m3u8里内嵌blob链接
+                    for (let j = 0; j < i.m3u8_links.length; j++) {
+                        masterM3u8 = masterM3u8.replaceAll(`[m3u8link_${i.m3u8_links[j][0]}]`, i.m3u8_links[j][1]);
+                    }
                 }
                 const blob2 = new Blob([masterM3u8], {type: "application/vnd.apple.mpegurl"});
                 musicInfoCache[i.id].audio_url = URL.createObjectURL(blob2);
