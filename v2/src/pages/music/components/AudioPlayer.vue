@@ -530,7 +530,7 @@ async function startPlay(){
     const rsp = await getMusicUrls([musicId]);
     const musicInfo = rsp[0];
     await handlePlay(
-        musicInfo.version === 2 ? "m3u8": "default",
+        musicInfo.version === 1 ? "default": "m3u8",
         musicInfo.audio_url,
         musicInfo.name,
         musicInfo.gain,
