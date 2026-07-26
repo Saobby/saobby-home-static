@@ -229,6 +229,16 @@ async function getMusicUrls(ids, signs){
             if (i.version === 2){
                 const blob = new Blob([i.audio_url], {type: "application/vnd.apple.mpegurl"});
                 musicInfoCache[i.id].audio_url = URL.createObjectURL(blob);
+            }else if (i.version === 3){
+                let masterM3u8 = i.audio_url;
+                for (let j = 0; j < i.m3u8s.length; j++) {
+                    const blob1 = new Blob([i.m3u8s[j][1]], {type: "application/vnd.apple.mpegurl"});
+                    const url1 = URL.createObjectURL(blob1);
+                    musicInfoCache[i.id].m3u8s[j][1] = url1;
+                    masterM3u8 = masterM3u8.replaceAll(`[m3u8link_${i.m3u8s[j][0]}]`, url1);
+                }
+                const blob2 = new Blob([masterM3u8], {type: "application/vnd.apple.mpegurl"});
+                musicInfoCache[i.id].audio_url = URL.createObjectURL(blob2);
             }
         }
     }
@@ -244,6 +254,11 @@ function revokeAllBlob(){
         const val = musicInfoCache[key];
         if (val.version === 2){
             URL.revokeObjectURL(val.audio_url);
+        }else if (val.version === 3){
+            URL.revokeObjectURL(val.audio_url);
+            for (let i=0; i<val.m3u8s.length; i++){
+                URL.revokeObjectURL(val.m3u8s[i][1]);
+            }
         }
     });
 }
