@@ -2321,21 +2321,21 @@ float-clear:before,float-clear:after {
 @media(refers-color-scheme: dark) {
 	:root {
 		--card-border-color: rgb(200, 200, 200);
-		--card-background-color: #242424;
+		--card-background-color: #2d2d2d;
 		--card-shadow: 1px 1px 6px #040404;
 		--card-hover-shadow: 2px 2px 8px #040404;
 		--card-text-color: #F2F2F2;
-		--card-flat-background: #060606;
-		--card-flat-border: #121212
+		--card-flat-background: #252525;
+		--card-flat-border: #2a2a2a
 	}
 }[dark-mode] {
 	--card-border-color: rgb(200, 200, 200);
-	--card-background-color: #242424;
+	--card-background-color: #2d2d2d;
 	--card-shadow: 1px 1px 6px #040404;
 	--card-hover-shadow: 2px 2px 8px #040404;
 	--card-text-color: #F2F2F2;
-	--card-flat-background: #060606;
-	--card-flat-border: #121212
+	--card-flat-background: #252525;
+	--card-flat-border: #2a2a2a
 }
 
 .wux-card,.wux-card-float {
