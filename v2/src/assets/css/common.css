@@ -191,6 +191,10 @@
     .comments-card{
         border-color: #333;
     }
+    .wux-card.wux-card-flat.comments-card {
+        background: var(--card-flat-background);
+        border-color: #333;
+    }
     .spoilers-bg{
         background: #f2f2f2;
     }
@@ -221,6 +225,10 @@ body[dark-mode] .wux-typo a.music-title-link:hover {
     text-decoration: underline;
 }
 body[dark-mode] .comments-card{
+    border-color: #333;
+}
+body[dark-mode] .wux-card.wux-card-flat.comments-card {
+    background: var(--card-flat-background);
     border-color: #333;
 }
 .spoilers-bg[dark-mode]{
