@@ -148,19 +148,19 @@
 .spoilers-bg{
     background: #000;
 }
-@media not (prefers-color-scheme: dark) {
-    .wux-card.wux-card-flat.comments-card {
-        background: transparent;
-        border: 3px solid #f1f1f1;
-    }
-    .wux-typo a.music-title-link {
-        color: #000;
-        text-decoration: none;
-    }
-    .wux-typo a.music-title-link:hover {
-        color: #000;
-        text-decoration: underline;
-    }
+.wux-card.wux-card-flat.comments-card {
+    background: transparent;
+    border: 3px solid #f1f1f1;
+}
+.music-title-link,
+.wux-typo a.music-title-link {
+    color: #000;
+    text-decoration: none;
+}
+.music-title-link:hover,
+.wux-typo a.music-title-link:hover {
+    color: #000;
+    text-decoration: underline;
 }
 @media (prefers-color-scheme: dark) {
     .pre-like,
