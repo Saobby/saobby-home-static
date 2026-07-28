@@ -252,15 +252,42 @@ template {
 	margin-bottom: 0
 }
 
+:root{
+	--link-color: #4050b4;
+	--link-hover-color: #303c87;
+}
+@media (prefers-color-scheme: dark) {
+	:root{
+		--link-color: #7383e7;
+		--link-hover-color: #4050b4;
+	}
+}[dark-mode]{
+	--link-color: #7383e7;
+	--link-hover-color: #4050b4;
+ }
+
 .wux-typo a:not(.wux-btn) {
-	color: #4050b4;
+	color: var(--link-color);
 	text-decoration: none;
 	transition: .2s
 }
+@media (prefers-color-scheme: dark) {
+	.wux-typo a:not(.wux-btn) {
+		color: var(--link-color);
+		text-decoration: none;
+		transition: .2s
+	}
+}
 
 .wux-typo a:not(.wux-btn):hover {
-	color: #303c87;
+	color: var(--link-hover-color);
 	text-decoration: underline
+}
+@media (prefers-color-scheme: dark) {
+	.wux-typo a:not(.wux-btn):hover {
+		color: var(--link-hover-color);
+		text-decoration: underline
+	}
 }
 
 .wux-typo small {
