@@ -21,7 +21,7 @@
     }
 
     if (window.matchMedia(DARK_MODE_QUERY).matches) {
-        document.documentElement.style.backgroundColor = '#121212';
+        document.documentElement.style.backgroundColor = '#1e1e1e';
         document.documentElement.style.colorScheme = 'dark';
         document.addEventListener('DOMContentLoaded', function () {
             applyDarkMode(true);

@@ -28,14 +28,14 @@ body {
 }
 
 body[dark-mode] {
-	background-color: #121212;
+	background-color: #1e1e1e;
 	color: #fcfcfc;
 	color-scheme: dark
 }
 
 @media (prefers-color-scheme: dark) {
 	body {
-		background-color: #121212;
+		background-color: #1e1e1e;
 		color: #fcfcfc;
 		color-scheme: dark
 	}
@@ -2490,14 +2490,14 @@ details.wux-collapse[open] summary {
 
 @media(refers-color-scheme: dark) {
 	:root {
-		--dialog-background-color: #121212;
+		--dialog-background-color: #1e1e1e;
 		--dialog-border: none;
 		--dialog-shadow: none;
 		--dialog-header-text-color: #F1F1F1;
 		--dialog-body-text-color: #FFFFFF
 	}
 }[dark-mode] {
-	--dialog-background-color: #121212;
+	--dialog-background-color: #1e1e1e;
 	--dialog-border: none;
 	--dialog-shadow: none;
 	--dialog-header-text-color: #F1F1F1;
@@ -2596,7 +2596,7 @@ details.wux-collapse[open] summary {
 
 @media(refers-color-scheme: dark) {
 	:root {
-		--dropdown-menu-background: #121212;
+		--dropdown-menu-background: #1e1e1e;
 		--dropdown-menu-border: 2px solid #AAAAAA;
 		--dropdown-menu-shadow: none;
 		--dropdown-item-text-color: #FCFCFC;
@@ -2606,7 +2606,7 @@ details.wux-collapse[open] summary {
 		--dropdown-menu-divider-border: 2px solid #222222
 	}
 }[dark-mode] {
-	--dropdown-menu-background: #121212;
+	--dropdown-menu-background: #1e1e1e;
 	--dropdown-menu-border: 2px solid #AAAAAA;
 	--dropdown-menu-shadow: none;
 	--dropdown-item-text-color: #FCFCFC;
@@ -2793,36 +2793,36 @@ details.wux-collapse[open] summary {
 
 @media(refers-color-scheme: dark) {
 	:root {
-		--form-input-background: #121212;
+		--form-input-background: #1e1e1e;
 		--form-input-border-color: #AAAAAA;
 		--form-input-text-color: #FCFCFC;
-		--form-input-hover-background: #121212;
+		--form-input-hover-background: #1e1e1e;
 		--form-input-hover-border-color: #AAAAAA;
 		--form-input-hover-shadow: 0 0 2px 1px #DDDDDD;
 		--form-input-hover-text-color: #FCFCFC;
-		--form-input-focus-background: #121212;
+		--form-input-focus-background: #1e1e1e;
 		--form-input-focus-border-color: #7383e7;
 		--form-input-focus-shadow: 0 0 2px 1px #DDDDDD;
 		--form-input-focus-text-color: #FCFCFC;
-		--form-input-invalid-background: #121212;
+		--form-input-invalid-background: #1e1e1e;
 		--form-input-invalid-border-color: #ff7767;
 		--form-input-invalid-text-color: #ff998d;
 		--form-input-invalid-shadow: 0 0 4px #ffbbb3;
 		--form-input-disabled-opacity: 40%
 	}
 }[dark-mode] {
-	--form-input-background: #121212;
+	--form-input-background: #1e1e1e;
 	--form-input-border-color: #AAAAAA;
 	--form-input-text-color: #FCFCFC;
-	--form-input-hover-background: #121212;
+	--form-input-hover-background: #1e1e1e;
 	--form-input-hover-border-color: #AAAAAA;
 	--form-input-hover-shadow: 0 0 2px 1px #DDDDDD;
 	--form-input-hover-text-color: #FCFCFC;
-	--form-input-focus-background: #121212;
+	--form-input-focus-background: #1e1e1e;
 	--form-input-focus-border-color: #7383e7;
 	--form-input-focus-shadow: 0 0 2px 1px #DDDDDD;
 	--form-input-focus-text-color: #FCFCFC;
-	--form-input-invalid-background: #121212;
+	--form-input-invalid-background: #1e1e1e;
 	--form-input-invalid-border-color: #ff7767;
 	--form-input-invalid-text-color: #ff998d;
 	--form-input-invalid-shadow: 0 0 4px #ffbbb3;
@@ -3110,7 +3110,7 @@ details.wux-collapse[open] summary {
 
 @media(refers-color-scheme: dark) {
 	:root {
-		--form-select-background-color: #121212;
+		--form-select-background-color: #1e1e1e;
 		--form-select-border-color: #CCCCCC;
 		--form-select-text-color: #FCFCFC;
 		--form-select-hover-shadow: 0 0 6px #DDDDDD;
@@ -3118,7 +3118,7 @@ details.wux-collapse[open] summary {
 		--form-select-focus-shadow: 0 0 6px #DDDDDD
 	}
 }[dark-mode] {
-	--form-select-background-color: #121212;
+	--form-select-background-color: #1e1e1e;
 	--form-select-border-color: #CCCCCC;
 	--form-select-text-color: #FCFCFC;
 	--form-select-hover-shadow: 0 0 6px #DDDDDD;
@@ -3546,7 +3546,7 @@ details.wux-collapse[open] summary {
 @media(refers-color-scheme: dark) {
 	:root {
 		--list-border: 2px solid #888888;
-		--list-item-background: #121212;
+		--list-item-background: #1e1e1e;
 		--list-item-border-color: #888888;
 		--list-item-text-color: #FCFCFC;
 		--list-item-hover-background: #b9c1f3;
@@ -3556,7 +3556,7 @@ details.wux-collapse[open] summary {
 	}
 }[dark-mode] {
 	--list-border: 2px solid #888888;
-	--list-item-background: #121212;
+	--list-item-background: #1e1e1e;
 	--list-item-border-color: #888888;
 	--list-item-text-color: #FCFCFC;
 	--list-item-hover-background: #b9c1f3;
@@ -3659,12 +3659,12 @@ details.wux-collapse[open] summary {
 
 @media(refers-color-scheme: dark) {
 	:root {
-		--progress-background-color: #121212;
+		--progress-background-color: #1e1e1e;
 		--progress-border-color: #888888;
 		--progress-line-color: rgb(80, 100, 225)
 	}
 }[dark-mode] {
-	--progress-background-color: #121212;
+	--progress-background-color: #1e1e1e;
 	--progress-border-color: #888888;
 	--progress-line-color: rgb(80, 100, 225)
 }
@@ -3719,26 +3719,26 @@ details.wux-collapse[open] summary {
 @media(refers-color-scheme: dark) {
 	:root {
 		--search-border-color: #AAAAAA;
-		--search-background-color: #121212;
+		--search-background-color: #1e1e1e;
 		--search-text-color: #FCFCFC;
-		--search-hover-background-color: #121212;
+		--search-hover-background-color: #1e1e1e;
 		--search-hover-border-color: #AAAAAA;
 		--search-hover-text-color: #FCFCFC;
 		--search-hover-shadow: 0 0 2px #DDDDDD;
-		--search-focus-background-color: #121212;
+		--search-focus-background-color: #1e1e1e;
 		--search-focus-border-color: #7383e7;
 		--search-focus-text-color: #FCFCFC;
 		--search-focus-shadow: 0 0 2px #DDDDDD
 	}
 }[dark-mode] {
 	--search-border-color: #AAAAAA;
-	--search-background-color: #121212;
+	--search-background-color: #1e1e1e;
 	--search-text-color: #FCFCFC;
-	--search-hover-background-color: #121212;
+	--search-hover-background-color: #1e1e1e;
 	--search-hover-border-color: #AAAAAA;
 	--search-hover-text-color: #FCFCFC;
 	--search-hover-shadow: 0 0 2px #DDDDDD;
-	--search-focus-background-color: #121212;
+	--search-focus-background-color: #1e1e1e;
 	--search-focus-border-color: #7383e7;
 	--search-focus-text-color: #FCFCFC;
 	--search-focus-shadow: 0 0 2px #DDDDDD
@@ -3913,7 +3913,7 @@ details.wux-collapse[open] summary {
 
 @media(refers-color-scheme: dark) {
 	:root {
-		--tables-background-color: #121212;
+		--tables-background-color: #1e1e1e;
 		--tables-border: 2px solid #AAAAAA;
 		--tables-shadow: none;
 		--tables-head-background-color: #080808;
@@ -3923,7 +3923,7 @@ details.wux-collapse[open] summary {
 		--tables-row-item-text-color: #121212
 	}
 }[dark-mode] {
-	--tables-background-color: #121212;
+	--tables-background-color: #1e1e1e;
 	--tables-border: 2px solid #AAAAAA;
 	--tables-shadow: none;
 	--tables-head-background-color: #080808;

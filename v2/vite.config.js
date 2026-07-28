@@ -15,8 +15,8 @@ function getPages() {
     return entries
 }
 
-const DARK_MODE_CRITICAL_CSS = `<style>@media (prefers-color-scheme: dark){html,body{background-color:#121212;color:#fcfcfc;color-scheme:dark}}</style>`
-const DARK_MODE_CRITICAL_SCRIPT = `<script>(function(){if(window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.style.backgroundColor="#121212";document.documentElement.style.colorScheme="dark";document.addEventListener("DOMContentLoaded",function(){document.body&&document.body.setAttribute("dark-mode","true")})}})();<\/script>`
+const DARK_MODE_CRITICAL_CSS = `<style>@media (prefers-color-scheme: dark){html,body{background-color:#1e1e1e;color:#fcfcfc;color-scheme:dark}}</style>`
+const DARK_MODE_CRITICAL_SCRIPT = `<script>(function(){if(window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.style.backgroundColor="#1e1e1e";document.documentElement.style.colorScheme="dark";document.addEventListener("DOMContentLoaded",function(){document.body&&document.body.setAttribute("dark-mode","true")})}})();<\/script>`
 
 function injectDarkModeCriticalAssets() {
     return {
