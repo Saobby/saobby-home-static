@@ -41,10 +41,10 @@ const progressBarStyle = computed(() => {
     if (duration.value !== 0){
         percentage = (currentTime.value / duration.value) * 100;
     }
-    return `background: linear-gradient(to right, var(--player-progress-fill) 0%, var(--player-progress-fill) ${percentage}%, var(--player-progress-track) ${percentage}%, var(--player-progress-track) 100%);`;
+    return {'--player-progress-percent': `${percentage}%`};
 });
 const volumeBarStyle = computed(() => {
-    return `background: linear-gradient(to right, var(--player-progress-fill) 0%, var(--player-progress-fill) ${volume.value * 100}%, var(--player-progress-track) ${volume.value * 100}%, var(--player-progress-track) 100%);`;
+    return {'--player-progress-percent': `${volume.value * 100}%`};
 });
 const canNext = computed(() => {
     if (playMode.value === "single") {
@@ -780,7 +780,33 @@ body[dark-mode] .player-container {
     width: 100%;
     margin-top: 5px;
     margin-bottom: 5px;
-    --form-range-track-background: #00000000;
+    --form-range-track-background: transparent;
+    --player-progress-track-height: 6px;
+    border-radius: 999px;
+    background: transparent;
+}
+
+.progress::-webkit-slider-runnable-track {
+    height: var(--player-progress-track-height);
+    background: linear-gradient(
+        to right,
+        var(--player-progress-fill) 0%,
+        var(--player-progress-fill) var(--player-progress-percent, 0%),
+        var(--player-progress-track) var(--player-progress-percent, 0%),
+        var(--player-progress-track) 100%
+    );
+    border-radius: 999px;
+}
+
+.progress::-moz-range-track {
+    height: var(--player-progress-track-height);
+    background-color: var(--player-progress-track);
+    border-radius: 999px;
+}
+
+.progress::-moz-range-progress {
+    height: var(--player-progress-track-height);
+    background-color: var(--player-progress-fill);
     border-radius: 999px;
 }
 
