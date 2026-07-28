@@ -784,6 +784,7 @@ body[dark-mode] .player-container {
     --player-progress-track-height: 6px;
     border-radius: 999px;
     background: transparent;
+    cursor: pointer;
 }
 
 .progress::-webkit-slider-runnable-track {
@@ -796,18 +797,29 @@ body[dark-mode] .player-container {
         var(--player-progress-track) 100%
     );
     border-radius: 999px;
+    cursor: pointer;
+}
+
+.progress::-webkit-slider-thumb {
+    cursor: pointer;
 }
 
 .progress::-moz-range-track {
     height: var(--player-progress-track-height);
     background-color: var(--player-progress-track);
     border-radius: 999px;
+    cursor: pointer;
 }
 
 .progress::-moz-range-progress {
     height: var(--player-progress-track-height);
     background-color: var(--player-progress-fill);
     border-radius: 999px;
+    cursor: pointer;
+}
+
+.progress::-moz-range-thumb {
+    cursor: pointer;
 }
 
 .time-row {
