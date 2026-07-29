@@ -73,7 +73,7 @@
     font-size: 40px;
 }
 .spoilers-bg{
-    background: #000;
+    background: currentColor;
 }
 @media (min-width: 1024px){
     .same-height-container {
@@ -128,9 +128,6 @@ body[dark-mode] .wux-typo a:not(.wux-btn):hover .post-list-title{
     }
     .gray{
         color: #aaa !important;
-    }
-    .spoilers-bg{
-        background: #fff;
     }
 }
 body[dark-mode] .pre-like,
@@ -273,7 +270,4 @@ body[dark-mode] img[src^="/static/image/icon/"]:not([src*="-primary"]):not([src*
 }
 body[dark-mode] midi-player{
     color: #121212;
-}
-.spoilers-bg[dark-mode]{
-    background: #fff;
 }

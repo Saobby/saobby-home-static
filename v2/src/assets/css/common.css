@@ -146,7 +146,7 @@
     border: 3px solid #f1f1f1;
 }
 .spoilers-bg{
-    background: #000;
+    background: currentColor;
 }
 .wux-card.wux-card-flat.comments-card {
     background: transparent;
@@ -195,9 +195,6 @@
         background: var(--card-flat-background);
         border-color: #333;
     }
-    .spoilers-bg{
-        background: #f2f2f2;
-    }
 }
 body[dark-mode] .pre-like,
 body[dark-mode] .pre-like-code{
@@ -230,7 +227,4 @@ body[dark-mode] .comments-card{
 body[dark-mode] .wux-card.wux-card-flat.comments-card {
     background: var(--card-flat-background);
     border-color: #333;
-}
-.spoilers-bg[dark-mode]{
-    background: #f2f2f2;
 }
