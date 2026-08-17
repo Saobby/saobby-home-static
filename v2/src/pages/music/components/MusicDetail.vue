@@ -104,7 +104,7 @@ const pageLink = computed(() => {
 const htmlEmbedCode = computed(() => {
     if (!shareQuery.value) return "";
     const src = siteUrl + embeddedMusicPageUrl + "?" + shareQuery.value + "&autoplay=" + (htmlAutoplay.value ? "1" : "0");
-    return `<iframe src="${src}" width="400" height="90" frameborder="0" allow="autoplay"></iframe>`;
+    return `<iframe src="${src}" width="400" height="82" frameborder="0" allow="autoplay" style="border-radius:10px;overflow:hidden;"></iframe>`;
 });
 
 const markdownEmbedCode = computed(() => {
