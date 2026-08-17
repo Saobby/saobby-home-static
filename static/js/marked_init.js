@@ -60,6 +60,29 @@ function switch_wrapper(id, vis){
         }else if (e.match(/^(黑幕|剧透):.+$/)){
             return `<span class="spoilers-bg" style="cursor:pointer;" title="剧透内容,点击显示 Spoilers.Click to reveal" onclick="this.style.backgroundColor='rgba(255, 255, 255, 0)';this.title='';this.style.cursor='text';">${e.slice(3)}</span>`;
         }
+        var saobbyMusicMatch = e.match(/^一起听歌:((?:(?:music_id|sign|expiry|autoplay)=[^&\s`]+(?:(?:&(?:amp;)?|%26)|$))+)$/);
+        if (saobbyMusicMatch){
+            var st = Math.random();
+            var paramsStr = saobbyMusicMatch[1].replace(/&(?:amp;)?/g, "&").replace(/%26/g, "&").replace(/&$/, "");
+            var argsObj = {};
+            paramsStr.split("&").forEach(function(pair){
+                if (!pair) return;
+                var eqIndex = pair.indexOf("=");
+                if (eqIndex < 0) return;
+                argsObj[pair.slice(0, eqIndex)] = pair.slice(eqIndex + 1);
+            });
+            if (!argsObj.music_id) {
+                var src = "";
+            } else {
+                var src = "https://www.saobby.com/embed_music/?music_id=" + argsObj.music_id;
+                if (argsObj.sign) src += "&sign=" + argsObj.sign;
+                if (argsObj.expiry) src += "&expiry=" + argsObj.expiry;
+                if (argsObj.autoplay) src += "&autoplay=" + argsObj.autoplay;
+            }
+            if (src){
+                return `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=400 height=82 style="border-radius:10px;overflow:hidden;" src_="${rsc(src)}" id="saobby-music-player-${st}" hidden loading="lazy"></iframe><a onclick="!function(t){var e=gebi('saobby-music-player-${st}');e.src=e.getAttribute('src_');e.hidden=!1;t.hidden=!0}(this);" href="javascript:;">点击加载一起听歌播放器</a>`;
+            }
+        }
         var t;
         return e.match(/^网易云音乐:\d+$/) ? (t = Math.random(),
         `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src_="https://music.163.com/outchain/player?type=2&id=${e.match(/\d+$/)[0]}&auto=0&height=66" id="music-player-${t}" hidden></iframe><a onclick="!function(t){var e=gebi('music-player-${t}');e.src=e.getAttribute('src_');e.hidden=!1;t.hidden=!0}(this);" href="javascript:;">点击加载网易云音乐</a>`) : "<code>" + e + "</code>"

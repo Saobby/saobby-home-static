@@ -1,8 +1,9 @@
 <script setup lang="js">
-import {nextTick, onBeforeUnmount, onMounted, ref, reactive, computed, watch} from "vue"
-import {getMusicUrlsApi, fetchMusicListApi} from "../musicWebApi.js";
+import {onBeforeUnmount, onMounted, ref, reactive, computed, watch} from "vue"
+import {fetchMusicListApi} from "../musicWebApi.js";
 import {IconInfoCircle, IconArrowsShuffle, IconRepeat, IconRepeatOnce, IconRepeatOff, IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled, IconVolume} from "@tabler/icons-vue";
 import {shuffle} from "@/assets/js/util.js";
+import {formatTime, useMusicPlayer} from "../musicPlayerCore.js";
 
 const props = defineProps({
     initialTitle: {type: String, default: '未知歌曲'},
@@ -10,13 +11,14 @@ const props = defineProps({
 });
 const emit = defineEmits(["requestPlay", "error", "showDetail"]);
 
-const audio = ref(null);
-let hls = null;
-let musicInfoCache = {};
-
-let audioCtx = null;
-let audioCtxSrc = null;
-let audioCtxGainNode = null;
+const {
+    audio,
+    isAudioLoading,
+    getMusicUrls,
+    getCachedMusicInfo,
+    handlePlay,
+    initAudioContext,
+} = useMusicPlayer();
 
 const playMode = ref(null); // single或list
 const playList = ref([]);
@@ -112,7 +114,6 @@ const canPrev = computed(() => {
         return true;
     }
 });
-const isAudioLoading = ref(false);
 
 // 以下为控件处理函数
 function togglePlay() {
@@ -179,17 +180,10 @@ function onSeek() {
     audio.value.currentTime = currentTime.value;
 }
 
-function formatTime(t) {
-    if (!t || isNaN(t)) return "00:00";
-    const m = Math.floor(t / 60);
-    const s = Math.floor(t % 60);
-    return `${m.toString().padStart(2, "0")}:${s
-        .toString()
-        .padStart(2, "0")}`;
-}
-
 function showDetail(){
-    const sign = musicInfoCache[currentPlayingId.value].sign;
+    const musicInfo = getCachedMusicInfo(currentPlayingId.value);
+    if (!musicInfo) return;
+    const sign = musicInfo.sign;
     if (sign) {
         emit("showDetail", currentPlayingId.value, sign.expiry, sign.sign);
     }else{
@@ -206,121 +200,6 @@ onMounted(() => {
         cycleMode.value = parseInt(localStorage["audioPlayerCycle"]);
     }
 });
-
-// 以下为播放器基本API
-async function getMusicUrls(ids, signs){
-    let requireFetch = [];
-    for (const id of ids){
-        if (!musicInfoCache[id]){
-            requireFetch.push(id);
-        }
-    }
-    if (requireFetch.length > 0){
-        const rsp = await getMusicUrlsApi(requireFetch, signs);
-        if (rsp.retcode){
-            handleError("无法获取音频文件 url: "+rsp.msg);
-            return;
-        }
-        for (const i of rsp.data.urls){
-            musicInfoCache[i.id] = i;
-            if (signs && signs[i.id]){
-                musicInfoCache[i.id].sign = signs[i.id];
-            }
-            if (i.version === 2){
-                const blob = new Blob([i.audio_url], {type: "application/vnd.apple.mpegurl"});
-                musicInfoCache[i.id].audio_url = URL.createObjectURL(blob);
-            }else if (i.version === 3){
-                let masterM3u8 = i.audio_url;
-                for (let j = 0; j < i.m3u8s.length; j++) {
-                    const blob1 = new Blob([i.m3u8s[j][1]], {type: "application/vnd.apple.mpegurl"});
-                    const url1 = URL.createObjectURL(blob1);
-                    musicInfoCache[i.id].m3u8s[j][1] = url1;
-                    masterM3u8 = masterM3u8.replaceAll(`[m3u8link_${i.m3u8s[j][0]}]`, url1);
-                }
-                const blob2 = new Blob([masterM3u8], {type: "application/vnd.apple.mpegurl"});
-                musicInfoCache[i.id].audio_url = URL.createObjectURL(blob2);
-            }
-        }
-    }
-    let ret = [];
-    for (const id of ids){
-        ret.push(musicInfoCache[id]);
-    }
-    return ret;
-}
-
-function revokeAllBlob(){
-    Object.keys(musicInfoCache).forEach(key => {
-        const val = musicInfoCache[key];
-        if (val.version === 2){
-            URL.revokeObjectURL(val.audio_url);
-        }else if (val.version === 3){
-            URL.revokeObjectURL(val.audio_url);
-            for (let i=0; i<val.m3u8s.length; i++){
-                URL.revokeObjectURL(val.m3u8s[i][1]);
-            }
-        }
-    });
-}
-
-function destroyHls(){
-    if (hls){
-        hls.detachMedia();
-        hls.destroy();
-        hls = null;
-    }
-}
-
-async function setUpHls(m3u8Url){
-    isAudioLoading.value = true;
-    const {default: Hls} = await import("hls.js");
-    isAudioLoading.value = false;
-    if (Hls.isSupported()){
-        destroyHls();
-        hls = new Hls();
-        hls.loadSource(m3u8Url);
-        hls.attachMedia(audio.value);
-    }else{
-        audio.value.src = m3u8Url;
-    }
-}
-
-function setGain(gain, time){
-    const now = audioCtx.currentTime;
-    audioCtxGainNode.gain.cancelScheduledValues(now);
-    audioCtxGainNode.gain.setValueAtTime(audioCtxGainNode.gain.value, now);
-    audioCtxGainNode.gain.linearRampToValueAtTime(gain, now + time);
-}
-
-async function handlePlay(musicType, src, musicTitle, gain, coverUrl) {
-    await audioCtx.resume();
-    audio.value.crossOrigin = "anonymous";
-    switch (musicType){
-        case "default":
-            destroyHls();
-            audio.value.src = src;
-            break;
-        case "m3u8":
-            await setUpHls(src);
-            break;
-    }
-    await nextTick();
-    setGain(gain || 1.0, 30e-3);
-    play();
-    title.value = musicTitle;
-    if ("mediaSession" in navigator){
-        if (coverUrl){
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: musicTitle,
-                artwork: [{src: coverUrl}]
-            });
-        }else{
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: musicTitle,
-            });
-        }
-    }
-}
 
 function handleError(msg){
     console.error(msg);
@@ -399,14 +278,10 @@ onMounted(() => {
         audio.value.addEventListener("play", onPlay);
         audio.value.addEventListener("pause", onPause);
     }
-    audioCtx = new AudioContext();
-    audioCtxSrc = audioCtx.createMediaElementSource(audio.value);
-    audioCtxGainNode = audioCtx.createGain();
-    audioCtxSrc.connect(audioCtxGainNode).connect(audioCtx.destination);
+    initAudioContext();
 });
 
 onBeforeUnmount(() => {
-    destroyHls();
     audio.value.removeEventListener("waiting", onWaiting);
     audio.value.removeEventListener("playing", onPlaying);
     audio.value.removeEventListener("ended", onEnded);
@@ -422,11 +297,6 @@ onBeforeUnmount(() => {
         audio.value.removeEventListener("play", onPlay);
         audio.value.removeEventListener("pause", onPause);
     }
-    revokeAllBlob();
-    audioCtx.close();
-    audioCtx = null;
-    audioCtxSrc = null;
-    audioCtxGainNode = null;
 });
 
 // 以下为单曲播放逻辑实现
@@ -438,16 +308,31 @@ async function playSingle(musicId, sign) {
         signs[musicId] = sign;
     }
     const rsp = await getMusicUrls([musicId], signs);
-    if (!rsp){
+    if (rsp.retcode){
+        handleError("无法获取音频文件 url: "+rsp.msg);
         return;
     }
-    const musicInfo = rsp[0];
+    const musicInfo = rsp.data[0];
     await handlePlay(
         musicInfo.version === 1 ? "default": "m3u8",
         musicInfo.audio_url,
-        musicInfo.name,
         musicInfo.gain,
-        musicInfo.cover_url
+        () => {
+            play();
+            title.value = musicInfo.name;
+            if ("mediaSession" in navigator){
+                if (musicInfo.cover_url){
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: musicInfo.name,
+                        artwork: [{src: musicInfo.cover_url}]
+                    });
+                }else{
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: musicInfo.name,
+                    });
+                }
+            }
+        }
     );
 }
 
@@ -528,13 +413,31 @@ async function startPlay(){
     const musicId = playList.value[cycleMode.value === 3 ? randomIndex.value[playIndex.value] : playIndex.value];
     currentPlayingId.value = musicId;
     const rsp = await getMusicUrls([musicId]);
-    const musicInfo = rsp[0];
+    if (rsp.retcode){
+        handleError("无法获取音频文件 url: "+rsp.msg);
+        return;
+    }
+    const musicInfo = rsp.data[0];
     await handlePlay(
         musicInfo.version === 1 ? "default": "m3u8",
         musicInfo.audio_url,
-        musicInfo.name,
         musicInfo.gain,
-        musicInfo.cover_url
+        () => {
+            play();
+            title.value = musicInfo.name;
+            if ("mediaSession" in navigator){
+                if (musicInfo.cover_url){
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: musicInfo.name,
+                        artwork: [{src: musicInfo.cover_url}]
+                    });
+                }else{
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: musicInfo.name,
+                    });
+                }
+            }
+        }
     );
 }
 
