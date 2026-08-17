@@ -17,7 +17,6 @@ const {
     getMusicUrls,
     getCachedMusicInfo,
     handlePlay,
-    initAudioContext,
 } = useMusicPlayer();
 
 const playMode = ref(null); // single或list
@@ -278,7 +277,6 @@ onMounted(() => {
         audio.value.addEventListener("play", onPlay);
         audio.value.addEventListener("pause", onPause);
     }
-    initAudioContext();
 });
 
 onBeforeUnmount(() => {

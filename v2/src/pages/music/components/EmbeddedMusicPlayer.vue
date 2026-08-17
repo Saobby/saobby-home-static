@@ -16,7 +16,7 @@ const {
     isAudioLoading,
     getMusicUrls,
     handlePlay,
-    initAudioContext,
+    resumeAudioContext,
     formatTime,
 } = useMusicPlayer();
 
@@ -32,6 +32,9 @@ const volume = ref(1);
 const showVolume = ref(false);
 const playerReady = ref(false);
 const errorMsg = ref("");
+const musicInfo = ref(null);
+let srcReady = false;
+let srcSetupPromise = null;
 
 const detailUrl = computed(() => {
     let url = musicPageUrl + "?music_id=" + props.musicId;
@@ -57,13 +60,43 @@ const volumeBarStyle = computed(() => {
     return {'--player-progress-percent': `${volume.value * 100}%`};
 });
 
-function play() {
-    if (!audio.value || !playerReady.value) return;
-    audio.value.play().then(() => {
+async function play() {
+    if (!audio.value || !playerReady.value || !musicInfo.value) return;
+    // 音频源初始化中(首次点击播放 / autoplay 尝试), 避免重复触发
+    if (!srcReady && isAudioLoading.value) return;
+    try {
+        if (!srcReady) {
+            isAudioLoading.value = true;
+            await setupAudioSource();
+        }
+        // AudioContext 若因自动播放策略处于 suspended(如跨域 iframe 内),
+        // 需要在用户手势中恢复, 否则会静音或播放失败
+        await resumeAudioContext();
+        await audio.value.play();
         isPlaying.value = true;
-    }).catch(() => {
+    } catch (e) {
+        console.error("播放失败: ", e);
         isPlaying.value = false;
-    });
+    } finally {
+        isAudioLoading.value = false;
+    }
+}
+
+async function setupAudioSource() {
+    if (srcReady) return;
+    if (!srcSetupPromise) {
+        srcSetupPromise = handlePlay(
+            musicInfo.value.version === 1 ? "default" : "m3u8",
+            musicInfo.value.audio_url,
+            musicInfo.value.gain,
+            null
+        ).then(() => {
+            srcReady = true;
+        }).finally(() => {
+            srcSetupPromise = null;
+        });
+    }
+    await srcSetupPromise;
 }
 
 function pause() {
@@ -152,29 +185,24 @@ async function init() {
         handleError("无法获取音频文件 url: " + rsp.msg);
         return;
     }
-    const musicInfo = rsp.data[0];
-    if (!musicInfo) {
+    const info = rsp.data[0];
+    if (!info) {
         handleError("你要访问的音乐不存在");
         return;
     }
-    title.value = musicInfo.name || "未知歌曲";
-    coverUrl.value = musicInfo.cover_url || "";
-    if (musicInfo.sign) {
-        detailSign.value = musicInfo.sign;
+    musicInfo.value = info;
+    title.value = info.name || "未知歌曲";
+    coverUrl.value = info.cover_url || "";
+    if (info.sign) {
+        detailSign.value = info.sign;
     }
     playerReady.value = true;
-    await handlePlay(
-        musicInfo.version === 1 ? "default" : "m3u8",
-        musicInfo.audio_url,
-        musicInfo.gain,
-        () => {
-            // 如果 query 中指定了 autoplay，尝试自动播放
-            // (iframe 内可能被浏览器拦截, 失败后由用户手动点击播放)
-            if (props.autoplay) {
-                play();
-            }
-        }
-    );
+    // 音频源与 hls.js 不在此处初始化(等用户点击播放时再懒加载)。
+    // 仅当 query 中显式请求 autoplay 时才尝试自动播放;
+    // 跨域 iframe 内通常会被浏览器拦截, 失败后由用户手动点击播放按钮恢复。
+    if (props.autoplay) {
+        play();
+    }
 }
 
 onMounted(async () => {
@@ -182,7 +210,6 @@ onMounted(async () => {
         volume.value = localStorage["audioPlayerVolume"];
     }
     audio.value.volume = volume.value;
-    initAudioContext();
     audio.value.addEventListener("waiting", onWaiting);
     audio.value.addEventListener("playing", onPlaying);
     audio.value.addEventListener("ended", onEnded);

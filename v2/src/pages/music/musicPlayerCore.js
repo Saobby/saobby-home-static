@@ -112,6 +112,7 @@ export function useMusicPlayer() {
     }
 
     function setGain(gain, time) {
+        if (!audioCtx || !audioCtxGainNode) return;
         const now = audioCtx.currentTime;
         audioCtxGainNode.gain.cancelScheduledValues(now);
         audioCtxGainNode.gain.setValueAtTime(audioCtxGainNode.gain.value, now);
@@ -126,7 +127,7 @@ export function useMusicPlayer() {
      * @param onReady 播放准备完成后回调(可在此调用 audio.play() 等)
      */
     async function handlePlay(musicType, src, gain, onReady) {
-        await audioCtx.resume();
+        await resumeAudioContext();
         audio.value.crossOrigin = "anonymous";
         switch (musicType) {
             case "default":
@@ -145,11 +146,29 @@ export function useMusicPlayer() {
     }
 
     function initAudioContext() {
-        if (!audio.value) return;
-        audioCtx = new AudioContext();
+        if (audioCtx || !audio.value) return;
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        audioCtx = new Ctx();
         audioCtxSrc = audioCtx.createMediaElementSource(audio.value);
         audioCtxGainNode = audioCtx.createGain();
         audioCtxSrc.connect(audioCtxGainNode).connect(audioCtx.destination);
+    }
+
+    /**
+     * 确保 AudioContext 存在并尝试恢复为 running 状态。
+     * 在跨域 iframe 等自动播放被拦截的场景下, 未处于用户手势时 resume()
+     * 的 Promise 可能一直处于 pending 状态; 这里用超时兜底, 避免调用方被永久阻塞。
+     * 用户之后点击播放按钮时会在用户手势中再次调用本函数, 届时即可恢复出声。
+     */
+    async function resumeAudioContext() {
+        initAudioContext();
+        if (audioCtx && audioCtx.state === "suspended") {
+            await Promise.race([
+                audioCtx.resume(),
+                new Promise(resolve => setTimeout(resolve, 300)),
+            ]);
+        }
     }
 
     function closeAudioContext() {
@@ -178,6 +197,7 @@ export function useMusicPlayer() {
         setGain,
         handlePlay,
         initAudioContext,
+        resumeAudioContext,
         closeAudioContext,
         formatTime,
     };
