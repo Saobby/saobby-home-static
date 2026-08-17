@@ -1,5 +1,5 @@
 <script setup lang="js">
-import {onMounted, reactive, ref, watch} from 'vue';
+import {computed, onMounted, reactive, ref, watch} from 'vue';
 import { fetch_api, ts2str } from '@/assets/js/util.js';
 import {
     IconEyeOff,
@@ -18,15 +18,16 @@ import LikeMusicBtn from './LikeMusicBtn.vue';
 import { jumpToSearchTag } from '../music.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import { deleteMusicApi, editMusicApi, setVisibilityApi } from '../music.js';
+import { genShareLinkApi } from '../musicWebApi.js';
 import MarkdownEdit from '@/components/MarkdownEdit.vue';
 import TagEdit from '@/components/TagEdit.vue';
 import TitleEdit from '@/components/TitleEdit.vue';
 import PopupBackdrop from "@/components/PopupBackdrop.vue";
 import TextDisplayWithCopy from "@/components/TextDisplayWithCopy.vue";
-import CreateShareLink from "@/pages/music/components/CreateShareLink.vue";
 
 const siteUrl = import.meta.env.VITE_SITE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
+const embeddedMusicPageUrl = import.meta.env.VITE_EMBED_MUSIC_PAGE_URL;
 
 const props = defineProps({
     musicId: { type: Number },
@@ -46,6 +47,70 @@ const result = ref("");
 const showCover = ref(false);
 
 const showShareWindow = ref(false);
+const shareQuery = ref("");
+const htmlAutoplay = ref(false);
+const mdAutoplay = ref(false);
+const shareTabId = Math.random().toString(36).substring(2, 15);
+const shareTab = ref(0);
+const shareTabRef = ref(null);
+
+function onShareTabWheel(e) {
+  const el = shareTabRef.value;
+  if (!el) return;
+  const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+  el.scrollLeft += delta;
+}
+
+function openShareWindow() {
+    showShareWindow.value = true;
+    shareTab.value = 0;
+    if (!musicInfo.is_private) {
+        shareQuery.value = "music_id=" + props.musicId;
+    } else if (props.sign) {
+        shareQuery.value = "music_id=" + props.musicId + "&expiry=" + props.expiry + "&sign=" + props.sign;
+    } else {
+        shareQuery.value = "";
+    }
+}
+
+// 私有音乐: 创建带签名分享链接
+const shareExpiry = ref("2592000");
+const shareBtnDisabled = ref(false);
+const shareResult = ref("");
+
+async function createShareLink() {
+    shareBtnDisabled.value = true;
+    const rsp = await genShareLinkApi(props.musicId, shareExpiry.value);
+    shareBtnDisabled.value = false;
+    if (rsp.retcode){
+        shareResult.value = rsp.msg;
+    }else{
+        shareResult.value = "";
+        shareQuery.value = rsp.data.url.replace(/^\?/, "");
+    }
+}
+
+const shareExpiryTs = computed(() => {
+    if (!shareQuery.value) return null;
+    const m = shareQuery.value.match(/(?:^|&)expiry=(\d+)/);
+    return m ? parseInt(m[1]) : null;
+});
+
+const pageLink = computed(() => {
+    if (!shareQuery.value) return "";
+    return siteUrl + musicPageUrl + "?" + shareQuery.value;
+});
+
+const htmlEmbedCode = computed(() => {
+    if (!shareQuery.value) return "";
+    const src = siteUrl + embeddedMusicPageUrl + "?" + shareQuery.value + "&autoplay=" + (htmlAutoplay.value ? "1" : "0");
+    return `<iframe src="${src}" width="400" height="90" frameborder="0" allow="autoplay"></iframe>`;
+});
+
+const markdownEmbedCode = computed(() => {
+    if (!shareQuery.value) return "";
+    return "`一起听歌:" + shareQuery.value + "&autoplay=" + (mdAutoplay.value ? "1" : "0") + "`";
+});
 
 async function getMusicInfo(){
     const payload = {
@@ -170,7 +235,6 @@ async function setVisibility(visibility){
     }
 }
 
-const shareExpiry = ref(null);
 </script>
 <template>
     <div :hidden="status!=='loading'" class="centered">
@@ -202,7 +266,7 @@ const shareExpiry = ref(null);
                     <TitleEdit @edited="emitUpdate" :can-edit="musicInfo.can_edit" :edit="editName" v-model="musicInfo.name"></TitleEdit>
                     <button @click="emitPlay" type="button" class="wux-btn mc"><IconPlayerPlay width="24px" height="24px"/>{{ currentPlayingId===musicId?"正在播放":"播放" }}</button>
                     <LikeMusicBtn btnClass="wux-btn-outline sep" v-model:likes="musicInfo.likes" v-model:liked="musicInfo.liked" :music-id="musicInfo.id" :expiry="props.expiry" :sign="props.sign" @update="emitUpdate"/>
-                    <button type="button" class="wux-btn wux-btn-outline sep mc" @click="showShareWindow=true;" :disabled="showShareWindow"><IconShare width="24px" height="24px"/>分享</button>
+                    <button type="button" class="wux-btn wux-btn-outline sep mc" @click="openShareWindow" :disabled="showShareWindow"><IconShare width="24px" height="24px"/>分享</button>
                     <BtnWithLoading v-if="musicInfo.can_delete" @click="deleteMusic" btnClass="wux-btn-outline sep mc" :isLoading="delBtnLoading">
                         <IconTrash width="24px" height="24px"/>删除
                     </BtnWithLoading>
@@ -228,20 +292,47 @@ const shareExpiry = ref(null);
                 <div class="pre-like share-window">
                     <button @click="showShareWindow=false;" type="button" class="wux-btn wux-btn-text icon-btn2" style="position: absolute; left: 290px; top: 10px"><IconX width="30px" height="30px" /></button>
                     <h2 style="margin-top: 4px;">分享此页面</h2>
-                    <div v-if="!musicInfo.is_private">
-                        <span>此页面永久链接:</span><br>
-                        <TextDisplayWithCopy :value="siteUrl+musicPageUrl+'?music_id='+musicId" />
+                    <div v-if="musicInfo.is_private && musicInfo.can_share && !shareQuery">
+                        <span>分享有效期:</span>
+                        <select class="wux-form-select" style="width: 150px" v-model="shareExpiry">
+                            <option value="86400">1天</option>
+                            <option value="604800">7天</option>
+                            <option value="2592000" selected>30天</option>
+                        </select>
+                        <BtnWithLoading @click="createShareLink" :is-loading="shareBtnDisabled" btn-class="mc simple"><IconShare width="16px" height="16px"/>分享</BtnWithLoading>
+                        <span class="result" :hidden="!shareResult" style="display:inline-block;">{{ shareResult }}</span>
+                        <br>
                     </div>
-                    <div v-if="musicInfo.is_private">
-                        <div v-if="sign">
-                            <span>分享链接({{ ts2str(expiry) }}过期):</span><br>
-                            <TextDisplayWithCopy :value="siteUrl+musicPageUrl+'?music_id='+musicId+'&expiry='+expiry+'&sign='+sign" />
-                        </div>
-                        <div v-if="musicInfo.can_share">
-                            <span>创建分享链接:</span><br>
-                            <CreateShareLink :musicId="musicId" />
+                    <div v-if="shareQuery" style="width:100%;overflow-y:hidden;overflow-x:auto;" class="wux-tab" ref="shareTabRef" @wheel.prevent="onShareTabWheel">
+                        <div style="white-space:nowrap; padding-bottom: 5px">
+                            <span>
+                                <input class="wux-tab-item" type="radio" :name="shareTabId" :id="shareTabId+'-link'" :checked="shareTab===0" @click="shareTab=0">
+                                <label class="wux-tab-item" :for="shareTabId+'-link'" style="display:inline-block;">分享链接</label>
+                            </span>
+                            <span>
+                                <input class="wux-tab-item" type="radio" :name="shareTabId" :id="shareTabId+'-html'" :checked="shareTab===1" @click="shareTab=1">
+                                <label class="wux-tab-item" :for="shareTabId+'-html'" style="display:inline-block;">HTML嵌入代码</label>
+                            </span>
+                            <span>
+                                <input class="wux-tab-item" type="radio" :name="shareTabId" :id="shareTabId+'-md'" :checked="shareTab===2" @click="shareTab=2">
+                                <label class="wux-tab-item" :for="shareTabId+'-md'" style="display:inline-block;">本站Markdown嵌入代码</label>
+                            </span>
                         </div>
                     </div>
+                    <div v-if="shareQuery" style="margin-top:12px;">
+                        <div v-show="shareTab===0">
+                            <TextDisplayWithCopy :value="pageLink" />
+                        </div>
+                        <div v-show="shareTab===1">
+                            <label class="mc"><input type="checkbox" class="wux-form-checks" v-model="htmlAutoplay"/>自动开播</label><br>
+                            <TextDisplayWithCopy :value="htmlEmbedCode" input-class="wux-form-input wux-form-input-md label"/>
+                        </div>
+                        <div v-show="shareTab===2">
+                            <label class="mc"><input type="checkbox" class="wux-form-checks" v-model="mdAutoplay"/>自动开播</label><br>
+                            <TextDisplayWithCopy :value="markdownEmbedCode" input-class="wux-form-input wux-form-input-md label"/>
+                        </div>
+                    </div>
+                    <span v-if="musicInfo.is_private && shareExpiryTs"><span class="gray">此分享过期时间:{{ ts2str(shareExpiryTs) }}</span></span>
                 </div>
             </div>
         </div>
