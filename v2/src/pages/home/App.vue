@@ -124,7 +124,7 @@ onMounted(async () => {
                             <li><a href="https://blog.yang1120.com/" target="_blank" rel="noopener">氧化某人的博客</a></li>
                             <li><a href="https://axolotlpower.com/" target="_blank" rel="noopener">AxolotlPower</a></li>
                             <li><a href="https://sqy419.axolotlpower.com/" target="_blank" rel="noopener">SQY的个人网站</a></li>
-                            <li><a href="https://brume.top/" target="_blank" rel="noopener">春树暮云的博客</a></li>
+                            <li><a href="https://easton.pub/" target="_blank" rel="noopener">春树暮云的博客</a></li>
                             <li><a href="https://wangzhaohan2910.github.io/" target="_blank" rel="noopener">wangzhaohan2910的博客</a></li>
                             <li><a href="https://huhu.tomstudio.site/" target="_blank" rel="noopener">Huhu的思绪矩阵</a></li>
                             <li><a href="https://www.xuzhoulab.cn/" target="_blank" rel="noopener">虚舟实验室</a></li>
