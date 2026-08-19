@@ -11,7 +11,7 @@
           if (typeof Aegis === 'function') {
             var aegis = new Aegis({
               id: 'XVx8Jfg1VPkL0x0ea2',
-              uin: 'production',
+              uin: localStorage.getItem('rum_uin') || 'anonymous',
               reportApiSpeed: true,
               reportAssetSpeed: true,
               spa: true,

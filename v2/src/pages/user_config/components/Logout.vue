@@ -21,6 +21,7 @@ async function logout(){
     }else{
         result.value = '退出登录成功';
         localStorage.removeItem('access-token');
+        localStorage.removeItem('rum_uin');
         window.location.href = homePageUrl;
     }
 }

@@ -45,6 +45,7 @@ async function register(){
         return;
     }
     localStorage.setItem("access-token", rsp.data.access_token);
+    localStorage.setItem("rum_uin", rsp.data.rum_uin);
     if (!(localStorage.login_redirect)){
         window.location = homePageUrl;
     }else{
