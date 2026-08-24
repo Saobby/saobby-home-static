@@ -38,6 +38,7 @@ onMounted(()=>{
 const showAddCommentWindow = ref(false);
 function copyText(text){
     window.navigator.clipboard.writeText(text);
+    alert("复制成功!")
 }
 const notificationCount = ref(0);
 onMounted(async () => {
@@ -72,26 +73,19 @@ onMounted(async () => {
                                 <IconBrandGithub width="16px" height="16px"/>
                                 <span class="simple"><b><a href="https://github.com/Saobby" target="_blank">Saobby</a></b></span>
                             </li>
+                            <li class="mc2">
+                                <IconBrandQq width="16px" height="16px" class="qq-icon"/>
+                                <span class="simple"><b><a href="javascript:;" @click="copyText('3569602435');">3569602435 (点击复制)</a></b></span>
+                            </li>
+                            <li class="mc2">
+                                <IconBrandWechat width="16px" height="16px"/>
+                                <span class="simple"><b><a href="javascript:;" @click="copyText('chen2008chen0808');">chen2008chen0808 (点击复制)</a></b></span>
+                            </li>
+                            <li class="mc2">
+                                <IconBrandBilibili width="16px" height="16px"/>
+                                <span class="simple"><b><a href="https://space.bilibili.com/1896864189" target="_blank" class="wux-btn-text">Saobby</a></b></span>
+                            </li>
                         </ul>
-                        <Folder a-style="margin-left:15px;" unfold-text="不常用联系方式" fold-text="不常用联系方式">
-                            <ul>
-                                <li>
-                                    <span text-color="#FF8686" style="--attr-custom-text-color:#FF8686;">以下通讯软件很少登录，不推荐使用</span>
-                                </li>
-                                <li class="mc2">
-                                    <IconBrandQq width="16px" height="16px" class="qq-icon"/>
-                                    <span class="simple"><b @click="copyText('3569602435');">3569602435</b><span text-color="#FF8686" style="--attr-custom-text-color:#FF8686;">(请备注添加原因)</span></span>
-                                </li>
-                                <li class="mc2">
-                                    <IconBrandWechat width="16px" height="16px"/>
-                                    <span class="simple"><b @click="copyText('chen2008chen0808');">chen2008chen0808</b><span text-color="#FF8686" style="--attr-custom-text-color:#FF8686;">(请备注添加原因)</span></span>
-                                </li>
-                                <li class="mc2">
-                                    <IconBrandBilibili width="16px" height="16px"/>
-                                    <span class="simple"><b><a href="https://space.bilibili.com/1896864189" target="_blank" class="wux-btn-text">Saobby</a></b></span>
-                                </li>
-                            </ul>
-                        </Folder>
                     </div>
                 </div>
             </div>
