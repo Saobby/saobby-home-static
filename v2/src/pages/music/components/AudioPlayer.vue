@@ -140,10 +140,11 @@ class Preloader {
     }
 
     #abortAll() {
-        for (const xhr of this.xhrs) {
+        const xhrs = this.xhrs;
+        this.xhrs = [];
+        for (const xhr of xhrs) {
             xhr.abort();
         }
-        this.xhrs = [];
     }
 }
 
