@@ -114,6 +114,41 @@ const canPrev = computed(() => {
     }
 });
 
+class Preloader {
+    constructor() {
+        this.xhrs = [];
+    }
+
+    preload(urlList) {
+        this.#abortAll();
+        this.xhrs = urlList.map(url => {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+            xhr.onloadend = () => {
+                const index = this.xhrs.indexOf(xhr);
+                if (index !== -1) {
+                    this.xhrs.splice(index, 1);
+                }
+            };
+            xhr.send();
+            return xhr;
+        });
+    }
+
+    destroy() {
+        this.#abortAll();
+    }
+
+    #abortAll() {
+        for (const xhr of this.xhrs) {
+            xhr.abort();
+        }
+        this.xhrs = [];
+    }
+}
+
+const preloader = new Preloader();
+
 // 以下为控件处理函数
 function togglePlay() {
     if (!audio.value) return;
@@ -295,6 +330,7 @@ onBeforeUnmount(() => {
         audio.value.removeEventListener("play", onPlay);
         audio.value.removeEventListener("pause", onPause);
     }
+    preloader.destroy();
 });
 
 // 以下为单曲播放逻辑实现
@@ -470,26 +506,34 @@ function onFinishPlaying(){
     isPlaying.value = false;
 }
 
-watch(() => (playIndex.value), (newIndex) => {
+watch(() => (playIndex.value), async function(newIndex){
     if (cycleMode.value === 3){
         if (newIndex+1 < playList.value.length && playList.value[randomIndex.value[newIndex+1]] === null){
-            fillPlaylist(randomIndex.value[newIndex+1]).then();
+            await fillPlaylist(randomIndex.value[newIndex+1]);
         }
         if (newIndex === 0 && playList.value[randomIndex.value[playList.value.length-1]] === null){
-            fillPlaylist(randomIndex.value[playList.value.length-1]).then();
+            await fillPlaylist(randomIndex.value[playList.value.length-1]);
         }
         if (newIndex-1 >= 0 && playList.value[randomIndex.value[newIndex-1]] === null){
-            fillPlaylist(randomIndex.value[newIndex-1]).then();
+            await fillPlaylist(randomIndex.value[newIndex-1]);
         }
     }else{
         if (newIndex+1 < playList.value.length && playList.value[newIndex+1] === null){
-            fillPlaylist(newIndex+1).then();
+            await fillPlaylist(newIndex+1);
         }
         if (newIndex === 0 && playList.value[playList.value.length-1] === null){
-            fillPlaylist(playList.value.length-1).then();
+            await fillPlaylist(playList.value.length-1);
         }
         if (newIndex-1 >= 0 && playList.value[newIndex-1] === null){
-            fillPlaylist(newIndex-1).then();
+            await fillPlaylist(newIndex-1);
+        }
+    }
+    if (newIndex+1 < playList.value.length && playList.value[newIndex+1]){
+        const musicId = playList.value[cycleMode.value === 3 ? randomIndex.value[newIndex+1] : newIndex+1];
+        const rsp = await getMusicUrls([musicId]);
+        const musicInfo = rsp.data[0];
+        if (musicInfo.preload_list){
+            preloader.preload(musicInfo.preload_list);
         }
     }
 });

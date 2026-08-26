@@ -48,6 +48,7 @@ export function useMusicPlayer() {
                 if (i.version === 2) {
                     const blob = new Blob([i.audio_url], {type: "application/vnd.apple.mpegurl"});
                     musicInfoCache[i.id].audio_url = URL.createObjectURL(blob);
+                    musicInfoCache[i.id].preload_list = i.preload_list;
                 } else if (i.version === 3) {
                     let masterM3u8 = i.audio_url;
                     for (let j = 0; j < i.m3u8s.length; j++) {
@@ -58,6 +59,7 @@ export function useMusicPlayer() {
                     }
                     const blob2 = new Blob([masterM3u8], {type: "application/vnd.apple.mpegurl"});
                     musicInfoCache[i.id].audio_url = URL.createObjectURL(blob2);
+                    musicInfoCache[i.id].preload_list = i.preload_list;
                 }
             }
         }
