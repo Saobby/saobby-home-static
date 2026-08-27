@@ -48,6 +48,9 @@
 .simple{
     margin-left: 3px;
 }
+.no-wrap{
+    white-space: nowrap;
+}
 .no-border{
     border: none;
 }
@@ -95,6 +98,33 @@
 }
 .gray{
     color: #777 !important;
+}
+.comment-header{
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+.comment-avatar{
+    flex: 0 0 auto;
+}
+.comment-header-body{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    column-gap: .4em;
+    min-width: 0;
+    line-height: 1;
+    margin-top: 2px;
+}
+.comment-meta{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: .5em;
+}
+.comment-nickname{
+    overflow-wrap: anywhere;
+    margin-bottom: 3px;
 }
 .icon-btn{
     padding: 0px 4px !important;

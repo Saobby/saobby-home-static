@@ -242,7 +242,7 @@ function read_comment(comment_data, indent_level) {
     let escaped_content = rsc(content);
     
     // 构建评论HTML
-    html_output += `<div style="position:relative;left:${20 * indent_level}px;" id="comment-area-${comment_data.cid}"><div style="border-bottom: 2px solid #ddd;padding:12px 0px;"><img src="${comment_data.avatar_url}" alt="用户头像" width="32px" height="32px"><b style="position:relative;top:-17px;left:5px;">${comment_data.nickname ? rsc(comment_data.nickname) : username}</b><span style="color:#777777;position:relative;top:-17px;left:5px;" class="middle"> <img src="/static/image/icon/mail-check-grey.svg" width="16px" height="16px" alt="(已绑定电子邮箱)" title="此用户已绑定电子邮箱" class="middle" ${comment_data.is_email_checked?"":"hidden"}> <img src="/static/image/icon/pencil-check-grey.svg" width="16px" height="16px" alt="(已编辑)" title="(已编辑)" class="middle" ${comment_data.modify_time?"":"hidden"}> <img src="/static/image/icon/clock-grey.svg" width="16px" height="16px" alt="发表时间" class="middle">${comment_data.modify_time ? ts2str(comment_data.modify_time) : ts2str(comment_data.timestamp)} #${comment_data.cid}</span><br>`;
+    html_output += `<div style="position:relative;left:${20 * indent_level}px;" id="comment-area-${comment_data.cid}"><div style="border-bottom: 2px solid #ddd;padding:12px 0px;"><div class="comment-header"><img src="${comment_data.avatar_url}" alt="用户头像" width="32px" height="32px" class="comment-avatar"><div class="comment-header-body"><b class="comment-nickname">${comment_data.nickname ? rsc(comment_data.nickname) : username}</b><span class="comment-meta middle" style="color:#777777;"> <img src="/static/image/icon/mail-check-grey.svg" width="16px" height="16px" alt="(已绑定电子邮箱)" title="此用户已绑定电子邮箱" class="middle" ${comment_data.is_email_checked?"":"hidden"}> <img src="/static/image/icon/pencil-check-grey.svg" width="16px" height="16px" alt="(已编辑)" title="(已编辑)" class="middle" ${comment_data.modify_time?"":"hidden"}><span class="no-wrap"><img src="/static/image/icon/clock-grey.svg" width="16px" height="16px" alt="发表时间" class="middle"><span class="simple" title="${ts2str(comment_data.modify_time || comment_data.timestamp)}">${relative_time(comment_data.modify_time || comment_data.timestamp)}</span></span> #${comment_data.cid}</span></div></div>`;
 
     if (reply_to_id !== -1) {
         html_output += `<span style="color:#777777" onclick="window.scrollTo(get_element_abs_pos2(gebi('comment-area-${comment_data.reply_to}')))" class="middle">${icon_with_text("corner-down-right-grey", "回复 #"+comment_data.reply_to.toString())}</span><br>`;
@@ -267,6 +267,26 @@ function ts2str(timestamp) {
            ("0" + date.getHours()).slice(-2) + ":" + 
            ("0" + date.getMinutes()).slice(-2) + ":" + 
            ("0" + date.getSeconds()).slice(-2);
+}
+function relative_time(ts, now_ts) {
+    const now = now_ts !== undefined ? now_ts : Date.now() / 1e3;
+    let diff = Math.floor(now - ts);
+    if (diff < 0) {
+        diff = 0;
+    }
+    if (diff < 60) {
+        return diff + "秒前";
+    } else if (diff < 3600) {
+        return Math.floor(diff / 60) + "分钟前";
+    } else if (diff < 86400) {
+        return Math.floor(diff / 3600) + "小时前";
+    } else if (diff < 2592000) {
+        return Math.floor(diff / 86400) + "天前";
+    } else if (diff < 31536000) {
+        return Math.floor(diff / 2592000) + "个月前";
+    } else {
+        return Math.floor(diff / 31536000) + "年前";
+    }
 }
 function show_edit_window(comment_id) {
     gebi("edit-div-" + comment_id).hidden = false;
