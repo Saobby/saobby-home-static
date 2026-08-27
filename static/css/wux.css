@@ -1,10 +1,7 @@
 @font-face {
-	font-family: 'consolas_'; 
-    src: url('/static/font/consolas.eot');
-    src: url('/static/font/consolas.eot#iefix') format('embedded-opentype'),
-         url('/static/font/consolas.woff') format('woff'),
-         url('/static/font/consolas.ttf') format('truetype'),
-         url('/static/font/consolas.svg') format('svg');
+	font-family: 'JetBrains Mono';
+    src: url('/static/font/JetBrainsMono-Regular.woff2') format('woff2'),
+         url('/static/font/JetBrainsMono-Regular.ttf') format('truetype');
     font-display: swap;
 }
 
@@ -220,10 +217,9 @@ template {
 
 .wux-typo pre,.wux-typo code,.wux-typo kbd,.wux-typo samp,.wux-typo pre tt {
 	font-family:
-		"consolas_",
+		"JetBrains Mono",
 		"Fira Code",
 		"Consolas",
-		"JetBrainsMono",
 		"Roboto Mono",
 		"Ubuntu Mono",
 		Monospace,
@@ -4180,7 +4176,7 @@ details.wux-collapse[open] summary {
 }/*# sourceMappingURL=wux.css.map */
 .wux-container {
 	font-family:
-		"consolas_",
+		"JetBrains Mono",
 		"Consolas",
 		"Menlo",
 		"Courier New",
