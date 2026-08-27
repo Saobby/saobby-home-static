@@ -1,0 +1,1 @@
+System.register(["./createVueComponent-legacy-6K6FJ92g.js"],function(e,t){"use strict";var s;return{setters:[e=>{s=e.c}],execute:function(){e("I",s("outline","plus","Plus",[["path",{d:"M12 5l0 14",key:"svg-0"}],["path",{d:"M5 12l14 0",key:"svg-1"}]]))}}});
