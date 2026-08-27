@@ -148,6 +148,26 @@ export function ts2str(e) {
     e = new Date(1e3 * e);
     return e.getFullYear() + "-" + ("0" + (e.getMonth() + 1)).slice(-2) + "-" + ("0" + e.getDate()).slice(-2) + " " + ("0" + e.getHours()).slice(-2) + ":" + ("0" + e.getMinutes()).slice(-2) + ":" + ("0" + e.getSeconds()).slice(-2)
 }
+export function relative_time(ts, now_ts) {
+    const now = now_ts !== undefined ? now_ts : Date.now() / 1e3;
+    let diff = Math.floor(now - ts);
+    if (diff < 0) {
+        diff = 0;
+    }
+    if (diff < 60) {
+        return diff + "秒前";
+    } else if (diff < 3600) {
+        return Math.floor(diff / 60) + "分钟前";
+    } else if (diff < 86400) {
+        return Math.floor(diff / 3600) + "小时前";
+    } else if (diff < 2592000) {
+        return Math.floor(diff / 86400) + "天前";
+    } else if (diff < 31536000) {
+        return Math.floor(diff / 2592000) + "个月前";
+    } else {
+        return Math.floor(diff / 31536000) + "年前";
+    }
+}
 
 export function check_logged_in(){
     if (localStorage.getItem("access-token") === null){

@@ -228,3 +228,6 @@ body[dark-mode] .wux-card.wux-card-flat.comments-card {
     background: var(--card-flat-background);
     border-color: #333;
 }
+.no-wrap{
+    white-space: nowrap;
+}

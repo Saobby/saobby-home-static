@@ -2,6 +2,7 @@
 import { IconMailCheck, IconPencilCheck, IconClock, IconMessageReply, IconEdit, IconX, IconCornerDownRight } from '@tabler/icons-vue';
 import { ts2str, check_logged_in } from '@/assets/js/util.js';
 import MarkdownDisplay from './MarkdownDisplay.vue';
+import RelativeTime from './RelativeTime.vue';
 import {onBeforeMount, ref, watch} from 'vue';
 import EditCommentInput from './EditCommentInput.vue';
 import AddCommentInput from './AddCommentInput.vue';
@@ -71,15 +72,18 @@ function updateComments() {
     </div>
     <div v-for="comment in comments" :style="`position:relative;left:${20 * comment.lvl}px;`">
         <div :id="`comment-div-${comment.cid}`" class="bottom-line" style="padding-left: 0; padding-right: 0;">
-            <img :src="comment.avatar_url" alt="用户头像" width="32px" height="32px">
-            <b style="position:relative;top:-17px;left:5px;">{{ comment.nickname || comment.username }}</b>
-            <span style="position:relative;top:-17px;left:5px;" class="middle mc gray">
-                <span v-if="comment.is_email_checked" title="(已绑定电子邮箱)" class="mc lleft"><IconMailCheck width="16px" height="16px" /></span>
-                <span v-if="comment.modify_time" class="lleft mc" title="(已编辑)"><IconPencilCheck width="16px" height="16px"/></span>
-                <span :title="comment.modify_time?'编辑时间':'发表时间'" class="mc lleft"><IconClock width="16px" height="16px" />{{ ts2str(comment.modify_time || comment.timestamp) }}</span>
-                <span class="lleft">{{ `#${comment.cid}` }}</span>
-            </span>
-            <br>
+            <div class="comment-header">
+                <img :src="comment.avatar_url" alt="用户头像" width="32" height="32" class="comment-avatar">
+                <div class="comment-header-body">
+                    <b class="comment-nickname">{{ comment.nickname || comment.username }}</b>
+                    <span class="comment-meta mc gray">
+                        <span v-if="comment.is_email_checked" title="(已绑定电子邮箱)" class="mc lleft"><IconMailCheck width="16px" height="16px" /></span>
+                        <span v-if="comment.modify_time" class="lleft mc" title="(已编辑)"><IconPencilCheck width="16px" height="16px"/></span>
+                        <span :title="comment.modify_time?'编辑时间':'发表时间'" class="mc lleft no-wrap"><IconClock width="16px" height="16px" /><RelativeTime class="simple" :timestamp="comment.modify_time || comment.timestamp" /></span>
+                        <span class="lleft">{{ `#${comment.cid}` }}</span>
+                    </span>
+                </div>
+            </div>
             <span v-if="comment.reply_to!==-1" class="gray mc"><IconCornerDownRight width="16px" height="16px"/>回复&nbsp;<a class="gray" href="javascript:" @click="emits('scrollToComment', comment.reply_to)">#{{ comment.reply_to }}</a></span>
             <div :hidden="uiStatus[comment.cid]?.showEditWindow">
                 <MarkdownDisplay :showBtn="!comment.can_edit" :md="comment.content" btnClass="wux-btn-sm">
@@ -113,3 +117,30 @@ function updateComments() {
         </div>
     </div>
 </template>
+<style scoped>
+.comment-header{
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+.comment-avatar{
+    flex: 0 0 auto;
+}
+.comment-header-body{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    column-gap: .4em;
+    min-width: 0;
+    line-height: 1;
+    margin-top: 2px;
+}
+/* 去掉元信息首项多余的左边距，避免与 column-gap 叠加导致昵称间距过大 */
+.comment-meta > :first-child{
+    margin-left: 0;
+}
+.comment-nickname{
+    overflow-wrap: anywhere;
+    margin-bottom: 3px;
+}
+</style>
