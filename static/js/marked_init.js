@@ -80,7 +80,7 @@ function switch_wrapper(id, vis){
                 if (argsObj.autoplay) src += "&autoplay=" + argsObj.autoplay;
             }
             if (src){
-                return `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=400 height=82 style="border-radius:10px;overflow:hidden;" src_="${rsc(src)}" id="saobby-music-player-${st}" hidden loading="lazy"></iframe><a onclick="!function(t){var e=gebi('saobby-music-player-${st}');e.src=e.getAttribute('src_');e.hidden=!1;t.hidden=!0}(this);" href="javascript:;">点击加载一起听歌播放器</a>`;
+                return `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=400 height=82 style="border-radius:10px;overflow:hidden;" src_="${rsc(src)}" id="saobby-music-player-${st}" hidden loading="lazy"></iframe><a onclick="!function(t){var e=gebi('saobby-music-player-${st}');e.src=e.getAttribute('src_');e.hidden=!1;t.hidden=!0}(this);" href="javascript:;">点击加载一起听歌</a>`;
             }
         }
         var t;

@@ -86,7 +86,7 @@ export function codeSpanPlugin() {
             if (argsObj.sign) src += "&sign=" + argsObj.sign;
             if (argsObj.expiry) src += "&expiry=" + argsObj.expiry;
             if (argsObj.autoplay) src += "&autoplay=" + argsObj.autoplay;
-            return `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="400" height="82" style="border-radius:10px;overflow:hidden;" src_="${rsc(src)}" id="${eid}" hidden loading="lazy"></iframe><a onclick="(function(t){var e=document.getElementById('${eid}');e.src=e.getAttribute('src_');e.hidden=false;t.hidden=true})(this)" href="javascript:;">点击加载一起听歌播放器</a>`;
+            return `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="400" height="82" style="border-radius:10px;overflow:hidden;" src_="${rsc(src)}" id="${eid}" hidden loading="lazy"></iframe><a onclick="(function(t){var e=document.getElementById('${eid}');e.src=e.getAttribute('src_');e.hidden=false;t.hidden=true})(this)" href="javascript:;">点击加载一起听歌</a>`;
           }
         }
       }
