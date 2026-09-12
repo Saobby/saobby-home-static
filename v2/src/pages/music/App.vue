@@ -26,6 +26,31 @@
   const result = ref("正在加载歌曲列表");
   const musicList = ref([]);
 
+  const loggedIn = localStorage.getItem("access-token");
+
+  function parseTagsArg(value){
+    try{
+      const tags = JSON.parse(value);
+      if (Array.isArray(tags)){
+        return tags.filter(tag => typeof tag === "string" && tag);
+      }
+      console.error("[music] 标签 queryString 不是数组", value);
+    }catch (e){
+      console.error("[music] 标签 queryString 解析失败", e);
+    }
+    return [];
+  }
+  function loadSearchParamsFromUrl(){
+    const args = getUrlArgs();
+    if (args.sort) sort.value = args.sort;
+    if (args.order) order.value = args.order;
+    if (args.keyword) keyword.value = args.keyword;
+    if (args.includedTags) includedTags.value = parseTagsArg(args.includedTags);
+    if (args.excludedTags) excludedTags.value = parseTagsArg(args.excludedTags);
+    if (args.filter) filter.value = loggedIn? args.filter: "0";
+  }
+  loadSearchParamsFromUrl();
+
   const uiDisabled = ref(false);
   const status = ref("loading");
   const mode = ref("list"); // list: 列表 detail: 详情
@@ -148,7 +173,16 @@
     <div class="wux-typo" style="padding-bottom: 140px;">
       <div :hidden="mode!=='list'">
         <h2 class="mt">歌曲列表</h2>
-        <Search :disabled="uiDisabled" @search="search">
+        <Search
+            :disabled="uiDisabled"
+            :initial-sort="sort"
+            :initial-order="order"
+            :initial-keyword="keyword"
+            :initial-included-tags="includedTags"
+            :initial-excluded-tags="excludedTags"
+            :initial-filter="filter"
+            @search="search"
+        >
           <BtnWithLoading :isLoading="playAllBtnDisabled" btnClass="wux-btn-primary mc simple" @click="playAll">
             <IconPlayerPlay width="16px" height="16px" />播放全部
           </BtnWithLoading>

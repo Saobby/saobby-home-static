@@ -1,23 +1,27 @@
 <script setup>
   import {IconSearch} from "@tabler/icons-vue"
-  import {onMounted, ref, watch} from "vue";
+  import {ref, watch} from "vue";
   import BtnWithLoading from "@/components/BtnWithLoading.vue";
   import TagSelect from "@/components/TagSelect.vue";
-  import { updateUrlArgs, getUrlArgs } from "@/assets/js/util";
+  import { updateUrlArgs } from "@/assets/js/util";
   const props = defineProps({
-    disabled: {type: Boolean, default: false}
+    disabled: {type: Boolean, default: false},
+    initialSort: {type: String, default: "0"},
+    initialOrder: {type: String, default: "0"},
+    initialKeyword: {type: String, default: ""},
+    initialIncludedTags: {type: Array, default: () => []},
+    initialExcludedTags: {type: Array, default: () => []},
+    initialFilter: {type: String, default: "0"}
   });
   const emit = defineEmits(["search"]);
-  const keyword = ref("");
-  const sort = ref("0");
-  const order = ref("0");
-  const includedTags = ref([]);
-  const excludedTags = ref([]);
-  const filter = ref("0");
+  const keyword = ref(props.initialKeyword);
+  const sort = ref(props.initialSort);
+  const order = ref(props.initialOrder);
+  const includedTags = ref(Array.isArray(props.initialIncludedTags) ? [...props.initialIncludedTags] : []);
+  const excludedTags = ref(Array.isArray(props.initialExcludedTags) ? [...props.initialExcludedTags] : []);
+  const filter = ref(props.initialFilter);
 
   const loggedIn = localStorage.getItem("access-token");
-
-  const args = getUrlArgs();
 
   function search() {
     const searchParams = {
@@ -40,18 +44,6 @@
   }
   watch([sort, order, includedTags, excludedTags, filter], ()=>{
     search();
-  });
-  onMounted(()=>{
-    try{
-      if (args.sort) sort.value = args.sort;
-      if (args.order) order.value = args.order;
-      if (args.keyword) keyword.value = args.keyword;
-      if (args.includedTags) includedTags.value = JSON.parse(args.includedTags);
-      if (args.excludedTags) excludedTags.value = JSON.parse(args.excludedTags);
-      if (args.filter) filter.value = loggedIn? args.filter: "0";
-    }catch (e) {
-      console.error("[Search] 搜索 queryString 解析失败", e);
-    }
   });
 </script>
 
