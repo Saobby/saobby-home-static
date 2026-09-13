@@ -1,6 +1,7 @@
 <script setup lang='js'>
 const props = defineProps({
   isLoading: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
   btnClass: { type: String, default: '' },
   btnId: { type: String, default: '' }
 });
@@ -12,7 +13,7 @@ function emitClick(event) {
 
 </script>
 <template>
-    <button :id="btnId" @click="emitClick" type="button" :class="'wux-btn '+btnClass" :disabled="isLoading">
+    <button :id="btnId" @click="emitClick" type="button" :class="'wux-btn '+btnClass" :disabled="isLoading || disabled">
         <slot v-if="!isLoading" />
         <span :hidden="!isLoading" class="wux-loading"></span>
     </button>
