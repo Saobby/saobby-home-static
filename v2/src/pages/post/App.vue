@@ -213,6 +213,9 @@ async function saveEdit(){
 }
 
 async function saveTags(tags){
+    if (JSON.stringify(tags) === JSON.stringify(postData.tags || [])){
+        return {retcode: 100, msg: "你没有修改任何东西"};
+    }
     return await fetch_api(domain + "/api/set_post_tags", {
         access_token: localStorage.getItem("access-token"),
         name: args.pid,
