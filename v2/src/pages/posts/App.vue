@@ -114,7 +114,7 @@ onMounted(() => {
                     <TagsDisplay :tags="post.tags" tag-class="simple"/>
                     <br>
                     <span class="middle"><IconUser :width="20" :height="20" class="middle"/>{{ post.author }}</span>
-                    <span class="gray"> <IconClock :width="20" :height="20" class="middle"/>{{ ts2str(post.modify_time) }} <IconThumbUp :width="20" :height="20" class="middle"/>{{ post.loves }} <IconEye :width="20" :height="20" class="middle"/>{{ post.views }}</span>
+                    <span class="gray post-list-meta"><IconClock :width="20" :height="20" class="middle"/>{{ ts2str(post.modify_time) }} <IconThumbUp :width="20" :height="20" class="middle"/>{{ post.loves }} <IconEye :width="20" :height="20" class="middle"/>{{ post.views }}</span>
                 </div>
             </div>
             <div :hidden="status!=='loading'" class="centered">
@@ -147,6 +147,9 @@ onMounted(() => {
 .bottom-line :deep(.tags-container) {
     display: inline-flex;
     vertical-align: middle;
+    margin-left: 10px;
+}
+.post-list-meta {
     margin-left: 10px;
 }
 .wux-typo a:not(.wux-btn) .post-list-title,
