@@ -6,11 +6,14 @@ import { is_in_array, getUrlArgs, fetch_api } from '@/assets/js/util';
 import BirthdayNotice from './components/BirthdayNotice.vue';
 import CheckInBox from './components/CheckInBox.vue';
 import Folder from "@/components/Folder.vue";
+import { alertDialog } from "@/assets/js/dialog.js";
 const domain = import.meta.env.VITE_API_DOMAIN;
 const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
 const shareMusicPageUrl = import.meta.env.VITE_SHARE_MUSIC_PAGE_URL;
 const userConfigPageUrl = import.meta.env.VITE_USER_CONFIG_PAGE_URL;
+const postsPageUrl = import.meta.env.VITE_POSTS_PAGE_URL;
+const createPostPageUrl = import.meta.env.VITE_CREATE_POST_PAGE_URL;
 
 const commentPlaceId = ref(114514);
 const commentOnly = ref(false);
@@ -38,7 +41,7 @@ onMounted(()=>{
 const showAddCommentWindow = ref(false);
 function copyText(text){
     window.navigator.clipboard.writeText(text);
-    alert("复制成功!")
+    alertDialog({ title: "提示", content: "复制成功!" });
 }
 const notificationCount = ref(0);
 onMounted(async () => {
@@ -134,11 +137,11 @@ onMounted(async () => {
                         <h2 class="mc2"><IconMessage width="32px" height="32px"/><span>论坛</span></h2>
                         <div class="wux-row-xs-2">
                             <div class="wux-col">
-                                <a href="/posts"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconMessage width="20px" height="20px"/><span>帖子列表</span></button></a>
+                                <a :href="postsPageUrl"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconMessage width="20px" height="20px"/><span>帖子列表</span></button></a>
                                 <a :href="musicPageUrl"><button class="wux-btn wux-btn-warning wux-btn-xl wux-btn-text mc2" type="button"><IconMusic width="20px" height="20px"/><span>一起听歌<span class="wux-badge">Beta</span></span></button></a>
                             </div>
                             <div class="wux-col">
-                                <a href="/create_post"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconPencil width="20px" height="20px"/><span>创建帖子</span></button></a>
+                                <a :href="createPostPageUrl"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconPencil width="20px" height="20px"/><span>创建帖子</span></button></a>
                                 <a :href="shareMusicPageUrl"><button class="wux-btn wux-btn-warning wux-btn-xl wux-btn-text mc2" type="button"><IconVinyl width="20px" height="20px"/><span>分享歌曲</span></button></a>
                             </div>
                         </div>

@@ -24,6 +24,7 @@ import TagEdit from '@/components/TagEdit.vue';
 import TitleEdit from '@/components/TitleEdit.vue';
 import PopupBackdrop from "@/components/PopupBackdrop.vue";
 import TextDisplayWithCopy from "@/components/TextDisplayWithCopy.vue";
+import { confirmDialog } from "@/assets/js/dialog.js";
 
 const siteUrl = import.meta.env.VITE_SITE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
@@ -216,7 +217,10 @@ async function editTags(newTags){
 const setVisibilityBtnLoading = ref(false);
 async function setVisibility(visibility){
     if (!visibility){
-        const r = confirm("你确定要把这个曲目设为公开吗？该操作不可逆。");
+        const r = await confirmDialog({
+            title: "警告!",
+            content: "你确定要把这个曲目设为公开吗？该操作不可逆。"
+        });
         if (!r){
             return;
         }

@@ -269,6 +269,30 @@ export function get_element_abs_pos_center(el) {
 
     return { x: centerX, y: centerY };
 }
+export function getElementViewportTop(el){
+    return el && el.isConnected ? el.getBoundingClientRect().top : null;
+}
+// 内容高度变化后让 el 的视口位置尽量不变：越界（内容缩太多、钉不住）就不滚，避免硬滚到顶端；
+// 布局可能到下一帧才稳定，所以随后两帧再各校正一次，避免残余偏移累积成“漂移”
+export function preserveElementPosition(el, beforeTop){
+    if (!el || beforeTop === null || beforeTop === undefined) return;
+    correct();
+    requestAnimationFrame(() => {
+        correct();
+        requestAnimationFrame(correct);
+    });
+
+    function correct(){
+        if (!el.isConnected) return;
+        const diff = el.getBoundingClientRect().top - beforeTop;
+        if (!diff) return;
+        const scroller = document.scrollingElement || document.documentElement;
+        const maxScroll = Math.max(0, scroller.scrollHeight - window.innerHeight);
+        const target = window.scrollY + diff;
+        if (target < 0 || target > maxScroll) return;
+        window.scrollBy(0, diff);
+    }
+}
 export function gen_randint(a, b) {
     return Math.floor(Math.random() * (b - a + 1)) + a;
 }

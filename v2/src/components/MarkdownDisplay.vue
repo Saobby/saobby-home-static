@@ -1,6 +1,7 @@
 <script setup lang="js">
-import {computed, onMounted, ref} from 'vue';
+import {computed, onMounted, ref, nextTick} from 'vue';
 import { IconMarkdown } from '@tabler/icons-vue';
+import { getElementViewportTop, preserveElementPosition } from '@/assets/js/util.js';
 const props = defineProps({
     show: {type: Boolean, default: true},
     showBtn: {type: Boolean, default: true},
@@ -25,17 +26,32 @@ async function loadMdParser(){
 onMounted(async () => {
     await loadMdParser();
 });
+function toggleShowMd(){
+    showMd.value = !showMd.value;
+}
+const buttonRef = ref(null);
+const pressedButtonRef = ref(null);
+// 两个“查看M↓”按钮切换时把按钮钉在原位；一显一隐，所以取“切换前后各自可见的”来量位置
+async function onToggleMdBtnClick(){
+    const beforeEl = showMd.value ? pressedButtonRef.value : buttonRef.value;
+    const afterEl = showMd.value ? buttonRef.value : pressedButtonRef.value;
+    const beforeTop = getElementViewportTop(beforeEl);
+    showMd.value = !showMd.value;
+    await nextTick();
+    preserveElementPosition(afterEl, beforeTop);
+}
+defineExpose({ toggleShowMd });
 </script>
 <template>
     <div :hidden="!show">
         <div :class="'pre-like-code '+divClass" :hidden="!showMd" class="margin">{{ md }}</div>
         <div :class="divClass" :hidden="showMd" v-html="html"  class="margin"></div>
         <slot />
-        <button @click="showMd=true" v-if="!showMd" :hidden="!showBtn" :class="'wux-btn wux-btn-primary wux-btn-outline mc simple '+btnClass" type="button">
+        <button ref="buttonRef" :hidden="showMd || !showBtn" @click="onToggleMdBtnClick()" :class="'wux-btn wux-btn-primary wux-btn-outline mc simple '+btnClass" type="button">
             <IconMarkdown width="16px" height="16px" />
             查看M↓
         </button>
-        <button @click="showMd=false" v-if="showMd" :hidden="!showBtn" :class="'wux-btn wux-btn-primary mc simple '+btnClass" type="button">
+        <button ref="pressedButtonRef" :hidden="!showMd || !showBtn" @click="onToggleMdBtnClick()" :class="'wux-btn wux-btn-primary mc simple '+btnClass" type="button">
             <IconMarkdown width="16px" height="16px" />
             查看M↓
         </button>
