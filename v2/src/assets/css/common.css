@@ -1,3 +1,17 @@
+:root{
+    --status-success-color: #1f8a53;
+    --status-error-color: #cc4434;
+}
+@media (prefers-color-scheme: dark) {
+    :root{
+        --status-success-color: #57d393;
+        --status-error-color: #ff7767;
+    }
+}
+body[dark-mode]{
+    --status-success-color: #57d393;
+    --status-error-color: #ff7767;
+}
 .result{
     color: #aa0000;
 }

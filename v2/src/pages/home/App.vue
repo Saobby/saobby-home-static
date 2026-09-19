@@ -6,7 +6,7 @@ import { is_in_array, getUrlArgs, fetch_api } from '@/assets/js/util';
 import BirthdayNotice from './components/BirthdayNotice.vue';
 import CheckInBox from './components/CheckInBox.vue';
 import Folder from "@/components/Folder.vue";
-import { alertDialog } from "@/assets/js/dialog.js";
+import ClickToCopy from "@/components/ClickToCopy.vue";
 const domain = import.meta.env.VITE_API_DOMAIN;
 const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
 const musicPageUrl = import.meta.env.VITE_MUSIC_PAGE_URL;
@@ -40,10 +40,6 @@ onMounted(()=>{
     }
 });
 const showAddCommentWindow = ref(false);
-function copyText(text){
-    window.navigator.clipboard.writeText(text);
-    alertDialog({ title: "提示", content: "复制成功!" });
-}
 const notificationCount = ref(0);
 onMounted(async () => {
     if (localStorage.getItem("access-token")) {
@@ -67,7 +63,7 @@ onMounted(async () => {
                             <li><span text-color="#FF8686" style="--attr-custom-text-color:#FF8686;">推荐使用以下方式联系</span></li>
                             <li class="mc2">
                                 <IconMail width="16px" height="16px"/>
-                                <span class="simple"><b><a href="mailto:s@saobby.com" target="_blank" @click="copyText('s@saobby.com');">s@saobby.com</a></b></span>
+                                <span class="simple"><b><ClickToCopy value="s@saobby.com" href="mailto:s@saobby.com" :copy-on-text-click="false"/></b></span>
                             </li>
                             <li class="mc2">
                                 <IconBrandTelegram width="16px" height="16px"/>
@@ -78,12 +74,12 @@ onMounted(async () => {
                                 <span class="simple"><b><a href="https://github.com/Saobby" target="_blank">Saobby</a></b></span>
                             </li>
                             <li class="mc2">
-                                <IconBrandQq width="16px" height="16px" class="qq-icon"/>
-                                <span class="simple"><b><a href="javascript:;" @click="copyText('3569602435');">3569602435 (点击复制)</a></b></span>
+                                <IconBrandQq width="16px" height="16px"/>
+                                <span class="simple"><b><ClickToCopy value="3569602435"/></b></span>
                             </li>
                             <li class="mc2">
                                 <IconBrandWechat width="16px" height="16px"/>
-                                <span class="simple"><b><a href="javascript:;" @click="copyText('chen2008chen0808');">chen2008chen0808 (点击复制)</a></b></span>
+                                <span class="simple"><b><ClickToCopy value="chen2008chen0808"/></b></span>
                             </li>
                             <li class="mc2">
                                 <IconBrandBilibili width="16px" height="16px"/>

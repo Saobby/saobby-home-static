@@ -306,3 +306,28 @@ export function shuffle(arr){
     }
     return arr;
 }
+export async function copyToClipboard(text){
+    if (navigator.clipboard){
+        try{
+            await navigator.clipboard.writeText(text);
+            return true;
+        }catch (err){}
+    }
+    let textarea = null;
+    try{
+        textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        return document.execCommand("copy");
+    }catch (err){
+        return false;
+    }finally{
+        if (textarea && textarea.parentNode){
+            textarea.parentNode.removeChild(textarea);
+        }
+    }
+}
