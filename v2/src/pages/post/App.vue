@@ -346,8 +346,8 @@ onMounted(async () => {
                     <span class="mc"><IconUser :width="20" :height="20"/><span>{{ postData.author }}</span></span>
                     <span class="mc gray">
                         <IconClock :width="20" :height="20"/><span>{{ ts2str(postData.modify_time) }}</span>
-                        <IconEye :width="20" :height="20"/><span>{{ postData.views }}</span>
-                        <a href="javascript:;" @click="showHistory()" style="color:#777" class="mc"><IconVersions :width="20" :height="20"/>V{{ postData.version }}<span :hidden="postData.is_history">(最新)</span></a>
+                        <IconEye :width="20" :height="20" class="meta-sep"/><span>{{ postData.views }}</span>
+                        <a href="javascript:;" @click="showHistory()" style="color:#777" class="mc"><IconVersions :width="20" :height="20" class="meta-sep"/>V{{ postData.version }}<span :hidden="postData.is_history">(最新)</span></a>
                     </span>
                 </div>
                 <div class="tags-line">
@@ -447,6 +447,9 @@ onMounted(async () => {
 }
 .post-meta-row .mc {
     gap: 3px;
+}
+.post-meta-row :deep(.meta-sep) {
+    margin-left: 7px;
 }
 .post-edit :deep(textarea) {
     height: calc(100vh - 180px);
