@@ -10,6 +10,26 @@ export function formatTime(t) {
         .padStart(2, "0")}`;
 }
 
+/** 已缓冲进度百分比; 优先取包含当前播放位置的缓冲区间末端, 取不到时退化为最后一个区间末端 */
+export function getBufferedPercent(audioEl) {
+    if (!audioEl) return 0;
+    const duration = audioEl.duration;
+    if (!duration || !isFinite(duration) || duration <= 0) return 0;
+    const buffered = audioEl.buffered;
+    if (!buffered || buffered.length === 0) return 0;
+    const currentTime = audioEl.currentTime || 0;
+    let fallbackEnd = 0;
+    for (let i = 0; i < buffered.length; i++) {
+        const start = buffered.start(i);
+        const end = buffered.end(i);
+        if (currentTime + 0.1 >= start && currentTime - 0.1 <= end) {
+            return Math.min(100, (end / duration) * 100);
+        }
+        fallbackEnd = Math.max(fallbackEnd, end);
+    }
+    return Math.min(100, (fallbackEnd / duration) * 100);
+}
+
 /**
  * 抽取 AudioPlayer 与嵌入式播放器共用的音频播放核心逻辑。
  * 用法: const { audio, getMusicUrls, handlePlay, ... } = useMusicPlayer();
@@ -18,6 +38,7 @@ export function formatTime(t) {
 export function useMusicPlayer() {
     const audio = ref(null);
     const isAudioLoading = ref(false);
+    const bufferedPercent = ref(0);
     let hls = null;
     let musicInfoCache = {};
     let audioCtx = null;
@@ -99,6 +120,10 @@ export function useMusicPlayer() {
         }
     }
 
+    function updateBuffered() {
+        bufferedPercent.value = getBufferedPercent(audio.value);
+    }
+
     async function setUpHls(m3u8Url) {
         isAudioLoading.value = true;
         const {default: Hls} = await import("hls.js");
@@ -130,6 +155,7 @@ export function useMusicPlayer() {
      */
     async function handlePlay(musicType, src, gain, onReady) {
         await resumeAudioContext();
+        bufferedPercent.value = 0;
         audio.value.crossOrigin = "anonymous";
         switch (musicType) {
             case "default":
@@ -191,6 +217,7 @@ export function useMusicPlayer() {
     return {
         audio,
         isAudioLoading,
+        bufferedPercent,
         getMusicUrls,
         getCachedMusicInfo,
         revokeAllBlob,
@@ -202,5 +229,7 @@ export function useMusicPlayer() {
         resumeAudioContext,
         closeAudioContext,
         formatTime,
+        getBufferedPercent,
+        updateBuffered,
     };
 }

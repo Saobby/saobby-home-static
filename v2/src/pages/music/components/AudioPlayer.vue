@@ -14,9 +14,11 @@ const emit = defineEmits(["requestPlay", "error", "showDetail"]);
 const {
     audio,
     isAudioLoading,
+    bufferedPercent,
     getMusicUrls,
     getCachedMusicInfo,
     handlePlay,
+    updateBuffered,
 } = useMusicPlayer();
 
 const playMode = ref(null); // single或list
@@ -42,7 +44,11 @@ const progressBarStyle = computed(() => {
     if (duration.value !== 0){
         percentage = (currentTime.value / duration.value) * 100;
     }
-    return {'--player-progress-percent': `${percentage}%`};
+    const buffered = Math.max(percentage, bufferedPercent.value);
+    return {
+        '--player-progress-percent': `${percentage}%`,
+        '--player-progress-buffered-percent': `${buffered}%`,
+    };
 });
 const volumeBarStyle = computed(() => {
     return {'--player-progress-percent': `${volume.value * 100}%`};
@@ -195,6 +201,7 @@ function onVolumeChange() {
 
 function onTimeUpdate() {
     currentTime.value = audio.value.currentTime;
+    updateBuffered();
     if ("mediaSession" in navigator) {
         if (audio.value.duration){
             navigator.mediaSession.setPositionState({
@@ -208,11 +215,18 @@ function onTimeUpdate() {
 
 function onLoadedMetadata() {
     duration.value = audio.value.duration;
+    bufferedPercent.value = 0;
+    updateBuffered();
 }
 
 function onSeek() {
     if (!audio.value) return;
     audio.value.currentTime = currentTime.value;
+    updateBuffered();
+}
+
+function onProgress() {
+    updateBuffered();
 }
 
 function showDetail(){
@@ -285,6 +299,8 @@ onMounted(() => {
     audio.value.addEventListener("timeupdate", onTimeUpdate);
     audio.value.addEventListener("loadedmetadata", onLoadedMetadata);
     audio.value.addEventListener("ended", onFinishPlaying);
+    audio.value.addEventListener("progress", onProgress);
+    audio.value.addEventListener("seeked", onProgress);
     if ("mediaSession" in navigator){
         navigator.mediaSession.setActionHandler("play", () => {
             play();
@@ -323,6 +339,8 @@ onBeforeUnmount(() => {
     audio.value.removeEventListener("timeupdate", onTimeUpdate);
     audio.value.removeEventListener("loadedmetadata", onLoadedMetadata);
     audio.value.removeEventListener("ended", onFinishPlaying);
+    audio.value.removeEventListener("progress", onProgress);
+    audio.value.removeEventListener("seeked", onProgress);
     if ("mediaSession" in navigator){
         navigator.mediaSession.setActionHandler("play", null);
         navigator.mediaSession.setActionHandler("pause", null);
@@ -618,6 +636,7 @@ watch(() => (playIndex.value), async function(newIndex){
 <style scoped>
 .player-container {
     --player-progress-fill: #5064e1;
+    --player-progress-buffered: #b6c0f2;
     --player-progress-track: #e5e5e5;
     --player-bg: rgba(245, 245, 247, 0.75);
     --player-border: #bbb;
@@ -645,6 +664,7 @@ watch(() => (playIndex.value), async function(newIndex){
 @media (prefers-color-scheme: dark) {
     .player-container {
         --player-progress-fill: #7383e7;
+        --player-progress-buffered: #565a66;
         --player-progress-track: #444;
         --player-bg: rgba(24, 24, 24, 0.92);
         --player-border: #444;
@@ -655,6 +675,7 @@ watch(() => (playIndex.value), async function(newIndex){
 
 body[dark-mode] .player-container {
     --player-progress-fill: #7383e7;
+    --player-progress-buffered: #565a66;
     --player-progress-track: #444;
     --player-bg: rgba(24, 24, 24, 0.92);
     --player-border: #444;
@@ -739,7 +760,9 @@ body[dark-mode] .player-container {
         to right,
         var(--player-progress-fill) 0%,
         var(--player-progress-fill) var(--player-progress-percent, 0%),
-        var(--player-progress-track) var(--player-progress-percent, 0%),
+        var(--player-progress-buffered) var(--player-progress-percent, 0%),
+        var(--player-progress-buffered) var(--player-progress-buffered-percent, var(--player-progress-percent, 0%)),
+        var(--player-progress-track) var(--player-progress-buffered-percent, var(--player-progress-percent, 0%)),
         var(--player-progress-track) 100%
     );
     border-radius: 999px;
@@ -752,7 +775,14 @@ body[dark-mode] .player-container {
 
 .progress::-moz-range-track {
     height: var(--player-progress-track-height);
-    background-color: var(--player-progress-track);
+    background: linear-gradient(
+        to right,
+        var(--player-progress-track) 0%,
+        var(--player-progress-track) var(--player-progress-percent, 0%),
+        var(--player-progress-buffered) var(--player-progress-percent, 0%),
+        var(--player-progress-buffered) var(--player-progress-buffered-percent, var(--player-progress-percent, 0%)),
+        var(--player-progress-track) var(--player-progress-buffered-percent, var(--player-progress-percent, 0%))
+    );
     border-radius: 999px;
     cursor: pointer;
 }
