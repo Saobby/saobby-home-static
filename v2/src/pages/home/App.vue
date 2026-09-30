@@ -178,7 +178,7 @@ onMounted(async () => {
             </div>
         </div>
         <BirthdayNotice/>
-<!--            <div class="wux-alert wux-alert-warning mb">2025-1-31 16:30 GMT+8 由于服务器刚刚更换IP, DNS记录更新有延迟, 这两天部分地区可能出现无法访问部分服务的问题</div>-->
+        <div class="wux-alert wux-alert-warning mb">2026-09-30: 服务器正在执行数据迁移，部分服务将不可用。预计迁移将在48小时内完成。</div>
         <div class="wux-row-md-1">
             <div class="wux-col">
                 <div class="wux-card wux-card-flat comments-card">
