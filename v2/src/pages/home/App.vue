@@ -178,7 +178,6 @@ onMounted(async () => {
             </div>
         </div>
         <BirthdayNotice/>
-        <div class="wux-alert wux-alert-warning mb">2026-09-30: 服务器正在执行数据迁移，部分服务将不可用。预计迁移将在48小时内完成。</div>
         <div class="wux-row-md-1">
             <div class="wux-col">
                 <div class="wux-card wux-card-flat comments-card">
