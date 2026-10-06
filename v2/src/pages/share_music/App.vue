@@ -54,8 +54,8 @@ async function shareMusicFile(){
         results[1].msg = "音频来源不能为空";
         return;
     }
-    if (details.desc.length > 200) {
-        results[1].msg = "描述/推荐理由不能超过200字";
+    if (details.desc.length > 32768) {
+        results[1].msg = "描述/推荐理由不能超过32768字";
         return;
     }
     if (details.src.length > 32768) {
