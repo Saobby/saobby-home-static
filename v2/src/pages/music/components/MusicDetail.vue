@@ -285,7 +285,7 @@ async function setVisibility(visibility){
                     <MarkdownEdit :edit="editSrc" :can-edit="musicInfo.can_edit" v-model="musicInfo.src" display-default="*暂无信息*" btn-class="wux-btn-sm" placeholder="编辑来源, 32768 字以内"></MarkdownEdit>
                     <hr>
                     <b class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由</b><br>
-                    <MarkdownEdit :edit="editDesc" :can-edit="musicInfo.can_edit" v-model="musicInfo.desc" display-default="*暂无信息*" btn-class="wux-btn-sm" placeholder="编辑描述/推荐理由, 200 字以内"></MarkdownEdit>
+                    <MarkdownEdit :edit="editDesc" :can-edit="musicInfo.can_edit" v-model="musicInfo.desc" display-default="*暂无信息*" btn-class="wux-btn-sm" placeholder="编辑描述/推荐理由, 32768 字以内"></MarkdownEdit>
                     <hr>
                     <b class="mc"><IconTag width="16px" height="16px"/>标签</b><br>
                     <span class="bt"><TagEdit @edited="emitUpdate" :edit="editTags" :can-edit="musicInfo.can_edit" v-model="musicInfo.tags" :clickTag="jumpToSearchTag" default-display="没有任何标签"/></span>

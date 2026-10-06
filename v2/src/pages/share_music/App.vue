@@ -54,8 +54,8 @@ async function shareMusicFile(){
         results[1].msg = "音频来源不能为空";
         return;
     }
-    if (details.desc.length > 200) {
-        results[1].msg = "描述/推荐理由不能超过200字";
+    if (details.desc.length > 32768) {
+        results[1].msg = "描述/推荐理由不能超过32768字";
         return;
     }
     if (details.src.length > 32768) {
@@ -144,8 +144,8 @@ function autoFillName(){
                         <input v-model="musicDetails[1].name" type="text" class="wux-form-input wux-form-input-md" placeholder="曲名(建议包含歌手/作曲家名)">
                         <span class="mc"><IconFileDescription width="16px" height="16px"/>音频来源(必填,支持markdown,32768字以内):</span>
                         <markdown-input v-model="musicDetails[1].src" :rows="5" placeholder="音频来源,必填,32768字以内"></markdown-input><br>
-                        <span class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由(选填,支持markdown,200字以内):</span>
-                        <markdown-input v-model="musicDetails[1].desc" :rows="5" placeholder="描述/推荐理由,选填,200字以内"></markdown-input>
+                        <span class="mc"><IconFileDescription width="16px" height="16px"/>描述/推荐理由(选填,支持markdown,32768字以内):</span>
+                        <markdown-input v-model="musicDetails[1].desc" :rows="5" placeholder="描述/推荐理由,选填,32768字以内"></markdown-input>
                         <hr>
                         <span class="mc"><IconTag width="16px" height="16px"/>音乐标签(选填,最多8个):</span><br>
                         <tag-select v-model="musicDetails[1].tags"/>
