@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>layout-diff-probe</title>
+<style>
+  body { font: 13px/1.5 monospace; margin: 0; }
+  #out { margin: 0; padding: 8px; white-space: pre-wrap; }
+  iframe { position: absolute; left: -20000px; top: 0; border: 0; }
+</style>
+</head>
+<body>
+<pre id="out">{"status":"running"}</pre>
+<script>
+// 把「旧页面」和「重写后的页面」放进两个同源 iframe，分别量出每个可见元素的 rect/外边距/字号，
+// 以及每个父元素里「相邻子元素」之间的水平或垂直间距，然后按 key 配对做 diff，结果写进 #out
+// （外层用 chrome --dump-dom 取回）。这是最容易出问题的两类信息：元素位置与元素间距。
+const params = new URLSearchParams(location.search);
+const OLD_URL = params.get("old");
+const NEW_URL = params.get("new");
+const WIDTH = parseInt(params.get("width") || "1200");
+const TOL = parseFloat(params.get("tol") || "3");
+const SETTLE = parseInt(params.get("settle") || "1500");
+const TOKEN = params.get("token") || "";
+// 交互步骤（JSON 数组），例如 ["click:#tab-settings","type:input[placeholder=用户名]=abc","wait"]
+const STEPS = JSON.parse(params.get("steps") || "[]");
+
+if (TOKEN) {
+  // 需要登录态的页面（我的计数器 / 控制面板）用它假装已登录，两侧一致
+  localStorage.setItem("access-token", TOKEN);
+  localStorage.setItem("rum_uin", "layout-probe");
+}
+
+const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "META", "LINK", "TITLE", "NOSCRIPT", "TEMPLATE", "HEAD", "IFRAME"]);
+const SVG_INNER = new Set(["PATH", "G", "USE", "DEFS", "LINEARGRADIENT", "RECT", "CIRCLE", "POLYGON", "POLYLINE", "ELLIPSE"]);
+
+// 图标：旧页面是 <img class="middle" src=".../plus-white.svg">，新页面是 <svg class="middle tabler-icon ...">，
+// 两者量出来的尺寸一样，这里统一成同一个 key，避免每次都报「缺失 + 多出」
+function iconKey(el){
+  const cls = (el.getAttribute("class") || "").split(/\s+/);
+  return "ICON|" + (cls.includes("middle") ? "middle" : "");
+}
+
+function wait(ms){
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function runSteps(frame){
+  if (!STEPS.length) return;
+  const doc = frame.contentDocument;
+  for (const step of STEPS){
+    if (step.startsWith("click:")){
+      const target = doc.querySelector(step.slice(6));
+      if (target) target.click();
+    } else if (step.startsWith("type:")){
+      const eq = step.indexOf("=");
+      const target = doc.querySelector(step.slice(5, eq));
+      if (target){
+        target.value = step.slice(eq + 1);
+        target.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    } else if (step.startsWith("select:")){
+      const eq = step.indexOf("=");
+      const target = doc.querySelector(step.slice(7, eq));
+      if (target){
+        target.value = step.slice(eq + 1);
+        target.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+    await wait(800);   // 每一步之后给页面一点时间（数据请求/重渲染）
+  }
+  await wait(SETTLE);
+}
+
+async function loadFrame(url){
+  const frame = document.createElement("iframe");
+  frame.width = WIDTH;
+  frame.height = 900;
+  frame.src = url;
+  document.body.appendChild(frame);
+  await new Promise((resolve) => {
+    frame.onload = resolve;
+    setTimeout(resolve, 8000);   // 兜底：外链失败时也要继续
+  });
+  await wait(SETTLE);
+  await runSteps(frame);        // 新旧页面执行同一串交互
+  return frame;
+}
+
+function describe(el){
+  const cls = (el.getAttribute("class") || "").split(/\s+/).filter((c) => c && !c.startsWith("data-v-")).sort().join(".");
+  const text = (el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 30);
+  return [el.tagName, cls, text].filter(Boolean).join(" ");
+}
+
+function collect(frame){
+  const doc = frame.contentDocument;
+  const win = frame.contentWindow;
+  const keys = new Map();
+  const counter = new Map();
+  const els = [];
+
+  for (const el of doc.body.querySelectorAll("*")) {
+    if (SKIP_TAGS.has(el.tagName)) continue;
+    const tag = el.tagName.toUpperCase();               // SVG 元素的 tagName 是小写
+    if (SVG_INNER.has(tag)) continue;                   // svg 内部节点不参与比对
+    const isIcon = tag === "IMG" || tag === "SVG";
+    if (tag === "SVG" && !/tabler-icon/.test(el.getAttribute("class") || "")) continue;
+    if (el.id === "app") continue;                      // Vue 的挂载容器，旧页面没有
+    const cs = win.getComputedStyle(el);
+    if (cs.display === "none" || cs.visibility === "hidden") continue;
+    const rect = el.getBoundingClientRect();
+    if (rect.width === 0 && rect.height === 0) continue;   // 不可见的（含藏在 display:none 里的）不参与比对
+    const cls = (el.getAttribute("class") || "").split(/\s+/)
+      // gray：旧页面写 style="color:#777"，新版用 .gray，归一化（middle 保留：旧页面 icon_with_text 会多包一层 span）
+      .filter((c) => c && !c.startsWith("data-v-") && c !== "gray")
+      .sort().join(".");
+    // key = 标签 + class + placeholder (+ 可见子元素为 0 时的文字)，不含 id / type 等实现细节，
+    // 这样 <img class="middle"> 与 <svg class="middle tabler-icon">、有无 type="button" 都能配上
+    const visibleKids = Array.from(el.children).filter((k) => win.getComputedStyle(k).display !== "none");
+    const leafText = visibleKids.length === 0 ? (el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 16) : "";
+    const loose = isIcon ? iconKey(el)
+      : [tag, cls, el.getAttribute("placeholder") || "", leafText].join("|");
+    const seen = (counter.get(loose) || 0) + 1;
+    counter.set(loose, seen);
+    const key = loose + "#" + seen;
+    keys.set(el, key);
+    els.push({
+      key,
+      tag: el.tagName,
+      cls,
+      id: el.id || "",
+      text: (el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 30),
+      x: +rect.left.toFixed(1),
+      y: +rect.top.toFixed(1),
+      w: +rect.width.toFixed(1),
+      h: +rect.height.toFixed(1),
+      mt: cs.marginTop,
+      mb: cs.marginBottom,
+      ml: cs.marginLeft,
+      fs: cs.fontSize,
+      disp: cs.display
+    });
+  }
+
+  const gaps = [];
+  for (const el of doc.body.querySelectorAll("*")) {
+    if (SKIP_TAGS.has(el.tagName)) continue;
+    if (win.getComputedStyle(el).display === "none") continue;
+    const kids = Array.from(el.children).filter((k) => win.getComputedStyle(k).display !== "none");
+    for (let i = 0; i + 1 < kids.length; i++) {
+      const a = kids[i], b = kids[i + 1];
+      const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+      if (ra.width === 0 && ra.height === 0 && rb.width === 0 && rb.height === 0) continue;
+      const sameRow = !(ra.bottom <= rb.top || rb.bottom <= ra.top);
+      const gap = sameRow ? (rb.left - ra.right) : (rb.top - ra.bottom);
+      gaps.push({
+        parent: keys.get(el) || describe(el),
+        i,
+        dir: sameRow ? "h" : "v",
+        gap: +gap.toFixed(1),
+        a: describe(a),
+        b: describe(b)
+      });
+    }
+  }
+
+  const styles = {};
+  for (const e of els) styles[e.key] = e.mt + "|" + e.mb + "|" + e.ml + "|" + e.fs + "|" + e.disp;
+  return { els, gaps, styles };
+}
+
+function diff(oldSig, newSig, tol){
+  const problems = { missing: [], extra: [], rect: [], gap: [], style: [] };
+  const oldByKey = new Map(oldSig.els.map((e) => [e.key, e]));
+  const newByKey = new Map(newSig.els.map((e) => [e.key, e]));
+
+  for (const o of oldSig.els) {
+    const n = newByKey.get(o.key);
+    if (!n) {
+      problems.missing.push({ key: o.key, text: o.text, rect: [o.x, o.y, o.w, o.h] });
+      continue;
+    }
+    const dx = +(n.x - o.x).toFixed(1);
+    const dy = +(n.y - o.y).toFixed(1);
+    const dw = +(n.w - o.w).toFixed(1);
+    const dh = +(n.h - o.h).toFixed(1);
+    const worst = Math.max(Math.abs(dx), Math.abs(dy), Math.abs(dw), Math.abs(dh));
+    if (worst > tol) {
+      problems.rect.push({ key: o.key, text: o.text, dx, dy, dw, dh, old: [o.x, o.y, o.w, o.h], now: [n.x, n.y, n.w, n.h], worst });
+      // 只有当 rect 确实变了，才顺带报告是不是外边距/字号/display 造成的
+      if (oldSig.styles[o.key] !== newSig.styles[o.key]) {
+        problems.style.push({ key: o.key, text: o.text, old: oldSig.styles[o.key], now: newSig.styles[o.key] });
+      }
+    }
+  }
+  for (const n of newSig.els) {
+    if (!oldByKey.has(n.key)) problems.extra.push({ key: n.key, text: n.text, rect: [n.x, n.y, n.w, n.h] });
+  }
+
+  const newGaps = new Map(newSig.gaps.map((g) => [g.parent + "#" + g.i, g]));
+  for (const g of oldSig.gaps) {
+    const n = newGaps.get(g.parent + "#" + g.i);
+    if (!n) continue;
+    if (g.dir !== n.dir) {
+      problems.gap.push({ parent: g.parent, i: g.i, dir: g.dir + "→" + n.dir, old: g.gap, now: n.gap, diff: null, a: g.a, b: g.b });
+      continue;
+    }
+    const d = +(n.gap - g.gap).toFixed(1);
+    if (Math.abs(d) > tol) {
+      problems.gap.push({ parent: g.parent, i: g.i, dir: g.dir, old: g.gap, now: n.gap, diff: d, a: g.a, b: g.b });
+    }
+  }
+  problems.rect.sort((a, b) => b.worst - a.worst);
+  problems.gap.sort((a, b) => Math.abs(b.diff || 99) - Math.abs(a.diff || 99));
+  return problems;
+}
+
+(async () => {
+  const out = document.getElementById("out");
+  try {
+    const oldFrame = await loadFrame(OLD_URL);
+    const newFrame = await loadFrame(NEW_URL);
+    const oldSig = collect(oldFrame);
+    const newSig = collect(newFrame);
+    const problems = diff(oldSig, newSig, TOL);
+    const result = {
+      status: "done",
+      old_url: OLD_URL,
+      new_url: NEW_URL,
+      old_href: oldFrame.contentWindow.location.href,
+      new_href: newFrame.contentWindow.location.href,
+      old_els: oldSig.els.length,
+      width: WIDTH,
+      tol: TOL,
+      old_el_count: oldSig.els.length,
+      new_el_count: newSig.els.length,
+      old_gap_count: oldSig.gaps.length,
+      new_gap_count: newSig.gaps.length,
+      counts: {
+        missing: problems.missing.length,
+        extra: problems.extra.length,
+        rect: problems.rect.length,
+        gap: problems.gap.length,
+        style: problems.style.length
+      },
+      missing: problems.missing.slice(0, 40),
+      extra: problems.extra.slice(0, 40),
+      rect: problems.rect.slice(0, 40),
+      gap: problems.gap.slice(0, 60),
+      style: problems.style.slice(0, 40)
+    };
+    out.textContent = JSON.stringify(result);
+  } catch (err) {
+    out.textContent = JSON.stringify({ status: "error", message: String(err && err.message || err) });
+  }
+})();
+</script>
+</body>
+</html>

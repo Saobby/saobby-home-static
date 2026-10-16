@@ -18,6 +18,7 @@ const notificationsPageUrl = import.meta.env.VITE_NOTIFICATIONS_PAGE_URL;
 const setAvatarPageUrl = import.meta.env.VITE_SET_AVATAR_PAGE_URL;
 const bindEmailPageUrl = import.meta.env.VITE_BIND_EMAIL_PAGE_URL;
 const createVotePageUrl = import.meta.env.VITE_CREATE_VOTE_PAGE_URL;
+const webCounterPageUrl = import.meta.env.VITE_WEBCOUNTER_PAGE_URL;
 
 const commentPlaceId = ref(114514);
 const commentOnly = ref(false);
@@ -97,7 +98,7 @@ onMounted(async () => {
                     <div class="wux-card-body">
                         <h2 class="mc2"><IconTool width="32px" height="32px"/><span>工具集</span></h2>
                         <ul>
-                            <li><a href="/webcounter" target="_blank">[Beta] 网站访问量统计工具</a></li>
+                            <li><a :href="webCounterPageUrl" target="_blank">[Beta] 网站访问量统计工具</a></li>
                             <li><a href="/midi2scratch" target="_blank">在Scratch中演奏Midi (新)</a></li>
                             <li><a href="https://saobby.pythonanywhere.com/image_cutter" target="_blank">宫格图制作</a></li>
                             <li><a href="https://github.com/Saobby/SaobbyCAPTCHA-V3" target="_blank">Saobby人机验证-V3</a></li>

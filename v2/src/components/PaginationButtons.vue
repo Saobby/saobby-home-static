@@ -6,6 +6,8 @@
     pageAmount: Number,
     btnAmount: Number,  // 必须为奇数
     disabled: {type: Boolean, default: false},
+    // 追加到根 div 的 class（旧页面的分页容器带 mt），省掉页面里再包一层 div
+    groupClass: {type: String, default: ""},
   });
   const emit = defineEmits(["changePage"]);
   const indexes = computed(() => {
@@ -39,7 +41,7 @@
 </script>
 
 <template>
-  <div class="wux-btn-group">
+  <div class="wux-btn-group" :class="groupClass">
     <button v-for="item in indexes" :class="item.index==pageIndex?'wux-btn':'wux-btn wux-btn-outline'" @click="emit('changePage', item.index)" :disabled="disabled">
       {{ item.display }}
     </button>
