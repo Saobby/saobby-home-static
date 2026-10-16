@@ -24,7 +24,7 @@ onBeforeUnmount(()=>clearTimeout(timer));
 </script>
 
 <template>
-    <button type="button" @click="copy()" :disabled="copied"><IconCopy width="16px" height="16px" class="middle"/><span class="middle">{{ copied? "已复制": label }}</span></button>
+    <button type="button" @click="copy()" :disabled="copied"><IconCopy v-if="!copied" width="16px" height="16px" class="middle"/><span class="middle">{{ copied? "已复制": label }}</span></button>
 </template>
 
 <style scoped>
