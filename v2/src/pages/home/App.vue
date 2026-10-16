@@ -17,6 +17,7 @@ const createPostPageUrl = import.meta.env.VITE_CREATE_POST_PAGE_URL;
 const notificationsPageUrl = import.meta.env.VITE_NOTIFICATIONS_PAGE_URL;
 const setAvatarPageUrl = import.meta.env.VITE_SET_AVATAR_PAGE_URL;
 const bindEmailPageUrl = import.meta.env.VITE_BIND_EMAIL_PAGE_URL;
+const createVotePageUrl = import.meta.env.VITE_CREATE_VOTE_PAGE_URL;
 
 const commentPlaceId = ref(114514);
 const commentOnly = ref(false);
@@ -102,7 +103,7 @@ onMounted(async () => {
                             <li><a href="https://github.com/Saobby/SaobbyCAPTCHA-V3" target="_blank">Saobby人机验证-V3</a></li>
                             <li><a href="https://40code.com/#page=work&id=2604" target="_blank">Scratch云变量服务</a>(接口正常,演示作品暂不可用)</li>
                             <li><a href="/upload_file" target="_blank">图床/网盘</a></li>
-                            <li><a href="/create_vote" target="_blank">Markdown实现投票功能</a></li>
+                            <li><a :href="createVotePageUrl" target="_blank">Markdown实现投票功能</a></li>
                             <li><a href="/bvdlp" target="_blank">B站视频直链解析工具</a></li>
                             <li><a href="/midishow" target="_blank">[Beta] Midishow 网站 MIDI 快速下载机</a></li>
                             <li><a href="/connector" target="_blank">[Beta] 多设备图文互传</a></li>
