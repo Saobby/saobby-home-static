@@ -4,6 +4,7 @@ import { fetch_api } from '@/assets/js/util.js';
 import { captcha } from '@/assets/js/captcha.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import CopyButton from '@/components/CopyButton.vue';
+import TextareaDisplayWithCopy from '@/components/TextareaDisplayWithCopy.vue';
 import {
     IconCheck, IconExternalLink, IconHelp, IconLogin2,
     IconPalette, IconPhoto, IconRefresh, IconTypography
@@ -159,10 +160,8 @@ function login(){
                         <div class="wux-card wux-card-hover">
                             <div class="wux-card-body">
                                 <span>将下面的图片放置在<b>需要计数的网页</b>:</span>
-                                <textarea class="wux-form-input wux-form-input-md mt" readonly :value="markdownCode"></textarea>
-                                <CopyButton :value="markdownCode" label="复制 Markdown 代码" class="wux-btn wux-btn-primary"/>
-                                <textarea class="wux-form-input wux-form-input-md mt" readonly :value="htmlCode"></textarea>
-                                <CopyButton :value="htmlCode" label="复制 HTML 代码" class="wux-btn wux-btn-primary"/>
+                                <TextareaDisplayWithCopy :value="markdownCode" label="复制 Markdown 代码" textarea-class="wux-form-input wux-form-input-md mt"/>
+                                <TextareaDisplayWithCopy :value="htmlCode" label="复制 HTML 代码" textarea-class="wux-form-input wux-form-input-md mt"/>
                             </div>
                         </div>
                     </div>

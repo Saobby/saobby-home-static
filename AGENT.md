@@ -315,8 +315,8 @@ grep -rn '"/create_vote"\|"/create_vote/"' v2/src    # 应该没有输出
    - `CommentsSection` / `CommentsList` / `AddCommentInput` / `EditCommentInput`：评论区
    - `PaginationButtons`、`RelativeTime`、`TagsDisplay`/`TagSelect`/`TagEdit`、
      `Dialog`/`PopupBackdrop`、`ClickToCopy`/`TextDisplayWithCopy`、`EmotionsBar`、`Folder`
-   - `TextDisplayWithCopy`（输入框 + 复制按钮）、`CopyButton`（只有按钮）：复制一律用这两个组件，别再造第三个，见 8.18；
-     `ClickToCopy` 是只有图标按钮的轻量版（首页联系方式）
+   - `TextDisplayWithCopy`（输入框 + 复制按钮）、`TextareaDisplayWithCopy`（多行版）、`CopyButton`（只有按钮）：
+     复制一律用这三个组件，别再造第四个，见 8.18；`ClickToCopy` 是只有图标按钮的轻量版（首页联系方式）
 5. **多个页面属于同一个应用时，共享逻辑放 `v2/src/assets/js/<app>.js`**。例：`webcounter`（网页计数器）有 4 个
    页面，就把它们的 API 域名、图片/Markdown 代码生成、控制面板 URL 等放进 `v2/src/assets/js/webcounter.js`，
    4 个页面都从这里 import，不要在页面里各写一份。
@@ -412,8 +412,9 @@ select 和按钮贴在一起」这类问题。
 还要抽、但暂时没抽的（2026-10 审计结果，动手前先确认要动的页面布局仍是 0）：
 - `localStorage.getItem("access-token")` 的判断散在 9 个文件里（`post/App.vue` 一个文件就 6 次）→ 可以抽成
   `isLoggedIn()` 之类的工具函数；
-- `create_webcounter` 和 `webcounter_dashboard/SettingsTab` 各有一份「放置计数器」代码块（markdown / HTML /
-  API 地址 + 复制按钮）→ 可抽 `CounterEmbedCodes.vue`（两边容器结构不同，需要留 slot）；
+- `create_webcounter` 和 `webcounter_dashboard/SettingsTab` 各有一份「放置计数器」卡片（markdown / HTML / API
+  地址 + 复制按钮）→ 展示+复制已分别由 `TextareaDisplayWithCopy` / `CopyButton` 负责，剩下的只是外层卡片骨架，
+  真要合并再抽 `CounterEmbedCodes.vue`；
 - 面包屑 + `wux-container` 骨架每个页面抄一遍 → 可以做成 `PageShell`，但各页面边距/顺序有细微差别，收益不大，
   先保持现状；
 - `ClickToCopy`（首页那个图标按钮）与 `CopyButton` 的「复制 + 状态切换」逻辑重复 → 可以共用一个小 composable。
@@ -568,31 +569,34 @@ grep -rn "change_page_buttons" . --exclude-dir=node_modules --exclude-dir=.git -
 
 见第 9.1 节。**每次重写完一个页面都应该跑一遍**：它是唯一能发现「间距/外边距/顺序」这类问题的自动化手段。
 
-### 8.18 复制一律用组件：`TextDisplayWithCopy` / `CopyButton`
+### 8.18 复制一律用组件：`CopyButton` + 两个 Display 组件
 
-两个现成组件，别再造第三个，也别再在页面里手写复制逻辑：
+`CopyButton` 是唯一的复制按钮实现（复制 + `disabled` + 文案变「已复制」，各实例各管各的状态）；
+两个「展示框 + 复制」组件都把它包在里面，页面只管用：
 
-| 组件 | 长什么样 | 什么时候用 |
+| 组件 | 组成 | 什么时候用 |
 |---|---|---|
-| `@/components/TextDisplayWithCopy.vue` | `<input readonly>` + 复制按钮；props：`value` / `placeholder`（默认空，空时不渲染该属性）/ `inputClass` / `inputStyle` | 要复制的内容**就显示在它那个输入框里**（`music` 系列、`upload_file`） |
-| `@/components/CopyButton.vue` | 只有一个按钮；props `value` / `label`，`class`/`style` 由使用方传（自动合并到 `<button>` 上） | 要复制的东西在别处：旁边的 `<textarea>` / `<code>` / 渲染出来的链接（`bvdlp`、`create_vote`、`create_webcounter`、`webcounter_dashboard`） |
+| `@/components/CopyButton.vue` | 只有一个按钮（等 `copyToClipboard` 的返回值：成功→「已复制」、失败→「失败」；同时隐藏图标、`disabled` 1 秒）；props `value` / `label`，`class`/`style` 由使用方传（自动合并到 `<button>` 上） | 要复制的东西在别处：旁边的 `<code>` / 渲染出来的链接（`bvdlp`、`create_vote`、`create_webcounter`、`webcounter_dashboard`） |
+| `@/components/TextDisplayWithCopy.vue` | `<input readonly>` + `CopyButton`；props：`value` / `placeholder` / `inputClass` / `inputStyle` | 要复制的内容**就显示在它那个单行输入框里**（`music/components/MusicDetail`、`upload_file`） |
+| `@/components/TextareaDisplayWithCopy.vue` | `<textarea readonly>` + `CopyButton`；props：`value` / `placeholder` / `rows` / `textareaClass` / `textareaStyle` / `label` / `btnClass` | 同上，但要展示的是多行内容（`create_webcounter` 的 markdown / HTML 代码） |
 
 ```html
-<!-- upload_file：只传它支持的 props，别为了按钮样式去改组件（见 3.4） -->
+<!-- upload_file -->
 <TextDisplayWithCopy :value="fileUrl" placeholder="文件链接会显示在这里" input-style="width: calc( 100% - 90px );display: inline-block;"/>
-<!-- 复制的内容在旁边的 textarea / code 里：单独用按钮组件 -->
-<CopyButton :value="markdownCode" label="复制 Markdown 代码" class="wux-btn wux-btn-primary"/>
+<!-- create_webcounter：textarea 那个；按钮 class 用默认值 wux-btn wux-btn-primary -->
+<TextareaDisplayWithCopy :value="markdownCode" label="复制 Markdown 代码" textarea-class="wux-form-input wux-form-input-md mt"/>
 ```
 
-- **每个复制点一个实例**：组件内部的「已复制」状态是实例自己的（1 秒后复原），几个按钮互不影响。
-  ❌ 不要再写 `copyText(text, key)` + 页面级 `copied` + `copyTimers` 那一套（按钮之间会互相干扰，而且每个页面
-  都要抄一遍）。
-- 复制成功后显示什么、图标消不消失：**不跟旧页面逐字对齐**（见 3.4）。旧版是 `copy_text()` → `set_btn_html(btn,
-  "已复制")`（纯文本 + `disabled` 1 秒），v2 统一成「图标保留 + 文案变 `OK!`/`已复制` + `disabled` 1 秒」，
-  这点差异不影响布局，不管。
+- **每个复制点一个实例**：状态是实例自己的（1 秒后复原），几个按钮互不影响。❌ 不要再写 `copyText(text, key)` +
+  页面级 `copied` + `copyTimers` 那一套（按钮之间会互相干扰，而且每个页面都要抄一遍）。
+- `placeholder` / `label` / `btnClass` 这类是**页面需要**才加 props；复制后显示什么、图标消不消失、按钮是哪种
+  class **不跟旧页面逐字对齐**（见 3.4）——`TextDisplayWithCopy` 早先显示的是 `OK!`，改成复用 `CopyButton` 后统一成
+  「已复制」，这种差异不管。
+- **可编辑的 textarea 不进 `TextareaDisplayWithCopy`**（它是「只读展示 + 复制」的单一语义）：比如
+  `create_vote` 那个生成 Markdown 的框用户可以改，就保持页面内联 `<textarea v-model>` + 一个 `CopyButton`，
+  别为它给组件加 `v-model`/`editable`。
 - 这个瞬时态可以用布局工具测：`["click:button:nth-of-type(2)@20", "settle:80"]`（见 9.1）。
-- 改**共享组件**（这两个）属于「改全局」：能不改就不改；真要改，改完按 9.2 对 `music` 等页面做一次
-  `--baseline-dist` 自比对。
+- 改这几个共享组件属于「改全局」：能不改就不改；真要改，改完按 9.2 对 `music` 等页面做一次 `--baseline-dist` 自比对。
 
 
 ---
@@ -672,7 +676,7 @@ python3 tools/layout-diff/layout_diff.py --pages webcounter_dashboard --top 30 -
 | `webcounter_dashboard` | 0 | 点「设置」= 0；点「日志查询」只剩分页结构差异 + 页码 6.6px |
 | `my_webcounters` | 只剩结构差异（旧页 icon 外层 span + 分页）+ 页码 6.6px | — |
 | `bvdlp` | 只剩结构差异 1 项（旧页面里那个空的验证码容器 `#scpc-v2`） | 空链接解析（错误态）也是 1 |
-| `upload_file` | 结构差异 8/5（旧页 button 是 `wux-btn-primary` + `img/span`，组件是 `mc simple` + svg + 裸文本）+ **2 处 -6.6px 间距**（复用 `TextDisplayWithCopy` 的代价：组件模板里 input 和 button 之间是换行、会被 Vue 吃掉，旧页面那里是一个空格；位置/尺寸、样式都是 0，见 3.4 的例外） | 未选文件就上传、点复制（按钮 `disabled` + `OK!` 瞬时态）= 同上 |
+| `upload_file` | 结构差异 4/3（只剩按钮 class：旧页 `wux-btn-primary`、组件 `mc simple`（inline-flex，会让里面图标/文字的基线差 1.5~2px）+ 旧页面那个空 `#scpc-v2` 容器）+ 位置/尺寸 4、样式 4（就是那个 `mc` 带来的：svg 的 `display`、`span` 的高度差 ~2px）+ **2 处 -6.6px 间距**（组件模板里 input 和 button 之间是换行、会被 Vue 吃掉，旧页面那里是一个空格；见 3.4 的例外） | 未选文件就上传 = 同上；点复制 = 4/4/2/2/2（图标隐藏 + `已复制`/`失败` 的瞬时态）。⚠️ 工具的无头环境里剪贴板会被拒，所以那一格看到的是 `失败`；旧页面不检查返回值、永远显示 `已复制`——这是测量环境差异，不是 bug |
 | `create_vote` | 结构差异 4/3 + 31 处位置差（更早那次重写留下的取色器/分页问题，本次没动） | 添加选项 = 同上 |
 | `set_avatar`、`bind_email` | 只剩 `mc`（inline-flex）按钮带来的 ~5px 基线差异 | — |
 
