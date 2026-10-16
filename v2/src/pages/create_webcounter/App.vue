@@ -1,10 +1,11 @@
 <script setup lang="js">
-import { computed, onBeforeUnmount, ref } from 'vue';
-import { copyToClipboard, fetch_api } from '@/assets/js/util.js';
+import { computed, ref } from 'vue';
+import { fetch_api } from '@/assets/js/util.js';
 import { captcha } from '@/assets/js/captcha.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
+import CopyButton from '@/components/CopyButton.vue';
 import {
-    IconCheck, IconCopy, IconExternalLink, IconHelp, IconLogin2,
+    IconCheck, IconExternalLink, IconHelp, IconLogin2,
     IconPalette, IconPhoto, IconRefresh, IconTypography
 } from '@tabler/icons-vue';
 import {
@@ -28,9 +29,6 @@ const backgroundColor = ref("#ffffff");
 const creating = ref(false);
 const result = ref("");
 const created = ref(null);
-const copied = ref("");
-
-let copyTimer = null;
 
 const markdownCode = computed(() => created.value ? getCounterMarkdownCode(created.value.counter_id) : "");
 const htmlCode = computed(() => created.value ? getCounterHtmlCode(created.value.counter_id) : "");
@@ -88,16 +86,6 @@ function login(){
     window.location = loginPageUrl;
 }
 
-async function copyText(text, key){
-    await copyToClipboard(text);
-    copied.value = key;
-    clearTimeout(copyTimer);
-    copyTimer = setTimeout(() => {
-        copied.value = "";
-    }, 1000);
-}
-
-onBeforeUnmount(() => clearTimeout(copyTimer));
 </script>
 
 <template>
@@ -172,9 +160,9 @@ onBeforeUnmount(() => clearTimeout(copyTimer));
                             <div class="wux-card-body">
                                 <span>将下面的图片放置在<b>需要计数的网页</b>:</span>
                                 <textarea class="wux-form-input wux-form-input-md mt" readonly :value="markdownCode"></textarea>
-                                <button type="button" class="wux-btn wux-btn-primary" @click="copyText(markdownCode, 'markdown')"><IconCopy width="16px" height="16px" class="middle"/><span class="middle">{{ copied === "markdown"? "已复制": "复制 Markdown 代码" }}</span></button>
+                                <CopyButton :value="markdownCode" label="复制 Markdown 代码" class="wux-btn wux-btn-primary"/>
                                 <textarea class="wux-form-input wux-form-input-md mt" readonly :value="htmlCode"></textarea>
-                                <button type="button" class="wux-btn wux-btn-primary" @click="copyText(htmlCode, 'html')"><IconCopy width="16px" height="16px" class="middle"/><span class="middle">{{ copied === "html"? "已复制": "复制 HTML 代码" }}</span></button>
+                                <CopyButton :value="htmlCode" label="复制 HTML 代码" class="wux-btn wux-btn-primary"/>
                             </div>
                         </div>
                     </div>
@@ -186,7 +174,7 @@ onBeforeUnmount(() => clearTimeout(copyTimer));
                                         <b>计数器 ID:</b>
                                     </div>
                                     <div class="wux-col">
-                                        <button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right" @click="copyText(created.counter_id, 'counter-id')"><IconCopy width="16px" height="16px" class="middle"/><span class="middle">{{ copied === "counter-id"? "已复制": "复制" }}</span></button><code class="right">{{ created.counter_id }}</code>
+                                        <CopyButton :value="created.counter_id" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right"/><code class="right">{{ created.counter_id }}</code>
                                     </div>
                                 </div>
                                 <div class="wux-row-xs-2">
@@ -194,7 +182,7 @@ onBeforeUnmount(() => clearTimeout(copyTimer));
                                         <b>控制面板访问密钥:</b>
                                     </div>
                                     <div class="wux-col">
-                                        <button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right" @click="copyText(created.access_token, 'access-token')"><IconCopy width="16px" height="16px" class="middle"/><span class="middle">{{ copied === "access-token"? "已复制": "复制" }}</span></button><code class="right">{{ created.access_token }}</code>
+                                        <CopyButton :value="created.access_token" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right"/><code class="right">{{ created.access_token }}</code>
                                     </div>
                                 </div>
                                 <a :href="dashboardUrl" target="_blank"><button type="button" class="wux-btn wux-btn-primary"><IconExternalLink width="16px" height="16px" class="middle"/><span class="middle">打开控制面板</span></button></a> <button type="button" class="wux-btn wux-btn-primary wux-btn-outline" @click="reset()"><IconRefresh width="16px" height="16px" class="middle"/><span class="middle">再创建一个</span></button><br>

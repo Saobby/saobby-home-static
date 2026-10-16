@@ -45,31 +45,42 @@ function wait(ms){
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// 步骤可以带 "@<毫秒>" 后缀，改「这一步之后等多久」（默认 800ms）；
+// 步骤 "settle:<毫秒>" 用来改「所有步骤跑完后、正式测量前」的等待（默认 SETTLE）——
+// 测「只显示 1 秒」的瞬时态（例如点复制后的“已复制”+ disabled）时，要把它调小。
 async function runSteps(frame){
   if (!STEPS.length) return;
   const doc = frame.contentDocument;
+  let finalSettle = SETTLE;
   for (const step of STEPS){
-    if (step.startsWith("click:")){
-      const target = doc.querySelector(step.slice(6));
+    const at = step.lastIndexOf("@");
+    const cmd = at === -1 ? step : step.slice(0, at);
+    const post = at === -1 ? 800 : (parseInt(step.slice(at + 1), 10) || 0);
+    if (cmd.startsWith("settle:")){
+      finalSettle = parseInt(cmd.slice(7), 10) || 0;
+      continue;
+    }
+    if (cmd.startsWith("click:")){
+      const target = doc.querySelector(cmd.slice(6));
       if (target) target.click();
-    } else if (step.startsWith("type:")){
-      const eq = step.indexOf("=");
-      const target = doc.querySelector(step.slice(5, eq));
+    } else if (cmd.startsWith("type:")){
+      const eq = cmd.indexOf("=");
+      const target = doc.querySelector(cmd.slice(5, eq));
       if (target){
-        target.value = step.slice(eq + 1);
+        target.value = cmd.slice(eq + 1);
         target.dispatchEvent(new Event("input", { bubbles: true }));
       }
-    } else if (step.startsWith("select:")){
-      const eq = step.indexOf("=");
-      const target = doc.querySelector(step.slice(7, eq));
+    } else if (cmd.startsWith("select:")){
+      const eq = cmd.indexOf("=");
+      const target = doc.querySelector(cmd.slice(7, eq));
       if (target){
-        target.value = step.slice(eq + 1);
+        target.value = cmd.slice(eq + 1);
         target.dispatchEvent(new Event("change", { bubbles: true }));
       }
     }
-    await wait(800);   // 每一步之后给页面一点时间（数据请求/重渲染）
+    await wait(post);   // 每一步之后给页面一点时间（数据请求/重渲染）
   }
-  await wait(SETTLE);
+  await wait(finalSettle);
 }
 
 async function loadFrame(url){
@@ -83,8 +94,15 @@ async function loadFrame(url){
     setTimeout(resolve, 8000);   // 兜底：外链失败时也要继续
   });
   await wait(SETTLE);
-  await runSteps(frame);        // 新旧页面执行同一串交互
   return frame;
+}
+
+// 跑交互 + 立刻采集：两个 iframe 都加载完（都 settle 过）之后才分别「跑步骤 → 马上量」，
+// 这样「点完最后一步到测量」的间隔在两侧完全一致。
+// （否则旧页面先跑完步骤、要等新页面加载完才统一测量，像“已复制”这种只停 1 秒的瞬时态就量不到了。）
+async function stepAndCollect(frame){
+  await runSteps(frame);        // 新旧页面执行同一串交互
+  return collect(frame);
 }
 
 function describe(el){
@@ -221,8 +239,8 @@ function diff(oldSig, newSig, tol){
   try {
     const oldFrame = await loadFrame(OLD_URL);
     const newFrame = await loadFrame(NEW_URL);
-    const oldSig = collect(oldFrame);
-    const newSig = collect(newFrame);
+    const oldSig = await stepAndCollect(oldFrame);
+    const newSig = await stepAndCollect(newFrame);
     const problems = diff(oldSig, newSig, TOL);
     const result = {
       status: "done",

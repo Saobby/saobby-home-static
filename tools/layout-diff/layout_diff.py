@@ -54,7 +54,8 @@ LEGACY_PATH = {
 # 页面名 -> 需要「已登录」态（带上假的 access_token）
 NEED_TOKEN = {"my_webcounters", "webcounter_dashboard", "user_config", "set_avatar", "bind_email", "notifications", "create_post"}
 # 每个页面的「交互状态」：一个状态 = 一串步骤（默认的「什么都不点」状态会自动先跑一遍）。
-# 步骤语法见 probe.html：click:<css> / type:<css>=<值> / select:<css>=<值> / wait
+# 步骤语法见 probe.html：click:<css> / type:<css>=<值> / select:<css>=<值>
+#   步骤可以带 "@<毫秒>" 后缀改「这一步之后等多久」；步骤 settle:<毫秒> 改「测量前的等待」
 STATES = {
     "login": [
         ["type:input[placeholder=用户名]=probe-user", "type:input[placeholder=密码]=probe-pass", "click:button"],
@@ -87,6 +88,14 @@ STATES = {
     ],
     "create_vote": [
         ["click:button.label"],                              # 添加一个选项
+    ],
+    "upload_file": [
+        ["click:button"],                                    # 未选文件就上传 → 提示
+        # 点第一个复制按钮 → 按钮禁用、文案变「OK!」（只停 1 秒，所以测量前的等待要调小）
+        ["click:button:nth-of-type(2)@20", "settle:80"],
+    ],
+    "bvdlp": [
+        ["click:button"],                                    # 空链接解析 → 错误态
     ],
 }
 

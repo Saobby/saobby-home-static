@@ -1,8 +1,9 @@
 <script setup lang="js">
-import { computed, onBeforeUnmount, ref } from 'vue';
-import { copyToClipboard, fetch_api } from '@/assets/js/util.js';
+import { computed, ref } from 'vue';
+import { fetch_api } from '@/assets/js/util.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
-import { IconCheck, IconCopy, IconHelp, IconKey, IconPalette, IconPhoto, IconTypography } from '@tabler/icons-vue';
+import CopyButton from '@/components/CopyButton.vue';
+import { IconCheck, IconHelp, IconKey, IconPalette, IconPhoto, IconTypography } from '@tabler/icons-vue';
 import { getCounterApiUrl, getCounterHtmlCode, getCounterMarkdownCode } from '@/assets/js/webcounter.js';
 
 const props = defineProps({
@@ -21,9 +22,6 @@ const description = ref("");
 const loading = ref(false);
 const saving = ref(false);
 const result = ref("");
-const copied = ref("");
-
-let copyTimer = null;
 
 const markdownCode = computed(() => settings.value ? getCounterMarkdownCode(settings.value.counter_id) : "");
 const htmlCode = computed(() => settings.value ? getCounterHtmlCode(settings.value.counter_id) : "");
@@ -68,18 +66,7 @@ async function saveSettings(){
     result.value = "设置已保存";
 }
 
-async function copyText(text, key){
-    await copyToClipboard(text);
-    copied.value = key;
-    clearTimeout(copyTimer);
-    copyTimer = setTimeout(() => {
-        copied.value = "";
-    }, 1000);
-}
-
 defineExpose({ loadSettings });
-
-onBeforeUnmount(() => clearTimeout(copyTimer));
 </script>
 
 <template>
@@ -88,7 +75,7 @@ onBeforeUnmount(() => clearTimeout(copyTimer));
         <div class="wux-col">
             <div class="wux-card wux-card-hover">
                 <div class="wux-card-body">
-                    <b><IconKey width="16px" height="16px" class="middle"/><span class="middle">控制面板访问密钥: </span></b><span style="display: inline-block;"><code>{{ settings? settings.access_token: "" }}<span class="wux-loading" v-if="!settings"></span></code><button type="button" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple" @click="copyText(settings? settings.access_token: '', 'access-token')"><IconCopy width="16px" height="16px" class="middle"/><span class="middle">{{ copied === "access-token"? "已复制": "复制" }}</span></button></span>
+                    <b><IconKey width="16px" height="16px" class="middle"/><span class="middle">控制面板访问密钥: </span></b><span style="display: inline-block;"><code>{{ settings? settings.access_token: "" }}<span class="wux-loading" v-if="!settings"></span></code><CopyButton :value="settings? settings.access_token: ''" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple"/></span>
                     <input type="text" v-model="description" class="wux-form-input wux-form-input-md mb right" placeholder="备注" style="width: 150px;" :disabled="loading || saving">
                 </div>
             </div>
@@ -101,9 +88,9 @@ onBeforeUnmount(() => clearTimeout(copyTimer));
                     <h2 class="thin">放置计数器</h2>
                     <span>将下面的图片放置在<b>需要计数的网页</b>:</span>
                     <input :value="markdownCode" class="wux-form-input wux-form-input-md" readonly>
-                    <button type="button" class="wux-btn wux-btn-primary" @click="copyText(markdownCode, 'markdown')"><IconCopy width="16px" height="16px" class="middle"/><span class="middle">{{ copied === "markdown"? "已复制": "复制 Markdown 代码" }}</span></button>
+                    <CopyButton :value="markdownCode" label="复制 Markdown 代码" class="wux-btn wux-btn-primary"/>
                     <input :value="htmlCode" class="wux-form-input wux-form-input-md" readonly>
-                    <button type="button" class="wux-btn wux-btn-primary" @click="copyText(htmlCode, 'html')"><IconCopy width="16px" height="16px" class="middle"/><span class="middle">{{ copied === "html"? "已复制": "复制 HTML 代码" }}</span></button><br>
+                    <CopyButton :value="htmlCode" label="复制 HTML 代码" class="wux-btn wux-btn-primary"/><br>
                     <hr>
                     <span><b>或者</b>在用户打开要计数的页面时，通过 JS 发送一个 GET 请求。响应的 JSON 中将包含访问量和 IP 数。<code>(图片和 API 选一个使用即可)</code></span>
                     <input :value="apiUrl" class="wux-form-input wux-form-input-md" readonly>

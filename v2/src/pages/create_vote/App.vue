@@ -1,9 +1,10 @@
 <script setup lang="js">
-import { onBeforeUnmount, ref } from 'vue';
-import { copyToClipboard, fetch_api } from '@/assets/js/util.js';
+import { ref } from 'vue';
+import { fetch_api } from '@/assets/js/util.js';
 import { captcha } from '@/assets/js/captcha.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
-import { IconPlus, IconTrash, IconCopy } from '@tabler/icons-vue';
+import CopyButton from '@/components/CopyButton.vue';
+import { IconPlus, IconTrash } from '@tabler/icons-vue';
 
 const voteDomain = import.meta.env.VITE_VOTE_API_DOMAIN;
 const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
@@ -18,14 +19,11 @@ const fontColor = ref("#000000");
 const markdown = ref("");
 const result = ref("");
 const creating = ref(false);
-const copied = ref(false);
 
 const colorInputRef = ref(null);
 const colorR = ref(0);
 const colorG = ref(0);
 const colorB = ref(0);
-
-let copyTimer = null;
 
 function addOption(){
     options.value.push("");
@@ -101,17 +99,6 @@ async function submit(){
     markdown.value = generatedMarkdown;
     creating.value = false;
 }
-
-async function copyMarkdown(){
-    await copyToClipboard(markdown.value);
-    copied.value = true;
-    clearTimeout(copyTimer);
-    copyTimer = setTimeout(() => {
-        copied.value = false;
-    }, 1000);
-}
-
-onBeforeUnmount(() => clearTimeout(copyTimer));
 </script>
 
 <template>
@@ -162,7 +149,7 @@ onBeforeUnmount(() => clearTimeout(copyTimer));
             <BtnWithLoading btn-class="wux-btn-primary label" :is-loading="creating" @click="submit()">创建投票</BtnWithLoading>
             <span id="result" class="result sep">{{ result }}</span>
             <textarea class="wux-form-input wux-form-input-md label" id="markdown" rows="5" placeholder="生成的Markdown会显示在这里" v-model="markdown"></textarea>
-            <button class="wux-btn wux-btn-primary label" type="button" :disabled="copied" @click="copyMarkdown()"><IconCopy width="16px" height="16px" class="middle"/><span class="middle">{{ copied? "已复制": "复制Markdown" }}</span></button>
+            <CopyButton :value="markdown" label="复制Markdown" class="wux-btn wux-btn-primary label"/>
         </div>
     </div>
 </template>

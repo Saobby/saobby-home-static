@@ -22,10 +22,11 @@
     └── .env.production / .env.development                 环境变量
 ```
 
-页面清单（`v2/src/pages/`）：`home`、`login`、`register`、`posts`、`post`、`create_post`、`notifications`、
-`music`、`share_music`、`about_music`、`embed_music`、`connector`、`user_config`、`set_avatar`、`bind_email`、`create_vote`。
-根目录还存在的文件夹（`webcounter`、`midi2scratch`、`create_webcounter`、`my_webcounters`、`upload_file`、`bvdlp`、
-`midishow`、`admin`、`bind_aerfaying`、`ccw`、`webcounter_dashboard`、`midi_player`）都还是旧页面，等待迁移。
+页面清单（`v2/src/pages/`，22 个）：`home`、`login`、`register`、`posts`、`post`、`create_post`、`notifications`、
+`user_config`、`set_avatar`、`bind_email`、`create_vote`、`webcounter`、`create_webcounter`、`my_webcounters`、
+`webcounter_dashboard`、`upload_file`、`bvdlp`、`music`、`share_music`、`about_music`、`embed_music`、`connector`。
+根目录还有 `admin`、`bind_aerfaying`、`ccw`、`midishow`、`midi2scratch`、`midi_player` 六个旧页面没迁移
+（`music` 那 5 个页面在旧仓库里没有对应版本；**midi 那三个页面暂缓迁移，先别动它们**，原因见 8.9）。
 
 ---
 
@@ -172,6 +173,24 @@ onMounted(() => {
 
 ---
 
+### 3.4 取舍原则：布局 1:1，交互细节不纠结
+
+**必须 1:1 的：布局与结构。** 元素位置、尺寸、间距、字号、换行、表格/分页结构——一律按第 9.1 节的工具量到
+「位置/尺寸 = 0、间距 = 0、样式 = 0」（3px 以内算噪声）。这是为了**页面不错位、不变丑**，这部分别发挥。
+
+**不许纠结的：一次性交互的细枝末节。** 复制成功显示「OK!」还是「已复制」、复制时图标要不要消失、展示框要不要
+`readonly`、按钮用 `wux-btn-primary` 还是组件里那套 class…… 这些**都不会让布局跑偏**，
+用户点完就走、也不会去检查。一律「复用的组件本来怎么做就怎么做」：**不要为了跟旧版逐字一致去改共享组件，
+更不要为此加 prop / 加分支 / 加页面级状态**。（组件的 `placeholder` 是例外之一：旧页面的输入框有提示文案，
+用户一眼能看到，就给组件加了个默认空的 `placeholder` prop，顺手填回去即可。）
+
+一句话：**复用组件复用的是功能，不是细枝末节。** 判断标准也只有一条——这个差异会不会让布局/结构跑偏？
+不会 → 不管它。旧页面里那些与布局无关的行为差异，记在 AGENT.md 就够了，不要写进代码。
+
+**例外情况：** 如果为了让这个页面间距也 1:1，必须去改**共享组件**（那会连带动其它页面，比如 `music` 系列的
+按钮要跟着挪 6.6px），那就**不改**——接受这点差异并在这里记一笔。共享组件的行为/间距按「已经是它使用者的那些
+页面」来定，新页面跟着它走。
+
 ## 4. 环境变量（不要硬编码域名/路径）
 
 两个文件：
@@ -188,12 +207,11 @@ onMounted(() => {
   - `.env.development`：`VITE_CREATE_VOTE_PAGE_URL = "/src/pages/create_vote/"`（dev 服务器按源码路径访问）
 - **外部服务域名**：`VITE_<SERVICE>_API_DOMAIN`，例如 `VITE_VOTE_API_DOMAIN = "https://vote.saobby.com"`
   （dev 里一般直接用生产域名，因为本地没有后端；README 也说明了这一点）
-- 其它已有变量：`VITE_API_DOMAIN`（评论后端）、`VITE_IMAGE_UPLOAD_API_URL`、`VITE_HOME_PAGE_URL`、
-  `VITE_MUSIC_PAGE_URL`、`VITE_SHARE_MUSIC_PAGE_URL`、`VITE_ABOUT_MUSIC_PAGE_URL`、`VITE_EMBED_MUSIC_PAGE_URL`、
-  `VITE_CONNECTOR_API_DOMAIN`、`VITE_CONNECTOR_BASE_URL`、`VITE_BIRTHDAYSTAR_API_DOMAIN`、`VITE_MIDISHOW_API_DOMAIN`、
-  `VITE_SITE_URL`、`VITE_USER_CONFIG_PAGE_URL`、`VITE_LOGIN_PAGE_URL`、`VITE_REGISTER_PAGE_URL`、`VITE_POSTS_PAGE_URL`、
-  `VITE_POST_PAGE_URL`、`VITE_CREATE_POST_PAGE_URL`、`VITE_NOTIFICATIONS_PAGE_URL`、`VITE_SET_AVATAR_PAGE_URL`、
-  `VITE_BIND_EMAIL_PAGE_URL`。
+- 其它已有变量：直接 `cat v2/.env.production`，那就是完整清单（页面 URL 每个页面一条 `VITE_<PAGE>_PAGE_URL`；
+  外部服务域名一条 `VITE_<SERVICE>_API_DOMAIN`，例如 `VITE_VOTE_API_DOMAIN`、`VITE_SOUNDFONT_API_DOMAIN`、
+  `VITE_MIDI_PLAYER_SOUNDFONT_API_DOMAIN`、`VITE_WEBCOUNTER_API_DOMAIN`；另有 `VITE_SITE_URL`、
+  `VITE_IMAGE_UPLOAD_API_URL`、`VITE_CONNECTOR_BASE_URL` 这类特例）。新增变量记得 `.env.production` 和
+  `.env.development` 两边都加（第 8.3 节）。
 
 **关键：新增页面 URL 变量后，别的地方指向该页面的链接也要一起改成用变量**（“像首页其他按钮一样”）。
 例如首页工具集里的投票入口：
@@ -297,6 +315,8 @@ grep -rn '"/create_vote"\|"/create_vote/"' v2/src    # 应该没有输出
    - `CommentsSection` / `CommentsList` / `AddCommentInput` / `EditCommentInput`：评论区
    - `PaginationButtons`、`RelativeTime`、`TagsDisplay`/`TagSelect`/`TagEdit`、
      `Dialog`/`PopupBackdrop`、`ClickToCopy`/`TextDisplayWithCopy`、`EmotionsBar`、`Folder`
+   - `TextDisplayWithCopy`（输入框 + 复制按钮）、`CopyButton`（只有按钮）：复制一律用这两个组件，别再造第三个，见 8.18；
+     `ClickToCopy` 是只有图标按钮的轻量版（首页联系方式）
 5. **多个页面属于同一个应用时，共享逻辑放 `v2/src/assets/js/<app>.js`**。例：`webcounter`（网页计数器）有 4 个
    页面，就把它们的 API 域名、图片/Markdown 代码生成、控制面板 URL 等放进 `v2/src/assets/js/webcounter.js`，
    4 个页面都从这里 import，不要在页面里各写一份。
@@ -386,6 +406,18 @@ select 和按钮贴在一起」这类问题。
 被 2 个以上页面使用的组件就提升到 `@/components/`（`git mv` + 更新所有 import）。
 反例/正例见第 6 节第 3 条（`AvatarUploader` / `BindEmailForm`）。
 
+反向的坑也一样：**页面侧的复制逻辑不许再自己写**——`copyText(text, key)` + 页面级 `copied` + `copyTimers`
+那一套已经全部删掉了，复制一律用 `TextDisplayWithCopy`（输入框 + 按钮）或 `CopyButton`（只有按钮），见 8.18。
+
+还要抽、但暂时没抽的（2026-10 审计结果，动手前先确认要动的页面布局仍是 0）：
+- `localStorage.getItem("access-token")` 的判断散在 9 个文件里（`post/App.vue` 一个文件就 6 次）→ 可以抽成
+  `isLoggedIn()` 之类的工具函数；
+- `create_webcounter` 和 `webcounter_dashboard/SettingsTab` 各有一份「放置计数器」代码块（markdown / HTML /
+  API 地址 + 复制按钮）→ 可抽 `CounterEmbedCodes.vue`（两边容器结构不同，需要留 slot）；
+- 面包屑 + `wux-container` 骨架每个页面抄一遍 → 可以做成 `PageShell`，但各页面边距/顺序有细微差别，收益不大，
+  先保持现状；
+- `ClickToCopy`（首页那个图标按钮）与 `CopyButton` 的「复制 + 状态切换」逻辑重复 → 可以共用一个小 composable。
+
 ### 8.9 第三方库用 npm 包；大的数据文件当普通资源「构建 + 懒加载」
 
 （这一节来自 `/webcounter_dashboard` 改造的返工：一开始图省事沿用了旧页面的 `/static/js/echarts.min.js`、
@@ -405,6 +437,46 @@ select 和按钮贴在一起」这类问题。
   mkdir -p /tmp/npmpkg && tar -xzf /tmp/npm.tgz -C /tmp/npmpkg
   cd v2 && node /tmp/npmpkg/package/bin/npm-cli.js install echarts@^5.6.0 --no-audit --no-fund --ignore-scripts
   ```
+- **特殊情况：库会让 `@vitejs/plugin-legacy` 的 babel 直接报错**（例：直接 `import "html-midi-player"`，它内部
+  `import * as mm from '@magenta/music/esm/core.js'`，会把一整套 magenta/tfjs 的 ESM 拖进产物，`plugin-legacy`
+  的 `transform-regenerator` 抛 `unknown Expression of type "SpreadElement"`，整个构建失败）。
+  这时**不要放弃 npm、也不要去 copy 库文件**，改用官方 README「Installing from NPM」的第二种用法：
+  把这些包里本来就自带的 **UMD 浏览器包当普通资产**引入 —— 加 `?url` 让构建原样搬到 `/assets/`（不经过 babel，
+  所以不会炸；也不会被 terser/legacy 处理），运行时再按顺序用 `<script>` 加载：
+  ```js
+  // v2/src/assets/js/midiPlayer.js
+  import toneUrl from "tone/build/Tone.js?url";                              // → window.Tone
+  import magentaUrl from "@magenta/music/es6/core.js?url";                   // → window.MagentaMusic（要有 Tone）
+  import midiPlayerUrl from "html-midi-player/dist/midi-player.min.js?url";  // → 注册 <midi-player>/<midi-visualizer>
+  ```
+  顺序不能乱（`tone` → `@magenta/music` → `html-midi-player`）；包里的这三份就是 UMD，版本要按旧页面锁死
+  （`tone@14.7.58` + `@magenta/music@1.23.1/es6/core.js` + `html-midi-player@1.5.0`），三个包都要显式写进
+  `dependencies`（因为三个文件都直接 import 了）。
+- ⚠️ **midi 三个页面（`midishow` / `midi2scratch` / `midi_player`）暂缓迁移**：上面那套 UMD 方案当初就是为了绕开
+  babel 报错，但真做下来问题太多（不止 babel 这一个），这批改动已**整体回退**——v2 里现在没有这三个页面、
+  没有 `src/assets/js/midiPlayer.js`，`package.json` 里也没有 tone / magenta / html-midi-player。
+  **先别动它们**，要做单独排期；在那之前 `midishow/`、`midi2scratch/`、`midi_player/`、`static/js/midi*.js`
+  这些旧文件保持原样，`home` 页面用 `VITE_MIDISHOW_PAGE_URL` / `VITE_MIDI2SCRATCH_PAGE_URL` 链过去就行。
+- **依赖文件和本机 `node_modules` 不同步时最容易翻车**：本机 node_modules 里还留着包时，构建照样过，但 CI 跑的是
+  `npm ci`（严格按 lock 装），少一个包就整个构建失败。所以改动后必须核对一遍：
+  ```bash
+  # 代码里 import 的包，是否都在 package.json 的 dependencies 里；lock 与 package.json 是否一致
+  cd v2 && python3 - <<'EOF'
+  import json, os, re
+  deps = set(json.load(open('package.json'))['dependencies'])
+  bares = set()
+  for root, _, files in os.walk('src'):
+      for f in files:
+          if f.endswith(('.js', '.vue')):
+              t = open(os.path.join(root, f), encoding='utf-8').read()
+              for m in re.finditer(r"from\s+['\"]([^'\"\./@][^'\"/]*)['\"]|import\(\s*['\"]([^'\"\./@][^'\"/]*)['\"]|import\s+['\"]([^'\"\./@][^'\"/]*)['\"]", t):
+                  bares.add(next(g for g in m.groups() if g))
+  print('缺少依赖:', sorted(bares - deps) or '无')
+  print('lock 与 package.json 一致:', json.load(open('package-lock.json'))['packages']['']['dependencies'] == json.load(open('package.json'))['dependencies'])
+  EOF
+  ```
+  另外注意 `git checkout HEAD -- v2/package*.json` 这类「复原」会把**未提交**的依赖改动一起抹掉，用完要重新按上面的
+  脚本检查一遍再收工。
 
 **大的数据/资源文件 → 放进页面目录，用动态 `import()` 当资源加载**
 - 不要硬编码 `/static/...` 的 URL，也不要 `fetch(url)`：把文件放到页面目录（例：
@@ -496,6 +568,32 @@ grep -rn "change_page_buttons" . --exclude-dir=node_modules --exclude-dir=.git -
 
 见第 9.1 节。**每次重写完一个页面都应该跑一遍**：它是唯一能发现「间距/外边距/顺序」这类问题的自动化手段。
 
+### 8.18 复制一律用组件：`TextDisplayWithCopy` / `CopyButton`
+
+两个现成组件，别再造第三个，也别再在页面里手写复制逻辑：
+
+| 组件 | 长什么样 | 什么时候用 |
+|---|---|---|
+| `@/components/TextDisplayWithCopy.vue` | `<input readonly>` + 复制按钮；props：`value` / `placeholder`（默认空，空时不渲染该属性）/ `inputClass` / `inputStyle` | 要复制的内容**就显示在它那个输入框里**（`music` 系列、`upload_file`） |
+| `@/components/CopyButton.vue` | 只有一个按钮；props `value` / `label`，`class`/`style` 由使用方传（自动合并到 `<button>` 上） | 要复制的东西在别处：旁边的 `<textarea>` / `<code>` / 渲染出来的链接（`bvdlp`、`create_vote`、`create_webcounter`、`webcounter_dashboard`） |
+
+```html
+<!-- upload_file：只传它支持的 props，别为了按钮样式去改组件（见 3.4） -->
+<TextDisplayWithCopy :value="fileUrl" placeholder="文件链接会显示在这里" input-style="width: calc( 100% - 90px );display: inline-block;"/>
+<!-- 复制的内容在旁边的 textarea / code 里：单独用按钮组件 -->
+<CopyButton :value="markdownCode" label="复制 Markdown 代码" class="wux-btn wux-btn-primary"/>
+```
+
+- **每个复制点一个实例**：组件内部的「已复制」状态是实例自己的（1 秒后复原），几个按钮互不影响。
+  ❌ 不要再写 `copyText(text, key)` + 页面级 `copied` + `copyTimers` 那一套（按钮之间会互相干扰，而且每个页面
+  都要抄一遍）。
+- 复制成功后显示什么、图标消不消失：**不跟旧页面逐字对齐**（见 3.4）。旧版是 `copy_text()` → `set_btn_html(btn,
+  "已复制")`（纯文本 + `disabled` 1 秒），v2 统一成「图标保留 + 文案变 `OK!`/`已复制` + `disabled` 1 秒」，
+  这点差异不影响布局，不管。
+- 这个瞬时态可以用布局工具测：`["click:button:nth-of-type(2)@20", "settle:80"]`（见 9.1）。
+- 改**共享组件**（这两个）属于「改全局」：能不改就不改；真要改，改完按 9.2 对 `music` 等页面做一次
+  `--baseline-dist` 自比对。
+
 
 ---
 
@@ -544,8 +642,13 @@ python3 tools/layout-diff/layout_diff.py --pages webcounter_dashboard --top 30 -
 原理：
 1. 从 git 历史里取出旧页面的 `index.html`（以及它运行时需要、但迁移时已经删掉的 `static/js/*.js`，
    包括 `echarts.min.js`、`world_cn.json` 这类运行时加载的文件），和 `v2/dist` 构建出来的新页面放进同一个 http 根目录；
-2. 用本机 Chrome 无头模式打开 `probe.html`：把新旧页面放进两个同源 iframe，等渲染稳定后量出
+2. 用本机 Chrome 无头模式打开 `probe.html`：把新旧页面放进两个同源 iframe，跑同一串交互步骤，量出
    **每个可见元素的 rect / 外边距 / 字号**，以及**每个父元素里相邻子元素之间的水平或垂直间距**；
+   两个 iframe 都加载完（`--settle`）之后才分别「跑步骤 → **立刻**量」，保证「点完最后一步到测量」的间隔两侧一致
+   （否则旧页面先跑完步骤、要等新页面加载完才统一测量，像「已复制」这种只停 1 秒的瞬时态根本量不到）；
+   - 步骤语法：`click:<css>` / `type:<css>=<值>` / `select:<css>=<值>`，可带 `@<毫秒>` 后缀改「这一步之后等多久」
+     （默认 800ms）；步骤 `settle:<毫秒>` 改「测量前的等待」。例：`["click:button:nth-of-type(2)@20", "settle:80"]`
+     用来测「点复制后 1 秒内」的瞬时态（见 `STATES["upload_file"]`）；
 3. `/api/*` 由工具自带的 mock 返回**同一份**固定数据（并把页面里的后端域名改写成本地地址），
    所以「已加载」状态的布局也能比，而且两边数据完全一致；
 4. 按元素 key 配对做 diff，输出四类结果：间距差异、位置/尺寸差异、旧有新无/新有旧无、样式差异。
@@ -568,7 +671,9 @@ python3 tools/layout-diff/layout_diff.py --pages webcounter_dashboard --top 30 -
 | `webcounter`、`create_webcounter` | 0 | — |
 | `webcounter_dashboard` | 0 | 点「设置」= 0；点「日志查询」只剩分页结构差异 + 页码 6.6px |
 | `my_webcounters` | 只剩结构差异（旧页 icon 外层 span + 分页）+ 页码 6.6px | — |
-| `create_vote` | 只剩结构差异（取色器 input、分页） | — |
+| `bvdlp` | 只剩结构差异 1 项（旧页面里那个空的验证码容器 `#scpc-v2`） | 空链接解析（错误态）也是 1 |
+| `upload_file` | 结构差异 8/5（旧页 button 是 `wux-btn-primary` + `img/span`，组件是 `mc simple` + svg + 裸文本）+ **2 处 -6.6px 间距**（复用 `TextDisplayWithCopy` 的代价：组件模板里 input 和 button 之间是换行、会被 Vue 吃掉，旧页面那里是一个空格；位置/尺寸、样式都是 0，见 3.4 的例外） | 未选文件就上传、点复制（按钮 `disabled` + `OK!` 瞬时态）= 同上 |
+| `create_vote` | 结构差异 4/3 + 31 处位置差（更早那次重写留下的取色器/分页问题，本次没动） | 添加选项 = 同上 |
 | `set_avatar`、`bind_email` | 只剩 `mc`（inline-flex）按钮带来的 ~5px 基线差异 | — |
 
 ### 9.2 改了「全局」配置后，一定要做一次 A/B
@@ -637,7 +742,7 @@ python3 tools/layout-diff/layout_diff.py --baseline-dist /tmp/ab-before-dist --p
 
 工具**每次运行只量一个 DOM 状态**，所以「跑过这个页面」≠「这个页面的所有状态都没问题」。目前的实际覆盖：
 
-**页面**：`v2/src/pages` 下 20 个页面全都跑过；其中 `music`、`share_music`、`about_music`、`embed_music`、
+**页面**：`v2/src/pages` 下 22 个页面全都跑过；其中 `music`、`share_music`、`about_music`、`embed_music`、
 `connector` **在仓库里没有旧版本**（不是从旧页面重写来的，见脚本会打印「跳过 …」），因此没有可比对的基线。
 
 **状态**（`STATES` 配置 + 默认状态；新旧页面执行同一串步骤）：
@@ -647,7 +752,9 @@ python3 tools/layout-diff/layout_diff.py --baseline-dist /tmp/ab-before-dist --p
 | `webcounter`、`create_webcounter` | 默认 | **0** |
 | `webcounter_dashboard` | 默认 / 日志 tab / 日志+自动刷新 / 设置 tab / 切换时间段 × （有数据、空数据） | 布局差异只剩「分页页码 6.6px」（+ 与旧页面的结构差异） |
 | `my_webcounters` | 默认 / 翻页 / 搜索 × （有数据、空数据） | 同上 |
-| `create_vote` | 默认 / 添加选项 | **0** |
+| `create_vote` | 默认 / 添加选项 | 结构差异 4/3 + 31 处位置差（更早重写遗留） |
+| `bvdlp` | 默认 / 空链接解析（错误态） | 1（`#scpc-v2` 结构差异） |
+| `upload_file` | 默认 / 空输入提交 / 点复制按钮（`disabled` + `OK!` 瞬时态） | 结构差异 + 2 处 -6.6px 间距（见 9.1） |
 | `user_config` | 默认 / 绑定邮箱 tab / 设置头像 tab | 剩 7~11 处位置差异（更早的重写留下的） |
 | `login`、`register`、`post` | 默认 / 提交表单 | 0~1 处（来自更早的重写） |
 | `posts`、`notifications`、`create_post` | 默认 / 翻页 / 预览切换 | 有真实差异（例：posts 搜索行会换行、通知列表 12 处位置差），属**更早那几次重写**遗留，未在本次修复 |
@@ -676,9 +783,13 @@ python3 tools/layout-diff/layout_diff.py --baseline-dist /tmp/ab-before-dist --p
 | `v2/src/pages/create_vote/` | 表单 + 动态选项数组 + 颜色选择器 + RGB 滑块 + 人机验证 + 生成 Markdown + 复制；**图标全部换成 tabler 组件、域名走环境变量、`result` 用 `.sep` 拉开间距** |
 | `v2/src/pages/set_avatar/`、`bind_email/` | 最省事的迁移方式：直接复用 `user_config` 的组件，只写容器/面包屑/登录校验 |
 | `v2/src/pages/webcounter/`、`create_webcounter/`、`my_webcounters/`、`webcounter_dashboard/` | 一个「应用」拆成 4 个入口页面的组织方式；共享逻辑放 `src/assets/js/webcounter.js`；表单 + 人机验证 + 复制按钮 + 列表分页；`webcounter_dashboard` 含 tab、ECharts 图表（**echarts 走 npm 依赖 + 地图 JSON 走动态 import 懒加载**）、日志表格、自动刷新、设置表单 |
+| `v2/src/pages/upload_file/`、`bvdlp/` | 文件上传（`FormSubmitter` + 进度条）、base64 → Blob 生成下载链接、表单 + 人机验证；`TextDisplayWithCopy` / `CopyButton` 两种复制写法的对照（第 8.18 节） |
+
 
 ## 11. 不要做的事
 
+- ❌ 不要为了「复制后显示 OK! 还是已复制」「输入框要不要 `readonly`」这类与布局无关的细节去改共享组件、加 prop、
+  或加页面级状态（第 3.4 节）；复制一律用 `TextDisplayWithCopy` / `CopyButton` 组件（第 8.18 节）。
 - ❌ 不要修改旧页面的 URL 路径（目录名必须与旧页面一致）。
 - ❌ 不要在 `v2/src/pages/<page>/index.html` 里手写暗色模式内联样式/脚本（插件会自动注入）。
 - ❌ 不要再引入 `common.js`、`darkMode.js`、`check_browser.js`、`saobbyCaptchaV3.js`、`tab.js` 等旧脚本。
