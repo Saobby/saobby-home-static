@@ -15,6 +15,8 @@ const userConfigPageUrl = import.meta.env.VITE_USER_CONFIG_PAGE_URL;
 const postsPageUrl = import.meta.env.VITE_POSTS_PAGE_URL;
 const createPostPageUrl = import.meta.env.VITE_CREATE_POST_PAGE_URL;
 const notificationsPageUrl = import.meta.env.VITE_NOTIFICATIONS_PAGE_URL;
+const setAvatarPageUrl = import.meta.env.VITE_SET_AVATAR_PAGE_URL;
+const bindEmailPageUrl = import.meta.env.VITE_BIND_EMAIL_PAGE_URL;
 
 const commentPlaceId = ref(114514);
 const commentOnly = ref(false);
@@ -162,12 +164,12 @@ onMounted(async () => {
                                 <a :href="notificationsPageUrl"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconBell width="20px" height="20px"/><span>通知中心</span><span class="wux-badge" v-if="notificationCount > 0">{{ notificationCount }}</span></button></a>
                             </div>
                             <div class="wux-col">
-                                <a href="/set_avatar"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconUserCircle width="20px" height="20px"/><span>更换头像</span></button></a>
+                                <a :href="setAvatarPageUrl"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconUserCircle width="20px" height="20px"/><span>更换头像</span></button></a>
                             </div>
                         </div>
                         <div class="wux-row-xs-2">
                             <div class="wux-col">
-                                <a href="/bind_email"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconLink width="20px" height="20px"/><span>绑定电子邮箱</span></button></a>
+                                <a :href="bindEmailPageUrl"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconLink width="20px" height="20px"/><span>绑定电子邮箱</span></button></a>
                             </div>
                             <div class="wux-col">
                                 <a :href="userConfigPageUrl"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconSettings width="20px" height="20px"/><span>用户设置</span></button></a>
@@ -187,7 +189,7 @@ onMounted(async () => {
                         <a :href="homePageUrl+'?114514'"><button class="wux-btn wux-btn-primary wux-btn-outline mc2 simple" :hidden="commentOnly" type="button"><IconMessage width="16px" height="16px"/><span>主评论区</span></button></a>
                         <CommentsSection :show-add-comment-window="showAddCommentWindow" ref="commentsSessionRef" :place-id="commentPlaceId">
                             <hr>
-                            <span :hidden="commentOnly" class="mc2"><IconBell width="16px" height="16px"/><span>绑定电子邮箱，有回复时发邮件提醒你 <a href="/bind_email">立即绑定</a></span><br></span>
+                            <span :hidden="commentOnly" class="mc2"><IconBell width="16px" height="16px"/><span>绑定电子邮箱，有回复时发邮件提醒你 <a :href="bindEmailPageUrl">立即绑定</a></span><br></span>
                         </CommentsSection>
                     </div>
                 </div>

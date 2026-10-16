@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted } from 'vue';
 import NotificationSettings from './components/NotificationSettings.vue';
-import BindEmailForm from './components/BindEmailForm.vue';
-import AvatarUploader from './components/AvatarUploader.vue';
+import BindEmailForm from '@/components/BindEmailForm.vue';
+import AvatarUploader from '@/components/AvatarUploader.vue';
 import Logout from "./components/Logout.vue";
 import { check_logged_in } from '@/assets/js/util';
 const homePageUrl = import.meta.env.VITE_HOME_PAGE_URL;
