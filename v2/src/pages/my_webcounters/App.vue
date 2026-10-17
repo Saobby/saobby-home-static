@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { check_logged_in, fetch_api, ts2str } from '@/assets/js/util.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import PaginationButtons from '@/components/PaginationButtons.vue';
@@ -19,6 +19,12 @@ const pageIndex = ref(0);
 const pageAmount = ref(1);
 const loading = ref(false);
 const result = ref("");
+
+// ready | loading | error
+const listState = computed(() => {
+    if (counters.value !== null) return "ready";
+    return result.value ? "error" : "loading";
+});
 
 async function loadWebCounters(index){
     loading.value = true;
@@ -61,19 +67,21 @@ onMounted(() => {
             <a :href="createWebCounterPageUrl" target="_blank"><button class="wux-btn wux-btn-primary mt" type="button"><IconPlus width="16px" height="16px" class="middle"/><span class="middle">创建计数器</span></button></a>
             <hr>
             <div id="webcounters">
-                <div class="centered" v-if="counters === null">
+                <div class="centered" :hidden="listState !== 'loading'">
                     <span class="wux-loading"></span><br>
-                    <span>加载中</span><br>
+                    <span>加载中</span>
+                </div>
+                <div class="centered" :hidden="listState !== 'error'">
                     <span class="result">{{ result }}</span>
                 </div>
-                <template v-else>
+                <div :hidden="listState !== 'ready'">
                     <div class="bottom-line" v-for="counter in counters" :key="counter.counter_id">
                         <b style="font-size:20px;">{{ counter.desc? counter.desc: counter.counter_id }}</b><br>
                         <span class="gray"><IconClock width="16px" height="16px" class="middle"/>{{ ts2str(counter.create_at) }}</span> <span class="gray"><IconTypography width="16px" height="16px" class="middle"/>{{ getPicTypeName(counter.pic_type) }}·{{ getDisplayTypeName(counter.display_type) }}</span><br>
                         <a :href="getCounterDashboardUrl(counter.access_token)" target="_blank"><button class="wux-btn wux-btn-primary wux-btn-sm" type="button"><IconExternalLink width="16px" height="16px" class="middle"/><span class="middle">进入控制面板</span></button></a>
                     </div>
-                    <span class="result" v-if="result">{{ result }}</span>
-                </template>
+                    <span class="result" :hidden="!result">{{ result }}</span>
+                </div>
             </div>
             <PaginationButtons :page-index="pageIndex" :page-amount="pageAmount" :btn-amount="7" :disabled="loading" group-class="mt" @change-page="loadWebCounters"/>
         </div>

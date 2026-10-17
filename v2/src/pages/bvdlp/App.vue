@@ -93,7 +93,7 @@ function sec2hms(sec){
         <div class="wux-typo">
             <h2 class="mt">B站视频直链解析</h2>
             <input type="text" class="wux-form-input wux-form-input-md" style="width:calc( 100% - 90px );display:inline-block;" v-model="videoLink" placeholder="视频链接,如https://www.bilibili.com/video/BV18X4y1N7Yh/"> <BtnWithLoading btn-class="wux-btn-primary" :is-loading="querying" @click="query()"><IconSearch width="16px" height="16px" class="middle"/><span class="middle">解析</span></BtnWithLoading><br>
-            <div v-if="state === 'notice'">
+            <div :hidden="state !== 'notice'">
                 <h2>注意事项</h2>
                 <ul>
                     <li>目前<b>仅支持解析普通视频</b>，暂不支持解析番剧直链</li>
@@ -103,22 +103,22 @@ function sec2hms(sec){
                     <li>若无法正常使用，请发邮件到<code>bugs@saobby.com</code>反馈或者直接在主页评论区留言反馈</li>
                 </ul>
             </div>
-            <div v-else-if="state === 'result'">
+            <div :hidden="state !== 'result'">
                 <h2>请选择需要解析的视频分P</h2>
                 <div class="pre-like">
                     <template v-for="(page, index) in pages" :key="page.cid">
                         <b>P{{ page.page_index }} </b><span>{{ page.title }}</span><br><b>时长: </b><span>{{ sec2hms(page.duration) }}</span><br>
-                        <div v-if="page.link">
-                            <b>画质: </b><span>{{ page.link.quality }}</span><br><b>大小: </b><span>{{ page.link.size }}MB</span><br><b>直链: </b><a target="_blank" :href="page.link.url"><button type="button" class="wux-btn wux-btn-primary wux-btn-sm"><IconEye width="16px" height="16px" class="middle"/><span class="middle">打开</span></button></a><CopyButton :value="page.link.url" class="wux-btn wux-btn-primary wux-btn-sm" style="left:3px;"/>
+                        <div :hidden="!page.link">
+                            <b>画质: </b><span>{{ page.link?.quality }}</span><br><b>大小: </b><span>{{ page.link?.size }}MB</span><br><b>直链: </b><a target="_blank" :href="page.link?.url"><button type="button" class="wux-btn wux-btn-primary wux-btn-sm"><IconEye width="16px" height="16px" class="middle"/><span class="middle">打开</span></button></a><CopyButton :value="page.link?.url || ''" class="wux-btn wux-btn-primary wux-btn-sm" style="left:3px;"/>
                         </div>
-                        <div v-else>
+                        <div :hidden="!!page.link">
                             <BtnWithLoading btn-class="wux-btn-primary wux-btn-sm" :is-loading="page.loading" @click="getVideoLink(page)"><IconSearch width="16px" height="16px" class="middle"/><span class="middle">解析</span></BtnWithLoading><br><span class="result">{{ page.error }}</span>
                         </div>
-                        <hr v-if="index !== pages.length - 1">
+                        <hr :hidden="index === pages.length - 1">
                     </template>
                 </div>
             </div>
-            <div v-else>
+            <div :hidden="state !== 'error'">
                 <h2>发生错误</h2>
                 <span>错误信息:</span><span class="result">{{ errorMsg }}</span>
             </div>

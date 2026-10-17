@@ -107,9 +107,9 @@ function login(){
                 <li class="middle">示例:当前页面访问次数:<img :src="exampleCounterUrl" alt="当前页面访问人数" class="middle"></li>
             </ul>
             <hr>
-            <div id="args-div" v-if="!created">
+            <div id="args-div" :hidden="!!created">
                 <h3 class="thin">立即创建一个计数器并打开控制面板</h3>
-                <div class="wux-alert wux-alert-info" v-if="!loggedIn">你还没有登录!登录后可查看账户创建的所有计数器，<b>无需手动记录控制面板访问密钥</b>，更加方便。<br>当然，不登录仍然可以使用本工具的完整功能。<br><a href="javascript:;" @click="login()"><IconLogin2 width="16px" height="16px" class="middle"/><span class="middle">立即登录</span></a></div>
+                <div class="wux-alert wux-alert-info" :hidden="loggedIn">你还没有登录!登录后可查看账户创建的所有计数器，<b>无需手动记录控制面板访问密钥</b>，更加方便。<br>当然，不登录仍然可以使用本工具的完整功能。<br><a href="javascript:;" @click="login()"><IconLogin2 width="16px" height="16px" class="middle"/><span class="middle">立即登录</span></a></div>
                 <div class="wux-row-md-2 same-height-container">
                     <div class="wux-col same-height-box">
                         <div class="wux-card wux-card-hover">
@@ -153,7 +153,7 @@ function login(){
                     </div>
                 </div>
             </div>
-            <div id="success-div" v-else>
+            <div id="success-div" :hidden="!created">
                 <h3 class="thin">创建成功</h3>
                 <div class="wux-row-md-2 same-height-container">
                     <div class="wux-col same-height-box">
@@ -173,7 +173,7 @@ function login(){
                                         <b>计数器 ID:</b>
                                     </div>
                                     <div class="wux-col">
-                                        <CopyButton :value="created.counter_id" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right"/><code class="right">{{ created.counter_id }}</code>
+                                        <CopyButton :value="created?.counter_id || ''" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right"/><code class="right">{{ created?.counter_id }}</code>
                                     </div>
                                 </div>
                                 <div class="wux-row-xs-2">
@@ -181,7 +181,7 @@ function login(){
                                         <b>控制面板访问密钥:</b>
                                     </div>
                                     <div class="wux-col">
-                                        <CopyButton :value="created.access_token" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right"/><code class="right">{{ created.access_token }}</code>
+                                        <CopyButton :value="created?.access_token || ''" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple right"/><code class="right">{{ created?.access_token }}</code>
                                     </div>
                                 </div>
                                 <a :href="dashboardUrl" target="_blank"><button type="button" class="wux-btn wux-btn-primary"><IconExternalLink width="16px" height="16px" class="middle"/><span class="middle">打开控制面板</span></button></a> <button type="button" class="wux-btn wux-btn-primary wux-btn-outline" @click="reset()"><IconRefresh width="16px" height="16px" class="middle"/><span class="middle">再创建一个</span></button><br>

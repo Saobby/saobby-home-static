@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { fetch_api } from '@/assets/js/util.js';
 import Chart from './Chart.vue';
 import {
@@ -19,6 +19,12 @@ const domain = import.meta.env.VITE_WEBCOUNTER_API_DOMAIN;
 const period = ref("604800");
 const stats = ref(null);
 const statsResult = ref("");
+
+// ready | loading | error
+const statsState = computed(() => {
+    if (stats.value) return "ready";
+    return statsResult.value ? "error" : "loading";
+});
 
 const trend = reactive({ loading: true, option: null, result: "" });
 const ipLocation = reactive({ loading: true, option: null, result: "" });
@@ -85,7 +91,8 @@ async function loadIpLocation(){
         return;
     }
     if (JSON.stringify(rsp.data.visits) === "{}"){
-        // 无数据时保持加载态并提示
+        // 无数据也按错误提示处理
+        ipLocation.loading = false;
         ipLocation.result = "暂无数据";
         return;
     }
@@ -117,9 +124,9 @@ onMounted(() => {
             <div class="wux-card wux-card-hover">
                 <div class="wux-card-body">
                     <h6 class="thin gray"><IconLogin2 width="16px" height="16px" class="middle"/><span class="middle">总访问量</span></h6>
-                    <b class="big-number"><span class="wux-loading" v-if="!stats"></span><template v-else>{{ stats.total_visits }}</template></b>
+                    <b class="big-number"><span class="wux-loading" :hidden="statsState !== 'loading'"></span>{{ stats?.total_visits }}</b>
                     <h6 class="thin gray"><IconUser width="16px" height="16px" class="middle"/><span class="middle">总独立 IP 数量</span></h6>
-                    <b class="big-number"><span class="wux-loading" v-if="!stats"></span><template v-else>{{ stats.total_ips }}</template></b>
+                    <b class="big-number"><span class="wux-loading" :hidden="statsState !== 'loading'"></span>{{ stats?.total_ips }}</b>
                 </div>
             </div>
         </div>
@@ -127,9 +134,9 @@ onMounted(() => {
             <div class="wux-card wux-card-hover">
                 <div class="wux-card-body">
                     <h6 class="thin gray"><IconLogin2 width="16px" height="16px" class="middle"/><span class="middle">今日访问量</span></h6>
-                    <b class="big-number"><span class="wux-loading" v-if="!stats"></span><template v-else>{{ stats.today_visits }}</template></b>
+                    <b class="big-number"><span class="wux-loading" :hidden="statsState !== 'loading'"></span>{{ stats?.today_visits }}</b>
                     <h6 class="thin gray"><IconUser width="16px" height="16px" class="middle"/><span class="middle">今日独立 IP 数量</span></h6>
-                    <b class="big-number"><span class="wux-loading" v-if="!stats"></span><template v-else>{{ stats.today_ips }}</template></b>
+                    <b class="big-number"><span class="wux-loading" :hidden="statsState !== 'loading'"></span>{{ stats?.today_ips }}</b>
                 </div>
             </div>
         </div>
@@ -137,9 +144,9 @@ onMounted(() => {
             <div class="wux-card wux-card-hover">
                 <div class="wux-card-body">
                     <h6 class="thin gray"><IconLogin2 width="16px" height="16px" class="middle"/><span class="middle">昨日访问量</span></h6>
-                    <b class="big-number"><span class="wux-loading" v-if="!stats"></span><template v-else>{{ stats.yesterday_visits }}</template></b>
+                    <b class="big-number"><span class="wux-loading" :hidden="statsState !== 'loading'"></span>{{ stats?.yesterday_visits }}</b>
                     <h6 class="thin gray"><IconUser width="16px" height="16px" class="middle"/><span class="middle">昨日独立 IP 数量</span></h6>
-                    <b class="big-number"><span class="wux-loading" v-if="!stats"></span><template v-else>{{ stats.yesterday_ips }}</template></b>
+                    <b class="big-number"><span class="wux-loading" :hidden="statsState !== 'loading'"></span>{{ stats?.yesterday_ips }}</b>
                 </div>
             </div>
         </div>

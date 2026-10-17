@@ -27,6 +27,9 @@ const markdownCode = computed(() => settings.value ? getCounterMarkdownCode(sett
 const htmlCode = computed(() => settings.value ? getCounterHtmlCode(settings.value.counter_id) : "");
 const apiUrl = computed(() => settings.value ? getCounterApiUrl(settings.value.counter_id) : "");
 
+// 设置未加载成功时不允许编辑 / 保存
+const formDisabled = computed(() => !settings.value || loading.value || saving.value);
+
 async function loadSettings(){
     loading.value = true;
     result.value = "";
@@ -75,8 +78,8 @@ defineExpose({ loadSettings });
         <div class="wux-col">
             <div class="wux-card wux-card-hover">
                 <div class="wux-card-body">
-                    <b><IconKey width="16px" height="16px" class="middle"/><span class="middle">控制面板访问密钥: </span></b><span style="display: inline-block;"><code>{{ settings? settings.access_token: "" }}<span class="wux-loading" v-if="!settings"></span></code><CopyButton :value="settings? settings.access_token: ''" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple"/></span>
-                    <input type="text" v-model="description" class="wux-form-input wux-form-input-md mb right" placeholder="备注" style="width: 150px;" :disabled="loading || saving">
+                    <b><IconKey width="16px" height="16px" class="middle"/><span class="middle">控制面板访问密钥: </span></b><span style="display: inline-block;"><code>{{ settings? settings.access_token: "" }}<span class="wux-loading" :hidden="!loading"></span></code><CopyButton :value="settings? settings.access_token: ''" class="wux-btn wux-btn-primary wux-btn-xs wux-btn-outline simple"/></span>
+                    <input type="text" v-model="description" class="wux-form-input wux-form-input-md mb right" placeholder="备注" style="width: 150px;" :disabled="formDisabled">
                 </div>
             </div>
         </div>
@@ -101,12 +104,12 @@ defineExpose({ loadSettings });
             <div class="wux-card wux-card-hover">
                 <div class="wux-card-body">
                     <h2 class="thin"><IconPhoto width="32px" height="32px" class="middle"/><span class="middle">图片类型</span><button type="button" class="wux-btn wux-btn-primary wux-btn-text wux-tooltip"><IconHelp width="24px" height="24px" class="middle"/><span class="wux-tooltip-item wux-tooltip-item-bottom" style="color: white;">矢量图:放大不模糊<br>位图:放大会模糊</span></button></h2>
-                    <select v-model.number="imageType" class="wux-form-select" :disabled="loading || saving">
+                    <select v-model.number="imageType" class="wux-form-select" :disabled="formDisabled">
                         <option :value="0">位图(JPEG)</option>
                         <option :value="1">矢量图(SVG) (推荐)</option>
                     </select>
                     <h2 class="thin"><IconTypography width="32px" height="32px" class="middle"/><span class="middle">显示内容</span><button type="button" class="wux-btn wux-btn-primary wux-btn-text wux-tooltip"><IconHelp width="24px" height="24px" class="middle"/><span class="wux-tooltip-item wux-tooltip-item-bottom" style="color: white;">访问次数:每访问一次页面+1<br>访客数:同一人多次访问算作一次</span></button></h2>
-                    <select v-model.number="displayType" class="wux-form-select" :disabled="loading || saving">
+                    <select v-model.number="displayType" class="wux-form-select" :disabled="formDisabled">
                         <option :value="0">总访问次数</option>
                         <option :value="1">总访客数(独立IP数)</option>
                         <option :value="2">只统计不显示(仍需放置图片)</option>
@@ -120,17 +123,17 @@ defineExpose({ loadSettings });
                     <div class="wux-row-xs-1">
                         <div class="wux-col">
                             <h2 class="thin"><IconTypography width="32px" height="32px" class="middle"/><span class="middle">字体大小</span></h2>
-                            <input type="number" class="wux-form-input wux-form-input-md" v-model.number="fontSize" min="1" max="100" :disabled="loading || saving">
+                            <input type="number" class="wux-form-input wux-form-input-md" v-model.number="fontSize" min="1" max="100" :disabled="formDisabled">
                         </div>
                     </div>
                     <div class="wux-row-xs-2">
                         <div class="wux-col">
                             <h2 class="thin"><IconPalette width="32px" height="32px" class="middle"/><span class="middle">字体颜色</span></h2>
-                            <input type="color" v-model="fontColor" style="width:64px;height:64px;" :disabled="loading || saving">
+                            <input type="color" v-model="fontColor" style="width:64px;height:64px;" :disabled="formDisabled">
                         </div>
                         <div class="wux-col">
                             <h2 class="thin"><IconPalette width="32px" height="32px" class="middle"/><span class="middle">背景颜色</span></h2>
-                            <input type="color" v-model="backgroundColor" style="width:64px;height:64px;" :disabled="loading || saving">
+                            <input type="color" v-model="backgroundColor" style="width:64px;height:64px;" :disabled="formDisabled">
                         </div>
                     </div>
                 </div>
@@ -142,7 +145,7 @@ defineExpose({ loadSettings });
             <div class="wux-card wux-card-hover">
                 <div class="wux-card-body">
                     <span class="result">{{ result }}</span>
-                    <BtnWithLoading btn-class="wux-btn-primary right mb" :is-loading="saving" @click="saveSettings()"><IconCheck width="16px" height="16px" class="middle"/><span class="middle">保存设置</span></BtnWithLoading>
+                    <BtnWithLoading btn-class="wux-btn-primary right mb" :is-loading="saving" :disabled="formDisabled" @click="saveSettings()"><IconCheck width="16px" height="16px" class="middle"/><span class="middle">保存设置</span></BtnWithLoading>
                 </div>
             </div>
         </div>

@@ -167,7 +167,7 @@ onMounted(async () => {
                         <h2 class="mc2"><IconUser width="32px" height="32px"/><span>用户区域</span></h2>
                         <div class="wux-row-xs-2">
                             <div class="wux-col">
-                                <a :href="notificationsPageUrl"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconBell width="20px" height="20px"/><span>通知中心</span><span class="wux-badge" v-if="notificationCount > 0">{{ notificationCount }}</span></button></a>
+                                <a :href="notificationsPageUrl"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconBell width="20px" height="20px"/><span>通知中心</span><span class="wux-badge" :hidden="notificationCount <= 0">{{ notificationCount }}</span></button></a>
                             </div>
                             <div class="wux-col">
                                 <a :href="setAvatarPageUrl"><button class="wux-btn wux-btn-primary wux-btn-xl wux-btn-text mc2" type="button"><IconUserCircle width="20px" height="20px"/><span>更换头像</span></button></a>

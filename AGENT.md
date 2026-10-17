@@ -526,19 +526,22 @@ cp v2/src/pages/webcounter_dashboard/country_code_map.js /tmp/x.mjs && node --ch
 
 ### 8.13 图表组件：容器可见后再 init，切换/重载时 dispose
 
-- 用 `v-if` 在「图表容器」和「加载中占位」之间切换，并且**只在 loading 结束、容器已经显示之后再
-  `echarts.init`**：对 `display:none` 的容器 init 会得到 0×0 的空白图（旧页面的 `set_chart_status` 就是这个顺序）。
+- `Chart.vue` 用显式的 `chartState` 三态驱动模板：`chart`（显示图表）、`loading`（加载中）、`error`
+  （错误 / 无数据提示），不要在模板里拼一长串布尔条件。用 `:hidden` 在三种状态块之间切换（容器保持挂载，
+  避免反复挂载/卸载），并且**只在状态变为 `chart`、容器显示并 `nextTick` 之后再 `echarts.init`**：对
+  `display:none` / `hidden` 的容器 init 会得到 0×0 的空白图。长短图这种由静态 prop 决定的结构分支可以继续
+  用 `v-if`，它不会反复切换。
 - `watch([loading, option], …, {immediate:true})` + `nextTick()` 组合能保证 DOM 已经更新。
-- echarts 是按需加载的独立 chunk：数据已就绪、但库还没加载完时，`Chart.vue` 把 `echartsLoading` 也并入
-  `showChart` 的判断，**复用同一个居中「加载中」占位**；等库加载完、容器显示出来并 `nextTick` 之后再 `init`。
-  不要为这种状态另写一套加载遮罩。
+- echarts 是按需加载的独立 chunk：数据已就绪、但库还没加载完时，状态仍是 `loading`；等库加载完、容器显示
+  出来并 `nextTick` 之后再 `init`。不要为这种状态另写一套加载遮罩。
 - 图表要跟随尺寸变化时，用 **`window` 的 `resize` 事件 + `chart.resize()`**（见 `Chart.vue`）。
   **不要用 `ResizeObserver`**：它是浏览器 API，core-js 不覆盖它（`grep -r ResizeObserver v2/node_modules/core-js`
   没有结果），而 `@vitejs/plugin-legacy` 的自动 polyfill 正是基于 core-js —— 也就是说**构建流程/babel 补不了它**。
   旧页面只能额外引 `@juggle/resize-observer` 的 UMD 文件，迁移后改用 `window.resize` 就不需要这个 polyfill 了
   （本页容器宽度只随窗口变化，`window.resize` 足够）。
 - 组件卸载或重新加载时 `chart.dispose()`，避免实例泄漏（旧代码每次渲染都新建实例，从不销毁）。
-- 「暂无数据」这类提前 `return` 的分支，旧页面会**保留加载态并显示提示**，照做即可。
+- 「暂无数据」这类没有图表数据的分支，要把 `loading` 置为 `false`，让图表进入 `error` 提示状态；
+  不要用 `loading + result` 同时表示「加载中」和「暂无数据」。这是新页面相对旧页面的优化。
 
 ### 8.14 页面级内联样式怎么放
 
@@ -600,6 +603,20 @@ grep -rn "change_page_buttons" . --exclude-dir=node_modules --exclude-dir=.git -
   别为它给组件加 `v-model`/`editable`。
 - 这个瞬时态可以用布局工具测：`["click:button:nth-of-type(2)@20", "settle:80"]`（见 9.1）。
 - 改这几个共享组件属于「改全局」：能不改就不改；真要改，改完按 9.2 对 `music` 等页面做一次 `--baseline-dist` 自比对。
+
+### 8.19 动态显隐优先用 `:hidden`，别随手 `v-if`
+
+`v-if` 会销毁/重建 DOM 和组件（ref、局部状态、事件监听都跟着重来），只是切换显示时用
+`:hidden="!visible"`；`wux.css` 里已有 `[hidden] { display: none !important; }`。
+
+- **对象/字符串值要显式转成布尔**：`:hidden="!!obj"`，不要直接写 `:hidden="obj"`。Vue 对布尔属性
+  把空字符串 `""` 也当作 `true`（`includeBooleanAttr`），所以 `:hidden="accessToken"` 在 token 为空时
+  反而会把元素藏起来；`!!` 能保证 `""` / `null` 都是 `false`。
+- **SVG 图标不要用 `:hidden`**：Vue 对 SVG 元素走的是 attribute 路径，`:hidden="false"` 会变成
+  `hidden="false"`，属性存在就仍然隐藏。图标用 `v-show`（`posts` / `post` 页面已有先例）。
+- 例外：**不能提前挂载**的分支仍用 `v-if`，比如会在 `onMounted` 里发请求的 tab。图表容器要等
+  `:hidden` 移除后 `nextTick` 再 `echarts.init`（见 8.13），不能对隐藏容器初始化；由静态 prop 决定的
+  结构分支（如 `Chart.vue` 的长图/短图）也可以保留 `v-if`，它不会反复切换。
 
 
 ---

@@ -63,7 +63,7 @@ async function uploadFile(){
             <p>文件最大 25 MB, <b>上传后要等大约1分钟才能通过链接下载到文件</b></p>
             <input ref="fileRef" class="wux-form-upload" type="file" :disabled="uploading"><br>
             <BtnWithLoading btn-class="wux-btn-primary" :is-loading="uploading" @click="uploadFile()"><IconUpload width="16px" height="16px" class="middle"/><span class="middle">上传</span></BtnWithLoading> <span class="result">{{ uploadResult }}</span><br>
-            <progress class="wux-progress" :value="uploadProgress * 100" max="100" v-if="uploadProgress"></progress><br>
+            <progress class="wux-progress" :value="uploadProgress * 100" max="100" :hidden="!uploadProgress"></progress><br :hidden="!uploadProgress">
             <TextDisplayWithCopy :value="fileUrl" placeholder="文件链接会显示在这里" input-style="width: calc( 100% - 90px );display: inline-block;"/>
             <TextDisplayWithCopy :value="markdown" placeholder="图片markdown会显示在这里" input-style="width: calc( 100% - 90px );display: inline-block;"/>
         </div>

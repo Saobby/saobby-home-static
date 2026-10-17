@@ -11,14 +11,20 @@ const props = defineProps({
 
 const chartRef = ref(null);
 const error = ref("");
-const echartsLoading = ref(true);   // echarts 代码块（独立 chunk）是否还在加载
+const echartsLoading = ref(true);   // echarts 库是否仍在加载
 
 let chart = null;
 
-const showChart = computed(() => !props.loading && !echartsLoading.value && !error.value && !!props.option);
-
-// 数据在加载，或数据已就绪但 echarts 还没加载完，都复用同一个「加载中」占位
-const isLoading = computed(() => props.loading || (echartsLoading.value && !!props.option));
+// chart | loading | error
+const chartState = computed(() => {
+    if (props.loading || (echartsLoading.value && props.option)){
+        return "loading";
+    }
+    if (error.value || !props.option){
+        return "error";
+    }
+    return "chart";
+});
 
 function disposeChart(){
     if (chart){
@@ -37,11 +43,11 @@ function onWindowResize(){
 async function renderChart(){
     try{
         const echarts = await prepareEcharts();
-        // 库加载完、图表容器显示出来之后再 init，避免对 0×0 的容器初始化
+        // 容器显示后再 init（隐藏容器会得到 0×0）
         echartsLoading.value = false;
         await nextTick();
-        // 等库加载完的这段时间里，数据可能已经开始重新加载了
-        if (props.loading || !props.option || !chartRef.value){
+        // 等待期间数据可能已重新加载
+        if (chartState.value !== "chart" || !chartRef.value){
             return;
         }
         if (!chart){
@@ -54,7 +60,7 @@ async function renderChart(){
     }
 }
 
-// 数据回来（此时容器已显示、尺寸正常）之后再 init，避免 0×0 的空图
+// 数据就绪后渲染
 watch([() => props.loading, () => props.option], ([loading, option]) => {
     if (loading || !option){
         disposeChart();
@@ -71,14 +77,17 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <!-- 与旧页面结构一致：只有需要横向滚动的大图才套 .chart-holder，并排的短图直接用容器 -->
-    <div class="chart-holder" v-if="showChart && !short">
+    <!-- 大图套 .chart-holder 以支持横向滚动；短图直接使用容器 -->
+    <div class="chart-holder" v-if="!short" :hidden="chartState !== 'chart'">
         <div ref="chartRef" class="chart-container"></div>
     </div>
-    <div class="short-chart-container" v-else-if="showChart" ref="chartRef"></div>
-    <div class="centered" v-else>
-        <span class="wux-loading" v-if="isLoading"></span><br v-if="isLoading">
-        <span v-if="isLoading">加载中</span><br v-if="isLoading">
+    <!-- short 是静态结构分支 -->
+    <div class="short-chart-container" v-else ref="chartRef" :hidden="chartState !== 'chart'"></div>
+    <div class="centered" :hidden="chartState !== 'loading'">
+        <span class="wux-loading"></span><br>
+        <span>加载中</span>
+    </div>
+    <div class="centered" :hidden="chartState !== 'error'">
         <span class="result">{{ result || error }}</span>
     </div>
 </template>

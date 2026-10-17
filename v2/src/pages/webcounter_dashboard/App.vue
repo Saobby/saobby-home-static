@@ -60,12 +60,13 @@ function switchTab(name){
             <li class="wux-breadcrumb-item">控制面板</li>
         </ul>
         <div class="wux-typo">
-            <div id="login" v-if="!accessToken">
+            <div id="login" :hidden="!!accessToken">
                 <h2>登录控制面板</h2>
                 <input type="text" v-model="tokenInput" class="wux-form-input wux-form-input-md" placeholder="控制面板访问密钥" style="width:calc( 100% - 100px );display:inline-block;" @keyup.enter="login()"> <BtnWithLoading btn-class="wux-btn-primary" :is-loading="loggingIn" @click="login()"><IconLogin2 width="16px" height="16px" class="middle"/><span class="middle">登录</span></BtnWithLoading><br>
                 <span class="result">{{ loginResult }}</span>
             </div>
-            <div id="dashboard" v-else>
+            <!-- 没有 token 时不能挂载 dashboard：里面的 tab 会在 onMounted 里直接请求数据 -->
+            <div id="dashboard" v-if="accessToken">
                 <div class="wux-tab">
                     <input class="wux-tab-item" type="radio" name="tab-dashboard" id="tab-data-overview" :checked="tab === 'overview'" @click="switchTab('overview')">
                     <label class="wux-tab-item" for="tab-data-overview">数据总览</label>

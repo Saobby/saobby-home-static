@@ -23,7 +23,7 @@ onBeforeUnmount(()=>clearTimeout(timer));
 </script>
 
 <template>
-    <button type="button" @click="copy()" :disabled="!!state"><IconCopy v-if="!state" width="16px" height="16px" class="middle"/><span class="middle">{{ state || label }}</span></button>
+    <button type="button" @click="copy()" :disabled="!!state"><IconCopy v-show="!state" width="16px" height="16px" class="middle"/><span class="middle">{{ state || label }}</span></button>
 </template>
 
 <style scoped>
