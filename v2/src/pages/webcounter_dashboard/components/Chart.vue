@@ -11,10 +11,14 @@ const props = defineProps({
 
 const chartRef = ref(null);
 const error = ref("");
+const echartsLoading = ref(true);   // echarts 代码块（独立 chunk）是否还在加载
 
 let chart = null;
 
-const showChart = computed(() => !props.loading && !error.value && !!props.option);
+const showChart = computed(() => !props.loading && !echartsLoading.value && !error.value && !!props.option);
+
+// 数据在加载，或数据已就绪但 echarts 还没加载完，都复用同一个「加载中」占位
+const isLoading = computed(() => props.loading || (echartsLoading.value && !!props.option));
 
 function disposeChart(){
     if (chart){
@@ -31,14 +35,13 @@ function onWindowResize(){
 }
 
 async function renderChart(){
-    await nextTick();
-    if (!chartRef.value){
-        return;
-    }
     try{
         const echarts = await prepareEcharts();
+        // 库加载完、图表容器显示出来之后再 init，避免对 0×0 的容器初始化
+        echartsLoading.value = false;
+        await nextTick();
         // 等库加载完的这段时间里，数据可能已经开始重新加载了
-        if (props.loading || !chartRef.value){
+        if (props.loading || !props.option || !chartRef.value){
             return;
         }
         if (!chart){
@@ -46,6 +49,7 @@ async function renderChart(){
         }
         chart.setOption(props.option);
     }catch (err){
+        echartsLoading.value = false;
         error.value = err && err.message ? err.message : String(err);
     }
 }
@@ -73,8 +77,8 @@ onBeforeUnmount(() => {
     </div>
     <div class="short-chart-container" v-else-if="showChart" ref="chartRef"></div>
     <div class="centered" v-else>
-        <span class="wux-loading" v-if="loading"></span><br v-if="loading">
-        <span v-if="loading">加载中</span><br v-if="loading">
+        <span class="wux-loading" v-if="isLoading"></span><br v-if="isLoading">
+        <span v-if="isLoading">加载中</span><br v-if="isLoading">
         <span class="result">{{ result || error }}</span>
     </div>
 </template>

@@ -529,6 +529,9 @@ cp v2/src/pages/webcounter_dashboard/country_code_map.js /tmp/x.mjs && node --ch
 - 用 `v-if` 在「图表容器」和「加载中占位」之间切换，并且**只在 loading 结束、容器已经显示之后再
   `echarts.init`**：对 `display:none` 的容器 init 会得到 0×0 的空白图（旧页面的 `set_chart_status` 就是这个顺序）。
 - `watch([loading, option], …, {immediate:true})` + `nextTick()` 组合能保证 DOM 已经更新。
+- echarts 是按需加载的独立 chunk：数据已就绪、但库还没加载完时，`Chart.vue` 把 `echartsLoading` 也并入
+  `showChart` 的判断，**复用同一个居中「加载中」占位**；等库加载完、容器显示出来并 `nextTick` 之后再 `init`。
+  不要为这种状态另写一套加载遮罩。
 - 图表要跟随尺寸变化时，用 **`window` 的 `resize` 事件 + `chart.resize()`**（见 `Chart.vue`）。
   **不要用 `ResizeObserver`**：它是浏览器 API，core-js 不覆盖它（`grep -r ResizeObserver v2/node_modules/core-js`
   没有结果），而 `@vitejs/plugin-legacy` 的自动 polyfill 正是基于 core-js —— 也就是说**构建流程/babel 补不了它**。
