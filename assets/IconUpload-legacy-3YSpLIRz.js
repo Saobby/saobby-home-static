@@ -1,0 +1,1 @@
+System.register(["./createVueComponent-legacy-BpIq56KZ.js"],function(e,t){"use strict";var a;return{setters:[e=>{a=e.c}],execute:function(){e("I",a("outline","upload","Upload",[["path",{d:"M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2",key:"svg-0"}],["path",{d:"M7 9l5 -5l5 5",key:"svg-1"}],["path",{d:"M12 4l0 12",key:"svg-2"}]]))}}});
