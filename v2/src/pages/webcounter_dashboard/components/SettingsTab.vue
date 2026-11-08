@@ -111,7 +111,7 @@ defineExpose({ loadSettings });
                 <div class="wux-card-body">
                     <h2 class="thin"><IconPhoto width="32px" height="32px" class="middle"/><span class="middle">图片类型</span><button type="button" class="wux-btn wux-btn-primary wux-btn-text wux-tooltip"><IconHelp width="24px" height="24px" class="middle"/><span class="wux-tooltip-item wux-tooltip-item-bottom" style="color: white;">矢量图:放大不模糊<br>位图:放大会模糊</span></button></h2>
                     <select v-model.number="imageType" class="wux-form-select" :disabled="formDisabled">
-                        <option :value="0">位图(JPEG)</option>
+                        <option :value="0">位图(PNG)</option>
                         <option :value="1">矢量图(SVG) (推荐)</option>
                     </select>
                     <h2 class="thin"><IconTypography width="32px" height="32px" class="middle"/><span class="middle">显示内容</span><button type="button" class="wux-btn wux-btn-primary wux-btn-text wux-tooltip"><IconHelp width="24px" height="24px" class="middle"/><span class="wux-tooltip-item wux-tooltip-item-bottom" style="color: white;">访问次数:每访问一次页面+1<br>访客数:同一人多次访问算作一次</span></button></h2>

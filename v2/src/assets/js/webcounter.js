@@ -25,7 +25,7 @@ export function getCounterDashboardUrl(accessToken){
 
 // pic_type: 0=位图(JPEG) 1=矢量图(SVG)
 export function getPicTypeName(picType){
-    return ["JPEG", "SVG"][picType];
+    return ["PNG", "SVG"][picType];
 }
 
 // display_type: 0=访问量 1=独立IP数 2=不显示
