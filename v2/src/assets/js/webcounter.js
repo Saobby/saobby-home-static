@@ -32,3 +32,21 @@ export function getPicTypeName(picType){
 export function getDisplayTypeName(displayType){
     return ["访问量", "IP数", "不显示"][displayType];
 }
+
+// 颜色一律按 9 位 #RRGGBBAA 发给后端，A 由不透明度(0~100)换算而来
+export function getColorWithAlpha(color, opacity){
+    const value = Math.min(Math.max(Number(opacity) || 0, 0), 100);
+    return color + Math.round(value * 255 / 100).toString(16).padStart(2, "0");
+}
+
+// 取色器只认 6 位颜色，"A" 交给单独的滑块；不带 A 的颜色（如旧计数器）按完全不透明处理
+export function splitColorAlpha(color){
+    const matched = /^#([0-9a-fA-F]{6})([0-9a-fA-F]{2})?$/.exec(color || "");
+    if (!matched){
+        return { color: "#000000", opacity: 100 };
+    }
+    return {
+        color: "#" + matched[1].toLowerCase(),
+        opacity: matched[2] ? Math.round(parseInt(matched[2], 16) * 100 / 255) : 100
+    };
+}

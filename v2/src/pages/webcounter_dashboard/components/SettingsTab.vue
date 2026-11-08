@@ -4,7 +4,7 @@ import { fetch_api } from '@/assets/js/util.js';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import CopyButton from '@/components/CopyButton.vue';
 import { IconCheck, IconHelp, IconKey, IconPalette, IconPhoto, IconTypography } from '@tabler/icons-vue';
-import { getCounterApiUrl, getCounterHtmlCode, getCounterMarkdownCode } from '@/assets/js/webcounter.js';
+import { getColorWithAlpha, getCounterApiUrl, getCounterHtmlCode, getCounterMarkdownCode, splitColorAlpha } from '@/assets/js/webcounter.js';
 
 const props = defineProps({
     accessToken: { type: String, default: "" }
@@ -17,7 +17,9 @@ const imageType = ref(0);
 const displayType = ref(0);
 const fontSize = ref(16);
 const fontColor = ref("#000000");
+const fontOpacity = ref(100);
 const backgroundColor = ref("#ffffff");
+const backgroundOpacity = ref(100);
 const description = ref("");
 const loading = ref(false);
 const saving = ref(false);
@@ -44,8 +46,12 @@ async function loadSettings(){
     imageType.value = data.pic_type;
     displayType.value = data.display_type;
     fontSize.value = data.font_size;
-    fontColor.value = data.text_color;
-    backgroundColor.value = data.background_color;
+    const textColor = splitColorAlpha(data.text_color);
+    fontColor.value = textColor.color;
+    fontOpacity.value = textColor.opacity;
+    const bgColor = splitColorAlpha(data.background_color);
+    backgroundColor.value = bgColor.color;
+    backgroundOpacity.value = bgColor.opacity;
     description.value = data.desc;
 }
 
@@ -57,8 +63,8 @@ async function saveSettings(){
         pic_type: imageType.value,
         display_type: displayType.value,
         font_size: fontSize.value,
-        text_color: fontColor.value,
-        background_color: backgroundColor.value,
+        text_color: getColorWithAlpha(fontColor.value, fontOpacity.value),
+        background_color: getColorWithAlpha(backgroundColor.value, backgroundOpacity.value),
         desc: description.value
     });
     saving.value = false;
@@ -129,11 +135,13 @@ defineExpose({ loadSettings });
                     <div class="wux-row-xs-2">
                         <div class="wux-col">
                             <h2 class="thin"><IconPalette width="32px" height="32px" class="middle"/><span class="middle">字体颜色</span></h2>
-                            <input type="color" v-model="fontColor" style="width:64px;height:64px;" :disabled="formDisabled">
+                            <input type="color" v-model="fontColor" style="width:64px;height:64px;" :disabled="formDisabled"><br>
+                            <label class="label">不透明度:<span>{{ fontOpacity }}</span>%<input class="wux-form-range opacity-range" type="range" min="0" max="100" v-model.number="fontOpacity" :disabled="formDisabled"></label>
                         </div>
                         <div class="wux-col">
                             <h2 class="thin"><IconPalette width="32px" height="32px" class="middle"/><span class="middle">背景颜色</span></h2>
-                            <input type="color" v-model="backgroundColor" style="width:64px;height:64px;" :disabled="formDisabled">
+                            <input type="color" v-model="backgroundColor" style="width:64px;height:64px;" :disabled="formDisabled"><br>
+                            <label class="label">不透明度:<span>{{ backgroundOpacity }}</span>%<input class="wux-form-range opacity-range" type="range" min="0" max="100" v-model.number="backgroundOpacity" :disabled="formDisabled"></label>
                         </div>
                     </div>
                 </div>
@@ -151,3 +159,11 @@ defineExpose({ loadSettings });
         </div>
     </div>
 </template>
+
+<style scoped>
+/* 滑块头是 6px 方块 + 6px 阴影，拖到 100% 时会伸出轨道 6px，所以右侧留 16px 才不至于压到相邻列的滑块 */
+.opacity-range{
+    width: calc(100% - 16px);
+}
+</style>
+

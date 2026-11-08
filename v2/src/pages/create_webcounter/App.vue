@@ -10,7 +10,7 @@ import {
     IconPalette, IconPhoto, IconRefresh, IconTypography
 } from '@tabler/icons-vue';
 import {
-    getCounterDashboardUrl, getCounterHtmlCode, getCounterImageUrl, getCounterMarkdownCode
+    getColorWithAlpha, getCounterDashboardUrl, getCounterHtmlCode, getCounterImageUrl, getCounterMarkdownCode
 } from '@/assets/js/webcounter.js';
 
 const domain = import.meta.env.VITE_WEBCOUNTER_API_DOMAIN;
@@ -26,7 +26,9 @@ const picType = ref(1);
 const displayType = ref(0);
 const fontSize = ref(16);
 const fontColor = ref("#000000");
+const fontOpacity = ref(100);
 const backgroundColor = ref("#ffffff");
+const backgroundOpacity = ref(100);
 const creating = ref(false);
 const result = ref("");
 const created = ref(null);
@@ -59,8 +61,8 @@ async function createCounter(){
         pic_type: parseInt(picType.value),
         display_type: parseInt(displayType.value),
         font_size: size,
-        text_color: fontColor.value,
-        background_color: backgroundColor.value,
+        text_color: getColorWithAlpha(fontColor.value, fontOpacity.value),
+        background_color: getColorWithAlpha(backgroundColor.value, backgroundOpacity.value),
         captcha_token: captchaRsp.data.token
     };
     const accessToken = localStorage.getItem("access-token");
@@ -137,8 +139,10 @@ function login(){
                                 <input type="number" class="wux-form-input wux-form-input-md" v-model.number="fontSize" min="1" max="100" :disabled="creating">
                                 <h2 class="thin"><IconPalette width="32px" height="32px" class="middle"/><span class="middle">字体颜色</span></h2>
                                 <input type="color" style="width: 64px; height: 64px;" v-model="fontColor" :disabled="creating" placeholder="填6位16进制颜色代码,要带#号,如#aa0000表示红色"><br>
+                                <label class="label">不透明度:<span>{{ fontOpacity }}</span>%<input class="wux-form-range" type="range" min="0" max="100" v-model.number="fontOpacity" :disabled="creating"></label><br>
                                 <h2 class="thin"><IconPalette width="32px" height="32px" class="middle"/><span class="middle">背景颜色</span></h2>
                                 <input type="color" style="width: 64px; height: 64px;" v-model="backgroundColor" :disabled="creating" placeholder="填6位16进制颜色代码,要带#号,如#aa0000表示红色"><br>
+                                <label class="label">不透明度:<span>{{ backgroundOpacity }}</span>%<input class="wux-form-range" type="range" min="0" max="100" v-model.number="backgroundOpacity" :disabled="creating"></label><br>
                             </div>
                         </div>
                     </div>

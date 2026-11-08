@@ -806,7 +806,7 @@ python3 tools/layout-diff/layout_diff.py --baseline-dist /tmp/ab-before-dist --p
 | `v2/src/pages/user_config/` | tab 结构；`AvatarUploader`/`BindEmailForm` 已提升为共享组件 |
 | `v2/src/pages/create_vote/` | 表单 + 动态选项数组 + 颜色选择器 + RGB 滑块 + 人机验证 + 生成 Markdown + 复制；**图标全部换成 tabler 组件、域名走环境变量、`result` 用 `.sep` 拉开间距** |
 | `v2/src/pages/set_avatar/`、`bind_email/` | 最省事的迁移方式：直接复用 `user_config` 的组件，只写容器/面包屑/登录校验 |
-| `v2/src/pages/webcounter/`、`create_webcounter/`、`my_webcounters/`、`webcounter_dashboard/` | 一个「应用」拆成 4 个入口页面的组织方式；共享逻辑放 `src/assets/js/webcounter.js`；表单 + 人机验证 + 复制按钮 + 列表分页；`webcounter_dashboard` 含 tab、ECharts 图表（**echarts 走 npm 依赖 + 地图 JSON 走动态 import 懒加载**）、日志表格、自动刷新、设置表单 |
+| `v2/src/pages/webcounter/`、`create_webcounter/`、`my_webcounters/`、`webcounter_dashboard/` | 一个「应用」拆成 4 个入口页面的组织方式；共享逻辑放 `src/assets/js/webcounter.js`；表单 + 人机验证 + 复制按钮 + 列表分页；`webcounter_dashboard` 含 tab、ECharts 图表（**echarts 走 npm 依赖 + 地图 JSON 走动态 import 懒加载**）、日志表格、自动刷新、设置表单；**颜色（`text_color`/`background_color`）发给后端一律是 9 位 `#RRGGBBAA`**（取色器只给 6 位，不透明度单独用 `wux-form-range` 滑块，换算见 `getColorWithAlpha`/`splitColorAlpha`） |
 | `v2/src/pages/upload_file/`、`bvdlp/` | 文件上传（`FormSubmitter` + 进度条）、base64 → Blob 生成下载链接、表单 + 人机验证；`TextDisplayWithCopy` / `CopyButton` 两种复制写法的对照（第 8.18 节） |
 
 
