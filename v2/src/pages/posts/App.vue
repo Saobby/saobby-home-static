@@ -1,9 +1,10 @@
 <script setup lang="js">
 import { ref, onMounted } from 'vue';
-import { fetch_api, ts2str } from '@/assets/js/util.js';
+import { fetch_api } from '@/assets/js/util.js';
 import PaginationButtons from '@/components/PaginationButtons.vue';
 import TagsDisplay from '@/components/TagsDisplay.vue';
 import BtnWithLoading from '@/components/BtnWithLoading.vue';
+import RelativeTime from '@/components/RelativeTime.vue';
 import {
     IconSearch,
     IconPlus,
@@ -76,7 +77,7 @@ onMounted(() => {
         </ul>
         <div class="wux-typo">
             <h2 class="mt">帖子列表</h2>
-            <div class="toolbar-row">
+            <div class="toolbar-row search-row">
                 <select class="wux-form-select" style="width:80px;" v-model="searchField" :disabled="uiDisabled">
                     <option value="title">标题</option>
                     <option value="content">内容</option>
@@ -113,8 +114,12 @@ onMounted(() => {
                     </a>
                     <TagsDisplay :tags="post.tags" tag-class="simple"/>
                     <br>
-                    <span class="middle"><IconUser :width="20" :height="20" class="middle"/>{{ post.author }}</span>
-                    <span class="gray post-list-meta"><IconClock :width="20" :height="20" class="middle"/>{{ ts2str(post.modify_time) }} <IconThumbUp :width="20" :height="20" class="middle"/>{{ post.loves }} <IconEye :width="20" :height="20" class="middle"/>{{ post.views }}</span>
+                    <div class="post-list-meta-row">
+                        <span class="mc"><IconUser :width="20" :height="20"/>{{ post.author }}</span>
+                        <span class="mc gray" title="更新时间"><IconClock :width="20" :height="20"/><RelativeTime :timestamp="post.modify_time"/></span>
+                        <span class="mc gray" title="点赞数"><IconThumbUp :width="20" :height="20"/>{{ post.loves }}</span>
+                        <span class="mc gray" title="查看数"><IconEye :width="20" :height="20"/>{{ post.views }}</span>
+                    </div>
                 </div>
             </div>
             <div :hidden="status!=='loading'" class="centered">
@@ -139,9 +144,20 @@ onMounted(() => {
     gap: 8px;
     margin-bottom: 8px;
 }
+/* 搜索行在窄屏也保持一行：下拉框、按钮按原宽不参与伸缩，输入框吃掉剩余宽度。
+   min-width:0 是必须的——input 的 flex 最小宽度默认取内容宽度，不写就不肯被压缩、会把后面的按钮挤下去 */
+.toolbar-row.search-row {
+    flex-wrap: nowrap;
+}
+.toolbar-row.search-row .wux-form-select,
+.toolbar-row.search-row .wux-btn {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
 .toolbar-row .search-input {
-    flex: 1 1 160px;
+    flex: 1 1 auto;
     width: auto;
+    min-width: 0;
     margin-bottom: 0;
 }
 .bottom-line :deep(.tags-container) {
@@ -149,8 +165,17 @@ onMounted(() => {
     vertical-align: middle;
     margin-left: 10px;
 }
-.post-list-meta {
-    margin-left: 10px;
+/* 帖子的作者/更新时间/点赞/查看：每一项都不可拆分，换行只发生在相邻项之间 */
+.post-list-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+.post-list-meta-row .mc {
+    gap: 3px;
+    flex: 0 0 auto;
+    white-space: nowrap;
 }
 .wux-typo a:not(.wux-btn) .post-list-title,
 .wux-typo a:not(.wux-btn):hover .post-list-title {

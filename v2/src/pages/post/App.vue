@@ -1,6 +1,6 @@
 <script setup lang="js">
 import { ref, reactive, computed, onMounted, nextTick } from 'vue';
-import { fetch_api, ts2str, getUrlArgs, check_logged_in, getElementViewportTop, preserveElementPosition } from '@/assets/js/util.js';
+import { fetch_api, getUrlArgs, check_logged_in, getElementViewportTop, preserveElementPosition } from '@/assets/js/util.js';
 import { captcha } from '@/assets/js/captcha.js';
 import { confirmDialog, promptDialog } from '@/assets/js/dialog.js';
 import CommentsSection from '@/components/CommentsSection.vue';
@@ -12,6 +12,7 @@ import BtnWithLoading from '@/components/BtnWithLoading.vue';
 import PopupBackdrop from '@/components/PopupBackdrop.vue';
 import EmotionsBar from '@/components/EmotionsBar.vue';
 import ImageUploader from '@/components/ImageUploader.vue';
+import RelativeTime from '@/components/RelativeTime.vue';
 import { emotionsPack } from '@/assets/js/emojis';
 import {
     IconPin,
@@ -344,11 +345,9 @@ onMounted(async () => {
                 </div>
                 <div class="post-meta-row">
                     <span class="mc"><IconUser :width="20" :height="20"/><span>{{ postData.author }}</span></span>
-                    <span class="mc gray">
-                        <IconClock :width="20" :height="20"/><span>{{ ts2str(postData.modify_time) }}</span>
-                        <IconEye :width="20" :height="20" class="meta-sep"/><span>{{ postData.views }}</span>
-                        <a href="javascript:;" @click="showHistory()" style="color:#777" class="mc"><IconVersions :width="20" :height="20" class="meta-sep"/>V{{ postData.version }}<span :hidden="postData.is_history">(最新)</span></a>
-                    </span>
+                    <span class="mc gray" title="更新时间"><IconClock :width="20" :height="20"/><RelativeTime :timestamp="postData.modify_time"/></span>
+                    <span class="mc gray"><IconEye :width="20" :height="20"/><span>{{ postData.views }}</span></span>
+                    <a href="javascript:;" @click="showHistory()" style="color:#777" class="mc"><IconVersions :width="20" :height="20"/>V{{ postData.version }}<span :hidden="postData.is_history">(最新)</span></a>
                 </div>
                 <div class="tags-line">
                     <span class="gray mc"><IconTags :width="20" :height="20"/></span>
@@ -403,7 +402,7 @@ onMounted(async () => {
                             <div :hidden="!historyEmpty" class="centered"><span class="gray">没有编辑记录</span></div>
                             <div v-for="h in historyList" :key="h.version">
                                 <span class="mc"><IconVersions :width="16" :height="16"/>V{{ h.version }}</span>
-                                <span class="mc gray history-time"><IconClock :width="16" :height="16"/>{{ ts2str(h.timestamp) }}</span><br>
+                                <span class="mc gray history-time" title="编辑时间"><IconClock :width="16" :height="16"/><RelativeTime :timestamp="h.timestamp"/></span><br>
                                 <span :hidden="!h.description" class="mc"><IconFileDescription :width="16" :height="16"/>{{ h.description }}</span>
                                 <a :hidden="postData.version===h.version" :href="postPageUrl+'?pid='+args.pid+'&v='+h.version" target="_blank"><button class="wux-btn wux-btn-primary wux-btn-xs view-version-btn" type="button"><IconEye :width="16" :height="16"/>查看此版本</button></a>
                                 <i :hidden="postData.version!==h.version" class="gray"> (当前版本)</i>
@@ -445,11 +444,12 @@ onMounted(async () => {
     align-items: center;
     gap: 10px;
 }
+/* 作者/更新时间/查看次数/版本：每一项都是不可拆分的整体，换行只发生在相邻两项之间，
+   不会出现「某一项内部再折行」或者「一项独占一行、行尾一大片空白」 */
 .post-meta-row .mc {
     gap: 3px;
-}
-.post-meta-row :deep(.meta-sep) {
-    margin-left: 7px;
+    flex: 0 0 auto;
+    white-space: nowrap;
 }
 .post-edit :deep(textarea) {
     height: calc(100vh - 180px);
