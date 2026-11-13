@@ -83,8 +83,8 @@ defineExpose({ loadLogs });
                                     <th>浏览器</th>
                                     <th>设备</th>
                                     <th>操作系统</th>
-                                    <th>国家/地区</th>
-                                    <th>地区</th>
+                                    <th>ISO名称</th>
+                                    <th>区域</th>
                                     <th>城市</th>
                                     <th>网络服务商</th>
                                     <th>是否移动网络</th>
