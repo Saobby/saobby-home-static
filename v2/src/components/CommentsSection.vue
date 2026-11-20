@@ -15,14 +15,18 @@ const pageAmount = ref(1);
 const comments = ref([]);
 const result = ref("");
 const status = ref("loading");
-const scrollTo = ref(null);
+const scrollToParam = ref(null);
 onMounted(()=>{
     const urlArgs = getUrlArgs();
     if (urlArgs.comment_id){
-        scrollTo.value = urlArgs.comment_id;
+        scrollToParam.value = urlArgs.comment_id;
     }
     if (urlArgs.scroll_to){
-        scrollTo.value = urlArgs.scroll_to;
+        scrollToParam.value = urlArgs.scroll_to;
+    }
+    // 帖子页面用 cid 参数指定要跳转到的评论（优先级最低）
+    if (urlArgs.cid){
+        scrollToParam.value = urlArgs.cid;
     }
 });
 async function updateComments(){
@@ -34,9 +38,9 @@ async function updateComments(){
     if (localStorage.getItem("access-token")){
         payload.access_token = localStorage.getItem("access-token");
     }
-    if (scrollTo.value){
-        payload.scroll_to = scrollTo.value;
-        scrollTo.value = null;
+    if (scrollToParam.value){
+        payload.scroll_to = scrollToParam.value;
+        scrollToParam.value = null;
     }
     if (props.sign && props.expiry){
         payload.expiry = props.expiry;

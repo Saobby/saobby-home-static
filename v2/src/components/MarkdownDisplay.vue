@@ -55,6 +55,7 @@ defineExpose({ toggleShowMd });
             <IconMarkdown width="16px" height="16px" />
             查看M↓
         </button>
+        <slot name="afterBtns" />
     </div>
 </template>
 

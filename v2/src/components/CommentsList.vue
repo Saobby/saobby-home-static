@@ -1,9 +1,9 @@
 <script setup lang="js">
-import { IconMailCheck, IconPencilCheck, IconClock, IconMessageReply, IconEdit, IconX, IconCornerDownRight } from '@tabler/icons-vue';
+import { IconMailCheck, IconPencilCheck, IconClock, IconMessageReply, IconEdit, IconX, IconCornerDownRight, IconCaretUpFilled, IconCaretDownFilled } from '@tabler/icons-vue';
 import { ts2str, check_logged_in } from '@/assets/js/util.js';
 import MarkdownDisplay from './MarkdownDisplay.vue';
 import RelativeTime from './RelativeTime.vue';
-import {onBeforeMount, ref, watch} from 'vue';
+import {computed, onBeforeMount, ref, watch} from 'vue';
 import EditCommentInput from './EditCommentInput.vue';
 import AddCommentInput from './AddCommentInput.vue';
 const props = defineProps({
@@ -49,6 +49,7 @@ function initUiStatus(comments) {
         uiStatus.value[comment.cid] = {
             showReplyWindow: false,
             showEditWindow: false,
+            showChildren: true,
             commentInputRef: null
         };
     }
@@ -64,13 +65,43 @@ function updateComments() {
     emits("updateComments");
 }
 
+// 按扁平化后的顺序，紧跟着且层级更深的评论。第一条即为当前评论的子评论
+function hasChildren(index) {
+    return index + 1 < props.comments.length && props.comments[index + 1].lvl > props.comments[index].lvl;
+}
+
+// 被折叠评论的所有后代评论（单次扫描：进入折叠区间后，层级回退即区间结束）
+const hiddenCids = computed(() => {
+    const hidden = new Set();
+    let collapsedLvl = null;
+    for (let i = 0; i < props.comments.length; i++) {
+        const comment = props.comments[i];
+        if (collapsedLvl !== null) {
+            if (comment.lvl > collapsedLvl) {
+                hidden.add(comment.cid);
+                continue;
+            }
+            collapsedLvl = null;
+        }
+        if (uiStatus.value[comment.cid]?.showChildren === false && hasChildren(i)) {
+            collapsedLvl = comment.lvl;
+        }
+    }
+    return hidden;
+});
+
+function toggleChildren(cid) {
+    if (uiStatus.value[cid]) {
+        uiStatus.value[cid].showChildren = !uiStatus.value[cid].showChildren;
+    }
+}
 
 </script>
 <template>
     <div class="centered" v-if="comments.length === 0">
         <span class="gray">没有任何评论</span>
     </div>
-    <div v-for="comment in comments" :style="`position:relative;left:${20 * comment.lvl}px;`">
+    <div v-for="(comment, index) in comments" :hidden="hiddenCids.has(comment.cid)" :style="`position:relative;left:${20 * comment.lvl}px;`">
         <div :id="`comment-div-${comment.cid}`" class="bottom-line" style="padding-left: 0; padding-right: 0;">
             <div class="comment-header">
                 <img :src="comment.avatar_url" alt="用户头像" width="32" height="32" class="comment-avatar">
@@ -96,6 +127,16 @@ function updateComments() {
                         <IconEdit width="16px" height="16px" />
                         编辑
                     </button>
+                    <template #afterBtns>
+                        <button v-if="hasChildren(index)" :hidden="!uiStatus[comment.cid]?.showChildren" @click="toggleChildren(comment.cid)" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-text mc" type="button">
+                            <IconCaretUpFilled width="16px" height="16px" />
+                            折叠子评论
+                        </button>
+                        <button v-if="hasChildren(index)" :hidden="uiStatus[comment.cid]?.showChildren" @click="toggleChildren(comment.cid)" class="wux-btn wux-btn-primary wux-btn-sm wux-btn-text mc" type="button">
+                            <IconCaretDownFilled width="16px" height="16px" />
+                            展开子评论
+                        </button>
+                    </template>
                 </MarkdownDisplay>
             </div>
             <div :hidden="!uiStatus[comment.cid]?.showEditWindow">

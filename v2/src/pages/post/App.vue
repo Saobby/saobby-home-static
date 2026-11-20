@@ -138,9 +138,6 @@ async function loadPost(silent=false){
         operateResult.value = '';
     }
     status.value = 'showing';
-    if (args.cid){
-        scrollToComment(args.cid);
-    }
 }
 
 async function editPost(){
@@ -300,20 +297,6 @@ async function loadHistory(pageIndex){
     historyPageAmount.value = rsp.data.page_amount;
     historyLoading.value = false;
     historyUiDisabled.value = false;
-}
-
-function scrollToComment(cid){
-    let tries = 0;
-    const timer = setInterval(() => {
-        tries++;
-        const el = document.getElementById(`comment-div-${cid}`);
-        if (el || tries > 25){
-            clearInterval(timer);
-            if (el){
-                el.scrollIntoView({ behavior: "smooth" });
-            }
-        }
-    }, 200);
 }
 
 onMounted(async () => {
